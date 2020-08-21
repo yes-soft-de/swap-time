@@ -1,0 +1,10 @@
+
+oneup_flysystem:
+    adapters:
+        default_adapter:
+            local:
+                directory: '%kernel.project_dir%/../upload/'
+    filesystems:
+        default_filesystem:
+            adapter: default_adapter
+            #alias: League\Flysystem\Filesystem
