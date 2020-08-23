@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="839f8c09-e3e0-4a07-8e45-6c5d0189895e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/liip_imagine.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/liip_imagine.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/oneup_flysystem.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/oneup_flysystem.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/FileUploadController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/FileUploadController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/UploadFileService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/UploadFileService.php" afterDir="false" />
-    </list>
+    <list default="true" id="839f8c09-e3e0-4a07-8e45-6c5d0189895e" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -320,12 +312,12 @@
       <workItem from="1597969305319" duration="10426000" />
       <workItem from="1598037080899" duration="11272000" />
       <workItem from="1598081686665" duration="7295000" />
-      <workItem from="1598188362554" duration="534000" />
+      <workItem from="1598188362554" duration="880000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="59022000" />
+    <option name="totallyTimeSpent" value="59368000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
