@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Request\UploadImageRequest;
 use App\Service\UploadFileService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,15 +16,20 @@ class FileUploadController extends AbstractController
 {
     private $uploadFile;
     private $validator;
+    /**
+     * @var ParameterBagInterface
+     */
+    private $params;
 
-    public function __construct(UploadFileService $uploadFile, ValidatorInterface $validator)
+    public function __construct(UploadFileService $uploadFile, ValidatorInterface $validator, ParameterBagInterface $params)
     {
         $this->uploadFile = $uploadFile;
         $this->validator = $validator;
+        $this->params = $params;
     }
 
     /**
-     * @Route("/imageupload", name="imageUpload", methods={"POST"})
+     * @Route("/uploadfile", name="imageUpload", methods={"POST"})
      * @param Request $request
      * @return jsonResponse
      */
@@ -44,8 +50,11 @@ class FileUploadController extends AbstractController
                 return new JsonResponse($violationsString, Response::HTTP_OK);
             }
 
-            $filePath = $this->uploadFile->uploadImage($uploadedFile);
-            dd($filePath);
+            $baseURL = $this->params->get('upload_base_url');
+
+            $filePath = $this->uploadFile->uploadImage($uploadedFile, null);
+
+            return new JsonResponse($baseURL.$filePath, Response::HTTP_OK);
         }
 
     }
