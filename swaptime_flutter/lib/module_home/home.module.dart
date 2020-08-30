@@ -15,7 +15,7 @@ class HomeModule extends YesModule {
   @override
   Map<String, WidgetBuilder> getRoutes() {
     return {
-      HomeRoutes.home: (context) => _homeScreen
+      HomeRoutes.ROUTE_HOME: (context) => _homeScreen
     };
   }
 

@@ -1,8 +1,0 @@
-{
-  "asset": "asset:swaptime_flutter/lib/user_authorization_module/request/create_profile/create_profile_body.dart",
-  "summary": {
-    "injector": [],
-    "module": [],
-    "injectable": []
-  }
-}

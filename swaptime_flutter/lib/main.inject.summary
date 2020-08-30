@@ -39,13 +39,6 @@
                 "qualifier": null
               },
               "isProvider": false
-            },
-            {
-              "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/user_authorization_module/user_auth.dart#UserAuthorizationModule",
-                "qualifier": null
-              },
-              "isProvider": false
             }
           ]
         }

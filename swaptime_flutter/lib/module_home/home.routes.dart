@@ -1,3 +1,3 @@
 class HomeRoutes {
-  static const home = '/';
+  static const ROUTE_HOME = '/';
 }

@@ -20,8 +20,8 @@ class ChatService {
   requestMessages(String chatRoomID) async {
     _chatManager.getMessages(chatRoomID).listen((event) {
       List<ChatModel> chatMessagesList = [];
-      event.documents.forEach((element) {
-        chatMessagesList.add(new ChatModel.fromJson(element.data));
+      event.docs.forEach((element) {
+        chatMessagesList.add(new ChatModel.fromJson({}));
       });
 
       _chatPublishSubject.add(chatMessagesList);
@@ -29,7 +29,8 @@ class ChatService {
   }
 
   sendMessage(String chatRoomID, String msg) async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    FirebaseAuth auth = await FirebaseAuth.instance;
+    User user = auth.currentUser;
     ChatModel model = new ChatModel(
         msg: msg, sender: user.uid, sentDate: DateTime.now().toIso8601String());
     _chatManager.sendMessage(chatRoomID, model);

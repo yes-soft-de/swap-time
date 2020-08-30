@@ -108,7 +108,8 @@ class ChatPageState extends State<ChatPage> {
 
   Future<void> buildMessagesList(List<ChatModel> chatList) async {
     List<ChatBubbleWidget> newMessagesList = [];
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    FirebaseAuth auth = await FirebaseAuth.instance;
+    User user = auth.currentUser;
     chatList.forEach((element) {
       newMessagesList.add(ChatBubbleWidget(
         message: element.msg,
