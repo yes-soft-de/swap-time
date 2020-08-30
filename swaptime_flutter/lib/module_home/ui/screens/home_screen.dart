@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_list/game_card_list.dart';
+import 'package:swaptime_flutter/module_navigation/ui/widget/navigation_drawer/swap_navigation_drawer.dart';
 import 'package:swaptime_flutter/theme/theme_data.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -8,14 +9,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
+    var bodyPages = PageView(
+      children: [GameCardList()],
+    );
+
     return Scaffold(
+        key: _drawerKey,
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.menu),
             onPressed: () {
-              // TODO: Open Side Menu
+              _drawerKey.currentState.openDrawer();
             },
           ),
           title: Text(
@@ -32,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ],
         ),
+        drawer: SwapNavigationDrawer(),
         floatingActionButton: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(90)),
@@ -79,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: GameCardList(),
+          child: bodyPages,
         ));
   }
 }
