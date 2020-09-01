@@ -1,0 +1,26 @@
+App\Request\UploadImageRequest:
+  properties:
+    uploadedFile:
+      - Image:
+          #mimeTypesMessage: "thid id not message"
+          maxSize: 2m
+          maxSizeMessage: "Image size over 2M"
+
+App\Request\UserRegisterRequest:
+  properties:
+    userID:
+      - NotBlank: ~
+
+App\Request\UserProfileCreateRequest:
+  properties:
+    userName:
+      - NotBlank: ~
+    userID:
+      - NotBlank: ~
+
+App\Request\SwapItemCreateRequest:
+  properties:
+    name:
+      - NotBlank: ~
+    userID:
+      - NotBlank: ~
