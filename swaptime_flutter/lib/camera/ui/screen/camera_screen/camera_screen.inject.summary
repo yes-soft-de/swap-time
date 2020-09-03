@@ -3,6 +3,24 @@
   "summary": {
     "injector": [],
     "module": [],
-    "injectable": []
+    "injectable": [
+      {
+        "name": "CameraScreen",
+        "constructor": {
+          "name": "",
+          "kind": "constructor",
+          "injectedType": {
+            "lookupKey": {
+              "root": "asset:swaptime_flutter/lib/camera/ui/screen/camera_screen/camera_screen.dart#CameraScreen",
+              "qualifier": null
+            },
+            "isProvider": false
+          },
+          "singleton": false,
+          "asynchronous": false,
+          "dependencies": []
+        }
+      }
+    ]
   }
 }
