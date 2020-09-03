@@ -1,0 +1,8 @@
+{
+  "asset": "asset:swaptime_flutter/lib/auth_module/presistance/auth_prefs_helper.dart",
+  "summary": {
+    "injector": [],
+    "module": [],
+    "injectable": []
+  }
+}

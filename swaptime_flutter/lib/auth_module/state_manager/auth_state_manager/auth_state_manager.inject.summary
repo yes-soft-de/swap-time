@@ -1,0 +1,26 @@
+{
+  "asset": "asset:swaptime_flutter/lib/auth_module/state_manager/auth_state_manager/auth_state_manager.dart",
+  "summary": {
+    "injector": [],
+    "module": [],
+    "injectable": [
+      {
+        "name": "AuthStateManager",
+        "constructor": {
+          "name": "",
+          "kind": "constructor",
+          "injectedType": {
+            "lookupKey": {
+              "root": "asset:swaptime_flutter/lib/auth_module/state_manager/auth_state_manager/auth_state_manager.dart#AuthStateManager",
+              "qualifier": null
+            },
+            "isProvider": false
+          },
+          "singleton": false,
+          "asynchronous": false,
+          "dependencies": []
+        }
+      }
+    ]
+  }
+}

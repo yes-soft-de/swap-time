@@ -50,6 +50,9 @@ dependencies:
   # String validation
   validators: ^2.0.1
 
+  # Svg Loader
+  flutter_svg: ^0.18.1
+
   # Retrofit
   retrofit: ^1.3.4
 

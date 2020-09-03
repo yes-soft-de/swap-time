@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_list/game_card_list.dart';
+import 'package:swaptime_flutter/liked_module/ui/liked_screen/liked_screen.dart';
 import 'package:swaptime_flutter/module_navigation/ui/widget/navigation_drawer/swap_navigation_drawer.dart';
+import 'package:swaptime_flutter/module_notifications/ui/screens/notification_screen/notification_screen.dart';
+import 'package:swaptime_flutter/module_profile/ui/profile_screen/profile_screen.dart';
+import 'package:swaptime_flutter/module_settings/ui/ui/settings_page/settings_page.dart';
 import 'package:swaptime_flutter/theme/theme_data.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,11 +14,66 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+  int currentPage = 0;
+  final PageController pagesController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
     var bodyPages = PageView(
-      children: [GameCardList()],
+      controller: pagesController,
+      onPageChanged: (index) {
+        currentPage = index;
+        if (mounted) setState(() {});
+      },
+      children: [
+        Column(
+          children: [
+            Expanded(
+                child: ListView(
+              children: [
+                GameCardList(),
+              ],
+            )),
+          ],
+        ),
+        Column(
+          children: [
+            Expanded(
+                child: ListView(
+              children: [
+                NotificationScreen(),
+              ],
+            )),
+          ],
+        ),
+        Column(
+          children: [
+            Expanded(
+                child: ListView(
+              children: [
+                LikedScreen(),
+              ],
+            )),
+          ],
+        ),
+        Column(
+          children: [
+            Expanded(
+                child: ListView(
+              children: [
+                ProfileScreen(),
+              ],
+            )),
+          ],
+        ),
+        Column(
+          children: [
+            Expanded(
+              child: SettingsPage(),
+            )
+          ],
+        )
+      ],
     );
 
     return Scaffold(
@@ -58,6 +117,16 @@ class _HomeScreenState extends State<HomeScreen> {
         bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white60,
+          currentIndex: currentPage,
+          onTap: (index) {
+            currentPage = index;
+            pagesController.animateToPage(
+              currentPage,
+              duration: Duration(seconds: 1),
+              curve: Curves.easeIn,
+            );
+            if (mounted) setState(() {});
+          },
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -87,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(8.0, 8, 8, 0),
           child: bodyPages,
         ));
   }

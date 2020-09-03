@@ -1,5 +1,5 @@
 {
-  "asset": "asset:swaptime_flutter/lib/shared/ui/widget/game_card_large/game_card_large.dart",
+  "asset": "asset:swaptime_flutter/lib/games_module/ui/widget/game_card_large/game_card_large.dart",
   "summary": {
     "injector": [],
     "module": [],

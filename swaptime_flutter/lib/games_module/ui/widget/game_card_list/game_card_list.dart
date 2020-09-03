@@ -13,7 +13,7 @@ class GameCardList extends StatefulWidget {
 }
 
 class _GameCardListState extends State<GameCardList> {
-  GameCardType currentType = GameCardType.GAME_CARD_LARGE;
+  GameCardType currentType = GameCardType.GAME_CARD_MEDIUM;
   GameModel game = GameModel(
     itemId: '1',
     imageUrl: 'https://i.ytimg.com/vi/RQEOwEBvC-M/maxresdefault.jpg',
@@ -30,6 +30,8 @@ class _GameCardListState extends State<GameCardList> {
       case GameCardType.GAME_CARD_SMALL:
         gameCards = GridView.count(
           crossAxisCount: 3,
+          shrinkWrap: true,
+          physics: ScrollPhysics(),
           children: [
             GameCardSmall(
               gameModel: game,
@@ -61,6 +63,8 @@ class _GameCardListState extends State<GameCardList> {
       case GameCardType.GAME_CARD_MEDIUM:
         gameCards = GridView.count(
           crossAxisCount: 2,
+          shrinkWrap: true,
+          physics: ScrollPhysics(),
           children: [
             GameCardMedium(
               gameModel: game,
@@ -90,7 +94,10 @@ class _GameCardListState extends State<GameCardList> {
         );
         break;
       case GameCardType.GAME_CARD_LARGE:
-        gameCards = ListView(
+        gameCards = GridView.count(
+          crossAxisCount: 1,
+          shrinkWrap: true,
+          physics: ScrollPhysics(),
           children: [
             GameCardLarge(
               gameModel: game,
@@ -135,7 +142,7 @@ class _GameCardListState extends State<GameCardList> {
         Container(
           height: 16,
         ),
-        Expanded(child: gameCards)
+        gameCards
       ],
     );
   }
