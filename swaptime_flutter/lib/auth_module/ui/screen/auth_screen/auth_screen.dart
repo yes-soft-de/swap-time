@@ -33,11 +33,10 @@ class _AuthScreenState extends State<AuthScreen> {
 
     widget.manager.stateStream.listen((event) {
       _currentState = event;
+      _getUI();
       if (!(_currentState is AuthStateSuccess)) {
-        _getUI();
         if (mounted) setState(() {});
       }
-      if (_currentState is AuthStateCodeSent) {}
     });
 
     if (_currentState is AuthStateSuccess) {
