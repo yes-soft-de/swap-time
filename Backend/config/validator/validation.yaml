@@ -24,3 +24,14 @@ App\Request\SwapItemCreateRequest:
       - NotBlank: ~
     userID:
       - NotBlank: ~
+
+App\Request\SwapCreateRequest:
+  properties:
+    date:
+      - NotBlank: ~
+    userIdOne:
+      - NotBlank: ~
+    userIdTwo:
+      - NotBlank: ~
+    swapItemIdOne:
+        - NotBlank: ~

@@ -67,3 +67,35 @@ methods: GET
 /uploadfile
 methods: POST
 ```
+
+### Swap Operations
+#### Create swap
+```
+/swap
+methods: POST
+```
+#### Get all swaps
+```
+/swap
+methods: GET
+```
+#### Get all swaps by userID
+```
+/swapbyuserid/{id}
+methods: GET
+```
+#### Get swap by id
+```
+/swapbyid/{id}
+methods: GET
+```
+#### Delete swap
+```
+/swap/{id}
+methods: DELETE
+```
+#### Update swap
+```
+/swap
+methods: PUT
+```
