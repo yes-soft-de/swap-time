@@ -21,11 +21,12 @@ class HttpClient {
         .add(DioCacheManager(CacheConfig(baseUrl: Urls.baseAPI)).interceptor);
   }
 
-  Future<Map> get(String url) async {
+  Future<Map> get(String url, {Map<String, String> queryParams}) async {
     _logger.info(tag, 'GET $url');
     try {
       Response response = await _client.get(
         url,
+        queryParameters: queryParams,
         options: buildCacheOptions(Duration(seconds: 15)),
       );
 

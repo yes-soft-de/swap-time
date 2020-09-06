@@ -13,6 +13,8 @@ import '../../module_chat/manager/chat/chat_manager.dart' as _i12;
 import '../../module_chat/repository/chat/chat_repository.dart' as _i13;
 import '../../module_persistence/sharedpref/shared_preferences_helper.dart'
     as _i14;
+import '../../camera/camera_module.dart' as _i15;
+import '../../camera/ui/screen/camera_screen/camera_screen.dart' as _i16;
 
 class AppComponent$Injector implements _i1.AppComponent {
   AppComponent$Injector._();
@@ -25,8 +27,8 @@ class AppComponent$Injector implements _i1.AppComponent {
     return injector;
   }
 
-  _i4.MyApp _createMyApp() =>
-      _i4.MyApp(_createHomeModule(), _createFormsModule(), _createChatModule());
+  _i4.MyApp _createMyApp() => _i4.MyApp(_createHomeModule(),
+      _createFormsModule(), _createChatModule(), _createCameraModule());
   _i5.HomeModule _createHomeModule() => _i5.HomeModule();
   _i6.FormsModule _createFormsModule() =>
       _i6.FormsModule(_createAddByImageScreen());
@@ -46,6 +48,9 @@ class AppComponent$Injector implements _i1.AppComponent {
       _i14.SharedPreferencesHelper();
   _i2.AuthGuard _createAuthGuard() =>
       _singletonAuthGuard ??= _i2.AuthGuard(_createSharedPreferencesHelper());
+  _i15.CameraModule _createCameraModule() =>
+      _i15.CameraModule(_createCameraScreen());
+  _i16.CameraScreen _createCameraScreen() => _i16.CameraScreen();
   @override
   _i4.MyApp get app => _createMyApp();
 }

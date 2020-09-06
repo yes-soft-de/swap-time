@@ -77,6 +77,7 @@ class _CameraScreenState extends State<CameraScreen>
   Widget build(BuildContext context) {
     redirectTo = ModalRoute.of(context).settings.arguments;
     redirectTo ??= HomeRoutes.ROUTE_HOME;
+    print('Redirect To: ' + redirectTo);
 
     if (cameras == null) {
       _allocateCameras();
