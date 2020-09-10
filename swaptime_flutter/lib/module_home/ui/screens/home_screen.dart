@@ -9,6 +9,7 @@ import 'package:swaptime_flutter/module_notifications/ui/screens/notification_sc
 import 'package:swaptime_flutter/module_profile/ui/profile_screen/profile_screen.dart';
 import 'package:swaptime_flutter/module_settings/ui/ui/settings_page/settings_page.dart';
 import 'package:swaptime_flutter/theme/theme_data.dart';
+import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -83,27 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
         key: _drawerKey,
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: () {
-              _drawerKey.currentState.openDrawer();
-            },
-          ),
-          title: Text(
-            'Swaptime',
-            style: TextStyle(fontWeight: FontWeight.w300),
-          ),
-          centerTitle: true,
-          actions: [
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                // TODO Move to Search Page
-              },
-            )
-          ],
-        ),
+        appBar: SwaptimeAppBar.getSwaptimeAppBar(_drawerKey),
         drawer: SwapNavigationDrawer(),
         floatingActionButton: _getFAB(),
         bottomNavigationBar: _getBottomNavigationBar(),
