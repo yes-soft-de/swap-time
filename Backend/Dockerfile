@@ -53,7 +53,7 @@ RUN chmod -R g+rw /var
 #RUN setfacl -R -m u:"www-data":rwX -m u:`whoami`:rwX /var/www/html
 #RUN setfacl -dR -m u:"www-data":rwX -m u:`whoami`:rwX /var/www/html
 
-#COPY .htaccess /var/www/html/public/
+COPY .htaccess /var/www/html/public/
 #COPY .env /var/www/html
 COPY --from=vendor /tmp/vendor/ /var/www/html/vendor/
 #ENV APP_ENV=prod
