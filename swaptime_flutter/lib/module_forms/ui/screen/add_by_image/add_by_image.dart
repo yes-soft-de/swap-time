@@ -66,7 +66,9 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
             .showSnackBar(SnackBar(content: Text(errState.errorMsg)));
         break;
       case ByImageStatePostSuccess:
-        Navigator.of(context).pushNamedAndRemoveUntil(HomeRoutes.ROUTE_HOME, (route) => false, arguments: 1);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            HomeRoutes.ROUTE_HOME, (route) => false,
+            arguments: 1);
         break;
       default:
         _getInitUI();
