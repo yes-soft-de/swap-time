@@ -99,3 +99,15 @@ methods: DELETE
 /swap
 methods: PUT
 ```
+### Images
+#### Save image
+```
+/image
+methods: POST
+```
+### Comments
+#### Save comment
+```
+/comment
+methods: POST
+```

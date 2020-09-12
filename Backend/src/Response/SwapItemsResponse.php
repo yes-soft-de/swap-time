@@ -19,4 +19,10 @@ class SwapItemsResponse
     public $mainImage;
 
     public $userID;
+
+    public $commentNumber;
+
+    public $comments;
+
+    public $images;
 }
