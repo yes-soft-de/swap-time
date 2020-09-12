@@ -22,6 +22,7 @@ SetEnv DATABASE_URL 'mysql://u176676555_isht:kh12345@localhost:3306/u176676555_i
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteRule ^ index.php [L]
 
     # Determine the RewriteBase automatically and set it as environment variable.
     # If you are using Apache aliases to do mass virtual hosting or installed the
