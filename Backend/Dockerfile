@@ -57,6 +57,10 @@ COPY .htaccess /var/www/html/public/
 #COPY .env /var/www/html
 COPY --from=vendor /tmp/vendor/ /var/www/html/vendor/
 RUN docker-php-ext-install mysqli pdo pdo_mysql
+RUN php bin/console doctrine:database:create
+RUN php bin/console make:migration
+RUN php bin/console doctrine:migration:migrate
+
 #ENV APP_ENV=prod
 #ENV APP_DEBUG=0 
 #RUN php bin/console cache:clear
