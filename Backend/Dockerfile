@@ -4,32 +4,20 @@ WORKDIR /tmp/
 
 COPY composer.json composer.json
 COPY composer.lock composer.lock
+RUN apt update
+RUN apt install zip 
+RUn apt install unzip
+RUN composer install 
 
-RUN composer install \
-    --ignore-platform-reqs \
-    --no-interaction \
-    --no-plugins \
-    --no-scripts \
-    --prefer-dist
-
-RUN composer update \
-    --ignore-platform-reqs \
-    --no-interaction \
-    --no-plugins \
-    --no-scripts \
-    --prefer-dist
-RUN composer require symfony/translation  \
-    --ignore-platform-reqs \
-    --no-interaction \
-    --no-plugins \
-    --no-scripts \
-    --prefer-dist
-RUN composer require doctrine/annotations \
-    --ignore-platform-reqs \
-    --no-interaction \
-    --no-plugins \
-    --no-scripts \
-    --prefer-dist
+RUN composer update
+RUN composer require symfony/translation  
+RUN composer require doctrine/annotations
+#\
+   # --ignore-platform-reqs \
+  #  --no-interaction \
+   # --no-plugins \
+   # --no-scripts \
+   # --prefer-dist
 
 
 
