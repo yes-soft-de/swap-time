@@ -12,6 +12,7 @@ RUN composer install
 RUN composer update 
 RUN composer require symfony/translation 
 RUN composer require doctrine/annotations 
+RUN composer require symfony/orm-pack
 
 
 
