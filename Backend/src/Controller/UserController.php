@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\AutoMapping;
 use App\Request\UserProfileCreateRequest;
+use App\Request\UserProfileUpdateRequest;
 use App\Request\UserRegisterRequest;
 use App\Service\UserService;
 use stdClass;
@@ -72,5 +73,33 @@ class UserController extends BaseController
         $response = $this->userService->userProfileCreate($request);
 
         return $this->response($response, self::CREATE);
+    }
+
+    /**
+     * @Route("/userprofile", name="updateUserProfile", methods={"PUT"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateUserProfile(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $request = $this->autoMapping->map(stdClass::class,UserProfileUpdateRequest::class,(object)$data);
+
+        $response = $this->userService->userProfileUpdate($request);
+
+        return $this->response($response, self::UPDATE);
+    }
+
+    /**
+     * @Route("/userprofile/{id}", name="getUserProfileByID",methods={"GET"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getUserProfileByID(Request $request)
+    {
+        $response = $this->userService->getUserProfileByUserID($request->get('id'));
+
+        return $this->response($response,self::FETCH);
     }
 }

@@ -9,8 +9,10 @@ use App\Entity\UserEntity;
 use App\Entity\UserProfileEntity;
 use App\Manager\UserManager;
 use App\Request\UserProfileCreateRequest;
+use App\Request\UserProfileUpdateRequest;
 use App\Request\UserRegisterRequest;
 use App\Response\UserProfileCreateResponse;
+use App\Response\UserProfileResponse;
 use App\Response\UserRegisterResponse;
 
 class UserService
@@ -40,5 +42,23 @@ class UserService
         $response = $this->autoMapping->map(UserProfileEntity::class,UserProfileCreateResponse::class, $userProfile);
 
         return $response;
+    }
+
+    public function userProfileUpdate(UserProfileUpdateRequest $request)
+    {
+        $item = $this->userManager->userProfileUpdate($request);
+
+        $response = $this->autoMapping->map(UserProfileEntity::class,UserProfileResponse::class, $item);
+
+        return $response;
+    }
+
+    public function getUserProfileByUserID($userID)
+    {
+        $item = $this->userManager->getProfileByUserID($userID);
+
+        $itemsResponse = $this->autoMapping->map(UserProfileEntity::class, UserProfileResponse::class, $item);
+
+        return $itemsResponse;
     }
 }

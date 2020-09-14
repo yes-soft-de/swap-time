@@ -35,3 +35,21 @@ App\Request\SwapCreateRequest:
       - NotBlank: ~
     swapItemIdOne:
         - NotBlank: ~
+
+App\Request\AdminCreateRequest:
+  properties:
+    email:
+      - NotBlank: ~
+    password:
+      - NotBlank: ~
+    roles:
+      - NotBlank: ~
+    userID:
+      - NotBlank: ~
+
+App\Request\ReportCreateRequest:
+  properties:
+    userID:
+      - NotBlank: ~
+    swapItemID:
+      - NotBlank: ~

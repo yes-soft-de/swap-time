@@ -19,32 +19,16 @@ class UserProfileEntityRepository extends ServiceEntityRepository
         parent::__construct($registry, UserProfileEntity::class);
     }
 
-    // /**
-    //  * @return UserProfileEntity[] Returns an array of UserProfileEntity objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getProfileByUSerID($userID)
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $r =  $this->createQueryBuilder('profile')
 
-    /*
-    public function findOneBySomeField($value): ?UserProfileEntity
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('profile.userID=:userID')
+            ->setParameter('userID', $userID)
+
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
+
+        return $r;
     }
-    */
 }

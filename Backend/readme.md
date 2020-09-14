@@ -38,7 +38,16 @@ methods: POST
 /userprofile
 methods: POST
 ```
-
+#### Update user profile
+```
+/userprofile
+methods: PUT
+```
+#### Get user profile by userID
+```
+/userprofile/{id}
+methods: GET
+```
 ### Swap items
 #### Create new item
 ```
@@ -110,4 +119,26 @@ methods: POST
 ```
 /comment
 methods: POST
+```
+### Admin
+#### Create Admin
+```
+/*****
+methods: POST
+```
+#### Admin login
+```
+/login_check
+methods: POST
+```
+### Report
+#### Create report
+```
+/report
+methods: POST
+```
+#### Get reports
+```
+/report
+methods: Get
 ```

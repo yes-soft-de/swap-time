@@ -39,6 +39,11 @@ class UserEntity implements UserInterface
      */
     private $createDate;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $email;
+
     public function __construct($userID)
     {
         $this->userID = $userID;
@@ -130,6 +135,18 @@ class UserEntity implements UserInterface
     public function setCreateDate(?\DateTimeInterface $createDate): self
     {
         $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

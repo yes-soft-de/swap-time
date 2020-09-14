@@ -8,7 +8,9 @@ use App\AutoMapping;
 use App\Entity\UserEntity;
 use App\Entity\UserProfileEntity;
 use App\Repository\UserEntityRepository;
+use App\Repository\UserProfileEntityRepository;
 use App\Request\UserProfileCreateRequest;
+use App\Request\UserProfileUpdateRequest;
 use App\Request\UserRegisterRequest;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -19,14 +21,19 @@ class UserManager
     private $entityManager;
     private $encoder;
     private $userRepository;
+    /**
+     * @var UserProfileEntityRepository
+     */
+    private $userProfileEntityRepository;
 
     public function __construct(AutoMapping $autoMapping, EntityManagerInterface $entityManager,
-                                UserPasswordEncoderInterface $encoder, UserEntityRepository $userRepository)
+                                UserPasswordEncoderInterface $encoder, UserEntityRepository $userRepository, UserProfileEntityRepository $userProfileEntityRepository)
     {
         $this->autoMapping = $autoMapping;
         $this->entityManager = $entityManager;
         $this->encoder = $encoder;
         $this->userRepository = $userRepository;
+        $this->userProfileEntityRepository = $userProfileEntityRepository;
     }
 
     public function userRegister(UserRegisterRequest $request)
@@ -66,29 +73,24 @@ class UserManager
         return $userProfile;
     }
 
-//    public function userProfileUpdate(TouristUpdateRequest $request)
-//    {
-//        $tourist = $this->userRepository->getUser($request->userID);
-//
-//        if ($tourist)
-//        {
-//            if ($request->password)
-//            {
-//                $user = new User($request->userID);
-//                $request->setPassword($this->encoder->encodePassword($user, $request->password));
-//            }
-//
-//            $tourist = $this->autoMapping->mapToObject(TouristUpdateRequest::class,
-//                User::class, $request, $tourist);
-//
-//            $this->entityManager->flush();
-//            $this->entityManager->clear();
-//            return $tourist;
-//        }
-//    }
-
-    public function getUserByUserID($userID)
+    public function userProfileUpdate(UserProfileUpdateRequest $request)
     {
-        return $this->userRepository->getUser($userID);
+        $item = $this->userProfileEntityRepository->getProfileByUSerID($request->getUserID());
+
+        if ($item)
+        {
+            $item = $this->autoMapping->mapToObject(UserProfileUpdateRequest::class,
+                UserProfileEntity::class, $request, $item);
+
+            $this->entityManager->flush();
+            $this->entityManager->clear();
+
+            return $item;
+        }
+    }
+
+    public function getProfileByUserID($userID)
+    {
+        return $this->userProfileEntityRepository->getProfileByUSerID($userID);
     }
 }
