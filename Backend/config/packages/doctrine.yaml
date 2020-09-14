@@ -2,7 +2,7 @@ doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
         driver:   pdo_mysql
-        host:     mysql8-service
+        host:     10.0.2.188
         dbname:   my_db
         user:     db_user
         password: .mypwd
