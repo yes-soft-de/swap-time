@@ -15,8 +15,7 @@ COPY . /var/www/html
 RUN chown -R www-data:www-data /var && chmod -R g+rw /var
 COPY .htaccess /var/www/html/public/
 COPY --from=vendor /tmp/vendor/ /var/www/html/vendor/
-RUN docker-php-ext-install mysqli pdo pdo_mysql
-RUN apt-get install php7.4-gd
+RUN docker-php-ext-install mysqli pdo pdo_mysql &&  docker-php-ext-install gd
 RUN chmod  +x ./entrypoint.sh 
 CMD ["./entrypoint.sh"]
 
