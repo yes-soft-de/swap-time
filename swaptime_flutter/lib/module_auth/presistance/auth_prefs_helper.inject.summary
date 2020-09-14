@@ -1,5 +1,5 @@
 {
-  "asset": "asset:swaptime_flutter/lib/auth_module/presistance/auth_prefs_helper.dart",
+  "asset": "asset:swaptime_flutter/lib/module_auth/presistance/auth_prefs_helper.dart",
   "summary": {
     "injector": [],
     "module": [],

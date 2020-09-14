@@ -1,5 +1,5 @@
 {
-  "asset": "asset:swaptime_flutter/lib/auth_module/auth_module.dart",
+  "asset": "asset:swaptime_flutter/lib/module_auth/auth_module.dart",
   "summary": {
     "injector": [],
     "module": [],
@@ -11,7 +11,7 @@
           "kind": "constructor",
           "injectedType": {
             "lookupKey": {
-              "root": "asset:swaptime_flutter/lib/auth_module/auth_module.dart#AuthModule",
+              "root": "asset:swaptime_flutter/lib/module_auth/auth_module.dart#AuthModule",
               "qualifier": null
             },
             "isProvider": false
@@ -21,7 +21,7 @@
           "dependencies": [
             {
               "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/auth_module/ui/screen/auth_screen/auth_screen.dart#AuthScreen",
+                "root": "asset:swaptime_flutter/lib/module_auth/ui/screen/auth_screen/auth_screen.dart#AuthScreen",
                 "qualifier": null
               },
               "isProvider": false

@@ -1,17 +1,17 @@
 {
-  "asset": "asset:swaptime_flutter/lib/module_auth/ui/screen/auth_screen/auth_screen.dart",
+  "asset": "asset:swaptime_flutter/lib/module_forms/forms_module.dart",
   "summary": {
     "injector": [],
     "module": [],
     "injectable": [
       {
-        "name": "AuthScreen",
+        "name": "FormsModule",
         "constructor": {
           "name": "",
           "kind": "constructor",
           "injectedType": {
             "lookupKey": {
-              "root": "asset:swaptime_flutter/lib/module_auth/ui/screen/auth_screen/auth_screen.dart#AuthScreen",
+              "root": "asset:swaptime_flutter/lib/module_forms/forms_module.dart#FormsModule",
               "qualifier": null
             },
             "isProvider": false
@@ -21,7 +21,7 @@
           "dependencies": [
             {
               "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/module_auth/state_manager/auth_state_manager/auth_state_manager.dart#AuthStateManager",
+                "root": "asset:swaptime_flutter/lib/module_forms/ui/screen/add_by_image/add_by_image.dart#AddByImageScreen",
                 "qualifier": null
               },
               "isProvider": false

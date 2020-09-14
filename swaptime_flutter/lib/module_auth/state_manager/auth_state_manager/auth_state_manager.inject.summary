@@ -1,5 +1,5 @@
 {
-  "asset": "asset:swaptime_flutter/lib/auth_module/state_manager/auth_state_manager/auth_state_manager.dart",
+  "asset": "asset:swaptime_flutter/lib/module_auth/state_manager/auth_state_manager/auth_state_manager.dart",
   "summary": {
     "injector": [],
     "module": [],
@@ -11,7 +11,7 @@
           "kind": "constructor",
           "injectedType": {
             "lookupKey": {
-              "root": "asset:swaptime_flutter/lib/auth_module/state_manager/auth_state_manager/auth_state_manager.dart#AuthStateManager",
+              "root": "asset:swaptime_flutter/lib/module_auth/state_manager/auth_state_manager/auth_state_manager.dart#AuthStateManager",
               "qualifier": null
             },
             "isProvider": false

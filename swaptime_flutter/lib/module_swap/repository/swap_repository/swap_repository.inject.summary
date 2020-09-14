@@ -1,17 +1,17 @@
 {
-  "asset": "asset:swaptime_flutter/lib/module_auth/ui/screen/auth_screen/auth_screen.dart",
+  "asset": "asset:swaptime_flutter/lib/module_swap/repository/swap_repository/swap_repository.dart",
   "summary": {
     "injector": [],
     "module": [],
     "injectable": [
       {
-        "name": "AuthScreen",
+        "name": "SwapRepository",
         "constructor": {
           "name": "",
           "kind": "constructor",
           "injectedType": {
             "lookupKey": {
-              "root": "asset:swaptime_flutter/lib/module_auth/ui/screen/auth_screen/auth_screen.dart#AuthScreen",
+              "root": "asset:swaptime_flutter/lib/module_swap/repository/swap_repository/swap_repository.dart#SwapRepository",
               "qualifier": null
             },
             "isProvider": false
@@ -21,7 +21,7 @@
           "dependencies": [
             {
               "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/module_auth/state_manager/auth_state_manager/auth_state_manager.dart#AuthStateManager",
+                "root": "asset:swaptime_flutter/lib/module_network/http_client/http_client.dart#HttpClient",
                 "qualifier": null
               },
               "isProvider": false

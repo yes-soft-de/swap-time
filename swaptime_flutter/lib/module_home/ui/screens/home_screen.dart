@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/camera/camer_routes.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_list/game_card_list.dart';
 import 'package:swaptime_flutter/liked_module/ui/liked_screen/liked_screen.dart';
+import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_forms/forms_routes.dart';
 import 'package:swaptime_flutter/module_navigation/ui/widget/navigation_drawer/swap_navigation_drawer.dart';
 import 'package:swaptime_flutter/module_notifications/ui/screens/notification_screen/notification_screen.dart';
@@ -11,6 +12,8 @@ import 'package:swaptime_flutter/module_profile/ui/profile_screen/profile_screen
 import 'package:swaptime_flutter/module_settings/ui/ui/settings_page/settings_page.dart';
 import 'package:swaptime_flutter/theme/theme_data.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
+
+import '../../home.routes.dart';
 
 class HomeScreen extends StatefulWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -262,8 +265,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
               ),
               onPressed: () {
-                // TODO:
-                setState(() {});
+                if (widget._auth.currentUser != null) {
+                  setState(() {});
+                } else {
+                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE,
+                      // INFO: Redirect To Argument
+                      arguments: HomeRoutes.ROUTE_HOME);
+                }
               },
             ),
           ),

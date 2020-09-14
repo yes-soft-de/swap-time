@@ -2,6 +2,8 @@ class AuthState {}
 
 class AuthStateSuccess extends AuthState {}
 
+class AuthStateLoading extends AuthState {}
+
 class AuthStateCodeSent extends AuthState {}
 
 class AuthStateError extends AuthState {
