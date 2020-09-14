@@ -40,6 +40,7 @@ COPY .htaccess /var/www/html/public/
 #COPY .env /var/www/html
 COPY --from=vendor /tmp/vendor/ /var/www/html/vendor/
 RUN docker-php-ext-install mysqli pdo pdo_mysql
+CMD ["./entrypoint.sh"]
 #RUN php bin/console make:migration --no-interaction --allow-no-migration
 #RUN php bin/console doctrine:migration:migrate --no-interaction --allow-no-migration
 #RUN php bin/console doctrine:database:create --if-not-exists
