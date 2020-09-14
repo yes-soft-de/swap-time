@@ -18,7 +18,7 @@ FROM php:7.4-apache
 
 #ENV APACHE_DOCUMENT_ROOT=/var/www/html
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
-
+#
 
 COPY . /var/www/html
 RUN chown -R www-data:www-data /var
