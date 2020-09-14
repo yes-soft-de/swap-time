@@ -38,10 +38,10 @@ metadata:
   name: web-service
   namespace: default
 spec:
-  clusterIP: 10.0.5.247
+  clusterIP: 10.0.9.235
   externalTrafficPolicy: Cluster
   ports:
-    - nodePort: 30166
+    - nodePort: 31609
       port: 80
       protocol: TCP
       targetPort: 80
