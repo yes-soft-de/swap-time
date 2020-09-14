@@ -1,35 +1,16 @@
-FROM composer AS vendor
+FROM php:7.4-fpm AS vendor
 
 WORKDIR /tmp/
 
 COPY composer.json composer.json
 COPY composer.lock composer.lock
-RUN yum install zip
-RUN composer install \
-    --ignore-platform-reqs \
-    --no-interaction \
-    --no-plugins \
-    --no-scripts \
-    --prefer-dist
+RUN apt install zip
+RUN RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN composer update \ 
-    --ignore-platform-reqs \
-    --no-interaction \
-    --no-plugins \
-    --no-scripts \
-    --prefer-dist
-RUN composer require symfony/translation  \
-    --ignore-platform-reqs \
-    --no-interaction \
-    --no-plugins \
-    --no-scripts \
-    --prefer-dist
-RUN composer require doctrine/annotations \
-    --ignore-platform-reqs \
-    --no-interaction \
-    --no-plugins \
-    --no-scripts \
-    --prefer-dist
+RUN composer install 
+RUN composer update 
+RUN composer require symfony/translation 
+RUN composer require doctrine/annotations 
 
 
 
