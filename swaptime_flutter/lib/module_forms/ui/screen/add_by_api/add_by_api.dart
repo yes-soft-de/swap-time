@@ -7,6 +7,7 @@ class AddByApiScreen extends StatefulWidget {
 
 class _AddByApiState extends State<AddByApiScreen> {
   final TextEditingController _controller = TextEditingController();
+  bool gameSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +22,12 @@ class _AddByApiState extends State<AddByApiScreen> {
                 controller: _controller,
               ),
             ),
-            IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  // TODO: Request Search from State Manager
-                })
+            IconButton(icon: Icon(Icons.search), onPressed: () {})
           ],
+        ),
+        RaisedButton(
+          onPressed: () {},
+          child: Text('Save Item'),
         )
       ],
     );

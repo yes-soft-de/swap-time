@@ -12,6 +12,7 @@ import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 @provide
 class AddByImageScreen extends StatefulWidget {
   final AddByImageStateManager _stateManager;
+
   AddByImageScreen(this._stateManager);
 
   @override
@@ -31,14 +32,15 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
   @override
   void initState() {
     super.initState();
-    _getInitUI();
+    _listenToChanges();
   }
 
   @override
   Widget build(BuildContext context) {
     filePath = ModalRoute.of(context).settings.arguments;
-    _listenToChanges();
-
+    if (currentPage == null) {
+      _getInitUI();
+    }
     return currentPage;
   }
 
@@ -53,7 +55,6 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
       case ByImageStateUploadSuccess:
         ByImageStateUploadSuccess successState = newState;
         _getUploadSuccessUI(successState.imageUrl);
-        setState(() {});
         break;
       case ByImageStateUploadError:
         ByImageStateUploadError errState = newState;
@@ -96,24 +97,27 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                     },
                     child: Container(
                       height: 48,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(24),
-                        ),
-                        color: Colors.black26,
-                      ),
-                      child: Flex(
-                        direction: Axis.horizontal,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(Icons.upload_file),
+                      alignment: Alignment.center,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(24),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('Upload Image'),
-                          )
-                        ],
+                          color: Colors.black26,
+                        ),
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(Icons.upload_file),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('Upload Image'),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -134,7 +138,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                         child: TextFormField(
                           controller: _gameName,
                           decoration: InputDecoration(
-                            hintText: 'GTA V',
+                            hintText: 'i.e. GTA V',
                             labelText: 'Game Name',
                             labelStyle: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -155,8 +159,8 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                               child: TextFormField(
                                 controller: _tagName,
                                 decoration: InputDecoration(
-                                  hintText: 'Tags',
-                                  labelText: 'Racing',
+                                  labelText: 'Tags',
+                                  hintText: 'i.e. Racing',
                                   labelStyle: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
@@ -394,6 +398,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
         ],
       ),
     );
+    if(mounted) setState(() {});
   }
 
   List<Widget> _getTagChips() {

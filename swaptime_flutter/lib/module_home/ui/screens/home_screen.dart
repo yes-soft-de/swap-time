@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/camera/camer_routes.dart';
@@ -12,6 +13,8 @@ import 'package:swaptime_flutter/theme/theme_data.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   State<StatefulWidget> createState() => _HomeScreenState();
 }
@@ -259,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
               ),
               onPressed: () {
-                overlayOpened = true;
+                // TODO:
                 setState(() {});
               },
             ),

@@ -56,7 +56,7 @@ class Data {
     urlViewer = json['url_viewer'];
     url = json['url'];
     displayUrl = json['display_url'];
-    size = json['size'];
+    size = json['size'].toString();
     time = json['time'];
     expiration = json['expiration'];
     image = json['image'] != null ? new Image.fromJson(json['image']) : null;

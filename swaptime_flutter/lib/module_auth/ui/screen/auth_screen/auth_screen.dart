@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:inject/inject.dart';
-import 'package:swaptime_flutter/auth_module/state_manager/auth_state_manager/auth_state_manager.dart';
-import 'package:swaptime_flutter/auth_module/states/auth_states/auth_states.dart';
+import 'package:swaptime_flutter/module_auth/state_manager/auth_state_manager/auth_state_manager.dart';
+import 'package:swaptime_flutter/module_auth/states/auth_states/auth_states.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
 
 @provide

@@ -25,6 +25,13 @@
                 "qualifier": null
               },
               "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/utils/logger/logger.dart#Logger",
+                "qualifier": null
+              },
+              "isProvider": false
             }
           ]
         }

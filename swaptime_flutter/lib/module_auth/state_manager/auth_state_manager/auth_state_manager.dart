@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inject/inject.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:swaptime_flutter/auth_module/states/auth_states/auth_states.dart';
+import 'package:swaptime_flutter/module_auth/states/auth_states/auth_states.dart';
 
 @provide
 class AuthStateManager {

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/module_forms/manager/rawg_manager/rawg_manager.dart';
 
@@ -13,19 +12,19 @@ class RawGService {
 
     switch (platform) {
       case GamePlatform.PS5:
-        platformId = 1;
+        platformId = 187;
         break;
       case GamePlatform.PS4:
-        platformId = 1;
+        platformId = 18;
         break;
       case GamePlatform.PS3:
-        platformId = 1;
+        platformId = 16;
         break;
-      case GamePlatform.XBOX:
+      case GamePlatform.XBOX_ONE:
         platformId = 1;
         break;
       case GamePlatform.PC:
-        platformId = 1;
+        platformId = 4;
         break;
     }
 
@@ -37,4 +36,4 @@ class RawGService {
   }
 }
 
-enum GamePlatform { PS5, PS4, PS3, XBOX, PC }
+enum GamePlatform { PS5, PS4, PS3, XBOX_ONE, PC }
