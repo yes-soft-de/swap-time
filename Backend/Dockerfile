@@ -4,8 +4,8 @@ WORKDIR /tmp/
 
 COPY composer.json composer.json
 COPY composer.lock composer.lock
-RUN apt update
-RUN apt install zip
+RUN apt update -y
+RUN apt install zip -y
 RUN RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN composer install 
