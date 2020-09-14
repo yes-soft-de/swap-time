@@ -45,9 +45,9 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 #RUN php bin/console doctrine:database:create --if-not-exists
 #RUN php bin/console make:migration
 #RUN php bin/console doctrine:migration:migrate
-CMD [php bin/console make:migration]
-CMD [php bin/console doctrine:migration:migrate]
-CMD [apache2 start]
+#CMD [php bin/console make:migration]
+#CMD [php bin/console doctrine:migration:migrate]
+#CMD [apache2 start]
 #ENV APP_ENV=prod
 #ENV APP_DEBUG=0 
 #RUN php bin/console cache:clear
