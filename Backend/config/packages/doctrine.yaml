@@ -1,8 +1,9 @@
 doctrine:
     dbal:
+   # DATABASE_URL 'mysql://db_user:.mypwd@mysql8-service:3306/my_db?serverVersion=8.0'
         url: '%env(resolve:DATABASE_URL)%'
         driver:   pdo_mysql
-        host:     10.0.2.188
+        host:     mysql8-service:3306
         dbname:   my_db
         user:     db_user
         password: .mypwd
