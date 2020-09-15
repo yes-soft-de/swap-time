@@ -29,7 +29,7 @@ spec:
               protocol: TCP
           volumeMounts:
           - name: upload-persistent-storage
-            mountPath: /var/www/upload/image/original-image
+            mountPath: /var/www/upload/image
       volumes:
       - name: upload-persistent-storage
         persistentVolumeClaim:
