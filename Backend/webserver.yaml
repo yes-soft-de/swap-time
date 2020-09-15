@@ -27,6 +27,13 @@ spec:
           ports:
             - containerPort: 80
               protocol: TCP
+          volumeMounts:
+          - name: upload-persistent-storage
+            mountPath: /var/www/upload
+      volumes:
+      - name: upload-persistent-storage
+        persistentVolumeClaim:
+          claimName: upload-pv-claim
 ---
 apiVersion: v1
 kind: Service
