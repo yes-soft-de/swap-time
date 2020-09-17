@@ -1,11 +1,11 @@
 import 'package:inject/inject.dart';
-import 'package:swaptime_flutter/api_urls.dart';
+import 'package:swaptime_flutter/consts/urls.dart';
 import 'package:swaptime_flutter/module_forms/response/rawg_search/rawg_response.dart';
 import 'package:swaptime_flutter/module_network/http_client/http_client.dart';
 
 @provide
 class RawGRepository {
-  final HttpClient _client;
+  final ApiClient _client;
 
   RawGRepository(this._client);
 
@@ -14,8 +14,8 @@ class RawGRepository {
       'search': searchQuery,
       'platform': '${platform}'
     };
-    Map response = await _client
-        .get(ApiUrls.SEARCH_GAMES_API, queryParams: params);
+    Map response =
+        await _client.get(Urls.SEARCH_GAMES_API, queryParams: params);
 
     if (response == null) {
       return null;

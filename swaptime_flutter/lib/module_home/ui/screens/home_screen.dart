@@ -1,22 +1,33 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/camera/camer_routes.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_list/game_card_list.dart';
 import 'package:swaptime_flutter/liked_module/ui/liked_screen/liked_screen.dart';
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
+import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_forms/forms_routes.dart';
 import 'package:swaptime_flutter/module_navigation/ui/widget/navigation_drawer/swap_navigation_drawer.dart';
 import 'package:swaptime_flutter/module_notifications/ui/screens/notification_screen/notification_screen.dart';
+import 'package:swaptime_flutter/module_profile/profile_routes.dart';
+import 'package:swaptime_flutter/module_profile/service/my_profile/my_profile.dart';
 import 'package:swaptime_flutter/module_profile/ui/profile_screen/profile_screen.dart';
 import 'package:swaptime_flutter/module_settings/ui/ui/settings_page/settings_page.dart';
 import 'package:swaptime_flutter/theme/theme_data.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 
-import '../../home.routes.dart';
-
+@provide
 class HomeScreen extends StatefulWidget {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final AuthService _auth;
+  final MyProfileService _myProfileService;
+  final GameCardList _gameCardList;
+  final ProfileScreen _profileScreen;
+
+  HomeScreen(
+    this._auth,
+    this._myProfileService,
+    this._gameCardList,
+    this._profileScreen,
+  );
 
   @override
   State<StatefulWidget> createState() => _HomeScreenState();
@@ -43,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
                 child: ListView(
               children: [
-                GameCardList(),
+                widget._gameCardList,
               ],
             )),
           ],
@@ -73,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
                 child: ListView(
               children: [
-                ProfileScreen(),
+                widget._profileScreen,
               ],
             )),
           ],
@@ -265,13 +276,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
               ),
               onPressed: () {
-                if (widget._auth.currentUser != null) {
-                  setState(() {});
-                } else {
-                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE,
-                      // INFO: Redirect To Argument
-                      arguments: HomeRoutes.ROUTE_HOME);
-                }
+                widget._auth.isLoggedIn.then((isLoggedIn) async {
+                  if (isLoggedIn) {
+                    var hasProfile =
+                        await widget._myProfileService.hasProfile();
+                    if (hasProfile) {
+                      overlayOpened = true;
+                      setState(() {});
+                    } else {
+                      await Navigator.of(context)
+                          .pushNamed(ProfileRoutes.MY_ROUTE_PROFILE);
+                    }
+                  } else {
+                    await Navigator.of(context)
+                        .pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
+                  }
+                });
               },
             ),
           ),

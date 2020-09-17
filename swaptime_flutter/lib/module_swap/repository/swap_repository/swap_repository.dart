@@ -3,7 +3,7 @@ import 'package:swaptime_flutter/module_network/http_client/http_client.dart';
 
 @provide
 class SwapRepository {
-  final HttpClient _client;
+  final ApiClient _client;
   SwapRepository(this._client);
 
   Future<dynamic> getSwapInMarket() {}

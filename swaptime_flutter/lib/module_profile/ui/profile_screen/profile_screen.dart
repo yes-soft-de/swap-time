@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_list/game_card_list.dart';
 import 'package:swaptime_flutter/theme/theme_data.dart';
 
+@provide
 class ProfileScreen extends StatefulWidget {
+  final GameCardList _cardList;
+  ProfileScreen(this._cardList);
+
   @override
   State<StatefulWidget> createState() => _ProfileScreenState();
 }
@@ -176,7 +181,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ],
         ),
-        GameCardList()
+        widget._cardList
       ],
     );
   }

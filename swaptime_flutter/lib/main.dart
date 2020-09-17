@@ -10,6 +10,7 @@ import 'package:swaptime_flutter/module_auth/auth_module.dart';
 import 'package:swaptime_flutter/module_chat/chat_module.dart';
 import 'package:swaptime_flutter/module_forms/forms_module.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
+import 'package:swaptime_flutter/module_profile/profile_module.dart';
 
 import 'di/components/app.component.dart';
 import 'generated/l10n.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
   final ChatModule _chatModule;
   final CameraModule _cameraModule;
   final AuthModule _authModule;
+  final ProfileModule _profileModule;
 
   MyApp(
     this._homeModule,
@@ -46,6 +48,7 @@ class MyApp extends StatelessWidget {
     this._authModule,
     this._chatModule,
     this._cameraModule,
+    this._profileModule,
   );
 
   @override
@@ -57,6 +60,7 @@ class MyApp extends StatelessWidget {
     fullRoutesList.addAll(_chatModule.getRoutes());
     fullRoutesList.addAll(_authModule.getRoutes());
     fullRoutesList.addAll(_cameraModule.getRoutes());
+    fullRoutesList.addAll(_profileModule.getRoutes());
 
     return MaterialApp(
         navigatorObservers: <NavigatorObserver>[

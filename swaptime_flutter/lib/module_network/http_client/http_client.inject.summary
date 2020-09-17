@@ -5,13 +5,13 @@
     "module": [],
     "injectable": [
       {
-        "name": "HttpClient",
+        "name": "ApiClient",
         "constructor": {
           "name": "",
           "kind": "constructor",
           "injectedType": {
             "lookupKey": {
-              "root": "asset:swaptime_flutter/lib/module_network/http_client/http_client.dart#HttpClient",
+              "root": "asset:swaptime_flutter/lib/module_network/http_client/http_client.dart#ApiClient",
               "qualifier": null
             },
             "isProvider": false

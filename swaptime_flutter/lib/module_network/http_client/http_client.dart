@@ -5,23 +5,21 @@ import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inject/inject.dart';
-import 'package:swaptime_flutter/consts/urls.dart';
 import 'package:swaptime_flutter/utils/logger/logger.dart';
 
 @provide
-class HttpClient {
+class ApiClient {
   Dio _client;
   final Logger _logger;
 
-  final String tag = "HttpClient";
+  final String tag = 'ApiClient';
 
-  HttpClient(this._logger) {
+  ApiClient(this._logger) {
     _client = new Dio(BaseOptions());
-    _client.interceptors
-        .add(DioCacheManager(CacheConfig(baseUrl: Urls.baseAPI)).interceptor);
   }
 
-  Future<Map> get(String url, {Map<String, String> queryParams}) async {
+  Future<Map<String, dynamic>> get(String url,
+      {Map<String, String> queryParams}) async {
     _logger.info(tag, 'GET $url');
     try {
       Response response = await _client.get(
@@ -53,7 +51,8 @@ class HttpClient {
     }
   }
 
-  Future<Map> post(String url, Map<String, dynamic> payLoad) async {
+  Future<Map<String, dynamic>> post(
+      String url, Map<String, dynamic> payLoad) async {
     try {
       _logger.info(tag, 'Requesting Post to: ' + url);
       _logger.info(tag, 'POST: ' + jsonEncode(payLoad));
@@ -74,7 +73,8 @@ class HttpClient {
     }
   }
 
-  Future<Map> put(String url, Map<String, dynamic> payLoad) async {
+  Future<Map<String, dynamic>> put(
+      String url, Map<String, dynamic> payLoad) async {
     try {
       _logger.info(tag, 'Requesting Put to: ' + url);
       _logger.info(tag, 'PUT: ' + jsonEncode(payLoad));

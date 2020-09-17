@@ -1,5 +1,5 @@
 {
-  "asset": "asset:swaptime_flutter/lib/api_urls.dart",
+  "asset": "asset:swaptime_flutter/lib/module_auth/enums/auth_source.dart",
   "summary": {
     "injector": [],
     "module": [],

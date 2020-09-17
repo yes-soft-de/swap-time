@@ -1,0 +1,26 @@
+{
+  "asset": "asset:swaptime_flutter/lib/module_profile/state_manager/my_profile/my_profile_state_manager.dart",
+  "summary": {
+    "injector": [],
+    "module": [],
+    "injectable": [
+      {
+        "name": "MyProfileStateManager",
+        "constructor": {
+          "name": "",
+          "kind": "constructor",
+          "injectedType": {
+            "lookupKey": {
+              "root": "asset:swaptime_flutter/lib/module_profile/state_manager/my_profile/my_profile_state_manager.dart#MyProfileStateManager",
+              "qualifier": null
+            },
+            "isProvider": false
+          },
+          "singleton": false,
+          "asynchronous": false,
+          "dependencies": []
+        }
+      }
+    ]
+  }
+}

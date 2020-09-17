@@ -24,4 +24,22 @@ class SwaptimeAppBar {
       ],
     );
   }
+
+  static AppBar getBackEnabledAppBar() {
+    return AppBar(
+      title: Text(
+        'Swaptime',
+        style: TextStyle(fontWeight: FontWeight.w300),
+      ),
+      centerTitle: true,
+      actions: [
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            // TODO Move to Search Page
+          },
+        )
+      ],
+    );
+  }
 }
