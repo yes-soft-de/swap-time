@@ -18,7 +18,7 @@ DirectoryIndex index.php
 </IfModule>
 
 SetEnv APP_ENV dev
-SetEnv DATABASE_URL 'mysql://db_user:mypwd123@mysql8-service:3306/my_db?serverVersion=8.0'
+SetEnv DATABASE_URL 'mysql://db_user:mypwd123@mysql8-service:3306/mydb?serverVersion=8.0'
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
