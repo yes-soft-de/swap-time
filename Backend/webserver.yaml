@@ -45,10 +45,10 @@ metadata:
   name: web-service
   namespace: swaptime
 spec:
-  clusterIP: 10.4.2.103
+  clusterIP: 10.4.5.143
   externalTrafficPolicy: Cluster
   ports:
-    - nodePort: 31479
+    - nodePort: 32140
       port: 80
       protocol: TCP
       targetPort: 80
