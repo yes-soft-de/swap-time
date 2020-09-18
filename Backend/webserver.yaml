@@ -4,7 +4,7 @@ metadata:
   labels:
     app: apache
   name: webserver
-  namespace: default
+  namespace: swaptime
 spec:
   replicas: 1
   selector:
@@ -21,19 +21,12 @@ spec:
         app: apache
     spec:
       containers:
-        - image: gcr.io/neural-sol-285619/github.com/aliomom/swap-time
+        - image: gcr.io/yescloud/github.com/aliomom/swap-time
           imagePullPolicy: Always
           name: php-apache
           ports:
             - containerPort: 80
               protocol: TCP
-          volumeMounts:
-          - name: upload-persistent-storage
-            mountPath: /var/www/upload/image
-      volumes:
-      - name: upload-persistent-storage
-        persistentVolumeClaim:
-          claimName: upload-pv-claim
 ---
 apiVersion: v1
 kind: Service
@@ -43,12 +36,12 @@ metadata:
   labels:
     run: web-service
   name: web-service
-  namespace: default
+  namespace: swaptime
 spec:
-  clusterIP: 10.0.9.235
+  clusterIP: 10.4.3.75
   externalTrafficPolicy: Cluster
   ports:
-    - nodePort: 31609
+    - nodePort: 30349
       port: 80
       protocol: TCP
       targetPort: 80
@@ -56,4 +49,3 @@ spec:
     app: apache
   sessionAffinity: None
   type: LoadBalancer
-  #
