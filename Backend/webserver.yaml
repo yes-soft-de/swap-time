@@ -27,6 +27,13 @@ spec:
           ports:
             - containerPort: 80
               protocol: TCP
+          volumeMounts:
+            - mountPath: /var/www/upload/image
+              name: pvc-sym-m
+      volumes:
+        - name: pvc-sym-m
+          persistentVolumeClaim:
+            claimName: pvc-sym-uploud
 ---
 apiVersion: v1
 kind: Service
@@ -38,10 +45,10 @@ metadata:
   name: web-service
   namespace: swaptime
 spec:
-  clusterIP: 10.4.3.75
+  clusterIP: 10.4.2.103
   externalTrafficPolicy: Cluster
   ports:
-    - nodePort: 30349
+    - nodePort: 31479
       port: 80
       protocol: TCP
       targetPort: 80
