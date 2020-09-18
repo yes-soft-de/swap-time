@@ -1,9 +1,15 @@
 class MyProfileState {}
 
-class MyProfileStateInit {}
+class MyProfileStateInit extends MyProfileState {}
 
-class MyProfileStateUpdateSuccess {}
+class MyProfileStateUpdateSuccess extends MyProfileState {}
 
-class MyProfileStateCreateSuccess {}
+class MyProfileStateCreateSuccess extends MyProfileState {}
 
-class MyProfileStateUpdateError {}
+class MyProfileStateImageUploadSuccess extends MyProfileState {
+  String imageUrl;
+
+  MyProfileStateImageUploadSuccess(this.imageUrl);
+}
+
+class MyProfileStateUpdateError extends MyProfileState {}

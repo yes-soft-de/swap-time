@@ -32,6 +32,11 @@ class MyProfileService {
         story: story,
         userID: userId);
 
-    return _manager.createMyProfile(request);
+    ProfileResponse response = await _manager.createMyProfile(request);
+    if (response == null) return null;
+    await _preferencesHelper.setUserName(response.data.userName);
+    await _preferencesHelper.setUserImage(response.data.image);
+    await _preferencesHelper.setUserLocation(response.data.location);
+    await _preferencesHelper.setUserStory(response.data.story);
   }
 }
