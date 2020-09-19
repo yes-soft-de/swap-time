@@ -14,18 +14,18 @@ class ChatPageBloc {
 
   bool listening = false;
 
-  ChatService _chatService;
+  final ChatService _chatService;
 
   ChatPageBloc(this._chatService);
 
-  PublishSubject<Pair<int, List<ChatModel>>> _chatBlocSubject =
+  final PublishSubject<Pair<int, List<ChatModel>>> _chatBlocSubject =
       new PublishSubject();
 
   Stream<Pair<int, List<ChatModel>>> get chatBlocStream =>
       _chatBlocSubject.stream;
 
   // We Should get the UUID of the ChatRoom, as such we should request the data here
-  getMessages(String chatRoomID) {
+  void getMessages(String chatRoomID) {
     if (!listening) listening = true;
     _chatService.chatMessagesStream.listen((event) {
       _chatBlocSubject.add(Pair(STATUS_CODE_GOT_DATA, event));
@@ -33,11 +33,11 @@ class ChatPageBloc {
     _chatService.requestMessages(chatRoomID);
   }
 
-  sendMessage(String chatRoomID, String chat) {
+  void sendMessage(String chatRoomID, String chat) {
     _chatService.sendMessage(chatRoomID, chat);
   }
 
-  dispose() {
+  void dispose() {
     _chatBlocSubject.close();
   }
 }

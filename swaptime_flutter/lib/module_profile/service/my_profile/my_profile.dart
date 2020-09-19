@@ -38,5 +38,7 @@ class MyProfileService {
     await _preferencesHelper.setUserImage(response.data.image);
     await _preferencesHelper.setUserLocation(response.data.location);
     await _preferencesHelper.setUserStory(response.data.story);
+
+    return response;
   }
 }

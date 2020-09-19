@@ -33,10 +33,10 @@ class ApiClient {
         return response.data;
       } else {
         _logger.error(tag, response.statusCode.toString() + ' for link ' + url);
-        Fluttertoast.showToast(
-            msg: "Error Code " +
+        await Fluttertoast.showToast(
+            msg: 'Error Code ' +
                 response.statusCode.toString() +
-                " Please Retry",
+                ' Please Retry',
             toastLength: Toast.LENGTH_SHORT,
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.red,
@@ -46,7 +46,7 @@ class ApiClient {
       }
     } catch (e) {
       _logger.error(tag, e.toString());
-      Fluttertoast.showToast(msg: e.toString());
+      await Fluttertoast.showToast(msg: e.toString());
       return null;
     }
   }
@@ -68,7 +68,7 @@ class ApiClient {
       }
     } catch (e) {
       _logger.error(tag, e.toString());
-      Fluttertoast.showToast(msg: e.toString());
+      await Fluttertoast.showToast(msg: e.toString());
       return null;
     }
   }
@@ -89,7 +89,7 @@ class ApiClient {
       }
     } catch (e) {
       _logger.error(tag, e.toString());
-      Fluttertoast.showToast(msg: e.toString());
+      await Fluttertoast.showToast(msg: e.toString());
       return null;
     }
   }

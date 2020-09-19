@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/camera/camer_routes.dart';
+import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
 import 'package:swaptime_flutter/module_profile/state/my_profile_state.dart';
 import 'package:swaptime_flutter/module_profile/state_manager/my_profile/my_profile_state_manager.dart';
@@ -48,6 +49,12 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       MyProfileStateImageUploadSuccess state = currentState;
       imageUrl = state.imageUrl;
       setState(() {});
+    }
+    if (currentState is MyProfileStateUpdateSuccess) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        HomeRoutes.ROUTE_HOME,
+        (route) => false,
+      );
     }
   }
 
@@ -211,7 +218,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
-                          !uploading ? 'Upload Me!' : 'Uploading',
+                          uploading != true ? 'Upload Me!' : 'Uploading',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,

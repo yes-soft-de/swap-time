@@ -22,4 +22,9 @@ class AddByImageStateManager {
       }
     });
   }
+
+  void saveGame(
+      String title, String description, List<String> tags, String imageUrl) {
+    _byImageService.postProduct(title, description, tags, imageUrl);
+  }
 }

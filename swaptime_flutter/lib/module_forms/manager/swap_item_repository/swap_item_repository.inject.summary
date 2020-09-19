@@ -1,17 +1,17 @@
 {
-  "asset": "asset:swaptime_flutter/lib/module_profile/manager/my_profile_manager/my_profile_manager.dart",
+  "asset": "asset:swaptime_flutter/lib/module_forms/manager/swap_item_repository/swap_item_repository.dart",
   "summary": {
     "injector": [],
     "module": [],
     "injectable": [
       {
-        "name": "MyProfileManager",
+        "name": "SwapItemManager",
         "constructor": {
           "name": "",
           "kind": "constructor",
           "injectedType": {
             "lookupKey": {
-              "root": "asset:swaptime_flutter/lib/module_profile/manager/my_profile_manager/my_profile_manager.dart#MyProfileManager",
+              "root": "asset:swaptime_flutter/lib/module_forms/manager/swap_item_repository/swap_item_repository.dart#SwapItemManager",
               "qualifier": null
             },
             "isProvider": false
@@ -21,7 +21,7 @@
           "dependencies": [
             {
               "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/module_profile/repository/my_profile/my_profile.dart#MyProfileRepository",
+                "root": "asset:swaptime_flutter/lib/module_forms/repository/swap_item_respository/swap_item_repository.dart#SwapItemRepository",
                 "qualifier": null
               },
               "isProvider": false

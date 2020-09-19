@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class SwapThemeData {
-  ThemeData _themeData;
-
   SwapThemeData();
 
   static Color getPrimary() {

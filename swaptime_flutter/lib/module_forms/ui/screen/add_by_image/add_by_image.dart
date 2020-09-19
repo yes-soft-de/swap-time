@@ -1,11 +1,12 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/module_forms/state_manager/add_by_image_manager/add_by_image_manager.dart';
 import 'package:swaptime_flutter/module_forms/states/by_image_state/by_image_state.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
-import 'package:swaptime_flutter/module_navigation/ui/widget/navigation_drawer/swap_navigation_drawer.dart';
 import 'package:swaptime_flutter/theme/theme_data.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 
@@ -20,50 +21,53 @@ class AddByImageScreen extends StatefulWidget {
 }
 
 class _AddByImageScreenState extends State<AddByImageScreen> {
-  final Set _tagList = {};
+  final Set<String> _tagList = {};
+
   final TextEditingController _gameName = TextEditingController();
+  final TextEditingController _descriptionName = TextEditingController();
   final TextEditingController _tagName = TextEditingController();
 
   String filePath;
+  String imageUrl;
 
-  GlobalKey<ScaffoldState> _scaffoldKey;
-  Scaffold currentPage;
+  Widget currentPage;
+  final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _listenToChanges();
+    widget._stateManager.stateStream.listen((event) {
+      _calcCurrentState(event);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     filePath = ModalRoute.of(context).settings.arguments;
     if (currentPage == null) {
-      _getInitUI();
+      _getUI();
     }
-    return currentPage;
-  }
-
-  void _listenToChanges() {
-    widget._stateManager.stateStream.listen((event) {
-      _calcCurrentState(event);
-    });
+    return Scaffold(
+        appBar: SwaptimeAppBar.getBackEnabledAppBar(),
+        key: _scaffoldState,
+        body: _getUI());
   }
 
   void _calcCurrentState(ByImageState newState) {
     switch (newState.runtimeType) {
       case ByImageStateUploadSuccess:
         ByImageStateUploadSuccess successState = newState;
-        _getUploadSuccessUI(successState.imageUrl);
+        imageUrl = successState.imageUrl;
+        if (mounted) setState(() {});
         break;
       case ByImageStateUploadError:
         ByImageStateUploadError errState = newState;
-        _scaffoldKey.currentState
+        _scaffoldState.currentState
             .showSnackBar(SnackBar(content: Text(errState.errorMsg)));
         break;
       case ByImageStatePostError:
         ByImageStatePostError errState = newState;
-        _scaffoldKey.currentState
+        _scaffoldState.currentState
             .showSnackBar(SnackBar(content: Text(errState.errorMsg)));
         break;
       case ByImageStatePostSuccess:
@@ -72,338 +76,241 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
             arguments: 1);
         break;
       default:
-        _getInitUI();
+        if (mounted) setState(() {});
         break;
     }
   }
 
-  void _getInitUI() {
-    currentPage = Scaffold(
-      key: _scaffoldKey,
-      appBar: SwaptimeAppBar.getSwaptimeAppBar(_scaffoldKey),
-      body: Flex(
-        direction: Axis.vertical,
-        children: [
-          Flexible(
-            flex: 1,
-            child: Stack(
-              children: [
-                Positioned.fill(child: Image.file(File(filePath))),
-                Positioned.fill(
-                    child: Center(
-                  child: OutlineButton(
-                    onPressed: () {
-                      widget._stateManager.upload(filePath);
-                    },
-                    child: Container(
-                      height: 48,
-                      alignment: Alignment.center,
+  Widget _getUI() {
+    return Flex(
+      direction: Axis.vertical,
+      children: [
+        MediaQuery.of(context).viewInsets.bottom == 0
+            ? _getImage()
+            : Container(),
+        Expanded(
+          child: ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _gameName,
+                  decoration: InputDecoration(
+                    hintText: 'i.e. GTA V',
+                    labelText: 'Game Name',
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Color(
+                        0xFF7F7F7F,
+                      ),
+                    ),
+                  ),
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _tagName,
+                        decoration: InputDecoration(
+                          labelText: 'Tags',
+                          hintText: 'i.e. Racing',
+                          labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Color(
+                              0xFF7F7F7F,
+                            ),
+                          ),
+                        ),
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        addTagItem();
+                      },
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(24),
-                          ),
-                          color: Colors.black26,
+                          color: SwapThemeData.getAccent(),
+                          borderRadius: BorderRadius.all(Radius.circular(90)),
                         ),
-                        child: Flex(
-                          direction: Axis.horizontal,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(Icons.upload_file),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('Upload Image'),
-                            )
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ))
-              ],
-            ),
-          ),
-          Flexible(
-            flex: 2,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: ListView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: _gameName,
-                          decoration: InputDecoration(
-                            hintText: 'i.e. GTA V',
-                            labelText: 'Game Name',
-                            labelStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Color(
-                                0xFF7F7F7F,
-                              ),
-                            ),
-                          ),
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: _tagName,
-                                decoration: InputDecoration(
-                                  labelText: 'Tags',
-                                  hintText: 'i.e. Racing',
-                                  labelStyle: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Color(
-                                      0xFF7F7F7F,
-                                    ),
-                                  ),
-                                ),
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: SwapThemeData.getPrimary(),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(90)),
-                              ),
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                ),
-                                onPressed: _tagName.text.isEmpty
-                                    ? null
-                                    : () {
-                                        _tagList.add(_tagName.text);
-                                        setState(() {});
-                                      },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        color: Colors.black12,
-                        child: _getTagChips().isNotEmpty
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Wrap(
-                                  children: _getTagChips(),
-                                ),
-                              )
-                            : Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Tag List Here'),
-                                  )
-                                ],
-                              ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: 'My game is an awesome game',
-                            labelText: 'Description',
-                            labelStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Color(
-                                0xFF7F7F7F,
-                              ),
-                            ),
-                          ),
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      )
-                    ],
+                  ],
+                ),
+              ),
+              Container(
+                color: Colors.black12,
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Wrap(
+                    children: _getTagChips(),
                   ),
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  color: SwapThemeData.getPrimary(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      'Submit Game!',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: _descriptionName,
+                  decoration: InputDecoration(
+                    hintText: 'My game is an awesome game',
+                    labelText: 'Description',
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Color(
+                        0xFF7F7F7F,
                       ),
                     ),
                   ),
-                )
-              ],
+                  style: TextStyle(fontSize: 20),
+                ),
+              )
+            ],
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            widget._stateManager.saveGame(_gameName.text, _descriptionName.text,
+                List.from(_tagList), imageUrl);
+          },
+          child: Container(
+            alignment: Alignment.center,
+            color: SwapThemeData.getPrimary(),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Submit Game!',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
-        ],
-      ),
+        )
+      ],
     );
   }
 
-  void _getUploadSuccessUI(String imageUrl) {
-    currentPage = Scaffold(
-      appBar: SwaptimeAppBar.getSwaptimeAppBar(_scaffoldKey),
-      drawer: SwapNavigationDrawer(),
-      body: Flex(
-        direction: Axis.vertical,
-        children: [
-          Flexible(
-            flex: 1,
-            child: Stack(
-              children: [
-                Positioned.fill(child: Image.network(imageUrl)),
-              ],
-            ),
-          ),
-          Flexible(
-            flex: 2,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: ListView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: _gameName,
-                          decoration: InputDecoration(
-                            hintText: 'GTA V',
-                            labelText: 'Game Name',
-                            labelStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Color(
-                                0xFF7F7F7F,
-                              ),
-                            ),
-                          ),
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: _tagName,
-                                decoration: InputDecoration(
-                                  hintText: 'Tags',
-                                  labelText: 'Racing',
-                                  labelStyle: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Color(
-                                      0xFF7F7F7F,
-                                    ),
-                                  ),
-                                ),
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: SwapThemeData.getPrimary(),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(90)),
-                              ),
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                ),
-                                onPressed: _tagName.text.isEmpty
-                                    ? null
-                                    : () {
-                                        _tagList.add(_tagName.text);
-                                        setState(() {});
-                                      },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        color: Colors.black12,
-                        child: _getTagChips().isNotEmpty
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Wrap(
-                                  children: _getTagChips(),
-                                ),
-                              )
-                            : Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Tag List Here'),
-                                  )
-                                ],
-                              ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: 'My game is an awesome game',
-                            labelText: 'Description',
-                            labelStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Color(
-                                0xFF7F7F7F,
-                              ),
-                            ),
-                          ),
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
+  Widget _getImage() {
+    if (imageUrl != null) {
+      return Container(
+        height: MediaQuery.of(context).size.height / 4,
+        child: Stack(
+          children: [
+            Positioned.fill(child: Image.network(imageUrl)),
+          ],
+        ),
+      );
+    } else if (filePath != null) {
+      return Container(
+        height: MediaQuery.of(context).size.height / 4,
+        child: Stack(
+          children: [
+            Positioned.fill(child: Image.file(File(filePath))),
+            Positioned.fill(
+                child: Center(
+              child: OutlineButton(
+                onPressed: () {
+                  widget._stateManager.upload(filePath);
+                },
+                child: Container(
+                  height: 48,
                   alignment: Alignment.center,
-                  color: SwapThemeData.getPrimary(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      'Submit Game!',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(24),
                       ),
+                      color: Colors.black26,
+                    ),
+                    child: Flex(
+                      direction: Axis.horizontal,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.upload_file),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('Upload Image'),
+                        )
+                      ],
                     ),
                   ),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-    if(mounted) setState(() {});
+                ),
+              ),
+            ))
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        height: MediaQuery.of(context).size.height / 4,
+        child: Stack(
+          children: [
+            Positioned.fill(child: SvgPicture.asset('assets/images/logo.svg')),
+            Positioned.fill(
+                child: Center(
+              child: OutlineButton(
+                onPressed: () {
+                  widget._stateManager.upload(filePath);
+                },
+                child: Container(
+                  height: 48,
+                  alignment: Alignment.center,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(24),
+                      ),
+                      color: Colors.black26,
+                    ),
+                    child: Flex(
+                      direction: Axis.horizontal,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.upload_file),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('Upload Image'),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ))
+          ],
+        ),
+      );
+    }
   }
 
   List<Widget> _getTagChips() {
+    if (_tagList.isEmpty) {
+      return [Text('Empty Tag List')];
+    }
     List<Widget> chips = [];
     _tagList.forEach((element) {
+      log(element);
       chips.add(Padding(
         padding: const EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
         child: Chip(
@@ -416,5 +323,13 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
       ));
     });
     return chips;
+  }
+
+  void addTagItem() {
+    _tagList.add(_tagName.text);
+    _tagName.clear();
+    if (mounted) {
+      setState(() {});
+    }
   }
 }

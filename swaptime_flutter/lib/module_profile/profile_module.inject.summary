@@ -21,13 +21,6 @@
           "dependencies": [
             {
               "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/module_profile/ui/profile_screen/profile_screen.dart#ProfileScreen",
-                "qualifier": null
-              },
-              "isProvider": false
-            },
-            {
-              "lookupKey": {
                 "root": "asset:swaptime_flutter/lib/module_profile/ui/my_profile/my_profile.dart#MyProfileScreen",
                 "qualifier": null
               },

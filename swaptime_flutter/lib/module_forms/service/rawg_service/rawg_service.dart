@@ -3,7 +3,7 @@ import 'package:swaptime_flutter/module_forms/manager/rawg_manager/rawg_manager.
 
 @provide
 class RawGService {
-  RawGManager _manager;
+  final RawGManager _manager;
 
   RawGService(this._manager);
 

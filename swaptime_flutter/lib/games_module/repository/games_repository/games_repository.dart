@@ -11,16 +11,18 @@ class GamesRepository {
 
   Future<List<Games>> getAvailableGames() async {
     var response = await _client.get(Urls.API_GAMES);
-    return response ?? GamesResponse.fromJson(response).games;
+    return response == null ? null : GamesResponse.fromJson(response).games;
   }
 
   Future<List<Games>> getUserGames(String userId) async {
     var response = await _client.get(Urls.API_USER_GAMES + '/$userId');
-    return response ?? GamesResponse.fromJson(response).games;
+    return response == null ? null : GamesResponse.fromJson(response).games;
   }
 
   Future<GameDetails> getGameDetails(String gameId) async {
     var response = await _client.get(Urls.API_GAME_BY_ID + '/$gameId');
-    return response ?? GameDetailsResponse.fromJson(response).data;
+    return response == null
+        ? null
+        : GameDetailsResponse.fromJson(response).data;
   }
 }

@@ -38,6 +38,7 @@ class _GameCardListState extends State<GameCardList> {
       currentState = event;
       calibrateScreen();
     });
+    widget._stateManager.getAvailableGames();
   }
 
   @override

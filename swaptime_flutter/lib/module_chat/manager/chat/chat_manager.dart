@@ -5,7 +5,7 @@ import 'package:swaptime_flutter/module_chat/repository/chat/chat_repository.dar
 
 @provide
 class ChatManager {
-  ChatRepository _chatRepository;
+  final ChatRepository _chatRepository;
 
   ChatManager(this._chatRepository);
 
@@ -13,7 +13,7 @@ class ChatManager {
     return _chatRepository.requestMessages(chatRoomID);
   }
 
-  sendMessage(String chatRoomID, ChatModel chatMessage) {
+  void sendMessage(String chatRoomID, ChatModel chatMessage) {
     _chatRepository.sendMessage(chatRoomID, chatMessage);
   }
 }

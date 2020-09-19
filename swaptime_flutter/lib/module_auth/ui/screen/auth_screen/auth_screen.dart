@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/module_auth/state_manager/auth_state_manager/auth_state_manager.dart';
 import 'package:swaptime_flutter/module_auth/states/auth_states/auth_states.dart';
-import 'package:swaptime_flutter/module_home/home.routes.dart';
+import 'package:swaptime_flutter/module_profile/profile_routes.dart';
 import 'package:swaptime_flutter/theme/theme_data.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 
@@ -31,12 +31,11 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _confirmationController = TextEditingController();
 
   bool loading = false;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     String redirectTo = ModalRoute.of(context).settings.arguments.toString();
-    redirectTo = redirectTo ?? HomeRoutes.ROUTE_HOME;
+    redirectTo = redirectTo ?? ProfileRoutes.MY_ROUTE_PROFILE;
 
     widget.manager.stateStream.listen((event) {
       _currentState = event;

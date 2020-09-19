@@ -22,7 +22,7 @@ class RawGResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['count'] = this.count;
     data['next'] = this.next;
     data['previous'] = this.previous;

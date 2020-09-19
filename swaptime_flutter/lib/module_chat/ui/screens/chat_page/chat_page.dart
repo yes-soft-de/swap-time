@@ -6,14 +6,12 @@ import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/module_chat/bloc/chat_page/chat_page.bloc.dart';
 import 'package:swaptime_flutter/module_chat/model/chat/chat_model.dart';
 import 'package:swaptime_flutter/module_chat/ui/widget/chat_bubble/chat_bubble.dart';
-import 'package:swaptime_flutter/module_persistence/sharedpref/shared_preferences_helper.dart';
 
 @provide
 class ChatPage extends StatefulWidget {
   final ChatPageBloc _chatPageBloc;
-  final SharedPreferencesHelper _preferencesHelper;
 
-  ChatPage(this._chatPageBloc, this._preferencesHelper);
+  ChatPage(this._chatPageBloc);
 
   @override
   State<StatefulWidget> createState() => ChatPageState();
@@ -23,7 +21,7 @@ class ChatPageState extends State<ChatPage> {
   List<ChatModel> _chatMessagesList = [];
   int currentState = ChatPageBloc.STATUS_CODE_INIT;
 
-  TextEditingController _msgController = TextEditingController();
+  final TextEditingController _msgController = TextEditingController();
   List<ChatBubbleWidget> chatsMessagesWidgets = [];
 
   String chatRoomId;
@@ -67,7 +65,7 @@ class ChatPageState extends State<ChatPage> {
                     reverse: false,
                   )
                 : Center(
-                    child: Text("Loading"),
+                    child: Text('Loading'),
                   ),
           ),
           Flex(
@@ -121,8 +119,8 @@ class ChatPageState extends State<ChatPage> {
     return;
   }
 
-  sendMessage() {
-    log("Sending: " + _msgController.text);
+  void sendMessage() {
+    log('Sending: ' + _msgController.text);
     widget._chatPageBloc.sendMessage(chatRoomId, _msgController.text.trim());
     _msgController.clear();
   }
