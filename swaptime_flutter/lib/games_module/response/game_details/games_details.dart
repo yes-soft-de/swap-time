@@ -34,17 +34,18 @@ class GameDetails {
   List<String> comments;
   List<String> images;
 
-  GameDetails(
-      {this.id,
-      this.name,
-      this.category,
-      this.tag,
-      this.description,
-      this.mainImage,
-      this.userID,
-      this.commentNumber,
-      this.comments,
-      this.images});
+  GameDetails({
+    this.id,
+    this.name,
+    this.category,
+    this.tag,
+    this.description,
+    this.mainImage,
+    this.userID,
+    this.commentNumber,
+    this.comments,
+    this.images,
+  });
 
   GameDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -55,8 +56,8 @@ class GameDetails {
     mainImage = json['mainImage'];
     userID = json['userID'];
     commentNumber = json['commentNumber'];
-    comments = json['comments'].cast<String>();
-    images = json['images'].cast<String>();
+    comments = comments != null ? json['comments'].cast<String>() : [];
+    images = images != null ? json['images'].cast<String>() : [];
   }
 
   Map<String, dynamic> toJson() {

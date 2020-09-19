@@ -15,16 +15,24 @@ class ByImageService {
   final AuthService _authService;
   final Logger _logger;
 
-  ByImageService(this._uploadService, this._logger, this._manager,
-      this._authService);
+  ByImageService(
+    this._uploadService,
+    this._logger,
+    this._manager,
+    this._authService,
+  );
 
   Future<String> upload(String filePath) {
     _logger.info(TAG, 'Uploading $filePath');
     return _uploadService.uploadImage(filePath);
   }
 
-  Future<GameDetailsResponse> postProduct(String title, String description,
-      List<String> tags, String imageUrl,) async {
+  Future<GameDetailsResponse> postProduct(
+    String title,
+    String description,
+    List<String> tags,
+    String imageUrl,
+  ) async {
     _logger.info(TAG, 'Creating New Item');
     var userId = await _authService.userID;
     return _manager.createItem(ItemCreateRequest(
