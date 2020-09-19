@@ -210,8 +210,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    Navigator.of(context).pushNamed(CameraRoutes.ROUTE_CAMERA,
-                        arguments: FormsRoutes.ROUTE_ADD_BY_IMAGE);
+                    Navigator.of(context).pushNamed(
+                      CameraRoutes.ROUTE_CAMERA,
+                      arguments: FormsRoutes.ROUTE_ADD_BY_IMAGE,
+                    );
                   },
                 ),
               ),
