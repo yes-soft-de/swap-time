@@ -46,7 +46,7 @@ class Games {
       this.images});
 
   Games.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id'].toString();
     name = json['name'];
     category = json['category'];
     tag = json['tag'].cast<String>();
@@ -54,8 +54,8 @@ class Games {
     mainImage = json['mainImage'];
     userID = json['userID'];
     commentNumber = json['commentNumber'];
-    comments = json['comments'].cast<String>();
-    images = json['images'].cast<String>();
+    comments = json['comments'] != null ? json['comments'].cast<String>() : [];
+    images = json['images'] != null ? json['images'].cast<String>() : [];
   }
 
   Map<String, dynamic> toJson() {

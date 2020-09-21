@@ -36,11 +36,12 @@ class ByImageService {
     _logger.info(TAG, 'Creating New Item');
     var userId = await _authService.userID;
     return _manager.createItem(ItemCreateRequest(
-        name: title,
-        description: description,
-        category: 'Games',
-        tag: tags,
-        mainImage: imageUrl,
-        userID: userId));
+      name: title,
+      description: description,
+      category: 'Games',
+      tag: tags,
+      mainImage: imageUrl,
+      userID: userId,
+    ));
   }
 }

@@ -37,6 +37,14 @@ class AuthPrefsHelper {
 
   Future<void> setAuthSource(AUTH_SOURCE authSource) async {
     SharedPreferences preferencesHelper = await SharedPreferences.getInstance();
-    return preferencesHelper.setInt('auth_source', authSource.index);
+    return preferencesHelper.setInt(
+      'auth_source',
+      authSource == null ? null : authSource.index,
+    );
+  }
+
+  Future<void> clearPrefs() async {
+    SharedPreferences preferencesHelper = await SharedPreferences.getInstance();
+    await preferencesHelper.clear();
   }
 }

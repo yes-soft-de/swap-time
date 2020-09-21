@@ -95,4 +95,9 @@ class AuthStateManager {
       _stateSubject.add(AuthStateError(err));
     });
   }
+
+  Future<bool> isSignedIn() async {
+    var user = await _auth.currentUser;
+    return user != null;
+  }
 }

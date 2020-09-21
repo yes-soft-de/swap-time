@@ -30,7 +30,7 @@ class GameDetails {
   String description;
   String mainImage;
   String userID;
-  String commentNumber;
+  int commentNumber;
   List<String> comments;
   List<String> images;
 
@@ -55,9 +55,9 @@ class GameDetails {
     description = json['description'];
     mainImage = json['mainImage'];
     userID = json['userID'];
-    commentNumber = json['commentNumber'];
-    comments = comments != null ? json['comments'].cast<String>() : [];
-    images = images != null ? json['images'].cast<String>() : [];
+    commentNumber = json['commentNumber'] ?? 0;
+    comments = json['comments'] != null ? json['comments'].cast<String>() : [];
+    images = json['images'] != null ? json['images'].cast<String>() : [];
   }
 
   Map<String, dynamic> toJson() {

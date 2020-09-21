@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/games_module/games_routes.dart';
 import 'package:swaptime_flutter/games_module/model/game_model.dart';
 import 'package:swaptime_flutter/games_module/state_manager/games_list_state_manager/games_list_state_manager.dart';
 import 'package:swaptime_flutter/games_module/states/games_list_state/game_list_states.dart';
@@ -20,51 +22,41 @@ class GameCardList extends StatefulWidget {
 
 class _GameCardListState extends State<GameCardList> {
   GameCardType currentType = GameCardType.GAME_CARD_MEDIUM;
-  GameModel game = GameModel(
-    itemId: '1',
-    imageUrl: 'https://i.ytimg.com/vi/RQEOwEBvC-M/maxresdefault.jpg',
-    gameTitle: 'GTA V',
-    loved: true,
-    gameOwnerFirstName: 'Mohammad',
-  );
-
   GamesListState currentState = GamesListStateInit();
-  Flex currentUI;
 
   @override
   void initState() {
     super.initState();
     widget._stateManager.stateStream.listen((event) {
       currentState = event;
-      calibrateScreen();
+      if (mounted) setState(() {});
     });
     widget._stateManager.getAvailableGames();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (currentUI == null) {
-      setLoadingUI();
-    }
-    return currentUI;
+    return calibrateScreen();
   }
 
-  void calibrateScreen() {
+  Widget calibrateScreen() {
     switch (currentState.runtimeType) {
       case GamesListStateLoadSuccess:
-        setSuccessUI();
+        return setSuccessUI();
         break;
       case GamesListStateLoadError:
-        setErrorUI();
+        return setErrorUI();
         break;
       case GamesListStateLoading:
-        setLoadingUI();
+        return setLoadingUI();
         break;
+      default:
+        return Container();
     }
   }
 
-  void setLoadingUI() {
-    currentUI = Flex(
+  Widget setLoadingUI() {
+    return Flex(
       direction: Axis.vertical,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -75,11 +67,10 @@ class _GameCardListState extends State<GameCardList> {
         )
       ],
     );
-    if (mounted) setState(() {});
   }
 
-  void setErrorUI() {
-    currentUI = Flex(
+  Widget setErrorUI() {
+    return Flex(
       direction: Axis.vertical,
       children: [
         Text('Error Loading Items!'),
@@ -88,10 +79,9 @@ class _GameCardListState extends State<GameCardList> {
         })
       ],
     );
-    if (mounted) setState(() {});
   }
 
-  void setSuccessUI() {
+  Widget setSuccessUI() {
     Widget gamesGrid;
     switch (currentType) {
       case GameCardType.GAME_CARD_SMALL:
@@ -118,9 +108,10 @@ class _GameCardListState extends State<GameCardList> {
         );
         break;
       default:
+        return Container();
     }
 
-    currentUI = Flex(
+    return Flex(
       direction: Axis.vertical,
       children: [
         GameCardListHeader(
@@ -136,25 +127,65 @@ class _GameCardListState extends State<GameCardList> {
         gamesGrid
       ],
     );
-
-    if (mounted) setState(() {});
   }
 
   List<Widget> getSmallCards() {
     GamesListStateLoadSuccess state = currentState;
     List<Widget> cards = [];
     state.games.forEach((element) {
-      cards.add(GameCardSmall(
-        gameModel: GameModel(
-          gameTitle: element.name,
-          imageUrl: element.mainImage,
-          gameOwnerFirstName: element.userID,
-          loved: element.commentNumber > 0,
-          itemId: element.id,
+      cards.add(GestureDetector(
+        onTap: () {
+          Navigator.of(context)
+              .pushNamed(GamesRoutes.ROUTE_GAME_DETAILS, arguments: element.id);
+        },
+        child: FutureBuilder(
+          future: widget._stateManager.isLoved(element.id),
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            if (snapshot.hasData && snapshot != null) {
+              return GameCardSmall(
+                gameModel: GameModel(
+                  gameTitle: element.name,
+                  imageUrl: element.mainImage,
+                  gameOwnerFirstName: element.userID,
+                  loved: snapshot.data,
+                  itemId: element.id,
+                ),
+                onChatRequested: (itemId) {},
+                onLoved: (loved) {
+                  if (loved) {
+                    widget._stateManager.unLove(element.id);
+                  } else {
+                    widget._stateManager.love(element.id);
+                  }
+                },
+                onReport: (itemId) {
+                  Fluttertoast.showToast(msg: 'Report is Sent!');
+                },
+              );
+            } else {
+              return GameCardSmall(
+                gameModel: GameModel(
+                  gameTitle: element.name,
+                  imageUrl: element.mainImage,
+                  gameOwnerFirstName: element.userID,
+                  loved: false,
+                  itemId: element.id,
+                ),
+                onChatRequested: (itemId) {},
+                onLoved: (loved) {
+                  if (loved) {
+                    widget._stateManager.unLove(element.id);
+                  } else {
+                    widget._stateManager.love(element.id);
+                  }
+                },
+                onReport: (itemId) {
+                  Fluttertoast.showToast(msg: 'Report is Sent!');
+                },
+              );
+            }
+          },
         ),
-        onChatRequested: (itemId) {},
-        onLoved: (loved) {},
-        onReport: (itemId) {},
       ));
     });
     return cards;
@@ -164,17 +195,59 @@ class _GameCardListState extends State<GameCardList> {
     GamesListStateLoadSuccess state = currentState;
     List<Widget> cards = [];
     state.games.forEach((element) {
-      cards.add(GameCardMedium(
-        gameModel: GameModel(
-          gameTitle: element.name,
-          imageUrl: element.mainImage,
-          gameOwnerFirstName: element.userID,
-          loved: element.commentNumber > 0,
-          itemId: element.id,
-        ),
-        onChatRequested: (itemId) {},
-        onLoved: (loved) {},
-        onReport: (itemId) {},
+      cards.add(FutureBuilder(
+        future: widget._stateManager.isLoved(element.id),
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.hasData && snapshot != null) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
+                    arguments: element.id);
+              },
+              child: GameCardMedium(
+                gameModel: GameModel(
+                  gameTitle: element.name,
+                  imageUrl: element.mainImage,
+                  gameOwnerFirstName: element.userID,
+                  loved: snapshot.data,
+                  itemId: element.id,
+                ),
+                onChatRequested: (itemId) {},
+                onLoved: (loved) {
+                  if (loved) {
+                    widget._stateManager.unLove(element.id);
+                  } else {
+                    widget._stateManager.love(element.id);
+                  }
+                },
+                onReport: (itemId) {
+                  Fluttertoast.showToast(msg: 'Report is Sent!');
+                },
+              ),
+            );
+          } else {
+            return GameCardMedium(
+              gameModel: GameModel(
+                gameTitle: element.name,
+                imageUrl: element.mainImage,
+                gameOwnerFirstName: element.userID,
+                loved: false,
+                itemId: element.id,
+              ),
+              onChatRequested: (itemId) {},
+              onLoved: (loved) {
+                if (loved) {
+                  widget._stateManager.unLove(element.id);
+                } else {
+                  widget._stateManager.love(element.id);
+                }
+              },
+              onReport: (itemId) {
+                Fluttertoast.showToast(msg: 'Report is Sent!');
+              },
+            );
+          }
+        },
       ));
     });
     return cards;
@@ -184,17 +257,59 @@ class _GameCardListState extends State<GameCardList> {
     GamesListStateLoadSuccess state = currentState;
     List<Widget> cards = [];
     state.games.forEach((element) {
-      cards.add(GameCardLarge(
-        gameModel: GameModel(
-          gameTitle: element.name,
-          imageUrl: element.mainImage,
-          gameOwnerFirstName: element.userID,
-          loved: element.commentNumber > 0,
-          itemId: element.id,
-        ),
-        onChatRequested: (itemId) {},
-        onLoved: (loved) {},
-        onReport: (itemId) {},
+      cards.add(FutureBuilder(
+        future: widget._stateManager.isLoved(element.id),
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.hasData && snapshot != null) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
+                    arguments: element.id);
+              },
+              child: GameCardLarge(
+                gameModel: GameModel(
+                  gameTitle: element.name,
+                  imageUrl: element.mainImage,
+                  gameOwnerFirstName: element.userID,
+                  loved: snapshot.data,
+                  itemId: element.id,
+                ),
+                onChatRequested: (itemId) {},
+                onLoved: (loved) {
+                  if (loved) {
+                    widget._stateManager.unLove(element.id);
+                  } else {
+                    widget._stateManager.love(element.id);
+                  }
+                },
+                onReport: (itemId) {
+                  Fluttertoast.showToast(msg: 'Report is Sent!');
+                },
+              ),
+            );
+          } else {
+            return GameCardLarge(
+              gameModel: GameModel(
+                gameTitle: element.name,
+                imageUrl: element.mainImage,
+                gameOwnerFirstName: element.userID,
+                loved: false,
+                itemId: element.id,
+              ),
+              onChatRequested: (itemId) {},
+              onLoved: (loved) {
+                if (loved) {
+                  widget._stateManager.unLove(element.id);
+                } else {
+                  widget._stateManager.love(element.id);
+                }
+              },
+              onReport: (itemId) {
+                Fluttertoast.showToast(msg: 'Report is Sent!');
+              },
+            );
+          }
+        },
       ));
     });
     return cards;

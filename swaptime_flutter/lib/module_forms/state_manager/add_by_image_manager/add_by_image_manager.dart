@@ -25,6 +25,14 @@ class AddByImageStateManager {
 
   void saveGame(
       String title, String description, List<String> tags, String imageUrl) {
-    _byImageService.postProduct(title, description, tags, imageUrl);
+    _byImageService
+        .postProduct(title, description, tags, imageUrl)
+        .then((value) {
+      if (value == null) {
+        _stateSubject.add(ByImageStatePostError('Error Saving Product'));
+      } else {
+        _stateSubject.add(ByImageStatePostSuccess());
+      }
+    });
   }
 }

@@ -1,5 +1,5 @@
 class Urls {
-  static const String BASE_API = 'http://104.154.241.113/html/public/index.php';
+  static const String BASE_API = 'http://34.70.151.188/html/public/index.php';
 
   static const API_PROFILE = BASE_API + '/userprofile';
   static const API_GAMES = BASE_API + '/swapitem';

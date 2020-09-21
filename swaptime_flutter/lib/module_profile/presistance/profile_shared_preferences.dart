@@ -10,7 +10,7 @@ class ProfileSharedPreferencesHelper {
 
   Future<void> setUserLocation(String location) async {
     var prefsHelper = await SharedPreferences.getInstance();
-    return prefsHelper.setString('profile_username', location);
+    return prefsHelper.setString('profile_location', location);
   }
 
   Future<void> setUserImage(String image) async {

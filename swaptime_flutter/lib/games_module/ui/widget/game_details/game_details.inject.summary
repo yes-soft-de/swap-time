@@ -3,6 +3,39 @@
   "summary": {
     "injector": [],
     "module": [],
-    "injectable": []
+    "injectable": [
+      {
+        "name": "GameDetailsScreen",
+        "constructor": {
+          "name": "",
+          "kind": "constructor",
+          "injectedType": {
+            "lookupKey": {
+              "root": "asset:swaptime_flutter/lib/games_module/ui/widget/game_details/game_details.dart#GameDetailsScreen",
+              "qualifier": null
+            },
+            "isProvider": false
+          },
+          "singleton": false,
+          "asynchronous": false,
+          "dependencies": [
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/games_module/state_manager/game_details_state_manager/game_details_list_manager.dart#GameDetailsManager",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_comment/ui/widget/comments_list_widget/comment_list_widget.dart#CommentListWidget",
+                "qualifier": null
+              },
+              "isProvider": false
+            }
+          ]
+        }
+      }
+    ]
   }
 }

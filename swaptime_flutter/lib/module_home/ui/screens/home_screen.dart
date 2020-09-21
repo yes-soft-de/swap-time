@@ -21,11 +21,17 @@ class HomeScreen extends StatefulWidget {
   final MyProfileService _myProfileService;
   final GameCardList _gameCardList;
   final ProfileScreen _profileScreen;
+  final SettingsPage _settingsPage;
+  final LikedScreen _likedScreen;
+  final NotificationScreen _notificationScreen;
 
   HomeScreen(
     this._auth,
     this._myProfileService,
     this._gameCardList,
+    this._likedScreen,
+    this._settingsPage,
+    this._notificationScreen,
     this._profileScreen,
   );
 
@@ -64,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
                 child: ListView(
               children: [
-                NotificationScreen(),
+                widget._notificationScreen,
               ],
             )),
           ],
@@ -74,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
                 child: ListView(
               children: [
-                LikedScreen(),
+                widget._likedScreen,
               ],
             )),
           ],
@@ -82,17 +88,15 @@ class _HomeScreenState extends State<HomeScreen> {
         Column(
           children: [
             Expanded(
-                child: ListView(
-              children: [
-                widget._profileScreen,
-              ],
+                child: SingleChildScrollView(
+              child: widget._profileScreen,
             )),
           ],
         ),
         Column(
           children: [
             Expanded(
-              child: SettingsPage(),
+              child: widget._settingsPage,
             )
           ],
         )

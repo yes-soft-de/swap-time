@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/module_forms/state_manager/add_by_image_manager/add_by_image_manager.dart';
 import 'package:swaptime_flutter/module_forms/states/by_image_state/by_image_state.dart';
@@ -184,6 +185,10 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
         ),
         GestureDetector(
           onTap: () {
+            if (imageUrl == null) {
+              Fluttertoast.showToast(msg: 'Please Upload the Image');
+              return;
+            }
             widget._stateManager.saveGame(_gameName.text, _descriptionName.text,
                 List.from(_tagList), imageUrl);
           },

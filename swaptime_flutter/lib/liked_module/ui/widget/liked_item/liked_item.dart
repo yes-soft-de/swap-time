@@ -51,7 +51,8 @@ class LikedItemCard extends StatelessWidget {
                 children: [
                   Positioned.fill(
                     child: Image.network(
-                      gameImageUrl,
+                      gameImageUrl ??
+                          'https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/link_broken.png',
                       fit: BoxFit.cover,
                     ),
                   ),

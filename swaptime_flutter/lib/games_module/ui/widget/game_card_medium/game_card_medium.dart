@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/games_module/model/game_model.dart';
 import 'package:swaptime_flutter/theme/theme_data.dart';
 
-class GameCardMedium extends StatelessWidget {
+class GameCardMedium extends StatefulWidget {
   final GameModel gameModel;
   final Function(bool) onLoved;
   final Function(String) onReport;
@@ -16,7 +16,14 @@ class GameCardMedium extends StatelessWidget {
   });
 
   @override
+  State<StatefulWidget> createState() => _GameCardMediumState();
+}
+
+class _GameCardMediumState extends State<GameCardMedium> {
+  @override
   Widget build(BuildContext context) {
+    widget.gameModel.imageUrl ??=
+        'https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/link_broken.png';
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -32,7 +39,7 @@ class GameCardMedium extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Stack(children: [
-            Image.network(gameModel.imageUrl),
+            Image.network(widget.gameModel.imageUrl),
             Positioned(
               top: 0,
               right: 0,
@@ -61,12 +68,12 @@ class GameCardMedium extends StatelessWidget {
                         direction: Axis.vertical,
                         children: [
                           Text(
-                            gameModel.gameTitle,
+                            widget.gameModel.gameTitle,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 14),
                           ),
                           Text(
-                            gameModel.gameOwnerFirstName,
+                            widget.gameModel.gameOwnerFirstName,
                             style: TextStyle(fontSize: 12),
                           ),
                         ],
@@ -74,12 +81,14 @@ class GameCardMedium extends StatelessWidget {
                     ),
                     IconButton(
                       icon: Icon(
-                        gameModel.loved
+                        widget.gameModel.loved
                             ? Icons.favorite
                             : Icons.favorite_border,
                       ),
                       onPressed: () {
-                        onLoved(!gameModel.loved);
+                        widget.onLoved(widget.gameModel.loved);
+                        widget.gameModel.loved = !widget.gameModel.loved;
+                        setState(() {});
                       },
                     ),
                   ],

@@ -35,6 +35,13 @@
             },
             {
               "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/games_module/games_module.dart#GamesModule",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
                 "root": "asset:swaptime_flutter/lib/module_auth/auth_module.dart#AuthModule",
                 "qualifier": null
               },

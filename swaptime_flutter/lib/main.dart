@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/camera/camera_module.dart';
+import 'package:swaptime_flutter/games_module/games_module.dart';
 import 'package:swaptime_flutter/module_auth/auth_module.dart';
 import 'package:swaptime_flutter/module_chat/chat_module.dart';
 import 'package:swaptime_flutter/module_forms/forms_module.dart';
@@ -41,10 +42,12 @@ class MyApp extends StatelessWidget {
   final CameraModule _cameraModule;
   final AuthModule _authModule;
   final ProfileModule _profileModule;
+  final GamesModule _gamesModule;
 
   MyApp(
     this._homeModule,
     this._formsModule,
+    this._gamesModule,
     this._authModule,
     this._chatModule,
     this._cameraModule,
@@ -61,6 +64,7 @@ class MyApp extends StatelessWidget {
     fullRoutesList.addAll(_authModule.getRoutes());
     fullRoutesList.addAll(_cameraModule.getRoutes());
     fullRoutesList.addAll(_profileModule.getRoutes());
+    fullRoutesList.addAll(_gamesModule.getRoutes());
 
     return MaterialApp(
         navigatorObservers: <NavigatorObserver>[

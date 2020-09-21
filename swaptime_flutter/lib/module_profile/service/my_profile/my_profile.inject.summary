@@ -39,6 +39,13 @@
                 "qualifier": null
               },
               "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_profile/service/general_profile/general_profile.dart#GeneralProfileService",
+                "qualifier": null
+              },
+              "isProvider": false
             }
           ]
         }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/module_auth/enums/auth_source.dart';
 import 'package:swaptime_flutter/module_auth/presistance/auth_prefs_helper.dart';
@@ -5,6 +6,7 @@ import 'package:swaptime_flutter/module_auth/presistance/auth_prefs_helper.dart'
 @provide
 class AuthService {
   final AuthPrefsHelper _prefsHelper;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   AuthService(this._prefsHelper);
 
   Future<void> loginUser(
@@ -17,4 +19,9 @@ class AuthService {
   Future<bool> get isLoggedIn => _prefsHelper.isSignedIn();
 
   Future<String> get userID => _prefsHelper.getUserId();
+
+  Future<void> logout() async {
+    await _firebaseAuth.signOut();
+    await _prefsHelper.clearPrefs();
+  }
 }

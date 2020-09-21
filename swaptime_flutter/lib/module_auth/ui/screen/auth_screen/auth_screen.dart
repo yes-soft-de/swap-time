@@ -35,7 +35,14 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     String redirectTo = ModalRoute.of(context).settings.arguments.toString();
-    redirectTo = redirectTo ?? ProfileRoutes.MY_ROUTE_PROFILE;
+    redirectTo =
+        redirectTo == null ? redirectTo : ProfileRoutes.MY_ROUTE_PROFILE;
+
+    Future.delayed(Duration(seconds: 1)).then((value) {
+      widget.manager.isSignedIn().then((value) {
+        if (value) Navigator.of(context).pushReplacementNamed(redirectTo);
+      });
+    });
 
     widget.manager.stateStream.listen((event) {
       _currentState = event;
@@ -112,7 +119,7 @@ class _AuthScreenState extends State<AuthScreen> {
             child: GestureDetector(
               onTap: () {
                 loading = true;
-                setState(() {});
+                if (mounted) setState(() {});
                 widget.manager.confirmWithCode(_phoneController.text);
               },
               child: Row(
@@ -179,7 +186,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     DropdownButton(
                       onChanged: (v) {
                         countryCode = v;
-                        setState(() {});
+                        if (mounted) setState(() {});
                       },
                       value: countryCode,
                       items: [
@@ -232,7 +239,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 phone = phone.substring(1);
               }
               loading = true;
-              setState(() {});
+              if (mounted) setState(() {});
               widget.manager
                   .SignInWithPhone(countryCode + _phoneController.text);
             },

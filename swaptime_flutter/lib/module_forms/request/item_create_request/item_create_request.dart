@@ -8,11 +8,11 @@ class ItemCreateRequest {
 
   ItemCreateRequest(
       {this.name,
-        this.description,
-        this.category,
-        this.mainImage,
-        this.userID,
-        this.tag});
+      this.description,
+      this.category,
+      this.mainImage,
+      this.userID,
+      this.tag});
 
   ItemCreateRequest.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -24,7 +24,7 @@ class ItemCreateRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = this.name;
     data['description'] = this.description;
     data['category'] = this.category;

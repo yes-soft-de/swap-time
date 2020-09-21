@@ -74,50 +74,52 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         direction: Axis.vertical,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            height: 256,
-            width: MediaQuery.of(context).size.width,
-            child: Stack(
-              children: [
-                Positioned.fill(
-                    child: Container(
-                        height: 256,
-                        width: double.infinity,
-                        child: SvgPicture.asset(
-                          'assets/images/logo.svg',
-                          fit: BoxFit.cover,
-                        ))),
-                Positioned.fill(
-                    child: Container(
-                  alignment: Alignment.center,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(24)),
-                      color: SwapThemeData.getPrimary(),
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          CameraRoutes.ROUTE_CAMERA,
-                          arguments: ProfileRoutes.MY_ROUTE_PROFILE,
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          'Add Image',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
+          MediaQuery.of(context).viewInsets.bottom == 0
+              ? Container(
+                  height: 256,
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                          child: Container(
+                              height: 256,
+                              width: double.infinity,
+                              child: SvgPicture.asset(
+                                'assets/images/logo.svg',
+                                fit: BoxFit.cover,
+                              ))),
+                      Positioned.fill(
+                          child: Container(
+                        alignment: Alignment.center,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(24)),
+                            color: SwapThemeData.getPrimary(),
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                CameraRoutes.ROUTE_CAMERA,
+                                arguments: ProfileRoutes.MY_ROUTE_PROFILE,
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                'Add Image',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      )),
+                    ],
                   ),
-                )),
-              ],
-            ),
-          ),
+                )
+              : Container(),
           Flex(
             direction: Axis.vertical,
             children: [
@@ -167,70 +169,73 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         direction: Axis.vertical,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            height: 256,
-            width: MediaQuery.of(context).size.width,
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: Image.file(
-                    File(imageLocation),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned(
-                  right: 16,
-                  top: 16,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        CameraRoutes.ROUTE_CAMERA,
-                        arguments: ProfileRoutes.MY_ROUTE_PROFILE,
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: SwapThemeData.getPrimary(),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
+          MediaQuery.of(context).viewInsets.bottom == 0
+              ? Container(
+                  height: 256,
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: Image.file(
+                          File(imageLocation),
+                          fit: BoxFit.cover,
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                Positioned.fill(
-                    child: Container(
-                  alignment: Alignment.center,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: SwapThemeData.getPrimary(),
-                        borderRadius: BorderRadius.all(Radius.circular(16))),
-                    child: GestureDetector(
-                      onTap: () {
-                        uploading = true;
-                        setState(() {});
-                        widget._stateManager.upload(imageLocation);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          uploading != true ? 'Upload Me!' : 'Uploading',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
+                      Positioned(
+                        right: 16,
+                        top: 16,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              CameraRoutes.ROUTE_CAMERA,
+                              arguments: ProfileRoutes.MY_ROUTE_PROFILE,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: SwapThemeData.getPrimary(),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.camera_alt,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      Positioned.fill(
+                          child: Container(
+                        alignment: Alignment.center,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: SwapThemeData.getPrimary(),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16))),
+                          child: GestureDetector(
+                            onTap: () {
+                              uploading = true;
+                              setState(() {});
+                              widget._stateManager.upload(imageLocation);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                uploading != true ? 'Upload Me!' : 'Uploading',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ))
+                    ],
                   ),
-                ))
-              ],
-            ),
-          ),
+                )
+              : Container(),
           Flex(
             direction: Axis.vertical,
             children: [
@@ -280,43 +285,45 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         direction: Axis.vertical,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            height: 256,
-            width: MediaQuery.of(context).size.width,
-            child: Stack(
-              children: [
-                Positioned.fill(
-                    child: Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                )),
-                Positioned(
-                  right: 16,
-                  top: 16,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        CameraRoutes.ROUTE_CAMERA,
-                        arguments: ProfileRoutes.MY_ROUTE_PROFILE,
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: SwapThemeData.getPrimary(),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
+          MediaQuery.of(context).viewInsets.bottom == 0
+              ? Container(
+                  height: 256,
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                          child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                      )),
+                      Positioned(
+                        right: 16,
+                        top: 16,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              CameraRoutes.ROUTE_CAMERA,
+                              arguments: ProfileRoutes.MY_ROUTE_PROFILE,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: SwapThemeData.getPrimary(),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.camera_alt,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      )
+                    ],
                   ),
                 )
-              ],
-            ),
-          ),
+              : Container(),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextFormField(

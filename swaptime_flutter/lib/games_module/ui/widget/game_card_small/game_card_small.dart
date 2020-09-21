@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/games_module/model/game_model.dart';
 
-class GameCardSmall extends StatelessWidget {
+class GameCardSmall extends StatefulWidget {
   final Function(bool) onLoved;
   final Function(String) onReport;
   final Function(String) onChatRequested;
@@ -15,7 +15,14 @@ class GameCardSmall extends StatelessWidget {
   });
 
   @override
+  State<StatefulWidget> createState() => _GameCardSmallState();
+}
+
+class _GameCardSmallState extends State<GameCardSmall> {
+  @override
   Widget build(BuildContext context) {
+    widget.gameModel.imageUrl ??=
+        'https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/link_broken.png';
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -32,7 +39,7 @@ class GameCardSmall extends StatelessWidget {
           children: [
             Positioned.fill(
               child: Image.network(
-                gameModel.imageUrl,
+                widget.gameModel.imageUrl,
                 fit: BoxFit.cover,
               ),
             ),
@@ -50,11 +57,13 @@ class GameCardSmall extends StatelessWidget {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(90))),
                       child: IconButton(
-                        icon: gameModel.loved
+                        icon: widget.gameModel.loved
                             ? Icon(Icons.favorite)
                             : Icon(Icons.favorite_border),
                         onPressed: () {
-                          onLoved(!gameModel.loved);
+                          widget.onLoved(widget.gameModel.loved);
+                          widget.gameModel.loved = !widget.gameModel.loved;
+                          setState(() {});
                         },
                       ),
                     )

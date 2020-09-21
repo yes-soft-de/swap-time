@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/games_module/model/game_model.dart';
 import 'package:swaptime_flutter/theme/theme_data.dart';
 
-class GameCardLarge extends StatelessWidget {
+class GameCardLarge extends StatefulWidget {
   final GameModel gameModel;
   final Function(bool) onLoved;
   final Function(String) onReport;
@@ -16,7 +16,14 @@ class GameCardLarge extends StatelessWidget {
   });
 
   @override
+  State<StatefulWidget> createState() => _GameCardLargeState();
+}
+
+class _GameCardLargeState extends State<GameCardLarge> {
+  @override
   Widget build(BuildContext context) {
+    widget.gameModel.imageUrl ??=
+        'https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/link_broken.png';
     return Container(
       margin: EdgeInsets.fromLTRB(0, 0, 0, 16),
       height: 208,
@@ -31,7 +38,7 @@ class GameCardLarge extends StatelessWidget {
         children: [
           FittedBox(
             child: Image.network(
-              gameModel.imageUrl,
+              widget.gameModel.imageUrl,
               fit: BoxFit.fill,
             ),
           ),
@@ -53,7 +60,7 @@ class GameCardLarge extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            gameModel.gameTitle,
+                            widget.gameModel.gameTitle,
                             style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -62,7 +69,7 @@ class GameCardLarge extends StatelessWidget {
                                     : Colors.black),
                           ),
                           Text(
-                            gameModel.gameOwnerFirstName,
+                            widget.gameModel.gameOwnerFirstName,
                             style: TextStyle(
                                 fontSize: 14,
                                 color: SwapThemeData.isDarkMode()
@@ -74,13 +81,15 @@ class GameCardLarge extends StatelessWidget {
                     ),
                     IconButton(
                       icon: Icon(
-                        gameModel.loved
+                        widget.gameModel.loved
                             ? Icons.favorite
                             : Icons.favorite_border,
                         color: SwapThemeData.getPrimary(),
                       ),
                       onPressed: () {
-                        onLoved(!gameModel.loved);
+                        widget.onLoved(widget.gameModel.loved);
+                        widget.gameModel.loved = !widget.gameModel.loved;
+                        setState(() {});
                       },
                     ),
                     IconButton(
@@ -89,7 +98,7 @@ class GameCardLarge extends StatelessWidget {
                         color: SwapThemeData.getPrimary(),
                       ),
                       onPressed: () {
-                        onChatRequested(gameModel.itemId);
+                        widget.onChatRequested(widget.gameModel.itemId);
                       },
                     ),
                     IconButton(
@@ -98,7 +107,7 @@ class GameCardLarge extends StatelessWidget {
                         color: SwapThemeData.getPrimary(),
                       ),
                       onPressed: () {
-                        onReport(gameModel.itemId);
+                        widget.onReport(widget.gameModel.itemId);
                       },
                     ),
                   ],
