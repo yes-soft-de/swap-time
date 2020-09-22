@@ -6,6 +6,7 @@ import 'package:swaptime_flutter/liked_module/ui/liked_screen/liked_screen.dart'
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_forms/forms_routes.dart';
+import 'package:swaptime_flutter/module_forms/ui/screen/add_by_api/add_by_api.dart';
 import 'package:swaptime_flutter/module_navigation/ui/widget/navigation_drawer/swap_navigation_drawer.dart';
 import 'package:swaptime_flutter/module_notifications/ui/screens/notification_screen/notification_screen.dart';
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
@@ -24,11 +25,13 @@ class HomeScreen extends StatefulWidget {
   final SettingsPage _settingsPage;
   final LikedScreen _likedScreen;
   final NotificationScreen _notificationScreen;
+  final AddByApiScreen _addByApiScreen;
 
   HomeScreen(
     this._auth,
     this._myProfileService,
     this._gameCardList,
+    this._addByApiScreen,
     this._likedScreen,
     this._settingsPage,
     this._notificationScreen,
@@ -258,7 +261,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    // TODO: Show Search Dialog
+                    showDialog(
+                        context: context,
+                        builder: (context) => Dialog(
+                              child: widget._addByApiScreen,
+                            ));
                   },
                 ),
               ),

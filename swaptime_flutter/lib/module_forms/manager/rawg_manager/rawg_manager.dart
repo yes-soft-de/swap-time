@@ -7,7 +7,7 @@ class RawGManager {
   final RawGRepository _repository;
   RawGManager(this._repository);
 
-  Future<RawGResponse> search(String searchQuery, int platform) {
-    return _repository.search(searchQuery, platform);
+  Future<RawGResponse> search(String searchQuery) {
+    return _repository.search(searchQuery);
   }
 }

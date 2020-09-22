@@ -24,7 +24,8 @@ class NotificationService {
   Future<List<NotificationModel>> getNotifications() async {
     List<NotificationModel> notifications = [];
     var swaps = await _swapService.getSwapRequests();
-    swaps.forEach((element) async {
+    for (int i = 0; i < swaps.length; i++) {
+      var element = swaps[i];
       ProfileModel otherDetails;
       GameDetails ownerGameDetails;
       GameDetails swapperGameDetails;
@@ -48,11 +49,14 @@ class NotificationService {
       }
 
       notifications.add(NotificationModel(
-        ownerGameImageLink: ownerGameDetails.mainImage,
+        ownerGameImageLink:
+            ownerGameDetails != null ? ownerGameDetails.mainImage : null,
         ownerName: otherDetails.name,
-        swapperGameImageLink: swapperGameDetails.mainImage,
+        swapperGameImageLink: swapperGameDetails != null
+            ? swapperGameDetails.mainImage
+            : 'https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/link_broken.png',
       ));
-    });
+    }
     return notifications;
   }
 }

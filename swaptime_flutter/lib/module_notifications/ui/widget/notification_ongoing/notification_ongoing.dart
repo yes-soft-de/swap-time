@@ -1,15 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:swaptime_flutter/module_chat/chat_routes.dart';
 import 'package:swaptime_flutter/theme/theme_data.dart';
 
 class NotificationOnGoing extends StatelessWidget {
   final String myGameUrl;
   final String theirGameUrl;
   final String theirName;
+  final String chatRoomId;
 
   NotificationOnGoing({
     this.myGameUrl,
+    this.chatRoomId,
     @required this.theirGameUrl,
     @required this.theirName,
   });
@@ -71,7 +75,7 @@ class NotificationOnGoing extends StatelessWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.all(16.0),
                                         child: Text(
-                                          'Select a Game!',
+                                          'Request Pending!',
                                           style: TextStyle(
                                             color: Colors.white,
                                           ),
@@ -127,10 +131,24 @@ class NotificationOnGoing extends StatelessWidget {
                       Text(theirName)
                     ],
                   ),
-                  Icon(
-                    Icons.chat,
-                    color: SwapThemeData.getPrimary(),
-                  )
+                  IconButton(
+                      icon: chatRoomId != null
+                          ? Icon(
+                              Icons.chat,
+                              color: SwapThemeData.getPrimary(),
+                            )
+                          : Icon(
+                              Icons.pending_rounded,
+                              color: SwapThemeData.getPrimary(),
+                            ),
+                      onPressed: () {
+                        if (chatRoomId != null) {
+                          Navigator.of(context).pushNamed(ChatRoutes.chatRoute,
+                              arguments: chatRoomId);
+                        } else {
+                          Fluttertoast.showToast(msg: 'Pending Approval');
+                        }
+                      })
                 ],
               ),
             )

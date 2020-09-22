@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
@@ -12,6 +14,7 @@ class SwapService {
   SwapService(this._authService);
 
   Future<SwapModel> createSwap(String gameOwnerId, String gameId) async {
+    log('Creating a Swap!');
     String uid = await _authService.userID;
     SwapModel swapModel = SwapModel(
         id: Uuid().v1(),
@@ -20,9 +23,8 @@ class SwapService {
         swapperGame: gameId);
     await _firestore
         .collection('swaps')
-        .doc(gameOwnerId)
-        .collection('requests')
-        .add(swapModel.toJson());
+        .doc(swapModel.id)
+        .set(swapModel.toJson());
 
     await _firestore
         .collection('user_swaps')
@@ -47,13 +49,43 @@ class SwapService {
         .get();
 
     List<SwapModel> swaps = [];
-    response.docs.forEach((element) async {
+    for (int i = 0; i < response.docs.length; i++) {
+      var element = response.docs[i];
       var swap = await _firestore
           .collection('swaps')
           .doc(element.data()['swap_id'])
           .get();
+      log(swap.id);
       swaps.add(SwapModel.fromJson(swap.data()));
-    });
+    }
+    log('Number of Swaps: ' + swaps.length.toString());
     return swaps;
+  }
+
+  Future<bool> isRequested(String gameId) async {
+    log('Asking for $gameId if requested');
+    String uid = await _authService.userID;
+    var data = await _firestore
+        .collection('user_swaps')
+        .doc(uid)
+        .collection('requests')
+        .get();
+    if (data.docs.isEmpty) {
+      return false;
+    }
+    for (int i = 0; i < data.docs.length; i++) {
+      var swapRef = data.docs[i];
+      var swap = await _firestore.collection('swaps').doc(swapRef.id).get();
+      if (!swap.exists) {
+        continue;
+      } else {
+        SwapModel model = SwapModel.fromJson(swap.data());
+        bool requested =
+            (model.ownerGame == gameId || model.swapperGame == gameId);
+        log('Game $gameId is Requested? ' + requested.toString());
+        return requested;
+      }
+    }
+    return false;
   }
 }

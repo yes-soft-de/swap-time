@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/state_manager/game_details_state_manager/game_details_list_manager.dart';
 import 'package:swaptime_flutter/games_module/states/game_details_state/game_details_state.dart';
 import 'package:swaptime_flutter/module_comment/ui/widget/comments_list_widget/comment_list_widget.dart';
+import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
 import 'package:swaptime_flutter/theme/theme_data.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 
@@ -11,8 +13,9 @@ import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 class GameDetailsScreen extends StatefulWidget {
   final GameDetailsManager _manager;
   final CommentListWidget _commentListWidget;
+  final SwapService _swapService;
 
-  GameDetailsScreen(this._manager, this._commentListWidget);
+  GameDetailsScreen(this._manager, this._commentListWidget, this._swapService);
 
   @override
   State<StatefulWidget> createState() => GameDetailsScreenState();
@@ -21,6 +24,8 @@ class GameDetailsScreen extends StatefulWidget {
 class GameDetailsScreenState extends State<GameDetailsScreen> {
   GameDetailsState currentState;
   String gameId;
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  bool swapRequested = false;
 
   @override
   void initState() {
@@ -115,24 +120,94 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                         fontSize: 24,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        // TODO: Request a Swap
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: SwapThemeData.getPrimary(),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Request a Swap!',
-                            style: TextStyle(
-                              color: Colors.white,
+                    FutureBuilder(
+                      future: widget._swapService.isRequested(gameId),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                        if (!snapshot.hasData) {
+                          return GestureDetector(
+                            onTap: () {
+                              widget._swapService
+                                  .createSwap(state.details.userID, gameId);
+                              swapRequested = true;
+                              setState(() {});
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: SwapThemeData.getPrimary(),
+                              ),
+                              child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Request a Swap!',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  )),
+                            ),
+                          );
+                        }
+                        if (!snapshot.data) {
+                          return GestureDetector(
+                            onTap: () {
+                              widget._swapService
+                                  .createSwap(state.details.userID, gameId);
+                              swapRequested = true;
+                              setState(() {});
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: snapshot.data != true
+                                    ? Colors.white
+                                    : SwapThemeData.getPrimary(),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: swapRequested
+                                    ? Text(
+                                        'Request a Swap!',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : Icon(
+                                        Icons.check,
+                                        color: SwapThemeData.getAccent(),
+                                      ),
+                              ),
+                            ),
+                          );
+                        }
+                        return GestureDetector(
+                          onTap: () {
+                            widget._swapService
+                                .createSwap(state.details.userID, gameId);
+                            swapRequested = true;
+                            setState(() {});
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: snapshot.data != true
+                                  ? Colors.white
+                                  : SwapThemeData.getPrimary(),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: !swapRequested
+                                  ? Text(
+                                      'Request a Swap!',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  : Icon(
+                                      Icons.check,
+                                      color: SwapThemeData.getAccent(),
+                                    ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     )
                   ],
                 ),

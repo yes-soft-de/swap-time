@@ -9,12 +9,11 @@ class RawGRepository {
 
   RawGRepository(this._client);
 
-  Future<RawGResponse> search(String searchQuery, int platform) async {
+  Future<RawGResponse> search(String searchQuery) async {
     Map<String, String> params = {
       'search': searchQuery,
-      'platform': '${platform}'
     };
-    Map response =
+    Map<String, dynamic> response =
         await _client.get(Urls.SEARCH_GAMES_API, queryParams: params);
 
     if (response == null) {

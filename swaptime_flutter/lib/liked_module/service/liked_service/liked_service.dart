@@ -15,7 +15,6 @@ class LikedService {
   LikedService(this._authService, this._gamesListService);
 
   Future<bool> isLiked(String itemId) async {
-    log('Searching for Loved: $itemId');
     String userId = await _authService.userID;
     DocumentSnapshot isLoved = await _fireStore
         .collection('likes')
@@ -24,8 +23,6 @@ class LikedService {
         .doc(itemId)
         .get();
     bool loved = isLoved.exists && isLoved.get('loved');
-    String word = loved ? 'Loved' : 'Hated';
-    log('Item $itemId is ' + word);
     return loved;
   }
 
