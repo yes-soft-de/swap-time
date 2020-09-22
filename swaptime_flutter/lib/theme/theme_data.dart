@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SwapThemeData {
+  static bool darkModeEnabled = false;
   SwapThemeData();
 
   static Color getPrimary() {

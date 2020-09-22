@@ -1,8 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:swaptime_flutter/module_home/home.routes.dart';
+import 'package:swaptime_flutter/module_profile/model/profile_model/profile_model.dart';
+import 'package:swaptime_flutter/module_profile/service/my_profile/my_profile.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SwapNavigationDrawer extends StatelessWidget {
+  final MyProfileService profileService;
+
+  SwapNavigationDrawer(this.profileService);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,7 +26,7 @@ class SwapNavigationDrawer extends StatelessWidget {
             ),
           ),
 
-          // For ground
+          // Foreground
           Positioned.fill(
               child: Container(
             color: Color(0x882CC0CD),
@@ -59,8 +67,17 @@ class SwapNavigationDrawer extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Osama'),
-                            Text('+963 953 691 509'),
+                            FutureBuilder(
+                              future: profileService.profile,
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<ProfileModel> snapshot) {
+                                if (!snapshot.hasData) {
+                                  return Text('Loading');
+                                }
+                                return Text('${snapshot.data.name}');
+                              },
+                            ),
+                            Text('Saudi Arabia'),
                           ],
                         )
                       ],
@@ -73,144 +90,126 @@ class SwapNavigationDrawer extends StatelessWidget {
                 Flex(
                   direction: Axis.vertical,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(32, 8.0, 0, 8),
-                      child: Flex(
-                        direction: Axis.horizontal,
-                        children: [
-                          Icon(
-                            Icons.dashboard,
-                            color: Colors.white,
-                          ),
-                          Container(
-                            width: 16,
-                          ),
-                          Text(
-                            'Feed',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed(HomeRoutes.ROUTE_HOME, arguments: 0);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(32, 8.0, 0, 8),
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          children: [
+                            Icon(
+                              Icons.dashboard,
+                              color: Colors.white,
+                            ),
+                            Container(
+                              width: 16,
+                            ),
+                            Text(
+                              'Feed',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(32, 8.0, 0, 8),
-                      child: Flex(
-                        direction: Axis.horizontal,
-                        children: [
-                          Icon(
-                            Icons.explore,
-                            color: Colors.white,
-                          ),
-                          Container(
-                            width: 16,
-                          ),
-                          Text(
-                            'Explore',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          HomeRoutes.ROUTE_HOME,
+                          arguments: 1,
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(32, 8.0, 0, 8),
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          children: [
+                            Icon(
+                              Icons.notifications,
+                              color: Colors.white,
+                            ),
+                            Container(
+                              width: 16,
+                            ),
+                            Text('Notifications',
+                                style: TextStyle(color: Colors.white)),
+                          ],
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(32, 8.0, 0, 8),
-                      child: Flex(
-                        direction: Axis.horizontal,
-                        children: [
-                          Icon(
-                            Icons.mail,
-                            color: Colors.white,
-                          ),
-                          Container(
-                            width: 16,
-                          ),
-                          Text('Message',
-                              style: TextStyle(color: Colors.white)),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed(HomeRoutes.ROUTE_HOME, arguments: 4);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(32, 8.0, 0, 8),
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          children: [
+                            Icon(
+                              Icons.settings,
+                              color: Colors.white,
+                            ),
+                            Container(
+                              width: 16,
+                            ),
+                            Text('Settings',
+                                style: TextStyle(color: Colors.white)),
+                          ],
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(32, 8.0, 0, 8),
-                      child: Flex(
-                        direction: Axis.horizontal,
-                        children: [
-                          Icon(
-                            Icons.notifications,
-                            color: Colors.white,
-                          ),
-                          Container(
-                            width: 16,
-                          ),
-                          Text('Notifications',
-                              style: TextStyle(color: Colors.white)),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        canLaunch('https://www.google.com').then((value) {
+                          launch('https://www.google.com');
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(32, 8.0, 0, 8),
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          children: [
+                            Icon(
+                              Icons.info,
+                              color: Colors.white,
+                            ),
+                            Container(
+                              width: 16,
+                            ),
+                            Text('TOS', style: TextStyle(color: Colors.white)),
+                          ],
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(32, 8.0, 0, 8),
-                      child: Flex(
-                        direction: Axis.horizontal,
-                        children: [
-                          Icon(
-                            Icons.settings,
-                            color: Colors.white,
-                          ),
-                          Container(
-                            width: 16,
-                          ),
-                          Text('Settings',
-                              style: TextStyle(color: Colors.white)),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(32, 8.0, 0, 8),
-                      child: Flex(
-                        direction: Axis.horizontal,
-                        children: [
-                          Icon(
-                            Icons.search,
-                            color: Colors.white,
-                          ),
-                          Container(
-                            width: 16,
-                          ),
-                          Text('Search', style: TextStyle(color: Colors.white)),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(32, 8.0, 0, 8),
-                      child: Flex(
-                        direction: Axis.horizontal,
-                        children: [
-                          Icon(
-                            Icons.info,
-                            color: Colors.white,
-                          ),
-                          Container(
-                            width: 16,
-                          ),
-                          Text('TOS', style: TextStyle(color: Colors.white)),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(32, 8.0, 0, 8),
-                      child: Flex(
-                        direction: Axis.horizontal,
-                        children: [
-                          Icon(
-                            Icons.lock,
-                            color: Colors.white,
-                          ),
-                          Container(
-                            width: 16,
-                          ),
-                          Text('Privacy Policy',
-                              style: TextStyle(
-                                color: Colors.white,
-                              )),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        canLaunch('https://www.google.com').then((value) {
+                          launch('https://www.google.com');
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(32, 8.0, 0, 8),
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          children: [
+                            Icon(
+                              Icons.lock,
+                              color: Colors.white,
+                            ),
+                            Container(
+                              width: 16,
+                            ),
+                            Text('Privacy Policy',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                )),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -222,17 +221,21 @@ class SwapNavigationDrawer extends StatelessWidget {
                   direction: Axis.horizontal,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Icon(
-                      Icons.face,
-                      color: Colors.white,
+                    GestureDetector(
+                      onTap: () {
+                        canLaunch('https://www.google.com').then((value) {
+                          launch('https://www.google.com');
+                        });
+                      },
+                      child: SvgPicture.asset('asset/images/twitter.svg'),
                     ),
-                    Icon(
-                      Icons.face,
-                      color: Colors.white,
-                    ),
-                    Icon(
-                      Icons.face,
-                      color: Colors.white,
+                    GestureDetector(
+                      onTap: () {
+                        canLaunch('https://www.google.com').then((value) {
+                          launch('https://www.google.com');
+                        });
+                      },
+                      child: SvgPicture.asset('asset/images/facebook.svg'),
                     ),
                   ],
                 ),
@@ -245,7 +248,7 @@ class SwapNavigationDrawer extends StatelessWidget {
                   alignment: Alignment.center,
                   color: Color(0xFFFFFFFF),
                   child: Text('Feedback!'),
-                )
+                ),
                 // endregion
               ],
             ),

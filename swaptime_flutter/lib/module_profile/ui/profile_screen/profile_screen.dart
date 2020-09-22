@@ -28,23 +28,29 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  bool hasProfile = false;
   @override
-  Widget build(BuildContext context) {
-    widget._authService.isLoggedIn.then((value) {
-      if (value == false) {
+  void initState() {
+    super.initState();
+    widget._authService.isLoggedIn.then((authorized) {
+      if (authorized == false) {
         Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
         return;
-      } else {
-        widget._myProfileService.hasProfile().then((value) {
-          if (value == false) {
-            Navigator.of(context).pushNamed(ProfileRoutes.MY_ROUTE_PROFILE);
-          } else {
-            return getUI(true);
-          }
-        });
       }
+      widget._myProfileService.hasProfile().then((value) {
+        if (value == false) {
+          Navigator.of(context).pushNamed(ProfileRoutes.MY_ROUTE_PROFILE);
+          return;
+        }
+        hasProfile = true;
+        setState(() {});
+      });
     });
-    return getUI(false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return getUI(hasProfile);
   }
 
   Widget getUI(bool hasProfile) {

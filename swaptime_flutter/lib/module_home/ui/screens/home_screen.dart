@@ -45,78 +45,75 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   int currentPage = 0;
-  final PageController pagesController = PageController(initialPage: 0);
 
   bool overlayOpened = false;
 
   @override
   Widget build(BuildContext context) {
-    var bodyPages = PageView(
-      controller: pagesController,
-      onPageChanged: (index) {
-        currentPage = index;
-        if (mounted) setState(() {});
-      },
-      children: [
-        Column(
-          children: [
-            Expanded(
-                child: ListView(
-              children: [
-                widget._gameCardList,
-              ],
-            )),
-          ],
-        ),
-        Column(
-          children: [
-            Expanded(
-                child: ListView(
-              children: [
-                widget._notificationScreen,
-              ],
-            )),
-          ],
-        ),
-        Column(
-          children: [
-            Expanded(
-                child: ListView(
-              children: [
-                widget._likedScreen,
-              ],
-            )),
-          ],
-        ),
-        Column(
-          children: [
-            Expanded(
-                child: SingleChildScrollView(
-              child: widget._profileScreen,
-            )),
-          ],
-        ),
-        Column(
-          children: [
-            Expanded(
-              child: widget._settingsPage,
-            )
-          ],
-        )
-      ],
-    );
+    var args = ModalRoute.of(context).settings.arguments;
+    if (args != null) {
+      currentPage = args;
+    }
+
+    var bodyPages = <Widget>[
+      Column(
+        children: [
+          Expanded(
+              child: ListView(
+            children: [
+              widget._gameCardList,
+            ],
+          )),
+        ],
+      ),
+      Column(
+        children: [
+          Expanded(
+              child: ListView(
+            children: [
+              widget._notificationScreen,
+            ],
+          )),
+        ],
+      ),
+      Column(
+        children: [
+          Expanded(
+              child: ListView(
+            children: [
+              widget._likedScreen,
+            ],
+          )),
+        ],
+      ),
+      Column(
+        children: [
+          Expanded(
+              child: SingleChildScrollView(
+            child: widget._profileScreen,
+          )),
+        ],
+      ),
+      Column(
+        children: [
+          Expanded(
+            child: widget._settingsPage,
+          )
+        ],
+      )
+    ];
 
     return Scaffold(
         key: _drawerKey,
         appBar: SwaptimeAppBar.getSwaptimeAppBar(_drawerKey),
-        drawer: SwapNavigationDrawer(),
+        drawer: SwapNavigationDrawer(widget._myProfileService),
         floatingActionButton: _getFAB(),
         bottomNavigationBar: _getBottomNavigationBar(),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 8, 8, 0),
           child: Stack(
             children: [
-              bodyPages,
+              bodyPages[currentPage],
               overlayOpened
                   ? Positioned.fill(
                       child: GestureDetector(
@@ -141,11 +138,6 @@ class _HomeScreenState extends State<HomeScreen> {
       currentIndex: currentPage,
       onTap: (index) {
         currentPage = index;
-        pagesController.animateToPage(
-          currentPage,
-          duration: Duration(seconds: 1),
-          curve: Curves.easeIn,
-        );
         if (mounted) setState(() {});
       },
       items: [

@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/state_manager/game_details_state_manager/game_details_list_manager.dart';
@@ -24,7 +22,6 @@ class GameDetailsScreen extends StatefulWidget {
 class GameDetailsScreenState extends State<GameDetailsScreen> {
   GameDetailsState currentState;
   String gameId;
-  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   bool swapRequested = false;
 
   @override
@@ -147,47 +144,16 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                             ),
                           );
                         }
-                        if (!snapshot.data) {
-                          return GestureDetector(
-                            onTap: () {
-                              widget._swapService
-                                  .createSwap(state.details.userID, gameId);
-                              swapRequested = true;
-                              setState(() {});
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: snapshot.data != true
-                                    ? Colors.white
-                                    : SwapThemeData.getPrimary(),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: swapRequested
-                                    ? Text(
-                                        'Request a Swap!',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    : Icon(
-                                        Icons.check,
-                                        color: SwapThemeData.getAccent(),
-                                      ),
-                              ),
-                            ),
-                          );
-                        }
                         return GestureDetector(
                           onTap: () {
                             widget._swapService
                                 .createSwap(state.details.userID, gameId);
-                            swapRequested = true;
+                            swapRequested = snapshot.data;
                             setState(() {});
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: snapshot.data != true
+                              color: snapshot.data
                                   ? Colors.white
                                   : SwapThemeData.getPrimary(),
                             ),

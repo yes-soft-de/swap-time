@@ -141,8 +141,8 @@ class AppComponent$Injector implements _i1.AppComponent {
   _i16.GameCardList _createGameCardList() =>
       _i16.GameCardList(_createGamesListStateManager());
   _i17.GamesListStateManager _createGamesListStateManager() =>
-      _i17.GamesListStateManager(
-          _createGamesListService(), _createLikedService());
+      _i17.GamesListStateManager(_createGamesListService(),
+          _createLikedService(), _createGeneralProfileService());
   _i18.GamesListService _createGamesListService() =>
       _i18.GamesListService(_createGamesManager(), _createAuthService());
   _i19.GamesManager _createGamesManager() =>

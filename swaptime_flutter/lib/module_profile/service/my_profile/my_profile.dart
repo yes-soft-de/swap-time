@@ -26,6 +26,13 @@ class MyProfileService {
     return userImage != null;
   }
 
+  Future<ProfileModel> get profile async {
+    var username = await _preferencesHelper.getUsername();
+    return ProfileModel(
+      name: username,
+    );
+  }
+
   Future<ProfileResponse> createProfile(
     String username,
     String userImage,

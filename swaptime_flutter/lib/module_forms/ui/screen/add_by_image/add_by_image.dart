@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/module_forms/navigation_args/by_api_args/by_api_args.dart';
 import 'package:swaptime_flutter/module_forms/state_manager/add_by_image_manager/add_by_image_manager.dart';
 import 'package:swaptime_flutter/module_forms/states/by_image_state/by_image_state.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
@@ -44,7 +45,16 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    filePath = ModalRoute.of(context).settings.arguments;
+    var args = ModalRoute.of(context).settings.arguments;
+    if (args is String) {
+      filePath = args;
+    } else if (args is ByApiArgs) {
+      imageUrl = args.imageUrl;
+      print('Image: ${args.imageUrl}');
+      _gameName.text = args.gameName;
+      _tagList.clear();
+      _tagList.add(args.gamePlatform.toString().split('.')[1]);
+    }
     if (currentPage == null) {
       _getUI();
     }

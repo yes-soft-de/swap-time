@@ -71,12 +71,14 @@ class SwapService {
         .collection('requests')
         .get();
     if (data.docs.isEmpty) {
+      log('Docs are Empty, returning false');
       return false;
     }
     for (int i = 0; i < data.docs.length; i++) {
       var swapRef = data.docs[i];
       var swap = await _firestore.collection('swaps').doc(swapRef.id).get();
       if (!swap.exists) {
+        log('No transaction found!, skipping a loop');
         continue;
       } else {
         SwapModel model = SwapModel.fromJson(swap.data());

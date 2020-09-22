@@ -8,7 +8,7 @@ class SearchCard extends StatefulWidget {
   final SearchModel searchModel;
   final bool gameActive;
   final GamePlatform platformActive;
-  final Function(String name) onGameSelected;
+  final Function(String name, String image) onGameSelected;
   final Function(GamePlatform) onPlatformSelected;
 
   SearchCard({
@@ -36,7 +36,10 @@ class _SearchCardState extends State<SearchCard> {
         onTap: () {
           active = !active;
           if (active) {
-            widget.onGameSelected(widget.searchModel.name);
+            widget.onGameSelected(
+              widget.searchModel.name,
+              widget.searchModel.image,
+            );
           }
           setState(() {});
         },
@@ -46,6 +49,11 @@ class _SearchCardState extends State<SearchCard> {
               child: Image.network(
                 widget.searchModel.image,
                 fit: BoxFit.cover,
+              ),
+            ),
+            Positioned.fill(
+              child: Container(
+                color: Colors.black26,
               ),
             ),
             AnimatedContainer(

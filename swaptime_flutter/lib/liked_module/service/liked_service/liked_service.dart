@@ -59,10 +59,10 @@ class LikedService {
         .get();
     log(data.toString());
     List<GameDetails> items = [];
-    data.docs.forEach((element) async {
-      var game = await _gamesListService.getGameDetails(element.id);
+    for (int i = 0; i < data.docs.length; i++) {
+      var game = await _gamesListService.getGameDetails(data.docs[i].id);
       items.add(game);
-    });
+    }
     return items;
   }
 }

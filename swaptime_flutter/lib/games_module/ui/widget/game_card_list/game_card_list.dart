@@ -74,9 +74,12 @@ class _GameCardListState extends State<GameCardList> {
       direction: Axis.vertical,
       children: [
         Text('Error Loading Items!'),
-        OutlineButton(onPressed: () {
-          widget._stateManager.getAvailableGames();
-        })
+        OutlineButton(
+          onPressed: () {
+            widget._stateManager.getAvailableGames();
+          },
+          child: Text('Retry'),
+        )
       ],
     );
   }
@@ -85,26 +88,53 @@ class _GameCardListState extends State<GameCardList> {
     Widget gamesGrid;
     switch (currentType) {
       case GameCardType.GAME_CARD_SMALL:
-        gamesGrid = GridView.count(
-            crossAxisCount: 3,
-            shrinkWrap: true,
-            physics: ScrollPhysics(),
-            children: getSmallCards());
+        gamesGrid = FutureBuilder(
+          future: getSmallCards(),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+            if (!snapshot.hasData) {
+              return Container();
+            }
+            return GridView.count(
+                crossAxisCount: 3,
+                shrinkWrap: true,
+                physics: ScrollPhysics(),
+                children: snapshot.data);
+          },
+        );
         break;
       case GameCardType.GAME_CARD_MEDIUM:
-        gamesGrid = GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: ScrollPhysics(),
-          children: getMediumCards(),
+        gamesGrid = FutureBuilder(
+          future: getMediumCards(),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+            if (!snapshot.hasData) {
+              return Container();
+            }
+            return GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              children: snapshot.data,
+            );
+          },
         );
         break;
       case GameCardType.GAME_CARD_LARGE:
-        gamesGrid = GridView.count(
-          crossAxisCount: 1,
-          shrinkWrap: true,
-          physics: ScrollPhysics(),
-          children: getLargeCards(),
+        gamesGrid = FutureBuilder(
+          future: getLargeCards(),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+            if (!snapshot.hasData) {
+              return Container();
+            }
+            return GridView.count(
+              crossAxisCount: 1,
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              children: snapshot.data,
+            );
+          },
         );
         break;
       default:
@@ -129,189 +159,121 @@ class _GameCardListState extends State<GameCardList> {
     );
   }
 
-  List<Widget> getSmallCards() {
+  Future<List<Widget>> getSmallCards() async {
     GamesListStateLoadSuccess state = currentState;
     List<Widget> cards = [];
-    state.games.forEach((element) {
+
+    for (int i = 0; i < state.games.length; i++) {
+      bool loved = await widget._stateManager.isLoved(state.games[i].id);
+      loved ??= false;
+      String username =
+          await widget._stateManager.getUserName(state.games[i].userID);
       cards.add(GestureDetector(
         onTap: () {
-          Navigator.of(context)
-              .pushNamed(GamesRoutes.ROUTE_GAME_DETAILS, arguments: element.id);
+          Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
+              arguments: state.games[i].id);
         },
-        child: FutureBuilder(
-          future: widget._stateManager.isLoved(element.id),
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-            if (snapshot.hasData && snapshot != null) {
-              return GameCardSmall(
-                gameModel: GameModel(
-                  gameTitle: element.name,
-                  imageUrl: element.mainImage,
-                  gameOwnerFirstName: element.userID,
-                  loved: snapshot.data,
-                  itemId: element.id,
-                ),
-                onChatRequested: (itemId) {},
-                onLoved: (loved) {
-                  if (loved) {
-                    widget._stateManager.unLove(element.id);
-                  } else {
-                    widget._stateManager.love(element.id);
-                  }
-                },
-                onReport: (itemId) {
-                  Fluttertoast.showToast(msg: 'Report is Sent!');
-                },
-              );
+        child: GameCardSmall(
+          gameModel: GameModel(
+            gameTitle: state.games[i].name,
+            imageUrl: state.games[i].mainImage,
+            gameOwnerFirstName: username,
+            loved: loved,
+            itemId: state.games[i].id,
+          ),
+          onChatRequested: (itemId) {},
+          onLoved: (loved) {
+            if (loved) {
+              widget._stateManager.unLove(state.games[i].id);
             } else {
-              return GameCardSmall(
-                gameModel: GameModel(
-                  gameTitle: element.name,
-                  imageUrl: element.mainImage,
-                  gameOwnerFirstName: element.userID,
-                  loved: false,
-                  itemId: element.id,
-                ),
-                onChatRequested: (itemId) {},
-                onLoved: (loved) {
-                  if (loved) {
-                    widget._stateManager.unLove(element.id);
-                  } else {
-                    widget._stateManager.love(element.id);
-                  }
-                },
-                onReport: (itemId) {
-                  Fluttertoast.showToast(msg: 'Report is Sent!');
-                },
-              );
+              widget._stateManager.love(state.games[i].id);
             }
+          },
+          onReport: (itemId) {
+            Fluttertoast.showToast(msg: 'Report is Sent!');
           },
         ),
       ));
-    });
+    }
+
     return cards;
   }
 
-  List<Widget> getMediumCards() {
+  Future<List<Widget>> getMediumCards() async {
     GamesListStateLoadSuccess state = currentState;
     List<Widget> cards = [];
-    state.games.forEach((element) {
-      cards.add(FutureBuilder(
-        future: widget._stateManager.isLoved(element.id),
-        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          if (snapshot.hasData && snapshot != null) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
-                    arguments: element.id);
-              },
-              child: GameCardMedium(
-                gameModel: GameModel(
-                  gameTitle: element.name,
-                  imageUrl: element.mainImage,
-                  gameOwnerFirstName: element.userID,
-                  loved: snapshot.data,
-                  itemId: element.id,
-                ),
-                onChatRequested: (itemId) {},
-                onLoved: (loved) {
-                  if (loved) {
-                    widget._stateManager.unLove(element.id);
-                  } else {
-                    widget._stateManager.love(element.id);
-                  }
-                },
-                onReport: (itemId) {
-                  Fluttertoast.showToast(msg: 'Report is Sent!');
-                },
-              ),
-            );
-          } else {
-            return GameCardMedium(
-              gameModel: GameModel(
-                gameTitle: element.name,
-                imageUrl: element.mainImage,
-                gameOwnerFirstName: element.userID,
-                loved: false,
-                itemId: element.id,
-              ),
-              onChatRequested: (itemId) {},
-              onLoved: (loved) {
-                if (loved) {
-                  widget._stateManager.unLove(element.id);
-                } else {
-                  widget._stateManager.love(element.id);
-                }
-              },
-              onReport: (itemId) {
-                Fluttertoast.showToast(msg: 'Report is Sent!');
-              },
-            );
-          }
+    for (int i = 0; i < state.games.length; i++) {
+      bool loved = await widget._stateManager.isLoved(state.games[i].id);
+      loved ??= false;
+      String username =
+          await widget._stateManager.getUserName(state.games[i].userID);
+      cards.add(GestureDetector(
+        onTap: () {
+          Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
+              arguments: state.games[i].id);
         },
+        child: GameCardMedium(
+          gameModel: GameModel(
+            gameTitle: state.games[i].name,
+            imageUrl: state.games[i].mainImage,
+            gameOwnerFirstName: username,
+            loved: loved,
+            itemId: state.games[i].id,
+          ),
+          onChatRequested: (itemId) {},
+          onLoved: (loved) {
+            if (loved) {
+              widget._stateManager.unLove(state.games[i].id);
+            } else {
+              widget._stateManager.love(state.games[i].id);
+            }
+          },
+          onReport: (itemId) {
+            Fluttertoast.showToast(msg: 'Report is Sent!');
+          },
+        ),
       ));
-    });
+    }
     return cards;
   }
 
-  List<Widget> getLargeCards() {
+  Future<List<Widget>> getLargeCards() async {
     GamesListStateLoadSuccess state = currentState;
     List<Widget> cards = [];
-    state.games.forEach((element) {
-      cards.add(FutureBuilder(
-        future: widget._stateManager.isLoved(element.id),
-        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          if (snapshot.hasData && snapshot != null) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
-                    arguments: element.id);
-              },
-              child: GameCardLarge(
-                gameModel: GameModel(
-                  gameTitle: element.name,
-                  imageUrl: element.mainImage,
-                  gameOwnerFirstName: element.userID,
-                  loved: snapshot.data,
-                  itemId: element.id,
-                ),
-                onChatRequested: (itemId) {},
-                onLoved: (loved) {
-                  if (loved) {
-                    widget._stateManager.unLove(element.id);
-                  } else {
-                    widget._stateManager.love(element.id);
-                  }
-                },
-                onReport: (itemId) {
-                  Fluttertoast.showToast(msg: 'Report is Sent!');
-                },
-              ),
-            );
-          } else {
-            return GameCardLarge(
-              gameModel: GameModel(
-                gameTitle: element.name,
-                imageUrl: element.mainImage,
-                gameOwnerFirstName: element.userID,
-                loved: false,
-                itemId: element.id,
-              ),
-              onChatRequested: (itemId) {},
-              onLoved: (loved) {
-                if (loved) {
-                  widget._stateManager.unLove(element.id);
-                } else {
-                  widget._stateManager.love(element.id);
-                }
-              },
-              onReport: (itemId) {
-                Fluttertoast.showToast(msg: 'Report is Sent!');
-              },
-            );
-          }
+
+    for (int i = 0; i < state.games.length; i++) {
+      bool loved = await widget._stateManager.isLoved(state.games[i].id);
+      loved ??= false;
+      String username =
+          await widget._stateManager.getUserName(state.games[i].userID);
+      cards.add(GestureDetector(
+        onTap: () {
+          Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
+              arguments: state.games[i].id);
         },
+        child: GameCardLarge(
+          gameModel: GameModel(
+            gameTitle: state.games[i].name,
+            imageUrl: state.games[i].mainImage,
+            gameOwnerFirstName: username,
+            loved: loved,
+            itemId: state.games[i].id,
+          ),
+          onChatRequested: (itemId) {},
+          onLoved: (loved) {
+            if (loved) {
+              widget._stateManager.unLove(state.games[i].id);
+            } else {
+              widget._stateManager.love(state.games[i].id);
+            }
+          },
+          onReport: (itemId) {
+            Fluttertoast.showToast(msg: 'Report is Sent!');
+          },
+        ),
       ));
-    });
+    }
+
     return cards;
   }
 }
