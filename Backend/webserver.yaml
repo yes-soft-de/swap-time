@@ -21,7 +21,7 @@ spec:
         app: apache
     spec:
       containers:
-        - image: gcr.io/yescloud/github.com/aliomom/swap-time
+        - image: gcr.io/yescloud/github.com/yes-soft-de/swap-time
           imagePullPolicy: Always
           name: php-apache
           ports:
