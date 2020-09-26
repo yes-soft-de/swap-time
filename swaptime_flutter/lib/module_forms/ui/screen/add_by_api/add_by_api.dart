@@ -6,7 +6,7 @@ import 'package:swaptime_flutter/module_forms/navigation_args/by_api_args/by_api
 import 'package:swaptime_flutter/module_forms/service/rawg_service/rawg_service.dart';
 import 'package:swaptime_flutter/module_forms/state_manager/add_by_api_manager/add_by_api_manager.dart';
 import 'package:swaptime_flutter/module_forms/ui/widget/search_card/search_card.dart';
-import 'package:swaptime_flutter/theme/theme_data.dart';
+import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 @provide
 class AddByApiScreen extends StatefulWidget {
@@ -83,7 +83,7 @@ class _AddByApiState extends State<AddByApiScreen> {
             ),
             selectedGamePlatform != null
                 ? RaisedButton(
-                    color: SwapThemeData.getPrimary(),
+                    color: SwapThemeDataService.getPrimary(),
                     textColor: Colors.white,
                     onPressed: () {
                       Navigator.of(context)

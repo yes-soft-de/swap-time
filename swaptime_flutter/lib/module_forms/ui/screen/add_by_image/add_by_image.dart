@@ -9,7 +9,7 @@ import 'package:swaptime_flutter/module_forms/navigation_args/by_api_args/by_api
 import 'package:swaptime_flutter/module_forms/state_manager/add_by_image_manager/add_by_image_manager.dart';
 import 'package:swaptime_flutter/module_forms/states/by_image_state/by_image_state.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
-import 'package:swaptime_flutter/theme/theme_data.dart';
+import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 
 @provide
@@ -147,7 +147,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: SwapThemeData.getAccent(),
+                          color: SwapThemeDataService.getAccent(),
                           borderRadius: BorderRadius.all(Radius.circular(90)),
                         ),
                         child: Padding(
@@ -204,7 +204,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
           },
           child: Container(
             alignment: Alignment.center,
-            color: SwapThemeData.getPrimary(),
+            color: SwapThemeDataService.getPrimary(),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(

@@ -7,7 +7,7 @@ import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.d
 import 'package:swaptime_flutter/module_profile/presistance/profile_shared_preferences.dart';
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
 import 'package:swaptime_flutter/module_profile/service/my_profile/my_profile.dart';
-import 'package:swaptime_flutter/theme/theme_data.dart';
+import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 @provide
 class ProfileScreen extends StatefulWidget {
@@ -213,7 +213,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    color: SwapThemeData.getPrimary(),
+                    color: SwapThemeDataService.getPrimary(),
                     child: Padding(
                         padding: const EdgeInsets.all(24.0),
                         child: FutureBuilder(

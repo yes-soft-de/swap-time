@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaptime_flutter/theme/theme_data.dart';
+import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 class NewCommentWidget extends StatelessWidget {
   final TextEditingController _newCommentController = TextEditingController();
@@ -30,7 +30,7 @@ class NewCommentWidget extends StatelessWidget {
         ),
         Container(
           decoration: BoxDecoration(
-            color: SwapThemeData.getAccent(),
+            color: SwapThemeDataService.getAccent(),
             shape: BoxShape.circle,
           ),
           child: IconButton(

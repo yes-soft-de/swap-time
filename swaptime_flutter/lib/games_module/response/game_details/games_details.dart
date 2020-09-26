@@ -55,7 +55,7 @@ class GameDetails {
     description = json['description'];
     mainImage = json['mainImage'];
     userID = json['userID'];
-    commentNumber = json['commentNumber'] ?? 0;
+    commentNumber = json['commentNumber'] ?? '0';
     comments = json['comments'] != null ? json['comments'].cast<String>() : [];
     images = json['images'] != null ? json['images'].cast<String>() : [];
   }

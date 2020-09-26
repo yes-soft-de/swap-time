@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swaptime_flutter/module_chat/chat_routes.dart';
-import 'package:swaptime_flutter/theme/theme_data.dart';
+import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 class NotificationOnGoing extends StatelessWidget {
   final String myGameUrl;
@@ -69,7 +69,8 @@ class NotificationOnGoing extends StatelessWidget {
                                     ),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                          color: SwapThemeData.getAccent(),
+                                          color:
+                                              SwapThemeDataService.getAccent(),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(8))),
                                       child: Padding(
@@ -93,7 +94,7 @@ class NotificationOnGoing extends StatelessWidget {
                     ? Positioned.fill(
                         child: Center(
                         child: Container(
-                          color: SwapThemeData.getPrimary(),
+                          color: SwapThemeDataService.getPrimary(),
                           child: Icon(
                             Icons.repeat,
                             color: Colors.white,
@@ -135,11 +136,11 @@ class NotificationOnGoing extends StatelessWidget {
                       icon: chatRoomId != null
                           ? Icon(
                               Icons.chat,
-                              color: SwapThemeData.getPrimary(),
+                              color: SwapThemeDataService.getPrimary(),
                             )
                           : Icon(
                               Icons.pending_rounded,
-                              color: SwapThemeData.getPrimary(),
+                              color: SwapThemeDataService.getPrimary(),
                             ),
                       onPressed: () {
                         if (chatRoomId != null) {

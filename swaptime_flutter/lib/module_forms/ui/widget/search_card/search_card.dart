@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/module_forms/model/search_model/search_model.dart';
 import 'package:swaptime_flutter/module_forms/service/rawg_service/rawg_service.dart';
-import 'package:swaptime_flutter/theme/theme_data.dart';
+import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/icon_helper/icon_helper.dart';
 
 class SearchCard extends StatefulWidget {
@@ -111,7 +111,7 @@ class _SearchCardState extends State<SearchCard> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: element == selectedPlatform
-                  ? SwapThemeData.getPrimary()
+                  ? SwapThemeDataService.getPrimary()
                   : Colors.white,
             ),
             child: Padding(

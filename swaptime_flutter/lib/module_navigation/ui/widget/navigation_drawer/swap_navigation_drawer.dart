@@ -235,7 +235,9 @@ class SwapNavigationDrawer extends StatelessWidget {
                           launch('https://www.google.com');
                         });
                       },
-                      child: SvgPicture.asset('asset/images/facebook.svg'),
+                      child: SvgPicture.asset(
+                        'asset/images/facebook.svg',
+                      ),
                     ),
                   ],
                 ),

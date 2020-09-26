@@ -13,7 +13,7 @@ import 'package:swaptime_flutter/module_profile/profile_routes.dart';
 import 'package:swaptime_flutter/module_profile/service/my_profile/my_profile.dart';
 import 'package:swaptime_flutter/module_profile/ui/profile_screen/profile_screen.dart';
 import 'package:swaptime_flutter/module_settings/ui/ui/settings_page/settings_page.dart';
-import 'package:swaptime_flutter/theme/theme_data.dart';
+import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 
 @provide
@@ -143,27 +143,27 @@ class _HomeScreenState extends State<HomeScreen> {
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          backgroundColor: SwapThemeData.getAccent(),
+          backgroundColor: SwapThemeDataService.getAccent(),
           title: Text('Home'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.notifications),
-          backgroundColor: SwapThemeData.getAccent(),
+          backgroundColor: SwapThemeDataService.getAccent(),
           title: Text('Notifications'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.favorite),
-          backgroundColor: SwapThemeData.getAccent(),
+          backgroundColor: SwapThemeDataService.getAccent(),
           title: Text('Favorite'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          backgroundColor: SwapThemeData.getAccent(),
+          backgroundColor: SwapThemeDataService.getAccent(),
           title: Text('Profile'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
-          backgroundColor: SwapThemeData.getAccent(),
+          backgroundColor: SwapThemeDataService.getAccent(),
           title: Text('Settings'),
         ),
       ],
@@ -199,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  color: SwapThemeData.getPrimary(),
+                  color: SwapThemeDataService.getPrimary(),
                   borderRadius: BorderRadius.all(Radius.circular(90)),
                 ),
                 child: IconButton(
@@ -243,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  color: SwapThemeData.getPrimary(),
+                  color: SwapThemeDataService.getPrimary(),
                   borderRadius: BorderRadius.all(Radius.circular(90)),
                 ),
                 child: IconButton(
@@ -272,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: SwapThemeData.getAccent(),
+              color: SwapThemeDataService.getAccent(),
               borderRadius: BorderRadius.all(Radius.circular(90)),
             ),
             child: IconButton(

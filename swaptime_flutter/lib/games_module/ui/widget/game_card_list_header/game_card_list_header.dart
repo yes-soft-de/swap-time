@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaptime_flutter/theme/theme_data.dart';
+import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 class GameCardListHeader extends StatelessWidget {
   final GameCardType selectedCardType;
@@ -23,8 +23,8 @@ class GameCardListHeader extends StatelessWidget {
             children: [
               Container(
                 color: selectedCardType == GameCardType.GAME_CARD_LARGE
-                    ? SwapThemeData.getAccent()
-                    : SwapThemeData.getPrimary(),
+                    ? SwapThemeDataService.getAccent()
+                    : SwapThemeDataService.getPrimary(),
                 child: IconButton(
                   icon: Icon(
                     Icons.menu,
@@ -39,8 +39,8 @@ class GameCardListHeader extends StatelessWidget {
               ),
               Container(
                 color: selectedCardType == GameCardType.GAME_CARD_MEDIUM
-                    ? SwapThemeData.getAccent()
-                    : SwapThemeData.getPrimary(),
+                    ? SwapThemeDataService.getAccent()
+                    : SwapThemeDataService.getPrimary(),
                 child: IconButton(
                   icon: Icon(
                     Icons.apps,
@@ -55,8 +55,8 @@ class GameCardListHeader extends StatelessWidget {
               ),
               Container(
                 color: selectedCardType == GameCardType.GAME_CARD_SMALL
-                    ? SwapThemeData.getAccent()
-                    : SwapThemeData.getPrimary(),
+                    ? SwapThemeDataService.getAccent()
+                    : SwapThemeDataService.getPrimary(),
                 child: IconButton(
                   icon: Icon(
                     Icons.grid_on,

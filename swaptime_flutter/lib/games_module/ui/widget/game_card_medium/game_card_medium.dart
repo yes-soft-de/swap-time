@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/games_module/model/game_model.dart';
-import 'package:swaptime_flutter/theme/theme_data.dart';
+import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 class GameCardMedium extends StatefulWidget {
   final GameModel gameModel;
@@ -46,7 +46,7 @@ class _GameCardMediumState extends State<GameCardMedium> {
               child: IconButton(
                 icon: Icon(
                   Icons.more_vert,
-                  color: SwapThemeData.getAccent(),
+                  color: SwapThemeDataService.getAccent(),
                 ),
                 onPressed: () {
                   // TODO: Show More Dropdown

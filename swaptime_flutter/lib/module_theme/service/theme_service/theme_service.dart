@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
-class SwapThemeData {
+class SwapThemeDataService {
+  static final PublishSubject<bool> _darkModeSubject = PublishSubject<bool>();
+  Stream<bool> get darkModeStream => _darkModeSubject.stream;
+
   static bool darkModeEnabled = false;
-  SwapThemeData();
+  SwapThemeDataService();
 
   static Color getPrimary() {
     return Color(0xFF2699FB);

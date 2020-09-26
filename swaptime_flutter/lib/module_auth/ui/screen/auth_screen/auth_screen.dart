@@ -5,7 +5,7 @@ import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/module_auth/state_manager/auth_state_manager/auth_state_manager.dart';
 import 'package:swaptime_flutter/module_auth/states/auth_states/auth_states.dart';
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
-import 'package:swaptime_flutter/theme/theme_data.dart';
+import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 
 @provide
@@ -115,7 +115,7 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
           _errorMsg != null ? Text(_errorMsg) : Container(),
           Container(
-            decoration: BoxDecoration(color: SwapThemeData.getAccent()),
+            decoration: BoxDecoration(color: SwapThemeDataService.getAccent()),
             child: GestureDetector(
               onTap: () {
                 loading = true;
@@ -244,7 +244,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   .SignInWithPhone(countryCode + _phoneController.text);
             },
             child: Container(
-              decoration: BoxDecoration(color: SwapThemeData.getAccent()),
+              decoration:
+                  BoxDecoration(color: SwapThemeDataService.getAccent()),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(

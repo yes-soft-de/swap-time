@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/games_module/model/game_model.dart';
-import 'package:swaptime_flutter/theme/theme_data.dart';
+import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 class GameCardLarge extends StatefulWidget {
   final GameModel gameModel;
@@ -27,13 +27,16 @@ class _GameCardLargeState extends State<GameCardLarge> {
     return Container(
       margin: EdgeInsets.fromLTRB(0, 0, 0, 16),
       height: 208,
-      decoration: BoxDecoration(boxShadow: [
-        BoxShadow(
-          offset: Offset.fromDirection(90, 4),
-          blurRadius: 8,
-          color: Colors.grey,
-        ),
-      ], color: SwapThemeData.isDarkMode() ? Colors.white : Colors.white),
+      decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              offset: Offset.fromDirection(90, 4),
+              blurRadius: 8,
+              color: Colors.grey,
+            ),
+          ],
+          color:
+              SwapThemeDataService.isDarkMode() ? Colors.white : Colors.white),
       child: Stack(
         children: [
           FittedBox(
@@ -64,7 +67,7 @@ class _GameCardLargeState extends State<GameCardLarge> {
                             style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: SwapThemeData.isDarkMode()
+                                color: SwapThemeDataService.isDarkMode()
                                     ? Colors.white
                                     : Colors.black),
                           ),
@@ -72,7 +75,7 @@ class _GameCardLargeState extends State<GameCardLarge> {
                             widget.gameModel.gameOwnerFirstName,
                             style: TextStyle(
                                 fontSize: 14,
-                                color: SwapThemeData.isDarkMode()
+                                color: SwapThemeDataService.isDarkMode()
                                     ? Colors.white
                                     : Colors.black),
                           )
@@ -84,7 +87,7 @@ class _GameCardLargeState extends State<GameCardLarge> {
                         widget.gameModel.loved
                             ? Icons.favorite
                             : Icons.favorite_border,
-                        color: SwapThemeData.getPrimary(),
+                        color: SwapThemeDataService.getPrimary(),
                       ),
                       onPressed: () {
                         widget.onLoved(widget.gameModel.loved);
@@ -95,7 +98,7 @@ class _GameCardLargeState extends State<GameCardLarge> {
                     IconButton(
                       icon: Icon(
                         Icons.chat,
-                        color: SwapThemeData.getPrimary(),
+                        color: SwapThemeDataService.getPrimary(),
                       ),
                       onPressed: () {
                         widget.onChatRequested(widget.gameModel.itemId);
@@ -104,7 +107,7 @@ class _GameCardLargeState extends State<GameCardLarge> {
                     IconButton(
                       icon: Icon(
                         Icons.flag,
-                        color: SwapThemeData.getPrimary(),
+                        color: SwapThemeDataService.getPrimary(),
                       ),
                       onPressed: () {
                         widget.onReport(widget.gameModel.itemId);

@@ -10,7 +10,7 @@ import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
 import 'package:swaptime_flutter/module_profile/state/my_profile_state.dart';
 import 'package:swaptime_flutter/module_profile/state_manager/my_profile/my_profile_state_manager.dart';
-import 'package:swaptime_flutter/theme/theme_data.dart';
+import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 
 @provide
@@ -94,7 +94,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(24)),
-                            color: SwapThemeData.getPrimary(),
+                            color: SwapThemeDataService.getPrimary(),
                           ),
                           child: GestureDetector(
                             onTap: () {
@@ -144,7 +144,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           GestureDetector(
             onTap: () {},
             child: Container(
-              decoration: BoxDecoration(color: SwapThemeData.getAccent()),
+              decoration:
+                  BoxDecoration(color: SwapThemeDataService.getAccent()),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
@@ -193,7 +194,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: SwapThemeData.getPrimary(),
+                              color: SwapThemeDataService.getPrimary(),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -210,7 +211,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         alignment: Alignment.center,
                         child: Container(
                           decoration: BoxDecoration(
-                              color: SwapThemeData.getPrimary(),
+                              color: SwapThemeDataService.getPrimary(),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(16))),
                           child: GestureDetector(
@@ -260,7 +261,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               saveProfile();
             },
             child: Container(
-              decoration: BoxDecoration(color: SwapThemeData.getAccent()),
+              decoration:
+                  BoxDecoration(color: SwapThemeDataService.getAccent()),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
@@ -308,7 +310,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: SwapThemeData.getPrimary(),
+                              color: SwapThemeDataService.getPrimary(),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -347,7 +349,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 saveProfile();
               },
               child: Container(
-                decoration: BoxDecoration(color: SwapThemeData.getAccent()),
+                decoration:
+                    BoxDecoration(color: SwapThemeDataService.getAccent()),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(

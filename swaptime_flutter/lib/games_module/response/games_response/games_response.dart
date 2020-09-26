@@ -29,7 +29,7 @@ class Games {
   String description;
   String mainImage;
   String userID;
-  int commentNumber;
+  String commentNumber;
   List<String> comments;
   List<String> images;
 
@@ -53,7 +53,7 @@ class Games {
     description = json['description'];
     mainImage = json['mainImage'];
     userID = json['userID'];
-    commentNumber = json['commentNumber'];
+    commentNumber = json['commentNumber'].toString();
     comments = json['comments'] != null ? json['comments'].cast<String>() : [];
     images = json['images'] != null ? json['images'].cast<String>() : [];
   }

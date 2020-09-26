@@ -4,7 +4,7 @@ import 'package:swaptime_flutter/games_module/state_manager/game_details_state_m
 import 'package:swaptime_flutter/games_module/states/game_details_state/game_details_state.dart';
 import 'package:swaptime_flutter/module_comment/ui/widget/comments_list_widget/comment_list_widget.dart';
 import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
-import 'package:swaptime_flutter/theme/theme_data.dart';
+import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 
 @provide
@@ -131,7 +131,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                color: SwapThemeData.getPrimary(),
+                                color: SwapThemeDataService.getPrimary(),
                               ),
                               child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -155,7 +155,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                             decoration: BoxDecoration(
                               color: snapshot.data
                                   ? Colors.white
-                                  : SwapThemeData.getPrimary(),
+                                  : SwapThemeDataService.getPrimary(),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -168,7 +168,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                                     )
                                   : Icon(
                                       Icons.check,
-                                      color: SwapThemeData.getAccent(),
+                                      color: SwapThemeDataService.getAccent(),
                                     ),
                             ),
                           ),

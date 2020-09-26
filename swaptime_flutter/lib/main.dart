@@ -17,6 +17,7 @@ import 'package:swaptime_flutter/module_profile/profile_module.dart';
 import 'di/components/app.component.dart';
 import 'generated/l10n.dart';
 import 'module_home/home.module.dart';
+import 'module_localization/service/localization_service/localization_service.dart';
 
 typedef Provider<T> = T Function();
 
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
   final AuthModule _authModule;
   final ProfileModule _profileModule;
   final GamesModule _gamesModule;
+  final LocalizationService _localizationService;
 
   MyApp(
     this._homeModule,
@@ -54,6 +56,7 @@ class MyApp extends StatelessWidget {
     this._chatModule,
     this._cameraModule,
     this._profileModule,
+    this._localizationService,
   );
 
   @override
@@ -68,20 +71,29 @@ class MyApp extends StatelessWidget {
     fullRoutesList.addAll(_profileModule.getRoutes());
     fullRoutesList.addAll(_gamesModule.getRoutes());
 
-    return MaterialApp(
-        navigatorObservers: <NavigatorObserver>[
-          observer
-        ],
-        localizationsDelegates: [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        theme: ThemeData(primaryColor: Colors.white, accentColor: Colors.pink),
-        supportedLocales: S.delegate.supportedLocales,
-        title: 'Swaptime',
-        routes: fullRoutesList,
-        initialRoute: HomeRoutes.ROUTE_HOME);
+    return StreamBuilder(
+      stream: _localizationService.localizationStream,
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        return MaterialApp(
+            navigatorObservers: <NavigatorObserver>[observer],
+            locale: Locale.fromSubtags(
+              languageCode: snapshot.hasData ? snapshot.data : 'en',
+            ),
+            localizationsDelegates: [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            theme: ThemeData(
+              primaryColor: Colors.white,
+              accentColor: Colors.pink,
+            ),
+            supportedLocales: S.delegate.supportedLocales,
+            title: 'Swaptime',
+            routes: fullRoutesList,
+            initialRoute: HomeRoutes.ROUTE_HOME);
+      },
+    );
   }
 }

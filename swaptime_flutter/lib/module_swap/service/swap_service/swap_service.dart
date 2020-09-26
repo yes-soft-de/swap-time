@@ -40,6 +40,15 @@ class SwapService {
     return swapModel;
   }
 
+  Future<SwapModel> startSwap(SwapModel swapModel) async {
+    swapModel.roomID = Uuid().v1();
+    await _firestore
+        .collection('swaps')
+        .doc(swapModel.id)
+        .set(swapModel.toJson());
+    return swapModel;
+  }
+
   Future<List<SwapModel>> getSwapRequests() async {
     String uid = await _authService.userID;
     var response = await _firestore
