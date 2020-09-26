@@ -15,6 +15,11 @@ class LikedService {
   LikedService(this._authService, this._gamesListService);
 
   Future<bool> isLiked(String itemId) async {
+    bool signIn = await _authService.isLoggedIn;
+    if (!signIn) {
+      return false;
+    }
+
     String userId = await _authService.userID;
     DocumentSnapshot isLoved = await _fireStore
         .collection('likes')
@@ -28,6 +33,10 @@ class LikedService {
 
   Future<bool> like(String itemId) async {
     log('loving: $itemId');
+    bool signIn = await _authService.isLoggedIn;
+    if (!signIn) {
+      return null;
+    }
     String userId = await _authService.userID;
     await _fireStore
         .collection('likes')

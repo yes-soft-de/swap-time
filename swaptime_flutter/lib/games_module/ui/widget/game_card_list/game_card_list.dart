@@ -9,6 +9,8 @@ import 'package:swaptime_flutter/games_module/ui/widget/game_card_large/game_car
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_list_header/game_card_list_header.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_medium/game_card_medium.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_small/game_card_small.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
+import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 
 @provide
 class GameCardList extends StatefulWidget {
@@ -73,12 +75,12 @@ class _GameCardListState extends State<GameCardList> {
     return Flex(
       direction: Axis.vertical,
       children: [
-        Text('Error Loading Items!'),
+        Text(S.of(context).errorLoadingItems),
         OutlineButton(
           onPressed: () {
             widget._stateManager.getAvailableGames();
           },
-          child: Text('Retry'),
+          child: Text(S.of(context).retry),
         )
       ],
     );
@@ -186,7 +188,11 @@ class _GameCardListState extends State<GameCardList> {
             if (loved) {
               widget._stateManager.unLove(state.games[i].id);
             } else {
-              widget._stateManager.love(state.games[i].id);
+              widget._stateManager.love(state.games[i].id).then((value) {
+                if (value == null) {
+                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
+                }
+              });
             }
           },
           onReport: (itemId) {
@@ -225,7 +231,11 @@ class _GameCardListState extends State<GameCardList> {
             if (loved) {
               widget._stateManager.unLove(state.games[i].id);
             } else {
-              widget._stateManager.love(state.games[i].id);
+              widget._stateManager.love(state.games[i].id).then((value) {
+                if (value == null) {
+                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
+                }
+              });
             }
           },
           onReport: (itemId) {
@@ -259,12 +269,19 @@ class _GameCardListState extends State<GameCardList> {
             loved: loved,
             itemId: state.games[i].id,
           ),
-          onChatRequested: (itemId) {},
+          onChatRequested: (itemId) {
+            Navigator.of(context)
+                .pushNamed(GamesRoutes.ROUTE_GAME_DETAILS, arguments: itemId);
+          },
           onLoved: (loved) {
             if (loved) {
               widget._stateManager.unLove(state.games[i].id);
             } else {
-              widget._stateManager.love(state.games[i].id);
+              widget._stateManager.love(state.games[i].id).then((value) {
+                if (value == null) {
+                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
+                }
+              });
             }
           },
           onReport: (itemId) {

@@ -17,7 +17,9 @@ class LocalizationService {
   }
 
   Future<String> getLanguage() async {
-    return _preferencesHelper.getLanguage();
+    String lang = await _preferencesHelper.getLanguage();
+    lang ??= 'en';
+    return lang;
   }
 
   void dispose() {

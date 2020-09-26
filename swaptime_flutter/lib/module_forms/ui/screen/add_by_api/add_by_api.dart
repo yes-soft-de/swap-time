@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_forms/forms_routes.dart';
 import 'package:swaptime_flutter/module_forms/model/search_model/search_model.dart';
 import 'package:swaptime_flutter/module_forms/navigation_args/by_api_args/by_api_args.dart';
@@ -78,7 +79,7 @@ class _AddByApiState extends State<AddByApiScreen> {
                       children: getSearchResult(),
                     )
                   : Center(
-                      child: Text('Search a Game :)'),
+                      child: Text(S.of(context).searchAGame),
                     ),
             ),
             selectedGamePlatform != null
@@ -94,7 +95,9 @@ class _AddByApiState extends State<AddByApiScreen> {
                                 selectedGamePlatform,
                               ));
                     },
-                    child: Text('Add $selectedGameName to my collection'),
+                    child: Text(S.of(context).add +
+                        selectedGameName +
+                        S.of(context).toMyCollection),
                   )
                 : Container(),
           ],

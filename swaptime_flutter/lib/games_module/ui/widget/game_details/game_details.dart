@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/state_manager/game_details_state_manager/game_details_list_manager.dart';
 import 'package:swaptime_flutter/games_module/states/game_details_state/game_details_state.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_comment/ui/widget/comments_list_widget/comment_list_widget.dart';
 import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
@@ -43,7 +44,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
       return Scaffold(
         appBar: SwaptimeAppBar.getBackEnabledAppBar(),
         body: Center(
-          child: Text('Error Getting Swap Item id!'),
+          child: Text(S.of(context).errorGettingSwapItemId),
         ),
       );
     }
@@ -75,9 +76,9 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     return Center(
       child: Column(
         children: [
-          Text('Error Loading Data'),
+          Text(S.of(context).errorLoadingData),
           RaisedButton(
-            child: Text('Retry'),
+            child: Text(S.of(context).retry),
             onPressed: () {
               widget._manager.getGameDetails(gameId);
             },
@@ -136,7 +137,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                               child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    'Request a Swap!',
+                                    S.of(context).requestASwap,
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
@@ -146,8 +147,10 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                         }
                         return GestureDetector(
                           onTap: () {
-                            widget._swapService
-                                .createSwap(state.details.userID, gameId);
+                            widget._swapService.createSwap(
+                              state.details.userID,
+                              gameId,
+                            );
                             swapRequested = snapshot.data;
                             setState(() {});
                           },

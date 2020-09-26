@@ -40,7 +40,11 @@ class SwapService {
     return swapModel;
   }
 
-  Future<SwapModel> startSwap(SwapModel swapModel) async {
+  Future<SwapModel> startSwap(String swapId) async {
+    var swap = await _firestore.collection('swaps').doc(swapId).get();
+
+    SwapModel swapModel = await SwapModel.fromJson(swap.data());
+
     swapModel.roomID = Uuid().v1();
     await _firestore
         .collection('swaps')

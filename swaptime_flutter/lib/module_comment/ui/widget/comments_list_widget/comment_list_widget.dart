@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_comment/state_manager/comment_state_manager/comment_state_manager.dart';
 import 'package:swaptime_flutter/module_comment/states/comment_states/comment_states.dart';
 import 'package:swaptime_flutter/module_comment/ui/widget/comment_widget/comment_widget.dart';
@@ -43,7 +44,7 @@ class _CommentListWidgetState extends State<CommentListWidget> {
       if (commentLines.isEmpty) {
         commentLines.add(Padding(
           padding: const EdgeInsets.fromLTRB(8, 32, 8, 32),
-          child: Text('Be the First to Comment'),
+          child: Text(S.of(context).beTheFirstToComment),
         ));
       }
       commentLines.add(NewCommentWidget((newComment) {

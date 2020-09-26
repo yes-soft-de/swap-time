@@ -49,6 +49,8 @@ class NotificationService {
       }
 
       notifications.add(NotificationModel(
+        chatRoomId: element.roomID,
+        swapId: element.id,
         ownerGameImageLink:
             ownerGameDetails != null ? ownerGameDetails.mainImage : null,
         ownerName: otherDetails.name,

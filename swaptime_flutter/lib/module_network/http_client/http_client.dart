@@ -5,6 +5,7 @@ import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/consts/urls.dart';
 import 'package:swaptime_flutter/utils/logger/logger.dart';
 
 @provide
@@ -16,6 +17,10 @@ class ApiClient {
 
   ApiClient(this._logger) {
     _client = new Dio(BaseOptions());
+    _client.interceptors.add(DioCacheManager(CacheConfig(
+      baseUrl: Urls.BASE_API,
+      defaultMaxAge: Duration(seconds: 30),
+    )).interceptor);
   }
 
   Future<Map<String, dynamic>> get(String url,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/games_module/service/games_list_service/games_list_service.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_swap/ui/widget/exchange_game_card/exchange_game_card.dart';
 
 class ExchangeSetterWidget extends StatefulWidget {
@@ -26,27 +27,31 @@ class _ExchangeSetterWidgetState extends State<ExchangeSetterWidget> {
     return Flex(
       direction: Axis.vertical,
       children: [
-        Text('Set Exchange Game'),
-        FutureBuilder(
-          future: widget.gamesListService.getUserGames(widget.userId),
-          builder: (BuildContext context, AsyncSnapshot<List<Games>> snapshot) {
-            if (snapshot.hasData) {
-              return ListView(
-                children: getGamesCards(snapshot.data),
+        Text(S.of(context).setExchangeGame),
+        Expanded(
+          child: FutureBuilder(
+            future: widget.gamesListService.getUserGames(widget.userId),
+            builder:
+                (BuildContext context, AsyncSnapshot<List<Games>> snapshot) {
+              if (snapshot.hasData) {
+                return ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: getGamesCards(snapshot.data),
+                );
+              }
+              return Container(
+                alignment: Alignment.center,
+                child: Text(S.of(context).loading),
               );
-            }
-            return Container(
-              alignment: Alignment.center,
-              child: Text('Loading...'),
-            );
-          },
+            },
+          ),
         ),
         activeGameId != null
             ? RaisedButton(
                 onPressed: () {
                   widget.onSwapSelected(activeGameId);
                 },
-                child: Text('Start Chat'),
+                child: Text(S.of(context).setGame),
               )
             : Container()
       ],

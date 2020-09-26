@@ -12,8 +12,8 @@ class NotificationOnGoing extends StatelessWidget {
   final String chatRoomId;
 
   NotificationOnGoing({
-    this.myGameUrl,
-    this.chatRoomId,
+    @required this.myGameUrl,
+    @required this.chatRoomId,
     @required this.theirGameUrl,
     @required this.theirName,
   });
@@ -67,18 +67,26 @@ class NotificationOnGoing extends StatelessWidget {
                                         Radius.circular(12),
                                       ),
                                     ),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color:
-                                              SwapThemeDataService.getAccent(),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(8))),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Text(
-                                          'Request Pending!',
-                                          style: TextStyle(
-                                            color: Colors.white,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).pushNamed(
+                                          ChatRoutes.chatRoute,
+                                          arguments: chatRoomId,
+                                        );
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: SwapThemeDataService
+                                                .getAccent(),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8))),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(16.0),
+                                          child: Text(
+                                            'Request Pending!',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ),

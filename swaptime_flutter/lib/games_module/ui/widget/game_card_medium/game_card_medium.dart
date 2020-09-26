@@ -29,13 +29,20 @@ class _GameCardMediumState extends State<GameCardMedium> {
       child: Container(
         height: 225,
         width: 160,
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            offset: Offset.fromDirection(90, 4),
-            blurRadius: 8,
-            color: Colors.grey,
-          ),
-        ], color: Colors.white),
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.black
+              : Colors.white,
+          boxShadow: [
+            BoxShadow(
+              offset: Offset.fromDirection(90, 4),
+              blurRadius: 8,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.black
+                  : Colors.grey,
+            ),
+          ],
+        ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Stack(children: [
@@ -58,7 +65,9 @@ class _GameCardMediumState extends State<GameCardMedium> {
               left: 0,
               right: 0,
               child: Container(
-                color: Colors.white,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.black
+                    : Colors.white,
                 child: Flex(
                   direction: Axis.horizontal,
                   children: [

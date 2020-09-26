@@ -27,16 +27,16 @@ dependencies:
       path: package/inject
 
   # Camera
-  camera: ^0.5.8+6
+  camera: ^0.5.8+7
 
   # Video
-  video_player: ^0.10.12+3
+  video_player: ^0.11.0
 
   # Paths
-  path_provider: ^1.6.17
+  path_provider: ^1.6.18
 
   # Shared Prefs
-  shared_preferences: ^0.5.11
+  shared_preferences: ^0.5.12
 
   # Open Url in Chrome
   url_launcher: ^5.7.0
@@ -44,7 +44,7 @@ dependencies:
   # Network Agent
   dio: ^3.0.10
   dio_flutter_transformer: ^3.0.2
-  dio_http_cache: ^0.2.9
+  dio_http_cache: ^0.2.11
 
   # Pair and Other Types
   analyzer_plugin: ^0.3.0
@@ -69,7 +69,7 @@ dependencies:
   cloud_firestore: ^0.14.0+2
 
   # Google Sign In
-  google_sign_in: ^4.5.3
+  google_sign_in: ^4.5.4
   sign_in_with_apple: ^2.5.2
 
   # Localization
@@ -112,3 +112,8 @@ flutter:
 
 flutter_intl:
   enabled: true
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo.jpg"

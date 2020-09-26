@@ -28,15 +28,19 @@ class _GameCardLargeState extends State<GameCardLarge> {
       margin: EdgeInsets.fromLTRB(0, 0, 0, 16),
       height: 208,
       decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              offset: Offset.fromDirection(90, 4),
-              blurRadius: 8,
-              color: Colors.grey,
-            ),
-          ],
-          color:
-              SwapThemeDataService.isDarkMode() ? Colors.white : Colors.white),
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Colors.black
+            : Colors.white,
+        boxShadow: [
+          BoxShadow(
+            offset: Offset.fromDirection(90, 4),
+            blurRadius: 8,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black
+                : Colors.grey,
+          ),
+        ],
+      ),
       child: Stack(
         children: [
           FittedBox(
@@ -50,7 +54,9 @@ class _GameCardLargeState extends State<GameCardLarge> {
             left: 0,
             right: 0,
             child: Container(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.black
+                  : Colors.white,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8.0, 4, 8, 4),
                 child: Flex(
@@ -65,19 +71,15 @@ class _GameCardLargeState extends State<GameCardLarge> {
                           Text(
                             widget.gameModel.gameTitle,
                             style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: SwapThemeDataService.isDarkMode()
-                                    ? Colors.white
-                                    : Colors.black),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             widget.gameModel.gameOwnerFirstName,
                             style: TextStyle(
-                                fontSize: 14,
-                                color: SwapThemeDataService.isDarkMode()
-                                    ? Colors.white
-                                    : Colors.black),
+                              fontSize: 14,
+                            ),
                           )
                         ],
                       ),

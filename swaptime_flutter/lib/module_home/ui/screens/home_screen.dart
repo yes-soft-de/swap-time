@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/camera/camer_routes.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_list/game_card_list.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/liked_module/ui/liked_screen/liked_screen.dart';
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
@@ -144,27 +145,27 @@ class _HomeScreenState extends State<HomeScreen> {
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text('Home'),
+          title: Text(S.of(context).home),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.notifications),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text('Notifications'),
+          title: Text(S.of(context).notifications),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.favorite),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text('Favorite'),
+          title: Text(S.of(context).favorite),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text('Profile'),
+          title: Text(S.of(context).profile),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text('Settings'),
+          title: Text(S.of(context).settings),
         ),
       ],
     );
@@ -189,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Insert via Camera',
+                    S.of(context).insertViaCamera,
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -233,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Insert via a Preset',
+                    S.of(context).insertViaAPreset,
                     style: TextStyle(color: Colors.white),
                   ),
                 ),

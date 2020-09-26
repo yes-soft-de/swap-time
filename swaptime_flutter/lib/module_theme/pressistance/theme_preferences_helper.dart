@@ -15,6 +15,8 @@ class ThemePreferencesHelper {
 
   Future<bool> isDarkMode() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getBool('dark');
+    bool dark = await preferences.getBool('dark');
+    print('Presissted Dark Mode ' + dark.toString());
+    return dark;
   }
 }

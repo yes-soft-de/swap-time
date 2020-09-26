@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:video_player/video_player.dart';
 
@@ -159,7 +160,7 @@ class _CameraScreenState extends State<CameraScreen>
       padding: const EdgeInsets.only(left: 25),
       child: Row(
         children: <Widget>[
-          const Text('Enable Audio:'),
+          Text(S.of(context).enableAudio),
           Switch(
             value: enableAudio,
             onChanged: (bool value) {
@@ -263,7 +264,7 @@ class _CameraScreenState extends State<CameraScreen>
     final List<Widget> toggles = <Widget>[];
 
     if (cameras.isEmpty) {
-      return const Text('No camera found');
+      return Text(S.of(context).noCameraFound);
     } else {
       for (CameraDescription cameraDescription in cameras) {
         toggles.add(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_forms/navigation_args/by_api_args/by_api_args.dart';
 import 'package:swaptime_flutter/module_forms/state_manager/add_by_image_manager/add_by_image_manager.dart';
 import 'package:swaptime_flutter/module_forms/states/by_image_state/by_image_state.dart';
@@ -196,7 +197,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
         GestureDetector(
           onTap: () {
             if (imageUrl == null) {
-              Fluttertoast.showToast(msg: 'Please Upload the Image');
+              Fluttertoast.showToast(msg: S.of(context).pleaseUploadTheImage);
               return;
             }
             widget._stateManager.saveGame(_gameName.text, _descriptionName.text,
@@ -208,7 +209,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                'Submit Game!',
+                S.of(context).submitGame,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -263,7 +264,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text('Upload Image'),
+                          child: Text(S.of(context).uploadImage),
                         )
                       ],
                     ),
@@ -305,7 +306,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text('Upload Image'),
+                          child: Text(S.of(context).uploadImage),
                         )
                       ],
                     ),
@@ -321,7 +322,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
 
   List<Widget> _getTagChips() {
     if (_tagList.isEmpty) {
-      return [Text('Empty Tag List')];
+      return [Text(S.of(context).emptyTagList)];
     }
     List<Widget> chips = [];
     _tagList.forEach((element) {

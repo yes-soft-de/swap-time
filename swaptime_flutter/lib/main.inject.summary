@@ -74,6 +74,13 @@
                 "qualifier": null
               },
               "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_theme/service/theme_service/theme_service.dart#SwapThemeDataService",
+                "qualifier": null
+              },
+              "isProvider": false
             }
           ]
         }

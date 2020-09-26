@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/module_profile/model/profile_model/profile_model.dart';
 import 'package:swaptime_flutter/module_profile/service/my_profile/my_profile.dart';
@@ -22,9 +23,14 @@ class SwapNavigationDrawer extends StatelessWidget {
             child: SvgPicture.asset(
               'assets/images/logo.svg',
               fit: BoxFit.cover,
-              colorBlendMode: BlendMode.screen,
+              colorBlendMode: BlendMode.softLight,
             ),
           ),
+
+          Positioned.fill(
+              child: Container(
+            color: Colors.black54,
+          )),
 
           // Foreground
           Positioned.fill(
@@ -35,54 +41,64 @@ class SwapNavigationDrawer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // region Header
-                Container(
-                  height: 116,
-                  color: Color(0x8FFFFFFF),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Flex(
-                      direction: Axis.horizontal,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        // User Image
-                        Container(
-                          height: 56,
-                          width: 56,
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.all(Radius.circular(90)),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(4),
-                            child: Icon(
-                              Icons.person,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        // User Details
-                        Flex(
-                          direction: Axis.vertical,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                FutureBuilder(
+                  future: profileService.hasProfile(),
+                  initialData: false,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                    if (!snapshot.hasData || !snapshot.data) {
+                      return Container();
+                    }
+                    return Container(
+                      height: 116,
+                      color: Color(0x8FFFFFFF),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            FutureBuilder(
-                              future: profileService.profile,
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<ProfileModel> snapshot) {
-                                if (!snapshot.hasData) {
-                                  return Text('Loading');
-                                }
-                                return Text('${snapshot.data.name}');
-                              },
+                            // User Image
+                            Container(
+                              height: 56,
+                              width: 56,
+                              decoration: BoxDecoration(
+                                color: Colors.green,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(90)),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(4),
+                                child: Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
-                            Text('Saudi Arabia'),
+                            // User Details
+                            Flex(
+                              direction: Axis.vertical,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                FutureBuilder(
+                                  future: profileService.profile,
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<ProfileModel> snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return Text(S.of(context).loading);
+                                    }
+                                    return Text('${snapshot.data.name}');
+                                  },
+                                ),
+                              ],
+                            )
                           ],
-                        )
-                      ],
-                    ),
-                  ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 // endregion
 
@@ -108,7 +124,7 @@ class SwapNavigationDrawer extends StatelessWidget {
                               width: 16,
                             ),
                             Text(
-                              'Feed',
+                              S.of(context).feed,
                               style: TextStyle(color: Colors.white),
                             ),
                           ],
@@ -134,7 +150,7 @@ class SwapNavigationDrawer extends StatelessWidget {
                             Container(
                               width: 16,
                             ),
-                            Text('Notifications',
+                            Text(S.of(context).notifications,
                                 style: TextStyle(color: Colors.white)),
                           ],
                         ),
@@ -157,7 +173,7 @@ class SwapNavigationDrawer extends StatelessWidget {
                             Container(
                               width: 16,
                             ),
-                            Text('Settings',
+                            Text(S.of(context).settings,
                                 style: TextStyle(color: Colors.white)),
                           ],
                         ),
@@ -181,7 +197,8 @@ class SwapNavigationDrawer extends StatelessWidget {
                             Container(
                               width: 16,
                             ),
-                            Text('TOS', style: TextStyle(color: Colors.white)),
+                            Text(S.of(context).tos,
+                                style: TextStyle(color: Colors.white)),
                           ],
                         ),
                       ),
@@ -204,10 +221,12 @@ class SwapNavigationDrawer extends StatelessWidget {
                             Container(
                               width: 16,
                             ),
-                            Text('Privacy Policy',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                )),
+                            Text(
+                              S.of(context).privacyPolicy,
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -217,39 +236,51 @@ class SwapNavigationDrawer extends StatelessWidget {
                 // endregion
 
                 // region Social Links
-                Flex(
-                  direction: Axis.horizontal,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        canLaunch('https://www.google.com').then((value) {
-                          launch('https://www.google.com');
-                        });
-                      },
-                      child: SvgPicture.asset('asset/images/twitter.svg'),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        canLaunch('https://www.google.com').then((value) {
-                          launch('https://www.google.com');
-                        });
-                      },
-                      child: SvgPicture.asset(
-                        'asset/images/facebook.svg',
+                Container(
+                  height: 36,
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          canLaunch('https://www.google.com').then((value) {
+                            launch('https://www.google.com');
+                          });
+                        },
+                        child: SvgPicture.asset('asset/images/twitter.svg'),
                       ),
-                    ),
-                  ],
+                      GestureDetector(
+                        onTap: () {
+                          canLaunch('https://www.google.com').then((value) {
+                            launch('https://www.google.com');
+                          });
+                        },
+                        child: SvgPicture.asset(
+                          'assets/images/facebook.svg',
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 // endregion
 
                 // region Feedback Button
-                Container(
-                  width: 252,
-                  height: 48,
-                  alignment: Alignment.center,
-                  color: Color(0xFFFFFFFF),
-                  child: Text('Feedback!'),
+                GestureDetector(
+                  onTap: () {
+                    canLaunch('https://www.google.com').then((value) {
+                      if (value) {
+                        launch('https://www.google.com');
+                      }
+                    });
+                  },
+                  child: Container(
+                    width: 252,
+                    height: 48,
+                    alignment: Alignment.center,
+                    color: Color(0xFFFFFFFF),
+                    child: Text(S.of(context).feedback),
+                  ),
                 ),
                 // endregion
               ],

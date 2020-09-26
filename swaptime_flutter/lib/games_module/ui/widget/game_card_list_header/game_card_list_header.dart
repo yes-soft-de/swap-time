@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 class GameCardListHeader extends StatelessWidget {
@@ -16,7 +17,7 @@ class GameCardListHeader extends StatelessWidget {
       direction: Axis.horizontal,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('Games List'),
+        Text(S.of(context).gamesList),
         Container(
           child: Flex(
             direction: Axis.horizontal,

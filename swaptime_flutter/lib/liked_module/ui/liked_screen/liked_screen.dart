@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/games_routes.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/liked_module/state_manager/liked_manager/liked_state_manager.dart';
 import 'package:swaptime_flutter/liked_module/states/liked_states.dart';
 import 'package:swaptime_flutter/liked_module/ui/widget/liked_item/liked_item.dart';
@@ -60,7 +61,7 @@ class _LikedScreenState extends State<LikedScreen> {
     List<Widget> likedGames = [];
 
     if (state.games.isEmpty) {
-      return Center(child: Text('Empty List'));
+      return Center(child: Text(S.of(context).emptyList));
     }
 
     state.games.forEach((element) {
@@ -96,9 +97,9 @@ class _LikedScreenState extends State<LikedScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Text('Error Loading Items'),
+        Text(S.of(context).errorLoadingItems),
         OutlineButton(
-            child: Text('Retry'),
+            child: Text(S.of(context).retry),
             onPressed: () {
               widget._stateManager.getLikedGames();
             })

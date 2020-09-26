@@ -32,7 +32,9 @@ class _GameCardSmallState extends State<GameCardSmall> {
           BoxShadow(
             offset: Offset.fromDirection(90, 4),
             blurRadius: 8,
-            color: Colors.grey,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black
+                : Colors.grey,
           )
         ]),
         child: Stack(
@@ -54,7 +56,9 @@ class _GameCardSmallState extends State<GameCardSmall> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.black
+                              : Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(90))),
                       child: IconButton(
                         icon: widget.gameModel.loved

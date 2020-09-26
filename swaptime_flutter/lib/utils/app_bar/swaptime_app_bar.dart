@@ -4,7 +4,9 @@ class SwaptimeAppBar {
   static AppBar getSwaptimeAppBar(GlobalKey<ScaffoldState> drawerKey) {
     return AppBar(
       leading: IconButton(
-        icon: Icon(Icons.menu),
+        icon: Icon(
+          Icons.menu,
+        ),
         onPressed: () {
           drawerKey.currentState.openDrawer();
         },
@@ -14,14 +16,7 @@ class SwaptimeAppBar {
         style: TextStyle(fontWeight: FontWeight.w300),
       ),
       centerTitle: true,
-      actions: [
-        IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () {
-            // TODO Move to Search Page
-          },
-        )
-      ],
+      actions: [],
     );
   }
 
@@ -33,12 +28,12 @@ class SwaptimeAppBar {
       ),
       centerTitle: true,
       actions: [
-        IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () {
-            // TODO Move to Search Page
-          },
-        )
+        // IconButton(
+        //   icon: Icon(Icons.search),
+        //   onPressed: () {
+        //     // TODO Move to Search Page
+        //   },
+        // )
       ],
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_auth/state_manager/auth_state_manager/auth_state_manager.dart';
 import 'package:swaptime_flutter/module_auth/states/auth_states/auth_states.dart';
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
@@ -192,19 +193,19 @@ class _AuthScreenState extends State<AuthScreen> {
                       items: [
                         DropdownMenuItem(
                           value: '+966',
-                          child: Text('Saudi Arabia'),
+                          child: Text(S.of(context).saudiArabia),
                         ),
                         DropdownMenuItem(
                           value: '+1',
-                          child: Text('USA'),
+                          child: Text(S.of(context).usa),
                         ),
                         DropdownMenuItem(
                           value: '+961',
-                          child: Text('Lebanon'),
+                          child: Text(S.of(context).lebanon),
                         ),
                         DropdownMenuItem(
                           value: '+963',
-                          child: Text('Syria'),
+                          child: Text(S.of(context).syria),
                         ),
                       ],
                     ),
@@ -214,11 +215,11 @@ class _AuthScreenState extends State<AuthScreen> {
                         child: TextFormField(
                           controller: _phoneController,
                           decoration: InputDecoration(
-                              labelText: 'Phone Number',
+                              labelText: S.of(context).phoneNumber,
                               hintText: '123 456 789'),
                           validator: (v) {
                             if (v.isEmpty) {
-                              return 'Please Input Phone Number';
+                              return S.of(context).pleaseInputPhoneNumber;
                             }
                             return null;
                           },
@@ -252,7 +253,9 @@ class _AuthScreenState extends State<AuthScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      loading == true ? 'Loading!' : 'Send me a Code!',
+                      loading == true
+                          ? S.of(context).loading
+                          : S.of(context).sendMeACode,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

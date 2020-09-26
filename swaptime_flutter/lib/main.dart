@@ -13,6 +13,7 @@ import 'package:swaptime_flutter/module_chat/chat_module.dart';
 import 'package:swaptime_flutter/module_forms/forms_module.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/module_profile/profile_module.dart';
+import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 import 'di/components/app.component.dart';
 import 'generated/l10n.dart';
@@ -34,11 +35,7 @@ void main() async {
 }
 
 @provide
-class MyApp extends StatelessWidget {
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
-
+class MyApp extends StatefulWidget {
   final HomeModule _homeModule;
   final FormsModule _formsModule;
   final ChatModule _chatModule;
@@ -47,6 +44,7 @@ class MyApp extends StatelessWidget {
   final ProfileModule _profileModule;
   final GamesModule _gamesModule;
   final LocalizationService _localizationService;
+  final SwapThemeDataService _swapThemeService;
 
   MyApp(
     this._homeModule,
@@ -57,43 +55,86 @@ class MyApp extends StatelessWidget {
     this._cameraModule,
     this._profileModule,
     this._localizationService,
+    this._swapThemeService,
   );
+
+  @override
+  State<StatefulWidget> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+
+  String lang;
+  bool isDarkMode;
+
+  @override
+  void initState() {
+    super.initState();
+
+    widget._localizationService.localizationStream.listen((event) {
+      lang = event;
+      setState(() {});
+    });
+
+    widget._swapThemeService.darkModeStream.listen((event) {
+      isDarkMode = event;
+      print('Dark Mode: ' + isDarkMode.toString());
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Map<String, WidgetBuilder> fullRoutesList = {};
 
-    fullRoutesList.addAll(_homeModule.getRoutes());
-    fullRoutesList.addAll(_formsModule.getRoutes());
-    fullRoutesList.addAll(_chatModule.getRoutes());
-    fullRoutesList.addAll(_authModule.getRoutes());
-    fullRoutesList.addAll(_cameraModule.getRoutes());
-    fullRoutesList.addAll(_profileModule.getRoutes());
-    fullRoutesList.addAll(_gamesModule.getRoutes());
+    fullRoutesList.addAll(widget._homeModule.getRoutes());
+    fullRoutesList.addAll(widget._formsModule.getRoutes());
+    fullRoutesList.addAll(widget._chatModule.getRoutes());
+    fullRoutesList.addAll(widget._authModule.getRoutes());
+    fullRoutesList.addAll(widget._cameraModule.getRoutes());
+    fullRoutesList.addAll(widget._profileModule.getRoutes());
+    fullRoutesList.addAll(widget._gamesModule.getRoutes());
 
-    return StreamBuilder(
-      stream: _localizationService.localizationStream,
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        return MaterialApp(
-            navigatorObservers: <NavigatorObserver>[observer],
-            locale: Locale.fromSubtags(
-              languageCode: snapshot.hasData ? snapshot.data : 'en',
-            ),
-            localizationsDelegates: [
-              S.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            theme: ThemeData(
-              primaryColor: Colors.white,
-              accentColor: Colors.pink,
-            ),
-            supportedLocales: S.delegate.supportedLocales,
-            title: 'Swaptime',
-            routes: fullRoutesList,
-            initialRoute: HomeRoutes.ROUTE_HOME);
+    return FutureBuilder(
+      future: getConfiguratedApp(fullRoutesList),
+      initialData: Scaffold(),
+      builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+        return snapshot.data;
       },
     );
+  }
+
+  Future<Widget> getConfiguratedApp(
+      Map<String, WidgetBuilder> fullRoutesList) async {
+    lang ??= await widget._localizationService.getLanguage();
+    isDarkMode ??= await widget._swapThemeService.isDarkMode();
+    print(isDarkMode.toString());
+
+    return MaterialApp(
+        navigatorObservers: <NavigatorObserver>[observer],
+        locale: Locale.fromSubtags(
+          languageCode: lang ?? 'en',
+        ),
+        localizationsDelegates: [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        theme: isDarkMode == true
+            ? ThemeData(
+                brightness: Brightness.dark,
+              )
+            : ThemeData(
+                brightness: Brightness.light,
+                primaryColor: Colors.white,
+              ),
+        supportedLocales: S.delegate.supportedLocales,
+        title: 'Swaptime',
+        routes: fullRoutesList,
+        initialRoute: HomeRoutes.ROUTE_HOME);
   }
 }
