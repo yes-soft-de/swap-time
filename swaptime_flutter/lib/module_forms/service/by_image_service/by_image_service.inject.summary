@@ -1,0 +1,55 @@
+{
+  "asset": "asset:swaptime_flutter/lib/module_forms/service/by_image_service/by_image_service.dart",
+  "summary": {
+    "injector": [],
+    "module": [],
+    "injectable": [
+      {
+        "name": "ByImageService",
+        "constructor": {
+          "name": "",
+          "kind": "constructor",
+          "injectedType": {
+            "lookupKey": {
+              "root": "asset:swaptime_flutter/lib/module_forms/service/by_image_service/by_image_service.dart#ByImageService",
+              "qualifier": null
+            },
+            "isProvider": false
+          },
+          "singleton": false,
+          "asynchronous": false,
+          "dependencies": [
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_upload/service/image_upload/image_upload_service.dart#ImageUploadService",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/utils/logger/logger.dart#Logger",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_forms/manager/swap_item_repository/swap_item_repository.dart#SwapItemManager",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_auth/service/auth_service/auth_service.dart#AuthService",
+                "qualifier": null
+              },
+              "isProvider": false
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

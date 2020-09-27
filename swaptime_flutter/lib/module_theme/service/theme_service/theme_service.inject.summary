@@ -1,0 +1,34 @@
+{
+  "asset": "asset:swaptime_flutter/lib/module_theme/service/theme_service/theme_service.dart",
+  "summary": {
+    "injector": [],
+    "module": [],
+    "injectable": [
+      {
+        "name": "SwapThemeDataService",
+        "constructor": {
+          "name": "",
+          "kind": "constructor",
+          "injectedType": {
+            "lookupKey": {
+              "root": "asset:swaptime_flutter/lib/module_theme/service/theme_service/theme_service.dart#SwapThemeDataService",
+              "qualifier": null
+            },
+            "isProvider": false
+          },
+          "singleton": false,
+          "asynchronous": false,
+          "dependencies": [
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_theme/pressistance/theme_preferences_helper.dart#ThemePreferencesHelper",
+                "qualifier": null
+              },
+              "isProvider": false
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

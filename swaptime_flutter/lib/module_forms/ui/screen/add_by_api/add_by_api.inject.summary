@@ -1,0 +1,34 @@
+{
+  "asset": "asset:swaptime_flutter/lib/module_forms/ui/screen/add_by_api/add_by_api.dart",
+  "summary": {
+    "injector": [],
+    "module": [],
+    "injectable": [
+      {
+        "name": "AddByApiScreen",
+        "constructor": {
+          "name": "",
+          "kind": "constructor",
+          "injectedType": {
+            "lookupKey": {
+              "root": "asset:swaptime_flutter/lib/module_forms/ui/screen/add_by_api/add_by_api.dart#AddByApiScreen",
+              "qualifier": null
+            },
+            "isProvider": false
+          },
+          "singleton": false,
+          "asynchronous": false,
+          "dependencies": [
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_forms/state_manager/add_by_api_manager/add_by_api_manager.dart#AddByApiStateManager",
+                "qualifier": null
+              },
+              "isProvider": false
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

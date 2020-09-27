@@ -1,0 +1,8 @@
+{
+  "asset": "asset:swaptime_flutter/lib/module_swap/ui/widget/exchange_game_card/exchange_game_card.dart",
+  "summary": {
+    "injector": [],
+    "module": [],
+    "injectable": []
+  }
+}

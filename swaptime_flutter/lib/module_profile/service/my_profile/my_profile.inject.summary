@@ -1,0 +1,55 @@
+{
+  "asset": "asset:swaptime_flutter/lib/module_profile/service/my_profile/my_profile.dart",
+  "summary": {
+    "injector": [],
+    "module": [],
+    "injectable": [
+      {
+        "name": "MyProfileService",
+        "constructor": {
+          "name": "",
+          "kind": "constructor",
+          "injectedType": {
+            "lookupKey": {
+              "root": "asset:swaptime_flutter/lib/module_profile/service/my_profile/my_profile.dart#MyProfileService",
+              "qualifier": null
+            },
+            "isProvider": false
+          },
+          "singleton": false,
+          "asynchronous": false,
+          "dependencies": [
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_profile/manager/my_profile_manager/my_profile_manager.dart#MyProfileManager",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_profile/presistance/profile_shared_preferences.dart#ProfileSharedPreferencesHelper",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_auth/service/auth_service/auth_service.dart#AuthService",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_profile/service/general_profile/general_profile.dart#GeneralProfileService",
+                "qualifier": null
+              },
+              "isProvider": false
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
