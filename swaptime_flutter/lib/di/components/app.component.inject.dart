@@ -172,7 +172,10 @@ class AppComponent$Injector implements _i1.AppComponent {
   _i27.RawGRepository _createRawGRepository() =>
       _i27.RawGRepository(_createApiClient());
   _i28.LikedScreen _createLikedScreen() => _i28.LikedScreen(
-      _createLikedStateManager(), _createGeneralProfileService());
+      _createLikedStateManager(),
+      _createGeneralProfileService(),
+      _createAuthService(),
+      _createMyProfileService());
   _i29.LikedStateManager _createLikedStateManager() =>
       _i29.LikedStateManager(_createLikedService());
   _i30.SettingsPage _createSettingsPage() => _i30.SettingsPage(
@@ -189,7 +192,8 @@ class AppComponent$Injector implements _i1.AppComponent {
   _i33.ThemePreferencesHelper _createThemePreferencesHelper() =>
       _i33.ThemePreferencesHelper();
   _i34.NotificationScreen _createNotificationScreen() =>
-      _i34.NotificationScreen(_createNotificationsStateManager());
+      _i34.NotificationScreen(_createNotificationsStateManager(),
+          _createMyProfileService(), _createAuthService());
   _i35.NotificationsStateManager _createNotificationsStateManager() =>
       _i35.NotificationsStateManager(
           _createNotificationService(), _createSwapService());

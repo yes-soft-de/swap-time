@@ -5,15 +5,22 @@ import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/liked_module/state_manager/liked_manager/liked_state_manager.dart';
 import 'package:swaptime_flutter/liked_module/states/liked_states.dart';
 import 'package:swaptime_flutter/liked_module/ui/widget/liked_item/liked_item.dart';
+import 'package:swaptime_flutter/module_auth/auth_routes.dart';
+import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_profile/model/profile_model/profile_model.dart';
+import 'package:swaptime_flutter/module_profile/profile_routes.dart';
 import 'package:swaptime_flutter/module_profile/service/general_profile/general_profile.dart';
+import 'package:swaptime_flutter/module_profile/service/my_profile/my_profile.dart';
 
 @provide
 class LikedScreen extends StatefulWidget {
   final LikedStateManager _stateManager;
   final GeneralProfileService _generalProfileService;
+  final MyProfileService _myProfileService;
+  final AuthService _authService;
 
-  LikedScreen(this._stateManager, this._generalProfileService);
+  LikedScreen(this._stateManager, this._generalProfileService,
+      this._authService, this._myProfileService);
 
   @override
   State<StatefulWidget> createState() => _LikedScreenState();
@@ -25,6 +32,20 @@ class _LikedScreenState extends State<LikedScreen> {
   @override
   void initState() {
     super.initState();
+    widget._authService.isLoggedIn.then((authorized) {
+      if (authorized == false || authorized == null) {
+        Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
+        return;
+      }
+      widget._myProfileService.hasProfile().then((value) {
+        if (value == false || value == null) {
+          Navigator.of(context).pushNamed(ProfileRoutes.MY_ROUTE_PROFILE);
+          return;
+        }
+        setState(() {});
+      });
+    });
+
     widget._stateManager.stateStream.listen((event) {
       currentState = event;
       if (mounted) setState(() {});

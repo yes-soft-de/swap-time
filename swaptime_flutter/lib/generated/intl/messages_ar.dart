@@ -42,7 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "lebanon" : MessageLookupByLibrary.simpleMessage("لبنان"),
     "loading" : MessageLookupByLibrary.simpleMessage("جار التحميل!"),
     "location" : MessageLookupByLibrary.simpleMessage("الموقع"),
-    "login" : MessageLookupByLibrary.simpleMessage("Login"),
+    "login" : MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "noCameraFound" : MessageLookupByLibrary.simpleMessage("لا يوجد كاميرا"),
     "notLoggedIn" : MessageLookupByLibrary.simpleMessage("غير مسجل دخول!"),
     "notifications" : MessageLookupByLibrary.simpleMessage("الإشعارات"),

@@ -33,12 +33,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     widget._authService.isLoggedIn.then((authorized) {
-      if (authorized == false) {
+      if (authorized == false || authorized == null) {
         Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
         return;
       }
       widget._myProfileService.hasProfile().then((value) {
-        if (value == false) {
+        if (value == false || value == null) {
           Navigator.of(context).pushNamed(ProfileRoutes.MY_ROUTE_PROFILE);
           return;
         }
