@@ -1,0 +1,34 @@
+{
+  "asset": "asset:swaptime_flutter/lib/module_forms/state_manager/add_by_api_manager/add_by_api_manager.dart",
+  "summary": {
+    "injector": [],
+    "module": [],
+    "injectable": [
+      {
+        "name": "AddByApiStateManager",
+        "constructor": {
+          "name": "",
+          "kind": "constructor",
+          "injectedType": {
+            "lookupKey": {
+              "root": "asset:swaptime_flutter/lib/module_forms/state_manager/add_by_api_manager/add_by_api_manager.dart#AddByApiStateManager",
+              "qualifier": null
+            },
+            "isProvider": false
+          },
+          "singleton": false,
+          "asynchronous": false,
+          "dependencies": [
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_forms/service/rawg_service/rawg_service.dart#RawGService",
+                "qualifier": null
+              },
+              "isProvider": false
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "asset": "asset:swaptime_flutter/lib/utils/logger/logger.dart",
+  "summary": {
+    "injector": [],
+    "module": [],
+    "injectable": [
+      {
+        "name": "Logger",
+        "constructor": {
+          "name": "",
+          "kind": "constructor",
+          "injectedType": {
+            "lookupKey": {
+              "root": "asset:swaptime_flutter/lib/utils/logger/logger.dart#Logger",
+              "qualifier": null
+            },
+            "isProvider": false
+          },
+          "singleton": true,
+          "asynchronous": false,
+          "dependencies": []
+        }
+      }
+    ]
+  }
+}

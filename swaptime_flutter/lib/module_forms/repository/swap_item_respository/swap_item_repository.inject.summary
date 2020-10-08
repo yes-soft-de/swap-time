@@ -1,0 +1,34 @@
+{
+  "asset": "asset:swaptime_flutter/lib/module_forms/repository/swap_item_respository/swap_item_repository.dart",
+  "summary": {
+    "injector": [],
+    "module": [],
+    "injectable": [
+      {
+        "name": "SwapItemRepository",
+        "constructor": {
+          "name": "",
+          "kind": "constructor",
+          "injectedType": {
+            "lookupKey": {
+              "root": "asset:swaptime_flutter/lib/module_forms/repository/swap_item_respository/swap_item_repository.dart#SwapItemRepository",
+              "qualifier": null
+            },
+            "isProvider": false
+          },
+          "singleton": false,
+          "asynchronous": false,
+          "dependencies": [
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_network/http_client/http_client.dart#ApiClient",
+                "qualifier": null
+              },
+              "isProvider": false
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
