@@ -35,6 +35,10 @@
 .idea/**/uiDesigner.xml
 
 
+.env
+.env.test
+
+upload/
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries
