@@ -2,23 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84b70c82-a589-4913-925a-cf97a95ac3b4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/config/packages/security.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/config/services.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Controller/FileUploadController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/Controller/FileUploadController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Controller/SwapItemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/Controller/SwapItemController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Entity/ImageEntity.php" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/Entity/ImageEntity.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Entity/SwapItemEntity.php" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/Entity/SwapItemEntity.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Repository/ImageEntityRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/Repository/ImageEntityRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Repository/SwapItemEntityRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/Repository/SwapItemEntityRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Request/SwapItemCreateRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/Request/SwapItemCreateRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Request/SwapItemImageCreateRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/Request/SwapItemImageCreateRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Response/ImageResponse.php" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/Response/ImageResponse.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Response/SwapItemsResponse.php" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/Response/SwapItemsResponse.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Service/ImageService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/Service/ImageService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Service/SwapItemService.php" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/Service/SwapItemService.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,6 +157,7 @@
       <workItem from="1601841133022" duration="1535000" />
       <workItem from="1602098358737" duration="19987000" />
       <workItem from="1602142026714" duration="12000" />
+      <workItem from="1602191405466" duration="314000" />
     </task>
     <servers />
   </component>
