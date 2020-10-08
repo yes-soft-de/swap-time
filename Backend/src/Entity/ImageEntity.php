@@ -27,6 +27,11 @@ class ImageEntity
      */
     private $swapItemID;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $specialLink;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class ImageEntity
     public function setSwapItemID(int $swapItemID): self
     {
         $this->swapItemID = $swapItemID;
+
+        return $this;
+    }
+
+    public function getSpecialLink(): ?bool
+    {
+        return $this->specialLink;
+    }
+
+    public function setSpecialLink(?bool $specialLink): self
+    {
+        $this->specialLink = $specialLink;
 
         return $this;
     }

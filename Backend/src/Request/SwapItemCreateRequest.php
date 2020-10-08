@@ -18,6 +18,43 @@ class SwapItemCreateRequest
 
     private $userID;
 
+    private $specialLink;
+
+    private $platform;
+
+    /**
+     * @return mixed
+     */
+    public function getPlatform()
+    {
+        return $this->platform;
+    }
+
+    /**
+     * @param mixed $platform
+     */
+    public function setPlatform($platform): void
+    {
+        $this->platform = $platform;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSpecialLink()
+    {
+        return $this->specialLink;
+    }
+
+    /**
+     * @param mixed $specialLink
+     */
+    public function setSpecialLink($specialLink): void
+    {
+        $this->specialLink = $specialLink;
+    }
+
+
     /**
      * @return mixed
      */

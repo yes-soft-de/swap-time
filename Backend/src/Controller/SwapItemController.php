@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\AutoMapping;
+use App\EventListener\UserListener;
 use App\Request\SwapItemCreateRequest;
 use App\Service\SwapItemService;
 use stdClass;
@@ -56,7 +57,13 @@ class SwapItemController extends BaseController
      */
     public function getSwapItems()
     {
-        $response = $this->swapItemService->getSwapItems();
+        $userID = 0;
+        if ($this->getUser())
+        {
+            $userID = $this->getUser()->getUsername();
+        }
+
+        $response = $this->swapItemService->getSwapItems($userID);
 
         return $this->response($response,self::FETCH);
     }
@@ -74,13 +81,19 @@ class SwapItemController extends BaseController
     }
 
     /**
-     * @Route("/swapitembyuserid/{id}", name="swapItemByUserId", methods="GET")
+     * @Route("/swapitembyuserid", name="swapItemByUserId", methods="GET")
      * @param Request $request
      * @return JsonResponse
      */
     public function swapItemByUserId(Request $request)
     {
-        $response = $this->swapItemService->getSwapItemByUserID($request->get('id'));
+        $userID = 0;
+        if ($this->getUser())
+        {
+            $userID = $this->getUser()->getUsername();
+        }
+
+        $response = $this->swapItemService->getSwapItemByUserID($userID);
 
         return $this->response($response,self::FETCH);
     }

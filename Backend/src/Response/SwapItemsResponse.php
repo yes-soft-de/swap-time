@@ -12,6 +12,8 @@ class SwapItemsResponse
 
     public $category;
 
+    public $platform;
+
     public $tag = [];
 
     public $description;
@@ -20,9 +22,15 @@ class SwapItemsResponse
 
     public $userID;
 
+    public $userName;
+
     public $commentNumber;
+
+    public $interaction;
 
     public $comments;
 
     public $images;
+
+    public $specialLink;
 }

@@ -22,7 +22,7 @@ class ImageEntityRepository extends ServiceEntityRepository
     public function getSwapItemImages($id)
     {
         return $this->createQueryBuilder('images')
-            ->select('images.image')
+            ->select('images.image', 'images.specialLink')
 
             ->andWhere('images.swapItemID = :id')
             ->setParameter('id', $id)

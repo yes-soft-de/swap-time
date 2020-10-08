@@ -47,6 +47,16 @@ class SwapItemEntity
      */
     private $userID;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $platform;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $specialLink;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +130,30 @@ class SwapItemEntity
     public function setUserID(string $userID): self
     {
         $this->userID = $userID;
+
+        return $this;
+    }
+
+    public function getPlatform(): ?string
+    {
+        return $this->platform;
+    }
+
+    public function setPlatform(?string $platform): self
+    {
+        $this->platform = $platform;
+
+        return $this;
+    }
+
+    public function getSpecialLink(): ?bool
+    {
+        return $this->specialLink;
+    }
+
+    public function setSpecialLink(?bool $specialLink): self
+    {
+        $this->specialLink = $specialLink;
 
         return $this;
     }

@@ -50,11 +50,9 @@ class FileUploadController extends AbstractController
                 return new JsonResponse($violationsString, Response::HTTP_OK);
             }
 
-            $baseURL = $this->params->get('upload_base_url');
-
             $filePath = $this->uploadFile->uploadImage($uploadedFile, null);
 
-            return new JsonResponse($baseURL.'/'.$filePath, Response::HTTP_OK);
+            return new JsonResponse($filePath, Response::HTTP_OK);
         }
 
     }

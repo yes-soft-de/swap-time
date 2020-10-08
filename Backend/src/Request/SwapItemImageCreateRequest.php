@@ -10,6 +10,24 @@ class SwapItemImageCreateRequest
 
     private $swapItemID;
 
+    private $specialLink;
+
+    /**
+     * @return mixed
+     */
+    public function getSpecialLink()
+    {
+        return $this->specialLink;
+    }
+
+    /**
+     * @param mixed $specialLink
+     */
+    public function setSpecialLink($specialLink): void
+    {
+        $this->specialLink = $specialLink;
+    }
+
     /**
      * @return mixed
      */

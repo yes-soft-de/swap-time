@@ -13,6 +13,7 @@ use App\Request\SwapItemCreateRequest;
 use App\Response\ImageResponse;
 use App\Response\SwapItemCreateResponse;
 use App\Response\SwapItemsResponse;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class SwapItemService
 {
@@ -20,25 +21,29 @@ class SwapItemService
     private $swapItemManager;
     private $commentService;
     private $imageService;
+    private $interactionService;
+    private $params;
 
-    public function __construct(AutoMapping $autoMapping, SwapItemManager $swapItemManager, CommentService $commentService, ImageService $imageService)
+    public function __construct(AutoMapping $autoMapping, SwapItemManager $swapItemManager, CommentService $commentService,
+                                ImageService $imageService, InteractionService $interactionService, ParameterBagInterface $params)
     {
         $this->autoMapping = $autoMapping;
         $this->swapItemManager = $swapItemManager;
         $this->commentService = $commentService;
         $this->imageService = $imageService;
+        $this->interactionService = $interactionService;
+
+        $this->params = $params->get('upload_base_url').'/';;
     }
 
     public function swapItemCreate(SwapItemCreateRequest $request)
     {
         $item = $this->swapItemManager->swapItemCreate($request);
 
-        $response = $this->autoMapping->map(SwapItemEntity::class,SwapItemCreateResponse::class, $item);
-
-        return $response;
+        return $this->autoMapping->map(SwapItemEntity::class,SwapItemCreateResponse::class, $item);
     }
 
-    public function getSwapItems()
+    public function getSwapItems($userID)
     {
         $itemsResponse = [];
 
@@ -46,9 +51,47 @@ class SwapItemService
 
         foreach ($items as $item)
         {
+            $item['mainImage'] =  $this->specialLinkCheck($item['specialLink']).$item['mainImage'];
             //
             $commentsCount = $this->commentService->commentsNumber($item['id']);
             $item['commentNumber'] = $commentsCount;
+            //
+            $images = $this->imageService->getImages($item['id']);
+            $item['images'] = $images;
+            //
+            $lovedCount = $this->interactionService->getLove($item['id']);
+            $item['interaction']['loved'] = $lovedCount;
+            //
+            $lovedCheck = $this->interactionService->checkUserLoved($item['id'], $userID);
+            $item['interaction']['checkLoved'] = $lovedCheck;
+            //
+
+            $itemsResponse[] = $this->autoMapping->map('array', SwapItemsResponse::class, $item);
+        }
+
+        return $itemsResponse;
+    }
+
+    public function getSwapItemByUserID($userID)
+    {
+        $itemsResponse = [];
+        $items = $this->swapItemManager->getSwapItemByUserID($userID);
+
+        foreach ($items as $item)
+        {
+            $item['mainImage'] =  $this->specialLinkCheck($item['specialLink']).$item['mainImage'];
+            //
+            $commentsCount = $this->commentService->commentsNumber($item['id']);
+            $item['commentNumber'] = $commentsCount;
+            //
+            $lovedCount = $this->interactionService->getLove($item['id']);
+            $item['interaction']['loved'] = $lovedCount;
+            //
+            $lovedCheck = $this->interactionService->checkUserLoved($item['id'], $userID);
+            $item['interaction']['checkLoved'] = $lovedCheck;
+            //
+            $comments = $this->commentService->getCommentsByID($item['id']);
+            $item['comments']= $comments;
             //
             $images = $this->imageService->getImages($item['id']);
             $item['images'] = $images;
@@ -81,29 +124,12 @@ class SwapItemService
         return $itemsResponse;
     }
 
-    public function getSwapItemByUserID($userID)
+    public function specialLinkCheck($bool)
     {
-        $itemsResponse = [];
-        $items = $this->swapItemManager->getSwapItemByUserID($userID);
-
-        foreach ($items as $item)
+        if ($bool == false)
         {
-            //
-            $commentsCount = $this->commentService->commentsNumber($item['id']);
-            $item['commentNumber'] = $commentsCount;
-            //
-            $comments = $this->commentService->getCommentsByID($item['id']);
-            $item['comments']= $comments;
-            //
-            $images = $this->imageService->getImages($item['id']);
-            $item['images'] = $images;
-            //
-
-            $itemsResponse[] = $this->autoMapping->map('array', SwapItemsResponse::class, $item);
+            return $this->params;
         }
-
-        return $itemsResponse;
     }
-
 
 }

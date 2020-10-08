@@ -3,7 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\SwapItemEntity;
+use App\Entity\UserEntity;
+use App\Entity\UserProfileEntity;
+use App\EventListener\UserListener;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,6 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SwapItemEntityRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, SwapItemEntity::class);
@@ -24,7 +29,14 @@ class SwapItemEntityRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('swapItems')
 
             ->select('swapItems.id', 'swapItems.name', 'swapItems.category', 'swapItems.tag', 'swapItems.description',
-                'swapItems.mainImage', 'swapItems.userID')
+                'swapItems.mainImage', 'swapItems.userID', 'user.userName as userName', 'swapItems.platform', 'swapItems.specialLink')
+
+            ->leftJoin(
+                UserProfileEntity::class,              //Entity
+                'user',                        //Alias
+                Join::WITH,              //Join Type
+                'user.userID = swapItems.userID'  //Join Column
+            )
 
             ->orderBy('swapItems.id', 'ASC')
 
@@ -36,7 +48,14 @@ class SwapItemEntityRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('swapItems')
             ->select('swapItems.id', 'swapItems.name', 'swapItems.category', 'swapItems.tag', 'swapItems.description',
-                'swapItems.mainImage', 'swapItems.userID')
+                'swapItems.mainImage', 'swapItems.userID', 'user.userName as userName', 'swapItems.platform', 'swapItems.specialLink')
+
+            ->leftJoin(
+                UserProfileEntity::class,              //Entity
+                'user',                        //Alias
+                Join::WITH,              //Join Type
+                'user.userID = swapItems.userID'  //Join Column
+            )
 
             ->andWhere('swapItems.id=:id')
             ->setParameter('id', $id)
@@ -49,8 +68,16 @@ class SwapItemEntityRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('swapItems')
             ->select('swapItems.id', 'swapItems.name', 'swapItems.category', 'swapItems.tag', 'swapItems.description',
-                'swapItems.mainImage', 'swapItems.userID')
+                'swapItems.mainImage', 'swapItems.userID', 'user.userName as userName', 'swapItems.platform', 'swapItems.specialLink')
 
+            ->leftJoin(
+                UserProfileEntity::class,              //Entity
+                'user',                        //Alias
+                Join::WITH,              //Join Type
+                'user.userID = swapItems.userID'  //Join Column
+            )
+
+            ->andWhere()
             ->andWhere('swapItems.userID=:userID')
             ->setParameter('userID', $userID)
 
