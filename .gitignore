@@ -73,8 +73,10 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+
 # mine
 /tmp
 /.tmp
 !.gitignore
 !.gitkeep
+config/jwt
