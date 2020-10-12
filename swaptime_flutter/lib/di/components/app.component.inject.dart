@@ -238,8 +238,8 @@ class AppComponent$Injector implements _i1.AppComponent {
       _createSwapService());
   _i50.GameDetailsManager _createGameDetailsManager() =>
       _i50.GameDetailsManager(_createGamesListService());
-  _i51.CommentListWidget _createCommentListWidget() =>
-      _i51.CommentListWidget(_createCommentStateManager());
+  _i51.CommentListWidget _createCommentListWidget() => _i51.CommentListWidget(
+      _createCommentStateManager(), _createAuthService());
   _i52.CommentStateManager _createCommentStateManager() =>
       _i52.CommentStateManager(_createCommentService());
   _i53.CommentService _createCommentService() =>

@@ -26,7 +26,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   final GlobalKey _signUpFormKey = GlobalKey<FormState>();
   final TextEditingController _phoneController = TextEditingController();
-  String countryCode = '+963';
+  String countryCode;
 
   final GlobalKey _confirmCodeKey = GlobalKey<FormState>();
   final TextEditingController _confirmationController = TextEditingController();
@@ -66,7 +66,6 @@ class _AuthScreenState extends State<AuthScreen> {
   void _getUI() {
     if (_currentState is AuthStateCodeSent) {
       pageLayout = Scaffold(
-          resizeToAvoidBottomInset: false,
           appBar: SwaptimeAppBar.getBackEnabledAppBar(),
           body: _getCodeSetter());
       if (mounted) setState(() {});
@@ -75,7 +74,6 @@ class _AuthScreenState extends State<AuthScreen> {
       if (mounted) setState(() {});
     } else {
       pageLayout = Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: SwaptimeAppBar.getBackEnabledAppBar(),
         body: _getPhoneSetter(),
       );
@@ -94,7 +92,9 @@ class _AuthScreenState extends State<AuthScreen> {
           Flex(
             direction: Axis.vertical,
             children: [
-              SvgPicture.asset('assets/images/logo.svg'),
+              MediaQuery.of(context).viewInsets.bottom == 0
+                  ? SvgPicture.asset('assets/images/logo.svg')
+                  : Container(),
               Text(_phoneController.text.trim()),
             ],
           ),
@@ -157,28 +157,10 @@ class _AuthScreenState extends State<AuthScreen> {
           Flex(
             direction: Axis.vertical,
             children: [
-              SvgPicture.asset('assets/images/logo.svg'),
-              Flex(direction: Axis.vertical, children: [
-                // GestureDetector(
-                //   onTap: () {
-                //     widget.manager.authWithGoogle();
-                //   },
-                //   child: Container(
-                //       height: 36,
-                //       decoration: BoxDecoration(
-                //         borderRadius: BorderRadius.all(Radius.circular(8)),
-                //         border: Border.all(width: 0.5),
-                //       ),
-                //       child: Flex(
-                //         direction: Axis.horizontal,
-                //         children: [
-                //           Image.asset('assets/images/google_logo.png'),
-                //           Container(width: 8),
-                //           Text('Sign in with Google')
-                //         ],
-                //       )),
-                // ),
-              ]),
+              MediaQuery.of(context).viewInsets.bottom == 0
+                  ? SvgPicture.asset('assets/images/logo.svg')
+                  : Container(),
+              Flex(direction: Axis.vertical, children: []),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
