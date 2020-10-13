@@ -14,10 +14,9 @@ RUN apt-get update && apt-get install -y build-essential libssl-dev zlib1g-dev l
 #ENV APACHE_DOCUMENT_ROOT=/var/www/html
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY . /var/www/html
-RUN cd 
-RUN pwd
-RUN cp .env /var/www/html
-RUN cp .htaccess /var/www/html/public/
+RUN cd && pwd && cp .env /var/www/html && cp .htaccess /var/www/html/public/
+
+
 
 RUN chown -R www-data:www-data /var && chmod -R g+rw /var
 COPY .htaccess /var/www/html/public/
