@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y build-essential libssl-dev zlib1g-dev l
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY . /var/www/html
 COPY --from=gcr.io/yescloud/swaps ./.env /var/www/html
-COPY --from=gcr.io/yescloud/swaps ./.htacces /var/www/html/public
+COPY --from=gcr.io/yescloud/swaps ./.htaccess /var/www/html/public
 COPY --from=gcr.io/yescloud/swaps ./jwt/ /var/www/html/config/jwt
 RUN chown -R www-data:www-data /var && chmod -R g+rw /var
 COPY --from=vendor /tmp/vendor/ /var/www/html/vendor/
