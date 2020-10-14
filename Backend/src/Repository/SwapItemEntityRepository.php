@@ -66,7 +66,7 @@ class SwapItemEntityRepository extends ServiceEntityRepository
 
     public function getItemByUserID($userID)
     {
-        return $this->createQueryBuilder('swapItems')
+        $r =  $this->createQueryBuilder('swapItems')
             ->select('swapItems.id', 'swapItems.name', 'swapItems.category', 'swapItems.tag', 'swapItems.description',
                 'swapItems.mainImage', 'swapItems.userID', 'user.userName as userName', 'swapItems.platform', 'swapItems.specialLink')
 
@@ -77,11 +77,12 @@ class SwapItemEntityRepository extends ServiceEntityRepository
                 'user.userID = swapItems.userID'  //Join Column
             )
 
-            ->andWhere()
             ->andWhere('swapItems.userID=:userID')
             ->setParameter('userID', $userID)
 
             ->getQuery()
             ->getResult();
+
+        dd ($r);
     }
 }
