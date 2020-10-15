@@ -55,9 +55,14 @@ class UserService
 
     public function getUserProfileByUserID($userID)
     {
-        $item = $this->userManager->getProfileByUserID($userID);
+        $itemsResponse = [];
 
-        $itemsResponse = $this->autoMapping->map(UserProfileEntity::class, UserProfileResponse::class, $item);
+        $items = $this->userManager->getProfileByUserID($userID);
+
+        foreach ($items as $item)
+        {
+            $itemsResponse[] = $this->autoMapping->map('array', UserProfileResponse::class, $item);
+        }
 
         return $itemsResponse;
     }
