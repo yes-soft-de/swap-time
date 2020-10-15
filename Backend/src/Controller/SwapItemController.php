@@ -87,6 +87,13 @@ class SwapItemController extends BaseController
      */
     public function swapItemByUserId(Request $request)
     {
+        if (!$request->headers->has('Authorization') && function_exists('apache_request_headers')) {
+            $all = apache_request_headers();
+            if (isset($all['Authorization'])) {
+                $request->headers->set('Authorization', $all['Authorization']);
+            }
+        }
+
         $userID = 0;
         if ($this->getUser())
         {
