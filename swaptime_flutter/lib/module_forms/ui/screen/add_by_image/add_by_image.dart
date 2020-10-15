@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_forms/navigation_args/by_api_args/by_api_args.dart';
+import 'package:swaptime_flutter/module_forms/service/rawg_service/rawg_service.dart';
 import 'package:swaptime_flutter/module_forms/state_manager/add_by_image_manager/add_by_image_manager.dart';
 import 'package:swaptime_flutter/module_forms/states/by_image_state/by_image_state.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
@@ -35,6 +36,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
 
   Widget currentPage;
   final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+  GamePlatform _gamePlatform;
 
   @override
   void initState() {
@@ -42,6 +44,8 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
     widget._stateManager.stateStream.listen((event) {
       _calcCurrentState(event);
     });
+
+    _tagList.clear();
   }
 
   @override
@@ -51,10 +55,12 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
       filePath = args;
     } else if (args is ByApiArgs) {
       imageUrl = args.imageUrl;
-      print('Image: ${args.imageUrl}');
       _gameName.text = args.gameName;
-      _tagList.clear();
-      _tagList.add(args.gamePlatform.toString().split('.')[1]);
+      if (args.gamePlatform != null) {
+        _gamePlatform = args.gamePlatform;
+      } else {
+        _gamePlatform = GamePlatform.PC;
+      }
     }
     if (currentPage == null) {
       _getUI();
@@ -120,6 +126,35 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                   ),
                   style: TextStyle(fontSize: 20),
                 ),
+              ),
+              DropdownButton(
+                hint: Text(S.of(context).platform),
+                value: _gamePlatform ?? GamePlatform.PS4,
+                onChanged: (value) {
+                  _gamePlatform = value;
+                },
+                items: [
+                  DropdownMenuItem(
+                    value: GamePlatform.SWITCH,
+                    child: Text(GamePlatform.SWITCH.toString().split('.')[1]),
+                  ),
+                  DropdownMenuItem(
+                    value: GamePlatform.PC,
+                    child: Text(GamePlatform.PC.toString().split('.')[1]),
+                  ),
+                  DropdownMenuItem(
+                    value: GamePlatform.PS3,
+                    child: Text(GamePlatform.PS3.toString().split('.')[1]),
+                  ),
+                  DropdownMenuItem(
+                    value: GamePlatform.PS4,
+                    child: Text(GamePlatform.PS4.toString().split('.')[1]),
+                  ),
+                  DropdownMenuItem(
+                    value: GamePlatform.PS5,
+                    child: Text(GamePlatform.PS5.toString().split('.')[1]),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -200,8 +235,13 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
               Fluttertoast.showToast(msg: S.of(context).pleaseUploadTheImage);
               return;
             }
-            widget._stateManager.saveGame(_gameName.text, _descriptionName.text,
-                List.from(_tagList), imageUrl);
+            widget._stateManager.saveGame(
+              _gameName.text,
+              _descriptionName.text,
+              List.from(_tagList),
+              imageUrl,
+              _gamePlatform,
+            );
           },
           child: Container(
             alignment: Alignment.center,

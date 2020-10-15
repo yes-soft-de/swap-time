@@ -48,12 +48,22 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentPage = 0;
 
   bool overlayOpened = false;
+  bool initiated = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var args = ModalRoute.of(context).settings.arguments;
-    if (args != null) {
-      currentPage = args;
+    if (!initiated) {
+      var args = ModalRoute.of(context).settings.arguments;
+
+      if (args != null) {
+        currentPage = args;
+      }
+      initiated = true;
     }
 
     var bodyPages = <Widget>[

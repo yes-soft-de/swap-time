@@ -46,6 +46,13 @@
                 "qualifier": null
               },
               "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/games_module/ui/widget/game_card_list/game_card_list.dart#GameCardList",
+                "qualifier": null
+              },
+              "isProvider": false
             }
           ]
         }

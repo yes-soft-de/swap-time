@@ -2,21 +2,41 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/module_chat/chat_routes.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
-class NotificationOnGoing extends StatelessWidget {
-  final String myGameUrl;
-  final String theirGameUrl;
-  final String theirName;
+class NotificationOnGoing extends StatefulWidget {
+  final Games gameOne;
+  final Games gameTow;
+  final String myId;
   final String chatRoomId;
+  final Function(Games) onChangeRequest;
 
-  NotificationOnGoing({
-    @required this.myGameUrl,
-    @required this.chatRoomId,
-    @required this.theirGameUrl,
-    @required this.theirName,
-  });
+  NotificationOnGoing(
+      {@required this.gameOne,
+      @required this.gameTow,
+      @required this.chatRoomId,
+      @required this.myId,
+      @required this.onChangeRequest});
+
+  @override
+  State<StatefulWidget> createState() => _NotificationState(
+      this.gameOne, this.gameTow, this.chatRoomId, this.myId);
+}
+
+class _NotificationState extends State<NotificationOnGoing> {
+  final Games gameOne;
+  final Games gameTow;
+  final String chatRoomId;
+  final String myId;
+
+  _NotificationState(
+    this.gameOne,
+    this.gameTow,
+    this.chatRoomId,
+    this.myId,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -43,73 +63,15 @@ class NotificationOnGoing extends StatelessWidget {
                     Flexible(
                       flex: 1,
                       fit: FlexFit.tight,
-                      child: Image.network(
-                        theirGameUrl,
-                        fit: BoxFit.cover,
-                      ),
+                      child: _gameSelector(gameOne),
                     ),
                     Flexible(
                       flex: 1,
                       fit: FlexFit.tight,
-                      child: myGameUrl != null
-                          ? Image.network(theirGameUrl)
-                          : Stack(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/images/logo.svg',
-                                  fit: BoxFit.cover,
-                                ),
-                                Positioned.fill(
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(12),
-                                      ),
-                                    ),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).pushNamed(
-                                          ChatRoutes.chatRoute,
-                                          arguments: chatRoomId,
-                                        );
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            color: SwapThemeDataService
-                                                .getAccent(),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(8))),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(16.0),
-                                          child: Text(
-                                            'Request Pending!',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                    )
+                      child: _gameSelector(gameTow),
+                    ),
                   ],
                 ),
-                myGameUrl != null
-                    ? Positioned.fill(
-                        child: Center(
-                        child: Container(
-                          color: SwapThemeDataService.getPrimary(),
-                          child: Icon(
-                            Icons.repeat,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ))
-                    : Container()
               ],
             ),
             Padding(
@@ -123,9 +85,9 @@ class NotificationOnGoing extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(90))),
+                          color: Colors.green,
+                          borderRadius: BorderRadius.all(Radius.circular(90)),
+                        ),
                         child: Padding(
                           padding: EdgeInsets.all(8),
                           child: Icon(
@@ -137,7 +99,11 @@ class NotificationOnGoing extends StatelessWidget {
                       Container(
                         width: 16,
                       ),
-                      Text(theirName)
+                      Text(
+                        gameOne.userID != myId
+                            ? gameOne.userName
+                            : gameTow.userID,
+                      )
                     ],
                   ),
                   IconButton(
@@ -164,6 +130,88 @@ class NotificationOnGoing extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _gameSelector(Games game) {
+    if (game != null) {
+      return Stack(
+        children: [
+          Image.network(
+            game.mainImage.substring(29),
+            fit: BoxFit.cover,
+          ),
+          Positioned.fill(
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12),
+                ),
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  widget.onChangeRequest(game);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: SwapThemeDataService.getAccent(),
+                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'Request Pending!',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+    return Stack(
+      children: [
+        SvgPicture.asset(
+          'assets/images/logo.svg',
+          fit: BoxFit.cover,
+        ),
+        Positioned.fill(
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12),
+              ),
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  ChatRoutes.chatRoute,
+                  arguments: chatRoomId,
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: SwapThemeDataService.getAccent(),
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'Request Pending!',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:inject/inject.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:swaptime_flutter/module_forms/service/by_image_service/by_image_service.dart';
+import 'package:swaptime_flutter/module_forms/service/rawg_service/rawg_service.dart';
 import 'package:swaptime_flutter/module_forms/states/by_image_state/by_image_state.dart';
 
 @provide
@@ -23,10 +24,10 @@ class AddByImageStateManager {
     });
   }
 
-  void saveGame(
-      String title, String description, List<String> tags, String imageUrl) {
+  void saveGame(String title, String description, List<String> tags,
+      String imageUrl, GamePlatform game) {
     _byImageService
-        .postProduct(title, description, tags, imageUrl)
+        .postProduct(title, description, tags, imageUrl, game)
         .then((value) {
       if (value == null) {
         _stateSubject.add(ByImageStatePostError('Error Saving Product'));

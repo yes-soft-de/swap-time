@@ -38,7 +38,17 @@ class CommentListWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(S.of(context).login),
+              Container(
+                alignment: Alignment.center,
+                height: 44,
+                child: Text(
+                  S.of(context).login,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
             ],
           ),
         ),

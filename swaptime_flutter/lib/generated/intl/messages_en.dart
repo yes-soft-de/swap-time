@@ -52,6 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "notLoggedIn" : MessageLookupByLibrary.simpleMessage("Not Logged in!"),
     "notifications" : MessageLookupByLibrary.simpleMessage("Notifications"),
     "phoneNumber" : MessageLookupByLibrary.simpleMessage("Phone Number"),
+    "platform" : MessageLookupByLibrary.simpleMessage("Platform"),
     "pleaseInputPhoneNumber" : MessageLookupByLibrary.simpleMessage("Please Input Phone Number"),
     "pleaseUploadTheImage" : MessageLookupByLibrary.simpleMessage("Please Upload the Image"),
     "privacyPolicy" : MessageLookupByLibrary.simpleMessage("Privacy Policy"),

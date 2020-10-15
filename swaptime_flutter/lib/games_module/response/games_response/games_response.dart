@@ -61,7 +61,12 @@ class Games {
     interaction = json['interaction'] != null
         ? new Interaction.fromJson(json['interaction'])
         : null;
-    comments = json['comments'];
+    if (json['comments'] != null) {
+      comments = <CommentModel>[];
+      json['comments'].forEach((v) {
+        comments.add(new CommentModel.fromJson(v));
+      });
+    }
     images = json['images'].cast<String>();
     specialLink = json['specialLink'];
   }

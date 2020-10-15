@@ -53,5 +53,6 @@
   "productDetails": "Product Details:",
   "name": "Name",
   "description": "Description",
-  "emptyText": "Empty Text?!!"
+  "emptyText": "Empty Text?!!",
+  "platform": "Platform"
 }

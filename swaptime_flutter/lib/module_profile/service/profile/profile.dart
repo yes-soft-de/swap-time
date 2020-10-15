@@ -42,10 +42,10 @@ class ProfileService {
 
     ProfileResponse response = await _manager.createMyProfile(request);
     if (response == null) return null;
-    await _preferencesHelper.setUserName(response.data.userName);
-    await _preferencesHelper.setUserImage(response.data.image);
-    await _preferencesHelper.setUserLocation(response.data.location);
-    await _preferencesHelper.setUserStory(response.data.story);
+    await _preferencesHelper.setUserName(response.userName);
+    await _preferencesHelper.setUserImage(response.image);
+    await _preferencesHelper.setUserLocation(response.location);
+    await _preferencesHelper.setUserStory(response.story);
     return response;
   }
 

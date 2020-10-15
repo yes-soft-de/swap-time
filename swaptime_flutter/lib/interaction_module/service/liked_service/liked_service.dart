@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/games_module/service/games_list_service/games_list_service.dart';
@@ -11,7 +10,6 @@ import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.d
 
 @provide
 class LikedService {
-  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   final AuthService _authService;
   final GamesListService _gamesListService;
   final InteractionManager _interactionManager;
@@ -22,7 +20,7 @@ class LikedService {
     this._interactionManager,
   );
 
-  Future<bool> like(String itemId, [String interactionId]) async {
+  Future<bool> like(String itemId, String interactionId) async {
     log('loving: $itemId');
     bool signIn = await _authService.isLoggedIn;
     if (!signIn) {
@@ -31,13 +29,14 @@ class LikedService {
     String userId = await _authService.userID;
     InteractionResponse response;
     if (interactionId != null) {
+      print('Updating a New interaction');
       var request = InteractionRequest(
           userID: userId, swapItemID: itemId, type: 3, id: interactionId);
-      response = await _interactionManager.postInteraction(request);
+      response = await _interactionManager.updateInteraction(request);
     } else {
       var request =
           InteractionRequest(userID: userId, swapItemID: itemId, type: 3);
-      response = await _interactionManager.updateInteraction(request);
+      response = await _interactionManager.postInteraction(request);
     }
 
     if (response == null) {

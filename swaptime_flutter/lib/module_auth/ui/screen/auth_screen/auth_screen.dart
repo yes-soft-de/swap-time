@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -209,12 +211,14 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: SignInWithAppleButton(
-                    style: SignInWithAppleButtonStyle.whiteOutlined,
-                    onPressed: () {
-                      widget.manager.signInWithApple();
-                    },
-                  ),
+                  child: Platform.isIOS
+                      ? SignInWithAppleButton(
+                          style: SignInWithAppleButtonStyle.whiteOutlined,
+                          onPressed: () {
+                            widget.manager.signInWithApple();
+                          },
+                        )
+                      : Container(),
                 ),
               ]),
               Padding(

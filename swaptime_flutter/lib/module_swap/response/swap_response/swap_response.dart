@@ -1,14 +1,15 @@
 class CreateSwapResponse {
   String statusCode;
   String msg;
-  Data data;
+  SwapItemModel data;
 
   CreateSwapResponse({this.statusCode, this.msg, this.data});
 
   CreateSwapResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     msg = json['msg'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data =
+        json['data'] != null ? new SwapItemModel.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -22,15 +23,16 @@ class CreateSwapResponse {
   }
 }
 
-class Data {
+class SwapItemModel {
   int swapItemIdOne;
   int swapItemIdTwo;
   String roomID;
   String status;
 
-  Data({this.swapItemIdOne, this.swapItemIdTwo, this.roomID, this.status});
+  SwapItemModel(
+      {this.swapItemIdOne, this.swapItemIdTwo, this.roomID, this.status});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  SwapItemModel.fromJson(Map<String, dynamic> json) {
     swapItemIdOne = json['swapItemIdOne'];
     swapItemIdTwo = json['swapItemIdTwo'];
     roomID = json['roomID'];

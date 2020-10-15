@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/games_routes.dart';
+import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/interaction_module/state_manager/liked_manager/liked_state_manager.dart';
 import 'package:swaptime_flutter/interaction_module/states/liked_states.dart';
@@ -82,11 +83,11 @@ class _LikedScreenState extends State<LikedScreen> {
     LikedStateLoadSuccess state = currentState;
     List<Widget> likedGames = [];
 
-    if (state.games.isEmpty) {
+    if (_processGames(state.games).isEmpty) {
       return Center(child: Text(S.of(context).emptyList));
     }
 
-    state.games.forEach((element) {
+    _processGames(state.games).forEach((element) {
       likedGames.add(FutureBuilder(
         future: widget._profileService.getUserProfile(element.userID),
         builder:
@@ -94,13 +95,15 @@ class _LikedScreenState extends State<LikedScreen> {
           if (snapshot.hasData && snapshot.data != null) {
             return GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
-                    arguments: element.id.toString());
+                Navigator.of(context).pushNamed(
+                  GamesRoutes.ROUTE_GAME_DETAILS,
+                  arguments: element.id,
+                );
               },
               child: LikedItemCard(
-                gameImageUrl: element.mainImage,
-                ownerFirstName: snapshot.data.data.userName,
-                ownerImageUrl: snapshot.data.data.image,
+                gameImageUrl: element.mainImage.substring(29),
+                ownerFirstName: snapshot.data.userName,
+                ownerImageUrl: snapshot.data.image.substring(29),
               ),
             );
           } else {
@@ -128,5 +131,14 @@ class _LikedScreenState extends State<LikedScreen> {
             })
       ],
     );
+  }
+
+  List<Games> _processGames(List<Games> gamesList) {
+    Map<int, Games> gamesMap = {};
+    gamesList.forEach((element) {
+      gamesMap[element.id] = element;
+    });
+
+    return List.of(gamesMap.values);
   }
 }

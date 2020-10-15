@@ -21,22 +21,13 @@ class LikedItemCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              flex: 1,
+              flex: 2,
               child: Flex(
                 direction: Axis.vertical,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.all(Radius.circular(90)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.white,
-                      ),
-                    ),
+                  FadeInImage.assetNetwork(
+                    placeholder: 'assets/images/logo.jpg',
+                    image: ownerImageUrl,
                   ),
                   Text(
                     ownerFirstName,
@@ -46,7 +37,7 @@ class LikedItemCard extends StatelessWidget {
               ),
             ),
             Flexible(
-              flex: 5,
+              flex: 6,
               child: Stack(
                 children: [
                   Positioned.fill(
@@ -66,7 +57,7 @@ class LikedItemCard extends StatelessWidget {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.chat),
+                        child: Icon(Icons.send),
                       ),
                     ),
                   )

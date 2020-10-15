@@ -7,12 +7,12 @@ import 'package:swaptime_flutter/module_swap/ui/widget/exchange_game_card/exchan
 class ExchangeSetterWidget extends StatefulWidget {
   final GamesListService gamesListService;
   final String userId;
-  final Function(String) onSwapSelected;
+  final Function(Games game) onGameSelected;
 
   ExchangeSetterWidget({
     @required this.gamesListService,
     @required this.userId,
-    @required this.onSwapSelected,
+    @required this.onGameSelected,
   });
 
   @override
@@ -20,7 +20,7 @@ class ExchangeSetterWidget extends StatefulWidget {
 }
 
 class _ExchangeSetterWidgetState extends State<ExchangeSetterWidget> {
-  String activeGameId;
+  Games activeGame;
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +46,10 @@ class _ExchangeSetterWidgetState extends State<ExchangeSetterWidget> {
             },
           ),
         ),
-        activeGameId != null
+        activeGame != null
             ? RaisedButton(
                 onPressed: () {
-                  widget.onSwapSelected(activeGameId);
+                  widget.onGameSelected(activeGame);
                 },
                 child: Text(S.of(context).setGame),
               )
@@ -61,8 +61,8 @@ class _ExchangeSetterWidgetState extends State<ExchangeSetterWidget> {
   List<Widget> getGamesCards(List<Games> games) {
     List<Widget> gameCards = [];
     games.forEach((game) {
-      gameCards.add(ExchangeGameCard(game, (gameId) {
-        activeGameId = gameId;
+      gameCards.add(ExchangeGameCard(game, (gameId) async {
+        activeGame = game;
       }));
     });
     return gameCards;

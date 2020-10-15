@@ -572,6 +572,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Platform`
+  String get platform {
+    return Intl.message(
+      'Platform',
+      name: 'platform',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

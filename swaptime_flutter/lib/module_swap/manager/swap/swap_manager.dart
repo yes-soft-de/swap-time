@@ -1,6 +1,7 @@
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/module_swap/repository/swap_repository/swap_repository.dart';
 import 'package:swaptime_flutter/module_swap/request/swap_request/swap_request.dart';
+import 'package:swaptime_flutter/module_swap/request/update_swap/update_swap_response.dart';
 import 'package:swaptime_flutter/module_swap/response/swap_list/swap_list_response.dart';
 import 'package:swaptime_flutter/module_swap/response/swap_response/swap_response.dart';
 
@@ -14,4 +15,7 @@ class SwapManager {
 
   Future<CreateSwapResponse> createSwap(CreateSwapRequest createSwapRequest) =>
       _swapRepository.createSwap(createSwapRequest);
+
+  Future<CreateSwapResponse> updateSwap(UpdateSwapRequest updateSwapRequest) =>
+      _swapRepository.updateSwap(updateSwapRequest);
 }

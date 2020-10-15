@@ -2,12 +2,14 @@ import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/consts/urls.dart';
 import 'package:swaptime_flutter/module_network/http_client/http_client.dart';
 import 'package:swaptime_flutter/module_swap/request/swap_request/swap_request.dart';
+import 'package:swaptime_flutter/module_swap/request/update_swap/update_swap_response.dart';
 import 'package:swaptime_flutter/module_swap/response/swap_list/swap_list_response.dart';
 import 'package:swaptime_flutter/module_swap/response/swap_response/swap_response.dart';
 
 @provide
 class SwapRepository {
   final ApiClient _client;
+
   SwapRepository(this._client);
 
   Future<SwapListResponse> getMySwaps(String userID) async {
@@ -20,6 +22,14 @@ class SwapRepository {
       CreateSwapRequest createSwapRequest) async {
     Map<String, dynamic> result =
         await _client.post(Urls.API_CREATE_SWAP, createSwapRequest.toJson());
+
+    return result != null ? CreateSwapResponse.fromJson(result) : null;
+  }
+
+  Future<CreateSwapResponse> updateSwap(
+      UpdateSwapRequest updateSwapRequest) async {
+    Map<String, dynamic> result =
+        await _client.put(Urls.API_CREATE_SWAP, updateSwapRequest.toJson());
 
     return result != null ? CreateSwapResponse.fromJson(result) : null;
   }

@@ -1,28 +1,4 @@
 class ProfileResponse {
-  String statusCode;
-  String msg;
-  Data data;
-
-  ProfileResponse({this.statusCode, this.msg, this.data});
-
-  ProfileResponse.fromJson(Map<String, dynamic> json) {
-    statusCode = json['status_code'];
-    msg = json['msg'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['status_code'] = this.statusCode;
-    data['msg'] = this.msg;
-    if (this.data != null) {
-      data['data'] = this.data.toJson();
-    }
-    return data;
-  }
-}
-
-class Data {
   int id;
   String userID;
   String userName;
@@ -30,7 +6,7 @@ class Data {
   String story;
   String image;
 
-  Data(
+  ProfileResponse(
       {this.id,
       this.userID,
       this.userName,
@@ -38,7 +14,7 @@ class Data {
       this.story,
       this.image});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  ProfileResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userID = json['userID'];
     userName = json['userName'];

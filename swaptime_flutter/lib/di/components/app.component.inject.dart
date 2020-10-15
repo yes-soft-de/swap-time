@@ -158,12 +158,12 @@ class AppComponent$Injector implements _i1.AppComponent {
   _i17.ProfileSharedPreferencesHelper _createProfileSharedPreferencesHelper() =>
       _i17.ProfileSharedPreferencesHelper();
   _i18.GameCardList _createGameCardList() =>
-      _i18.GameCardList(_createGamesListStateManager());
+      _i18.GameCardList(_createGamesListStateManager(), _createAuthService());
   _i19.GamesListStateManager _createGamesListStateManager() =>
       _i19.GamesListStateManager(_createGamesListService(),
           _createLikedService(), _createProfileService());
-  _i20.GamesListService _createGamesListService() =>
-      _i20.GamesListService(_createGamesManager(), _createAuthService());
+  _i20.GamesListService _createGamesListService() => _i20.GamesListService(
+      _createGamesManager(), _createAuthService(), _createMyProfileManager());
   _i21.GamesManager _createGamesManager() =>
       _i21.GamesManager(_createGamesRepository());
   _i22.GamesRepository _createGamesRepository() =>
@@ -206,8 +206,12 @@ class AppComponent$Injector implements _i1.AppComponent {
   _i36.ThemePreferencesHelper _createThemePreferencesHelper() =>
       _i36.ThemePreferencesHelper();
   _i37.NotificationScreen _createNotificationScreen() =>
-      _i37.NotificationScreen(_createNotificationsStateManager(),
-          _createProfileService(), _createAuthService());
+      _i37.NotificationScreen(
+          _createNotificationsStateManager(),
+          _createProfileService(),
+          _createAuthService(),
+          _createGamesListService(),
+          _createSwapService());
   _i38.NotificationsStateManager _createNotificationsStateManager() =>
       _i38.NotificationsStateManager(
           _createNotificationService(), _createSwapService());
@@ -251,7 +255,8 @@ class AppComponent$Injector implements _i1.AppComponent {
       _createGameDetailsManager(),
       _createSwapService(),
       _createCommentService(),
-      _createAuthService());
+      _createAuthService(),
+      _createGameCardList());
   _i55.GameDetailsManager _createGameDetailsManager() =>
       _i55.GameDetailsManager(_createGamesListService());
   _i56.CommentService _createCommentService() =>

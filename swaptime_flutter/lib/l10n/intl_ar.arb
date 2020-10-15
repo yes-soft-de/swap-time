@@ -6,7 +6,7 @@
   "retry": "اعادة المحاولة",
   "gamesList": "قائمة الألعاب",
   "requestASwap": "اطلب مبادلة!",
-  "errorGettingSwapItemId": "لا يزجد ID!",
+  "errorGettingSwapItemId": "لا يوجد ID!",
   "errorLoadingData": "خطأ في تحميل البينات",
   "emptyList": "قائمة فارغة",
   "phoneNumber": "رقم الهاتف",
@@ -48,10 +48,11 @@
   "notLoggedIn": "غير مسجل دخول!",
   "darkMode": "الوضع الليلي",
   "login": "تسجيل الدخول",
-  "confirm": "Confirm!",
-  "confirmationCode": "Confirmation Code",
-  "productDetails": "Product Details:",
-  "name": "Name",
-  "description": "Description",
-  "emptyText": "Empty Text?!!"
+  "confirm": "تأكيد!",
+  "confirmationCode": "رمز التأكيد",
+  "productDetails": "التفاصيل:",
+  "name": "الاسم",
+  "description": "الوصف",
+  "emptyText": "نص فارغ?!!",
+  "platform": "منصة الالعاب - نظام التشغيل"
 }

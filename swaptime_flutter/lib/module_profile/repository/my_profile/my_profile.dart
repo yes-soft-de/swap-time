@@ -2,6 +2,7 @@ import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/consts/urls.dart';
 import 'package:swaptime_flutter/module_network/http_client/http_client.dart';
 import 'package:swaptime_flutter/module_profile/request/create_profile.dart';
+import 'package:swaptime_flutter/module_profile/response/profile_list/profile_list_response.dart';
 import 'package:swaptime_flutter/module_profile/response/profile_response/profile_response.dart';
 
 @provide
@@ -20,13 +21,17 @@ class MyProfileRepository {
     Map<String, dynamic> response =
         await _apiClient.post(Urls.API_PROFILE, profileRequest.toJson());
 
-    return response == null ? null : ProfileResponse.fromJson(response);
+    return response == null
+        ? null
+        : ProfileListResponse.fromJson(response).data.last;
   }
 
   Future<ProfileResponse> getUserProfile(String userId) async {
     Map<String, dynamic> response =
         await _apiClient.get(Urls.API_PROFILE + '/$userId');
 
-    return response ?? ProfileResponse.fromJson(response);
+    return response != null
+        ? ProfileListResponse.fromJson(response).data.last
+        : null;
   }
 }

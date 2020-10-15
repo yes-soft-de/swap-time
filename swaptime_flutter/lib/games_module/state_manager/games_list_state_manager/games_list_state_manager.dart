@@ -34,8 +34,8 @@ class GamesListStateManager {
     });
   }
 
-  Future<bool> love(String itemId) {
-    return _likedService.like(itemId);
+  Future<bool> love(String itemId, interactionId) {
+    return _likedService.like(itemId, interactionId);
   }
 
   Future<bool> unLove(String itemId, [String interactionId]) {
@@ -44,6 +44,6 @@ class GamesListStateManager {
 
   Future<String> getUserName(String userId) async {
     ProfileResponse profile = await _profileService.getUserProfile(userId);
-    return profile.data.userName;
+    return profile.userName;
   }
 }

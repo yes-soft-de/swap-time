@@ -2,9 +2,11 @@ import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/games_module/service/games_list_service/games_list_service.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
+import 'package:swaptime_flutter/module_notifications/model/notifcation_item/notification_item.dart';
 import 'package:swaptime_flutter/module_swap/manager/swap/swap_manager.dart';
 import 'package:swaptime_flutter/module_swap/model/swap_model/swap_model.dart';
 import 'package:swaptime_flutter/module_swap/request/swap_request/swap_request.dart';
+import 'package:swaptime_flutter/module_swap/request/update_swap/update_swap_response.dart';
 import 'package:swaptime_flutter/module_swap/response/swap_list/swap_list_response.dart';
 import 'package:uuid/uuid.dart';
 
@@ -22,12 +24,20 @@ class SwapService {
 
   Future<SwapModel> createSwap(String gameOwnerId, int gameId) async {
     String uid = await _authService.userID;
-    var swapResponse = await _swapManager.createSwap(CreateSwapRequest(
-        userIdOne: uid,
-        userIdTwo: gameOwnerId,
-        swapItemIdOne: gameId,
-        date: DateTime.now().toIso8601String(),
-        roomID: Uuid().v1()));
+
+    if (uid == null) {
+      throw ('Unauthorized');
+    }
+
+    var swapResponse = await _swapManager.createSwap(
+      CreateSwapRequest(
+          userIdOne: uid,
+          userIdTwo: gameOwnerId,
+          swapItemIdOne: gameId,
+          swapItemIdTwo: -1,
+          date: DateTime.now().toIso8601String(),
+          roomID: Uuid().v1()),
+    );
 
     if (swapResponse == null) {
       return null;
@@ -36,7 +46,20 @@ class SwapService {
     return SwapModel();
   }
 
-  Future<SwapModel> startSwap(String swapId, String swapItemId) async {}
+  Future<SwapModel> updateSwap(NotificationModel swapItemModel) async {
+    UpdateSwapRequest updateSwapRequest = UpdateSwapRequest(
+      id: swapItemModel.swapId,
+      date: DateTime.now().toIso8601String(),
+      userIdOne: swapItemModel.gameOne.userID,
+      userIdTwo: swapItemModel.gameTwo.userID,
+      swapItemIdOne: swapItemModel.gameOne.id,
+      swapItemIdTwo: swapItemModel.gameTwo.id,
+      roomID: swapItemModel.chatRoomId,
+    );
+    var result = await _swapManager.updateSwap(updateSwapRequest);
+
+    return result != null ? SwapModel() : null;
+  }
 
   Future<List<SwapModel>> getSwapRequests() async {
     String uid = await _authService.userID;
@@ -58,8 +81,8 @@ class SwapService {
         result.secondGame = gameTwo;
       }
 
-      result.roomId = result.roomId;
-      result.id = result.id;
+      result.roomId = response.data[i].roomID;
+      result.id = response.data[i].id.toString();
 
       swaps.add(result);
     }

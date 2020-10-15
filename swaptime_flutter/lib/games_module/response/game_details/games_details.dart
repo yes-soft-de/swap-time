@@ -32,7 +32,7 @@ class GameDetails {
   String description;
   String mainImage;
   String userID;
-  int commentNumber;
+  String commentNumber;
   List<CommentModel> comments;
   List<String> images;
 

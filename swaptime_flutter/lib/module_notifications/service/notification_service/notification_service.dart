@@ -24,15 +24,12 @@ class NotificationService {
       var swap = swaps[i];
       Games ownerGameDetails = swap.firstGame;
       Games swapperGameDetails = swap.secondGame;
-
+      print('${swap.roomId}');
       notifications.add(NotificationModel(
         chatRoomId: swap.roomId,
         swapId: swap.id,
-        ownerGameImageLink:
-            ownerGameDetails != null ? ownerGameDetails.mainImage : null,
-        ownerName: ownerGameDetails.name,
-        swapperGameImageLink:
-            swapperGameDetails != null ? swapperGameDetails.mainImage : null,
+        gameOne: ownerGameDetails,
+        gameTwo: swapperGameDetails,
       ));
     }
     return notifications;
