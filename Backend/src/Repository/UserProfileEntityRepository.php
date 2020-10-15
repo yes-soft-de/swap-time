@@ -26,6 +26,7 @@ class UserProfileEntityRepository extends ServiceEntityRepository
             ->andWhere('profile.userID=:userID')
             ->setParameter('userID', $userID)
 
+            ->groupBy('profile.userID')
             ->getQuery()
             ->getOneOrNullResult();
 
