@@ -44,9 +44,9 @@ class _GameCardLargeState extends State<GameCardLarge> {
       child: Stack(
         children: [
           FittedBox(
-            child: Image.network(
-              widget.gameModel.imageUrl,
-              fit: BoxFit.fill,
+            child: FadeInImage.assetNetwork(
+              placeholder: 'assets/images/logo.jpg',
+              image: widget.gameModel.imageUrl,
             ),
           ),
           Positioned(

@@ -20,6 +20,9 @@ dependencies:
   # DI
   provider: ^4.3.2+2
 
+  # Crypto for SHA1
+  crypto: ^2.1.5
+
   # Dependency injection
   inject:
     git:

@@ -13,7 +13,7 @@ class GamesManager {
     return _repository.getUserGames(userId);
   }
 
-  Future<GameDetails> getGameById(String id) {
+  Future<GameDetails> getGameById(int id) {
     return _repository.getGameDetails(id);
   }
 }

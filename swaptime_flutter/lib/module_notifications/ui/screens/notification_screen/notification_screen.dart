@@ -7,13 +7,13 @@ import 'package:swaptime_flutter/module_notifications/model/notifcation_item/not
 import 'package:swaptime_flutter/module_notifications/state_manager/notifications_state_manager/notifcations_list_state_manager.dart';
 import 'package:swaptime_flutter/module_notifications/ui/widget/notification_ongoing/notification_ongoing.dart';
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
-import 'package:swaptime_flutter/module_profile/service/my_profile/my_profile.dart';
+import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
 
 @provide
 class NotificationScreen extends StatefulWidget {
   final NotificationsStateManager _manager;
   final AuthService _authService;
-  final MyProfileService _myProfileService;
+  final ProfileService _myProfileService;
 
   NotificationScreen(this._manager, this._myProfileService, this._authService);
 

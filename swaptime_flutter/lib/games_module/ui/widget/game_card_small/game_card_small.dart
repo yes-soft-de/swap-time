@@ -21,8 +21,6 @@ class GameCardSmall extends StatefulWidget {
 class _GameCardSmallState extends State<GameCardSmall> {
   @override
   Widget build(BuildContext context) {
-    widget.gameModel.imageUrl ??=
-        'https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/link_broken.png';
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -40,9 +38,9 @@ class _GameCardSmallState extends State<GameCardSmall> {
         child: Stack(
           children: [
             Positioned.fill(
-              child: Image.network(
-                widget.gameModel.imageUrl,
-                fit: BoxFit.cover,
+              child: FadeInImage.assetNetwork(
+                placeholder: 'assets/images/logo.jpg',
+                image: widget.gameModel.imageUrl,
               ),
             ),
             Positioned(

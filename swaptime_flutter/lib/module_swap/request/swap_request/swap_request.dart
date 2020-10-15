@@ -1,36 +1,36 @@
-class SwapItemCreateRequest {
-  String name;
-  String category;
-  List<String> tag;
-  String description;
-  String mainImage;
-  String userID;
+class CreateSwapRequest {
+  String userIdOne;
+  String userIdTwo;
+  int swapItemIdOne;
+  int swapItemIdTwo;
+  String roomID;
+  String date;
 
-  SwapItemCreateRequest(
-      {this.name,
-      this.category,
-      this.tag,
-      this.description,
-      this.mainImage,
-      this.userID});
+  CreateSwapRequest(
+      {this.userIdOne,
+      this.userIdTwo,
+      this.swapItemIdOne,
+      this.swapItemIdTwo,
+      this.roomID,
+      this.date});
 
-  SwapItemCreateRequest.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    category = json['category'];
-    tag = json['tag'].cast<String>();
-    description = json['description'];
-    mainImage = json['mainImage'];
-    userID = json['userID'];
+  CreateSwapRequest.fromJson(Map<String, dynamic> json) {
+    userIdOne = json['userIdOne'];
+    userIdTwo = json['userIdTwo'];
+    swapItemIdOne = json['swapItemIdOne'];
+    swapItemIdTwo = json['swapItemIdTwo'];
+    roomID = json['roomID'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = this.name;
-    data['category'] = this.category;
-    data['tag'] = this.tag;
-    data['description'] = this.description;
-    data['mainImage'] = this.mainImage;
-    data['userID'] = this.userID;
+    data['userIdOne'] = this.userIdOne;
+    data['userIdTwo'] = this.userIdTwo;
+    data['swapItemIdOne'] = this.swapItemIdOne;
+    data['swapItemIdTwo'] = this.swapItemIdTwo;
+    data['roomID'] = this.roomID;
+    data['date'] = this.date;
     return data;
   }
 }

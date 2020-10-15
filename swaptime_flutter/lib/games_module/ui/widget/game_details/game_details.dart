@@ -3,6 +3,8 @@ import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/state_manager/game_details_state_manager/game_details_list_manager.dart';
 import 'package:swaptime_flutter/games_module/states/game_details_state/game_details_state.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
+import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
+import 'package:swaptime_flutter/module_comment/service/comment_service/comment_service.dart';
 import 'package:swaptime_flutter/module_comment/ui/widget/comments_list_widget/comment_list_widget.dart';
 import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
@@ -11,10 +13,16 @@ import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 @provide
 class GameDetailsScreen extends StatefulWidget {
   final GameDetailsManager _manager;
-  final CommentListWidget _commentListWidget;
   final SwapService _swapService;
+  final CommentService _commentService;
+  final AuthService _authService;
 
-  GameDetailsScreen(this._manager, this._commentListWidget, this._swapService);
+  GameDetailsScreen(
+    this._manager,
+    this._swapService,
+    this._commentService,
+    this._authService,
+  );
 
   @override
   State<StatefulWidget> createState() => GameDetailsScreenState();
@@ -22,7 +30,7 @@ class GameDetailsScreen extends StatefulWidget {
 
 class GameDetailsScreenState extends State<GameDetailsScreen> {
   GameDetailsState currentState;
-  String gameId;
+  int gameId;
   bool swapRequested = false;
 
   @override
@@ -164,7 +172,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: !swapRequested
                                   ? Text(
-                                      'Request a Swap!',
+                                      S.of(context).requestASwap,
                                       style: TextStyle(
                                         color: Colors.white,
                                       ),
@@ -185,7 +193,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                 ),
                 // Product Details
                 Text(
-                  'Product Details:',
+                  S.of(context).productDetails,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -199,7 +207,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                         flex: 2,
                         fit: FlexFit.tight,
                         child: Text(
-                          'Name',
+                          S.of(context).name,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -222,7 +230,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                         flex: 2,
                         fit: FlexFit.tight,
                         child: Text(
-                          'Description',
+                          S.of(context).description,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -256,7 +264,30 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
           ),
           Container(
               width: MediaQuery.of(context).size.width,
-              child: widget._commentListWidget),
+              child: FutureBuilder(
+                future: widget._authService.userID,
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data != null) {
+                      return CommentListWidget(
+                          state.details.comments,
+                          (newComment) => {
+                                widget._commentService
+                                    .postComment(gameId, newComment),
+                                snapshot.data
+                              });
+                    }
+                  }
+                  return CommentListWidget(
+                      state.details.comments,
+                      (newComment) => {
+                            widget._commentService
+                                .postComment(gameId, newComment),
+                            snapshot.data
+                          });
+                },
+              )),
         ],
       ),
     );

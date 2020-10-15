@@ -23,7 +23,7 @@ class _ExchangeGameCardState extends State<ExchangeGameCard> {
       onTap: () {
         active = !active;
         if (active) {
-          widget.onGameSelected(widget.game.id);
+          widget.onGameSelected(widget.game.id.toString());
         }
       },
       child: Flex(

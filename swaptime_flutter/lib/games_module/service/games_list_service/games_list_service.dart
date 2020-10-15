@@ -1,6 +1,5 @@
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/manager/games_manager/games_manager.dart';
-import 'package:swaptime_flutter/games_module/response/game_details/games_details.dart';
 import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 
@@ -21,7 +20,13 @@ class GamesListService {
     return _manager.getUserGames(userId);
   }
 
-  Future<GameDetails> getGameDetails(String gameId) {
-    return _manager.getGameById(gameId);
+  Future<Games> getGameDetails(int gameId) async {
+    List<Games> games = await getAvailableGames;
+    for (int i = 0; i < games.length; i++) {
+      if (games[i].id == gameId) {
+        return games[i];
+      }
+    }
+    return null;
   }
 }

@@ -19,9 +19,5 @@ class NotificationsStateManager {
     });
   }
 
-  void startSwap(String swapId) {
-    _swapService.startSwap(swapId).then((value) {
-      _service.getNotifications();
-    });
-  }
+  void startSwap(String swapId) {}
 }

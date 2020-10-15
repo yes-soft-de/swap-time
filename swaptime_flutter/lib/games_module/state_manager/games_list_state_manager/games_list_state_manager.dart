@@ -2,9 +2,9 @@ import 'package:inject/inject.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:swaptime_flutter/games_module/service/games_list_service/games_list_service.dart';
 import 'package:swaptime_flutter/games_module/states/games_list_state/game_list_states.dart';
-import 'package:swaptime_flutter/liked_module/service/liked_service/liked_service.dart';
-import 'package:swaptime_flutter/module_profile/model/profile_model/profile_model.dart';
-import 'package:swaptime_flutter/module_profile/service/general_profile/general_profile.dart';
+import 'package:swaptime_flutter/interaction_module/service/liked_service/liked_service.dart';
+import 'package:swaptime_flutter/module_profile/response/profile_response/profile_response.dart';
+import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
 
 @provide
 class GamesListStateManager {
@@ -15,12 +15,12 @@ class GamesListStateManager {
 
   final GamesListService _service;
   final LikedService _likedService;
-  final GeneralProfileService _generalProfileService;
+  final ProfileService _profileService;
 
   GamesListStateManager(
     this._service,
     this._likedService,
-    this._generalProfileService,
+    this._profileService,
   );
 
   void getAvailableGames() {
@@ -28,25 +28,22 @@ class GamesListStateManager {
       if (gamesList == null) {
         _stateSubject.add(GamesListStateLoadError());
       } else {
-        _stateSubject.add(GamesListStateLoadSuccess(gamesList));
+        var games = Set.of(gamesList);
+        _stateSubject.add(GamesListStateLoadSuccess(List.of(games)));
       }
     });
-  }
-
-  Future<bool> isLoved(String itemId) {
-    return _likedService.isLiked(itemId);
   }
 
   Future<bool> love(String itemId) {
     return _likedService.like(itemId);
   }
 
-  Future<bool> unLove(String itemId) {
-    return _likedService.unLike(itemId);
+  Future<bool> unLove(String itemId, [String interactionId]) {
+    return _likedService.unLike(itemId, interactionId);
   }
 
   Future<String> getUserName(String userId) async {
-    ProfileModel profile = await _generalProfileService.getUserDetails(userId);
-    return profile.name;
+    ProfileResponse profile = await _profileService.getUserProfile(userId);
+    return profile.data.userName;
   }
 }

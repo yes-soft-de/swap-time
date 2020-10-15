@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/module_comment/model/comment_model/comment_model.dart';
-import 'package:swaptime_flutter/module_profile/model/profile_model/profile_model.dart';
-import 'package:swaptime_flutter/module_profile/service/general_profile/general_profile.dart';
 
 class CommentWidget extends StatelessWidget {
   final CommentModel commentModel;
@@ -15,30 +13,19 @@ class CommentWidget extends StatelessWidget {
       children: [
         Padding(
             padding: EdgeInsets.all(8.0),
-            child: FutureBuilder(
-              future:
-                  GeneralProfileService().getUserDetails(commentModel.userId),
-              builder:
-                  (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
-                if (snapshot.hasData && snapshot.data != null) {
-                  return Flex(
-                    direction: Axis.vertical,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: NetworkImage(snapshot.data.image),
-                          ),
-                        ),
-                      ),
-                      Text(snapshot.data.name)
-                    ],
-                  );
-                } else {
-                  return Container();
-                }
-              },
+            child: Flex(
+              direction: Axis.vertical,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: NetworkImage(commentModel.userImage),
+                    ),
+                  ),
+                ),
+                Text(commentModel.username)
+              ],
             )),
         Expanded(
             child: Padding(

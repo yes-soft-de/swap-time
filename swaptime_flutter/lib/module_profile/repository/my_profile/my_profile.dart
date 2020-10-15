@@ -22,4 +22,11 @@ class MyProfileRepository {
 
     return response == null ? null : ProfileResponse.fromJson(response);
   }
+
+  Future<ProfileResponse> getUserProfile(String userId) async {
+    Map<String, dynamic> response =
+        await _apiClient.get(Urls.API_PROFILE + '/$userId');
+
+    return response ?? ProfileResponse.fromJson(response);
+  }
 }
