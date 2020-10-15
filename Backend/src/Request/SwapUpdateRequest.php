@@ -4,6 +4,8 @@
 namespace App\Request;
 
 
+use DateTime;
+
 class SwapUpdateRequest
 {
     private $id;
@@ -45,7 +47,13 @@ class SwapUpdateRequest
      */
     public function getDate()
     {
-        return $this->date;
+        try
+        {
+            return new DateTime((string)$this->date);
+        }
+        catch (\Exception $e)
+        {
+        }
     }
 
     /**

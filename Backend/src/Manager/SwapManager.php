@@ -70,6 +70,8 @@ class SwapManager
             $item = $this->autoMapping->mapToObject(SwapUpdateRequest::class,
                 SwapEntity::class, $request, $item);
 
+            $item->setDate($request->getDate());
+
             $this->entityManager->flush();
             $this->entityManager->clear();
 
