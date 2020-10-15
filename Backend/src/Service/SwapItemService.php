@@ -65,6 +65,8 @@ class SwapItemService
             $lovedCheck = $this->interactionService->checkUserLoved($item['id'], $userID);
             $item['interaction']['checkLoved'] = $lovedCheck;
             //
+            $comments = $this->commentService->getCommentsByID($item['id']);
+            $item['comments']= $comments;
 
             $itemsResponse[] = $this->autoMapping->map('array', SwapItemsResponse::class, $item);
         }
