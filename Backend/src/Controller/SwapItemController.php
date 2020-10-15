@@ -94,7 +94,6 @@ class SwapItemController extends BaseController
             $userID = $this->getUser()->getUsername();
         }
 
-        dd($userID);
         $response = $this->swapItemService->getSwapItemByUserID($userID);
 
         return $this->response($response,self::FETCH);
