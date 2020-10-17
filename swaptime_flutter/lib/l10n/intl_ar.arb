@@ -54,5 +54,6 @@
   "name": "الاسم",
   "description": "الوصف",
   "emptyText": "نص فارغ?!!",
-  "platform": "منصة الالعاب - نظام التشغيل"
+  "platform": "منصة الالعاب - نظام التشغيل",
+  "search": "Search..."
 }

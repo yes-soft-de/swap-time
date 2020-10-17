@@ -50,10 +50,14 @@ class SwapService {
     UpdateSwapRequest updateSwapRequest = UpdateSwapRequest(
       id: swapItemModel.swapId,
       date: DateTime.now().toIso8601String(),
-      userIdOne: swapItemModel.gameOne.userID,
-      userIdTwo: swapItemModel.gameTwo.userID,
-      swapItemIdOne: swapItemModel.gameOne.id,
-      swapItemIdTwo: swapItemModel.gameTwo.id,
+      userIdOne:
+          swapItemModel.gameOne != null ? swapItemModel.gameOne.userID : null,
+      userIdTwo:
+          swapItemModel.gameTwo != null ? swapItemModel.gameTwo.userID : null,
+      swapItemIdOne:
+          swapItemModel.gameOne != null ? swapItemModel.gameOne.id : null,
+      swapItemIdTwo:
+          swapItemModel.gameTwo != null ? swapItemModel.gameTwo.id : null,
       roomID: swapItemModel.chatRoomId,
     );
     var result = await _swapManager.updateSwap(updateSwapRequest);
@@ -91,18 +95,18 @@ class SwapService {
   }
 
   Future<bool> isRequested(int gameId) async {
+    print('Requesting game ID: ' + gameId.toString());
     String uid = await _authService.userID;
     var swaps = await _swapManager.getMySwaps(uid);
     if (swaps == null) {
       return false;
     }
     for (int i = 0; i < swaps.data.length; i++) {
-      if (swaps.data[i].swapItemIdTwo == gameId ||
+      if (swaps.data[i].swapItemIdOne == gameId ||
           swaps.data[i].swapItemIdTwo == gameId) {
         return true;
       }
     }
-
     return false;
   }
 }

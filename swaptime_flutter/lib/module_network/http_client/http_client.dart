@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:inject/inject.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swaptime_flutter/utils/logger/logger.dart';
 
 @provide
@@ -21,7 +22,7 @@ class ApiClient {
     Map<String, String> queryParams,
     Map<String, String> headers,
   }) async {
-    Dio client = new Dio(BaseOptions(headers: headers));
+    Dio client = new Dio(BaseOptions());
     try {
       _logger.info(tag, 'Requesting GET to: ' + url);
       var response = await client.get(
@@ -30,7 +31,14 @@ class ApiClient {
       );
       return _processResponse(response);
     } catch (e) {
-      _logger.error(tag, e.toString() + url);
+      if (e is DioErrorType) {
+        if (e == DioErrorType.RESPONSE) {
+          var pref = await SharedPreferences.getInstance();
+          await pref.remove('token');
+          return get(url, queryParams: queryParams);
+        }
+      }
+      _logger.error(tag, e.toString() + ' ' + url);
       return null;
     }
   }
@@ -54,6 +62,9 @@ class ApiClient {
       return _processResponse(response);
     } catch (e) {
       _logger.error(tag, e.toString() + url);
+      if (headers != null) {
+        return get(url, queryParams: queryParams);
+      }
       return null;
     }
   }

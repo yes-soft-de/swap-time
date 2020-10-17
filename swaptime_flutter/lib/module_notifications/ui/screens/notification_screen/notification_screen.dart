@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/games_module/service/games_list_service/games_list_service.dart';
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
@@ -85,32 +86,37 @@ class _NotificationScreenState extends State<NotificationScreen> {
             gameTow: notifications[i].gameTwo,
             chatRoomId: notifications[i].chatRoomId,
             myId: snapshot.data,
+            swapId: notifications[i].swapId,
             onChangeRequest: (game) {
               // Change Games
-              var oldGame = 1;
-              if (game.id == notifications[i].gameTwo.id) {
-                oldGame = 2;
+              Games oldGame = game;
+              if (game == notifications[i].gameTwo) {
+                oldGame = notifications[i].gameTwo;
               }
               var dialog = Dialog(
                 child: ExchangeSetterWidget(
                   gamesListService: widget._gamesListService,
-                  userId: game.userID,
-                  onGameSelected: (newGame) {
-                    if (oldGame == 1) {
-                      notifications[i].gameOne = newGame;
-                    } else if (oldGame == 2) {
-                      notifications[i].gameTwo = newGame;
-                    }
-
-                    widget._swapService
-                        .updateSwap(notifications[i])
-                        .then((value) {
-                      widget._manager.getNotifications();
-                    });
-                  },
+                  myId: snapshot.data,
+                  userId: game != null ? game.userID : null,
                 ),
               );
-              showDialog(context: context, builder: (context) => dialog);
+              showDialog(context: context, builder: (context) => dialog)
+                  .then((rawNewGame) {
+                Games newGame = rawNewGame;
+                if (newGame != null) {
+                  if (oldGame == notifications[i].gameOne) {
+                    notifications[i].gameOne = newGame;
+                  } else if (oldGame == notifications[i].gameTwo) {
+                    notifications[i].gameTwo = newGame;
+                  }
+
+                  widget._swapService
+                      .updateSwap(notifications[i])
+                      .then((value) {
+                    widget._manager.getNotifications();
+                  });
+                }
+              });
             },
           );
         },

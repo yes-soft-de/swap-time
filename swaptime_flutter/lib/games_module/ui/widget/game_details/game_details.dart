@@ -140,9 +140,15 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                       future: widget._swapService.isRequested(gameId),
                       builder:
                           (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                        if (snapshot.hasData) {
+                          print('Is Requested? ' + snapshot.data.toString());
+                        }
                         if (snapshot.data != true) {
                           return GestureDetector(
                             onTap: () {
+                              Scaffold.of(context).showSnackBar(
+                                  SnackBar(content: Text('Requesting a swap')));
+                              swapRequested = true;
                               widget._swapService
                                   .createSwap(state.details.userID, gameId)
                                   .then((value) {
@@ -174,28 +180,19 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                                 state.details.userID,
                                 gameId,
                               );
-                              swapRequested = snapshot.data;
+                              swapRequested = true;
                               setState(() {});
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                color: snapshot.data
-                                    ? Colors.white
-                                    : SwapThemeDataService.getPrimary(),
+                                color: Colors.white,
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: !swapRequested
-                                    ? Text(
-                                        S.of(context).requestASwap,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    : Icon(
-                                        Icons.check,
-                                        color: SwapThemeDataService.getAccent(),
-                                      ),
+                                child: Icon(
+                                  Icons.check,
+                                  color: SwapThemeDataService.getAccent(),
+                                ),
                               ),
                             ),
                           );

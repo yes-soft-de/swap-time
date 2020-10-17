@@ -54,5 +54,6 @@
   "name": "Name",
   "description": "Description",
   "emptyText": "Empty Text?!!",
-  "platform": "Platform"
+  "platform": "Platform",
+  "search": "Search..."
 }

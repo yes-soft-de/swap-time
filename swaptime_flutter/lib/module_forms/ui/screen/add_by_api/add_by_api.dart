@@ -26,10 +26,13 @@ class _AddByApiState extends State<AddByApiScreen> {
   String selectedGameImage;
   GamePlatform selectedGamePlatform;
 
+  bool loading = false;
+
   @override
   void initState() {
     super.initState();
     widget._stateManager.stateStream.listen((event) {
+      loading = false;
       searchResult = event;
       setState(() {});
     });
@@ -53,7 +56,7 @@ class _AddByApiState extends State<AddByApiScreen> {
                       controller: _controller,
                       decoration: InputDecoration(
                         hintText: 'GTA V',
-                        labelText: 'Search...',
+                        labelText: S.of(context).search,
                         labelStyle: TextStyle(color: Colors.black),
                         hintStyle: TextStyle(color: Colors.black45),
                       ),
@@ -66,6 +69,7 @@ class _AddByApiState extends State<AddByApiScreen> {
                         selectedGamePlatform = null;
                         selectedGameImage = null;
                         selectedGameName = null;
+                        loading = true;
                         setState(() {});
                         widget._stateManager.search(_controller.text);
                       }),
@@ -79,7 +83,8 @@ class _AddByApiState extends State<AddByApiScreen> {
                       children: getSearchResult(),
                     )
                   : Center(
-                      child: Text(S.of(context).searchAGame),
+                      child:
+                          Text(loading ? 'Loading' : S.of(context).searchAGame),
                     ),
             ),
             selectedGamePlatform != null
@@ -95,9 +100,14 @@ class _AddByApiState extends State<AddByApiScreen> {
                                 selectedGamePlatform,
                               ));
                     },
-                    child: Text(S.of(context).add +
-                        selectedGameName +
-                        S.of(context).toMyCollection),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(S.of(context).add +
+                          ' ' +
+                          selectedGameName +
+                          ' ' +
+                          S.of(context).toMyCollection),
+                    ),
                   )
                 : Container(),
           ],

@@ -139,6 +139,10 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                     child: Text(GamePlatform.SWITCH.toString().split('.')[1]),
                   ),
                   DropdownMenuItem(
+                    value: GamePlatform.XBOX_ONE,
+                    child: Text(GamePlatform.XBOX_ONE.toString().split('.')[1]),
+                  ),
+                  DropdownMenuItem(
                     value: GamePlatform.PC,
                     child: Text(GamePlatform.PC.toString().split('.')[1]),
                   ),

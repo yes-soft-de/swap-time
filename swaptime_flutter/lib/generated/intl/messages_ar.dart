@@ -61,6 +61,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "requestASwap" : MessageLookupByLibrary.simpleMessage("اطلب مبادلة!"),
     "retry" : MessageLookupByLibrary.simpleMessage("اعادة المحاولة"),
     "saudiArabia" : MessageLookupByLibrary.simpleMessage("السعودية"),
+    "search" : MessageLookupByLibrary.simpleMessage("Search..."),
     "searchAGame" : MessageLookupByLibrary.simpleMessage("ابحث عن لعبة :)"),
     "sendMeACode" : MessageLookupByLibrary.simpleMessage("ارسل الرمز!"),
     "setExchangeGame" : MessageLookupByLibrary.simpleMessage("حدد المبادلة"),

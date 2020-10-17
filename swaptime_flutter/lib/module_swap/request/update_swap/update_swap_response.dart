@@ -32,7 +32,7 @@ class UpdateSwapRequest {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = this.id;
-    data['date'] = this.date;
+    data['date'] = this.date.substring(0, 10);
     data['userIdOne'] = this.userIdOne;
     data['userIdTwo'] = this.userIdTwo;
     data['swapItemIdOne'] = this.swapItemIdOne;

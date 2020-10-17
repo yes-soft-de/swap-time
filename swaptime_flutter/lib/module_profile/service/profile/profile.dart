@@ -21,9 +21,8 @@ class ProfileService {
 
   Future<ProfileModel> get profile async {
     var username = await _preferencesHelper.getUsername();
-    return ProfileModel(
-      name: username,
-    );
+    var image = await _preferencesHelper.getImage();
+    return ProfileModel(name: username, image: image);
   }
 
   Future<ProfileResponse> createProfile(
@@ -49,7 +48,14 @@ class ProfileService {
     return response;
   }
 
-  Future<ProfileResponse> getUserProfile(String userId) {
+  Future<ProfileResponse> getUserProfile(String userId) async {
+    var me = await _authService.userID;
+
+    if (userId == me) {
+      var myProfile = await profile;
+      return ProfileResponse(userName: myProfile.name, image: myProfile.image);
+    }
+
     return _manager.getUserProfile(userId);
   }
 }
