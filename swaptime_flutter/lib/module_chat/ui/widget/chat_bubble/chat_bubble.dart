@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ChatBubbleWidget extends StatefulWidget {
   final bool showImage;
   final String message;
-  final DateTime sentDate;
+  final String sentDate;
   final bool me;
 
   ChatBubbleWidget({
@@ -31,11 +31,21 @@ class ChatBubbleWidgetState extends State<ChatBubbleWidget> {
           width: 240,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: widget.me ? Colors.black12 : Colors.greenAccent,
+            border: Border.all(),
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.white
+                : Colors.black,
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text('${widget.message}'),
+            child: Text(
+              '${widget.message}',
+              style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
+              ),
+            ),
           ),
         ),
       ),

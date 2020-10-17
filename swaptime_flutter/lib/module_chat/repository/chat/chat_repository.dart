@@ -12,7 +12,7 @@ class ChatRepository {
         .doc(chatRoomID)
         .collection('messages')
         .orderBy('sentDate', descending: false)
-        .snapshots();
+        .snapshots(includeMetadataChanges: false);
   }
 
   void sendMessage(String chatRoomID, ChatModel chatMessage) {

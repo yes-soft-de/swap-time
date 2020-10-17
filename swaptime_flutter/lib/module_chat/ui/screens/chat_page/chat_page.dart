@@ -65,7 +65,6 @@ class ChatPageState extends State<ChatPage> {
 
     widget._chatPageBloc.chatBlocStream.listen((event) {
       currentState = event.first;
-      print('Got Event');
       if (event.first == ChatPageBloc.STATUS_CODE_GOT_DATA) {
         _chatMessagesList = event.last;
         if (chatsMessagesWidgets.length == _chatMessagesList.length) {
@@ -100,57 +99,59 @@ class ChatPageState extends State<ChatPage> {
             children: [
               gameOne == null && gameTwo == null
                   ? Container()
-                  : FutureBuilder(
-                      future: widget._authService.userID,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot) {
-                        return NotificationOnGoing(
-                          shrink: true,
-                          gameOne: gameOne,
-                          gameTow: gameTwo,
-                          chatRoomId: chatRoomId,
-                          myId: snapshot.data,
-                          onChangeRequest: (game) {
-                            // Change Games
-                            Games oldGame = game;
-                            if (game == gameTwo) {
-                              oldGame = gameTwo;
-                            }
-                            var dialog = Dialog(
-                              child: ExchangeSetterWidget(
-                                gamesListService: widget._gamesListService,
-                                myId: snapshot.data,
-                                userId: game != null ? game.userID : null,
-                              ),
-                            );
-                            showDialog(
-                                    context: context,
-                                    builder: (context) => dialog)
-                                .then((rawNewGame) {
-                              Games newGame = rawNewGame;
-                              if (newGame != null) {
-                                if (oldGame == gameOne) {
-                                  gameOne = newGame;
-                                } else if (oldGame == gameTwo) {
-                                  gameTwo = newGame;
+                  : MediaQuery.of(context).viewInsets.bottom == 0
+                      ? FutureBuilder(
+                          future: widget._authService.userID,
+                          builder: (BuildContext context,
+                              AsyncSnapshot<String> snapshot) {
+                            return NotificationOnGoing(
+                              shrink: true,
+                              gameOne: gameOne,
+                              gameTow: gameTwo,
+                              chatRoomId: chatRoomId,
+                              myId: snapshot.data,
+                              onChangeRequest: (game) {
+                                // Change Games
+                                Games oldGame = game;
+                                if (game == gameTwo) {
+                                  oldGame = gameTwo;
                                 }
+                                var dialog = Dialog(
+                                  child: ExchangeSetterWidget(
+                                    gamesListService: widget._gamesListService,
+                                    myId: snapshot.data,
+                                    userId: game != null ? game.userID : null,
+                                  ),
+                                );
+                                showDialog(
+                                        context: context,
+                                        builder: (context) => dialog)
+                                    .then((rawNewGame) {
+                                  Games newGame = rawNewGame;
+                                  if (newGame != null) {
+                                    if (oldGame == gameOne) {
+                                      gameOne = newGame;
+                                    } else if (oldGame == gameTwo) {
+                                      gameTwo = newGame;
+                                    }
 
-                                widget._swapService
-                                    .updateSwap(NotificationModel(
-                                        gameOne: gameOne,
-                                        gameTwo: gameTwo,
-                                        chatRoomId: chatRoomId,
-                                        swapId: swapId))
-                                    .then((value) {
-                                  setState(() {});
+                                    widget._swapService
+                                        .updateSwap(NotificationModel(
+                                            gameOne: gameOne,
+                                            gameTwo: gameTwo,
+                                            chatRoomId: chatRoomId,
+                                            swapId: swapId))
+                                        .then((value) {
+                                      setState(() {});
+                                    });
+                                  }
                                 });
-                              }
-                            });
+                              },
+                              swapId: swapId,
+                            );
                           },
-                          swapId: swapId,
-                        );
-                      },
-                    ),
+                        )
+                      : Container(),
               Flex(
                 direction: Axis.horizontal,
                 children: <Widget>[
@@ -197,10 +198,11 @@ class ChatPageState extends State<ChatPage> {
     FirebaseAuth auth = await FirebaseAuth.instance;
     User user = auth.currentUser;
     chatList.forEach((element) {
+      print(element.msg);
       newMessagesList.add(ChatBubbleWidget(
         message: element.msg,
         me: element.sender == user.uid ? true : false,
-        sentDate: DateTime.parse(element.sentDate),
+        sentDate: element.sentDate,
       ));
     });
     chatsMessagesWidgets = newMessagesList;

@@ -131,7 +131,6 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: TextStyle(
-                          color: Colors.black87,
                           fontSize: 24,
                         ),
                       ),
