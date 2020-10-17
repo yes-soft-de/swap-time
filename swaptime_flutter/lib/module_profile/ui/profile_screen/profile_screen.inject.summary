@@ -35,7 +35,7 @@
             },
             {
               "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/module_profile/service/my_profile/my_profile.dart#MyProfileService",
+                "root": "asset:swaptime_flutter/lib/module_profile/service/profile/profile.dart#ProfileService",
                 "qualifier": null
               },
               "isProvider": false

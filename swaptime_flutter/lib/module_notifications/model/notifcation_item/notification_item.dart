@@ -1,16 +1,15 @@
 import 'package:flutter/cupertino.dart';
+import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 
 class NotificationModel {
-  String swapperGameImageLink;
-  String ownerGameImageLink;
-  String ownerName;
+  Games gameOne;
+  Games gameTwo;
   String chatRoomId;
   String swapId;
 
   NotificationModel(
-      {@required this.swapperGameImageLink,
-      @required this.ownerGameImageLink,
-      @required this.ownerName,
+      {@required this.gameOne,
+      @required this.gameTwo,
       @required this.chatRoomId,
       @required this.swapId});
 }

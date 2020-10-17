@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
+
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -11,13 +16,6 @@ import 'package:swaptime_flutter/module_auth/states/auth_states/auth_states.dart
 @provide
 class AuthStateManager {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: <String>[
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
-
   final AuthService _authService;
 
   AuthStateManager(this._authService);
@@ -37,6 +35,7 @@ class AuthStateManager {
                 await _authService.loginUser(
                   _auth.currentUser.uid,
                   _auth.currentUser.displayName,
+                  null,
                   AUTH_SOURCE.PHONE,
                 );
                 _stateSubject.add(AuthStateSuccess());
@@ -59,45 +58,117 @@ class AuthStateManager {
     });
   }
 
-  void authWithGoogle() {
-    _googleSignIn.signIn().then((value) {
-      _authService.loginUser(value.id, value.displayName, AUTH_SOURCE.GOOGLE);
-    });
+  Future<void> authWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    // Create a new credential
+    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    var result = await FirebaseAuth.instance.signInWithCredential(credential);
+    await _loginUser(result);
   }
 
-  void authWithApple() {
-    SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-      webAuthenticationOptions: WebAuthenticationOptions(
-        clientId: 'com.aboutyou.dart_packages.sign_in_with_apple.example',
-        redirectUri: Uri.parse(
-          'https://flutter-sign-in-with-apple-example.glitch.me/callbacks/sign_in_with_apple',
-        ),
-      ),
-    );
+  Future<void> signInWithApple() async {
+    var oauthCred = await _createAppleOAuthCred();
+    UserCredential result =
+        await FirebaseAuth.instance.signInWithCredential(oauthCred);
+    await _loginUser(result);
+  }
+
+  Future<void> _loginUser(UserCredential result) async {
+    if (result != null) {
+      bool loginSuccess = await _authService.loginUser(
+        result.user.uid,
+        result.user.displayName,
+        result.user.email,
+        AUTH_SOURCE.APPLE,
+      );
+      if (loginSuccess) {
+        _stateSubject.add(AuthStateSuccess());
+      }
+    }
+    _stateSubject.add(AuthStateError('Can\'t Sign in!'));
   }
 
   void confirmWithCode(String code) {
     AuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: _verificationId, smsCode: code);
+      verificationId: _verificationId,
+      smsCode: code,
+    );
 
-    _auth.signInWithCredential(credential).then((value) async {
-      await _authService.loginUser(
-        _auth.currentUser.uid,
-        _auth.currentUser.displayName,
-        AUTH_SOURCE.PHONE,
-      );
-      _stateSubject.add(AuthStateSuccess());
-    }).catchError((err) {
-      _stateSubject.add(AuthStateError(err));
+    _auth.signInWithCredential(credential).then((result) async {
+      await _loginUser(result);
     });
   }
 
+  Future<OAuthCredential> _createAppleOAuthCred() async {
+    final nonce = _createNonce(32);
+    final nativeAppleCred = Platform.isIOS
+        ? await SignInWithApple.getAppleIDCredential(
+            scopes: [
+              AppleIDAuthorizationScopes.email,
+              AppleIDAuthorizationScopes.fullName,
+            ],
+            nonce: sha256.convert(utf8.encode(nonce)).toString(),
+          )
+        : await SignInWithApple.getAppleIDCredential(
+            scopes: [
+              AppleIDAuthorizationScopes.email,
+              AppleIDAuthorizationScopes.fullName,
+            ],
+            webAuthenticationOptions: WebAuthenticationOptions(
+              redirectUri: Uri.parse(
+                  'https://your-project-name.firebaseapp.com/__/auth/handler'),
+              clientId: 'your.app.bundle.name',
+            ),
+            nonce: sha256.convert(utf8.encode(nonce)).toString(),
+          );
+
+    return new OAuthCredential(
+      providerId: 'apple.com',
+      // MUST be "apple.com"
+      signInMethod: 'oauth',
+      // MUST be "oauth"
+      accessToken: nativeAppleCred.identityToken,
+      // propagate Apple ID token to BOTH accessToken and idToken parameters
+      idToken: nativeAppleCred.identityToken,
+      rawNonce: nonce,
+    );
+  }
+
+  String _createNonce(int length) {
+    final random = Random();
+    final charCodes = List<int>.generate(length, (_) {
+      int codeUnit;
+
+      switch (random.nextInt(3)) {
+        case 0:
+          codeUnit = random.nextInt(10) + 48;
+          break;
+        case 1:
+          codeUnit = random.nextInt(26) + 65;
+          break;
+        case 2:
+          codeUnit = random.nextInt(26) + 97;
+          break;
+      }
+
+      return codeUnit;
+    });
+
+    return String.fromCharCodes(charCodes);
+  }
+
   Future<bool> isSignedIn() async {
-    var user = await _auth.currentUser;
-    return user != null;
+    return _authService.isLoggedIn;
   }
 }

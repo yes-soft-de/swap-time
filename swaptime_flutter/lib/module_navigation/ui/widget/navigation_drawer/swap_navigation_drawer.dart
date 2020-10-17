@@ -4,11 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/module_profile/model/profile_model/profile_model.dart';
-import 'package:swaptime_flutter/module_profile/service/my_profile/my_profile.dart';
+import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SwapNavigationDrawer extends StatelessWidget {
-  final MyProfileService profileService;
+  final ProfileService profileService;
 
   SwapNavigationDrawer(this.profileService);
 

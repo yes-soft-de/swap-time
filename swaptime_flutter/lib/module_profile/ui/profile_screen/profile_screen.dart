@@ -6,14 +6,14 @@ import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_profile/presistance/profile_shared_preferences.dart';
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
-import 'package:swaptime_flutter/module_profile/service/my_profile/my_profile.dart';
+import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 @provide
 class ProfileScreen extends StatefulWidget {
   final GameCardList _cardList;
   final AuthService _authService;
-  final MyProfileService _myProfileService;
+  final ProfileService _myProfileService;
   final ProfileSharedPreferencesHelper _preferencesHelper;
 
   ProfileScreen(

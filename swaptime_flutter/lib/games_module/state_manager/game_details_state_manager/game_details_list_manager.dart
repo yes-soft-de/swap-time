@@ -11,7 +11,7 @@ class GameDetailsManager {
   final GamesListService _gamesListService;
   GameDetailsManager(this._gamesListService);
 
-  void getGameDetails(String gameId) {
+  void getGameDetails(int gameId) {
     _gamesListService.getGameDetails(gameId).then((value) {
       if (value == null) {
         _stateSubject.add(GameDetailsStateLoadError());

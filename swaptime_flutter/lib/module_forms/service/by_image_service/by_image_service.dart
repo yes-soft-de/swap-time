@@ -3,6 +3,7 @@ import 'package:swaptime_flutter/games_module/response/game_details/games_detail
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_forms/manager/swap_item_repository/swap_item_repository.dart';
 import 'package:swaptime_flutter/module_forms/request/item_create_request/item_create_request.dart';
+import 'package:swaptime_flutter/module_forms/service/rawg_service/rawg_service.dart';
 import 'package:swaptime_flutter/module_upload/service/image_upload/image_upload_service.dart';
 import 'package:swaptime_flutter/utils/logger/logger.dart';
 
@@ -32,16 +33,17 @@ class ByImageService {
     String description,
     List<String> tags,
     String imageUrl,
+    GamePlatform platform,
   ) async {
     _logger.info(TAG, 'Creating New Item');
     var userId = await _authService.userID;
     return _manager.createItem(ItemCreateRequest(
-      name: title,
-      description: description,
-      category: 'Games',
-      tag: tags,
-      mainImage: imageUrl,
-      userID: userId,
-    ));
+        name: title,
+        description: description,
+        category: 'Games',
+        tags: tags,
+        mainImage: imageUrl,
+        userID: userId,
+        platform: platform.toString().split('.')[1]));
   }
 }

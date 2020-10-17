@@ -1,36 +1,44 @@
 class ItemCreateRequest {
   String name;
+  String platform;
+  List<String> tags;
   String description;
-  String category;
   String mainImage;
+  bool specialLink = true;
   String userID;
-  List<String> tag;
+  String category = 'Games';
 
   ItemCreateRequest(
       {this.name,
+      this.platform,
+      this.tags,
       this.description,
-      this.category,
       this.mainImage,
+      this.specialLink,
       this.userID,
-      this.tag});
+      this.category});
 
   ItemCreateRequest.fromJson(Map<String, dynamic> json) {
     name = json['name'];
+    platform = json['platform'];
+    tags = json['tags'].cast<String>();
     description = json['description'];
-    category = json['category'];
     mainImage = json['mainImage'];
+    specialLink = json['specialLink'];
     userID = json['userID'];
-    tag = json['tag'].cast<String>();
+    category = json['category'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = this.name;
+    data['platform'] = this.platform;
+    data['tags'] = this.tags;
     data['description'] = this.description;
-    data['category'] = this.category;
     data['mainImage'] = this.mainImage;
+    data['specialLink'] = this.specialLink;
     data['userID'] = this.userID;
-    data['tag'] = this.tag;
+    data['category'] = this.category;
     return data;
   }
 }

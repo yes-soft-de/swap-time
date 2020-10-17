@@ -25,6 +25,20 @@
                 "qualifier": null
               },
               "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_swap/manager/swap/swap_manager.dart#SwapManager",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/games_module/service/games_list_service/games_list_service.dart#GamesListService",
+                "qualifier": null
+              },
+              "isProvider": false
             }
           ]
         }

@@ -1,9 +1,9 @@
-import 'package:swaptime_flutter/games_module/response/game_details/games_details.dart';
+import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 
 class GameDetailsState {}
 
 class GameDetailsStateLoadSuccess extends GameDetailsState {
-  GameDetails details;
+  Games details;
   GameDetailsStateLoadSuccess(this.details);
 }
 

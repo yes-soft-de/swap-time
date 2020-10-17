@@ -22,8 +22,6 @@ class GameCardMedium extends StatefulWidget {
 class _GameCardMediumState extends State<GameCardMedium> {
   @override
   Widget build(BuildContext context) {
-    widget.gameModel.imageUrl ??=
-        'https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/link_broken.png';
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -46,7 +44,10 @@ class _GameCardMediumState extends State<GameCardMedium> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Stack(children: [
-            Image.network(widget.gameModel.imageUrl),
+            FadeInImage.assetNetwork(
+              placeholder: 'assets/images/logo.jpg',
+              image: widget.gameModel.imageUrl,
+            ),
             Positioned(
               top: 0,
               right: 0,

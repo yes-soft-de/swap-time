@@ -1,69 +1,63 @@
 import 'package:flutter/material.dart';
-import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
-import 'package:swaptime_flutter/module_comment/state_manager/comment_state_manager/comment_state_manager.dart';
-import 'package:swaptime_flutter/module_comment/states/comment_states/comment_states.dart';
+import 'package:swaptime_flutter/module_auth/auth_routes.dart';
+import 'package:swaptime_flutter/module_comment/model/comment_model/comment_model.dart';
 import 'package:swaptime_flutter/module_comment/ui/widget/comment_widget/comment_widget.dart';
 import 'package:swaptime_flutter/module_comment/ui/widget/new_comment_widget/new_comment_widget.dart';
 
-@provide
-class CommentListWidget extends StatefulWidget {
-  final CommentStateManager _manager;
+class CommentListWidget extends StatelessWidget {
+  final String userId;
+  final List<CommentModel> commentList;
+  final Function(String newComment) onCommentAdded;
 
-  CommentListWidget(this._manager);
-
-  @override
-  State<StatefulWidget> createState() => _CommentListWidgetState();
-}
-
-class _CommentListWidgetState extends State<CommentListWidget> {
-  CommentState currentState;
-  String gameId;
-
-  @override
-  void initState() {
-    super.initState();
-    widget._manager.stateStream.listen((event) {
-      currentState = event;
-      if (mounted) setState(() {});
-    });
-  }
+  CommentListWidget(this.commentList, this.onCommentAdded, [this.userId]);
 
   @override
   Widget build(BuildContext context) {
-    gameId = ModalRoute.of(context).settings.arguments;
-    if (!(currentState is CommentStateLoadSuccess)) {
-      widget._manager.getComments(gameId);
+    List<Widget> commentWidgetLines = [];
+    commentList.forEach((element) {
+      commentWidgetLines.add(CommentWidget(element));
+    });
+    if (commentWidgetLines.isEmpty) {
+      commentWidgetLines.add(Padding(
+        padding: const EdgeInsets.fromLTRB(8, 32, 8, 32),
+        child: Text(S.of(context).beTheFirstToComment),
+      ));
     }
-    if (currentState is CommentStateLoadSuccess) {
-      CommentStateLoadSuccess state = currentState;
-      List<Widget> commentLines = [];
-      state.commentList.forEach((element) {
-        commentLines.add(CommentWidget(element));
-      });
-      if (commentLines.isEmpty) {
-        commentLines.add(Padding(
-          padding: const EdgeInsets.fromLTRB(8, 32, 8, 32),
-          child: Text(S.of(context).beTheFirstToComment),
-        ));
-      }
-      commentLines.add(NewCommentWidget((newComment) {
-        widget._manager.postComment(gameId, newComment);
+    if (userId != null) {
+      commentWidgetLines.add(NewCommentWidget((newComment) {
+        onCommentAdded(newComment);
       }));
-      return Flex(
-        direction: Axis.vertical,
-        children: commentLines,
-      );
+    } else {
+      commentWidgetLines.add(GestureDetector(
+        onTap: () {
+          Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
+        },
+        child: Container(
+          decoration: BoxDecoration(color: Colors.pink),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                alignment: Alignment.center,
+                height: 44,
+                child: Text(
+                  S.of(context).login,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ));
     }
+
     return Flex(
       direction: Axis.vertical,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: CircularProgressIndicator(),
-        )
-      ],
+      children: commentWidgetLines,
     );
   }
 }

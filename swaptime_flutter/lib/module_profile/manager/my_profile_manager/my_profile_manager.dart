@@ -12,6 +12,10 @@ class MyProfileManager {
     return _repository.getMyProfile();
   }
 
+  Future<ProfileResponse> getUserProfile(String userId) {
+    return _repository.getUserProfile(userId);
+  }
+
   Future<ProfileResponse> createMyProfile(
       CreateProfileRequest createProfileRequest) {
     return _repository.createMyProfile(createProfileRequest);

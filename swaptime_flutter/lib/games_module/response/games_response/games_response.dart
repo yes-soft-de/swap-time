@@ -1,3 +1,5 @@
+import 'package:swaptime_flutter/module_comment/model/comment_model/comment_model.dart';
+
 class GamesResponse {
   List<Games> games;
 
@@ -11,65 +13,73 @@ class GamesResponse {
       });
     }
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (this.games != null) {
-      data['games'] = this.games.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
 }
 
 class Games {
-  String id;
+  int id;
   String name;
   String category;
+  String platform;
   List<String> tag;
   String description;
   String mainImage;
   String userID;
+  String userName;
   String commentNumber;
-  List<String> comments;
+  Interaction interaction;
+  List<CommentModel> comments;
   List<String> images;
+  bool specialLink;
 
   Games(
       {this.id,
       this.name,
       this.category,
+      this.platform,
       this.tag,
       this.description,
       this.mainImage,
       this.userID,
+      this.userName,
       this.commentNumber,
+      this.interaction,
       this.comments,
-      this.images});
+      this.images,
+      this.specialLink});
 
   Games.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString();
+    id = json['id'];
     name = json['name'];
     category = json['category'];
+    platform = json['platform'];
     tag = json['tag'].cast<String>();
     description = json['description'];
     mainImage = json['mainImage'];
     userID = json['userID'];
-    commentNumber = json['commentNumber'].toString();
-    comments = json['comments'] != null ? json['comments'].cast<String>() : [];
-    images = json['images'] != null ? json['images'].cast<String>() : [];
+    userName = json['userName'];
+    commentNumber = json['commentNumber'];
+    interaction = json['interaction'] != null
+        ? new Interaction.fromJson(json['interaction'])
+        : null;
+    if (json['comments'] != null) {
+      comments = <CommentModel>[];
+      json['comments'].forEach((v) {
+        comments.add(new CommentModel.fromJson(v));
+      });
+    }
+    images = json['images'].cast<String>();
+    specialLink = json['specialLink'];
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['category'] = this.category;
-    data['tag'] = this.tag;
-    data['description'] = this.description;
-    data['mainImage'] = this.mainImage;
-    data['userID'] = this.userID;
-    data['commentNumber'] = this.commentNumber;
-    data['comments'] = this.comments;
-    data['images'] = this.images;
-    return data;
+class Interaction {
+  String loved;
+  bool checkLoved;
+
+  Interaction({this.loved, this.checkLoved});
+
+  Interaction.fromJson(Map<String, dynamic> json) {
+    loved = json['loved'];
+    checkLoved = json['checkLoved'];
   }
 }

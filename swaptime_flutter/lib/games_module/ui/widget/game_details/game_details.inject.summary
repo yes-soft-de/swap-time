@@ -28,14 +28,28 @@
             },
             {
               "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/module_comment/ui/widget/comments_list_widget/comment_list_widget.dart#CommentListWidget",
+                "root": "asset:swaptime_flutter/lib/module_swap/service/swap_service/swap_service.dart#SwapService",
                 "qualifier": null
               },
               "isProvider": false
             },
             {
               "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/module_swap/service/swap_service/swap_service.dart#SwapService",
+                "root": "asset:swaptime_flutter/lib/module_comment/service/comment_service/comment_service.dart#CommentService",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_auth/service/auth_service/auth_service.dart#AuthService",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/games_module/ui/widget/game_card_list/game_card_list.dart#GameCardList",
                 "qualifier": null
               },
               "isProvider": false

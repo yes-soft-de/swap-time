@@ -1,3 +1,5 @@
+import 'package:swaptime_flutter/module_comment/model/comment_model/comment_model.dart';
+
 class GameDetailsResponse {
   String statusCode;
   String msg;
@@ -30,8 +32,8 @@ class GameDetails {
   String description;
   String mainImage;
   String userID;
-  int commentNumber;
-  List<String> comments;
+  String commentNumber;
+  List<CommentModel> comments;
   List<String> images;
 
   GameDetails({
