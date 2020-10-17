@@ -4,21 +4,21 @@ import 'package:swaptime_flutter/module_chat/model/chat/chat_model.dart';
 
 @provide
 class ChatRepository {
-  Firestore _firestore = Firestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Stream<QuerySnapshot> requestMessages(String chatRoomID) {
     return _firestore
         .collection('chat_rooms')
-        .document(chatRoomID)
+        .doc(chatRoomID)
         .collection('messages')
         .orderBy('sentDate', descending: false)
-        .snapshots();
+        .snapshots(includeMetadataChanges: false);
   }
 
   void sendMessage(String chatRoomID, ChatModel chatMessage) {
     _firestore
         .collection('chat_rooms')
-        .document(chatRoomID)
+        .doc(chatRoomID)
         .collection('messages')
         .add(chatMessage.toJson());
   }

@@ -1,0 +1,16 @@
+import 'package:flutter/cupertino.dart';
+
+class GameModel {
+  String gameTitle;
+  String imageUrl;
+  String gameOwnerFirstName;
+  String itemId;
+  bool loved;
+
+  GameModel(
+      {@required this.gameTitle,
+      @required this.imageUrl,
+      @required this.gameOwnerFirstName,
+      @required this.itemId,
+      @required this.loved});
+}

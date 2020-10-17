@@ -1,0 +1,8 @@
+{
+  "asset": "asset:swaptime_flutter/lib/module_swap/request/swap_request/swap_request.dart",
+  "summary": {
+    "injector": [],
+    "module": [],
+    "injectable": []
+  }
+}

@@ -28,7 +28,21 @@
             },
             {
               "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/module_persistence/sharedpref/shared_preferences_helper.dart#SharedPreferencesHelper",
+                "root": "asset:swaptime_flutter/lib/module_auth/service/auth_service/auth_service.dart#AuthService",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/games_module/service/games_list_service/games_list_service.dart#GamesListService",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_swap/service/swap_service/swap_service.dart#SwapService",
                 "qualifier": null
               },
               "isProvider": false

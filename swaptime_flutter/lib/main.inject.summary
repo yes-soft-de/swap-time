@@ -35,6 +35,20 @@
             },
             {
               "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/games_module/games_module.dart#GamesModule",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_auth/auth_module.dart#AuthModule",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
                 "root": "asset:swaptime_flutter/lib/module_chat/chat_module.dart#ChatModule",
                 "qualifier": null
               },
@@ -42,7 +56,28 @@
             },
             {
               "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/user_authorization_module/user_auth.dart#UserAuthorizationModule",
+                "root": "asset:swaptime_flutter/lib/camera/camera_module.dart#CameraModule",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_profile/profile_module.dart#ProfileModule",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_localization/service/localization_service/localization_service.dart#LocalizationService",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_theme/service/theme_service/theme_service.dart#SwapThemeDataService",
                 "qualifier": null
               },
               "isProvider": false

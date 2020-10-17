@@ -6,17 +6,11 @@ import 'package:swaptime_flutter/module_home/ui/screens/home_screen.dart';
 
 @provide
 class HomeModule extends YesModule {
-  HomeScreen _homeScreen;
-
-  HomeModule() {
-    _homeScreen = HomeScreen();
-  }
+  final HomeScreen _homeScreen;
+  HomeModule(this._homeScreen);
 
   @override
   Map<String, WidgetBuilder> getRoutes() {
-    return {
-      HomeRoutes.home: (context) => _homeScreen
-    };
+    return {HomeRoutes.ROUTE_HOME: (context) => _homeScreen};
   }
-
 }

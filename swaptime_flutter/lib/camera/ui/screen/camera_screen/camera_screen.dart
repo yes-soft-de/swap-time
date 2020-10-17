@@ -1,23 +1,16 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-// ignore_for_file: public_member_api_docs
-
 import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:inject/inject.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
+import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:video_player/video_player.dart';
 
+@provide
 class CameraScreen extends StatefulWidget {
-  final Function(String) onImageSaved;
-  final Function(String) onVideoSaved;
-
-  CameraScreen({this.onImageSaved, this.onVideoSaved});
-
   @override
   _CameraScreenState createState() {
     return _CameraScreenState();
@@ -50,6 +43,8 @@ class _CameraScreenState extends State<CameraScreen>
   VoidCallback videoPlayerListener;
   bool enableAudio = true;
 
+  String redirectTo;
+
   @override
   void initState() {
     super.initState();
@@ -81,6 +76,10 @@ class _CameraScreenState extends State<CameraScreen>
 
   @override
   Widget build(BuildContext context) {
+    redirectTo = ModalRoute.of(context).settings.arguments;
+    redirectTo ??= HomeRoutes.ROUTE_HOME;
+    print('Redirect To: ' + redirectTo);
+
     if (cameras == null) {
       _allocateCameras();
       return Scaffold();
@@ -161,7 +160,7 @@ class _CameraScreenState extends State<CameraScreen>
       padding: const EdgeInsets.only(left: 25),
       child: Row(
         children: <Widget>[
-          const Text('Enable Audio:'),
+          Text(S.of(context).enableAudio),
           Switch(
             value: enableAudio,
             onChanged: (bool value) {
@@ -265,7 +264,7 @@ class _CameraScreenState extends State<CameraScreen>
     final List<Widget> toggles = <Widget>[];
 
     if (cameras.isEmpty) {
-      return const Text('No camera found');
+      return Text(S.of(context).noCameraFound);
     } else {
       for (CameraDescription cameraDescription in cameras) {
         toggles.add(
@@ -330,7 +329,10 @@ class _CameraScreenState extends State<CameraScreen>
           videoController?.dispose();
           videoController = null;
         });
-        if (filePath != null) showInSnackBar('Picture saved to $filePath');
+        if (filePath != null) {
+          Navigator.of(context).pushNamed(redirectTo, arguments: filePath);
+          showInSnackBar('Picture saved to $filePath');
+        }
       }
     });
   }
@@ -346,6 +348,7 @@ class _CameraScreenState extends State<CameraScreen>
     stopVideoRecording().then((_) {
       if (mounted) setState(() {});
       showInSnackBar('Video recorded to: $videoPath');
+      Navigator.of(context).pushNamed(redirectTo, arguments: videoPath);
     });
   }
 
