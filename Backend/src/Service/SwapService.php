@@ -81,12 +81,20 @@ class SwapService
         {
             $item['userOneImage'] = $this->params.$item['userOneImage'];
             $item['userTwoImage'] = $this->params.$item['userTwoImage'];
-            $item['swapItemOneImage'] = $this->params.$item['swapItemOneImage'];
-            $item['swapItemTwoImage'] = $this->params.$item['swapItemTwoImage'];
+            $item['swapItemOneImage'] = $this->specialLinkCheck($item['itemOneSpecialImage']).$item['swapItemOneImage'];
+            $item['swapItemTwoImage'] = $this->specialLinkCheck($item['itemTwoSpecialImage']).$item['swapItemTwoImage'];
 
             $itemsResponse[] = $this->autoMapping->map('array', SwapsResponse::class, $item);
         }
 
         return $itemsResponse;
+    }
+
+    public function specialLinkCheck($bool)
+    {
+        if ($bool == false)
+        {
+            return $this->params;
+        }
     }
 }

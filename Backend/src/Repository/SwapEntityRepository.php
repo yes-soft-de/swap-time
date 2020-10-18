@@ -55,7 +55,7 @@ class SwapEntityRepository extends ServiceEntityRepository
             ->select('swap.id', 'swap.date', 'swap.userIdOne', 'userOne.userName as userOneName','userTwo.userName as userTwoName',
                 'swap.userIdTwo', 'swap.swapItemIdOne', 'userOne.image as userOneImage', 'userTwo.image as userTwoImage',
                 'swap.swapItemIdTwo','swapItemOne.mainImage as swapItemOneImage','swapItemTwo.mainImage as swapItemTwoImage',
-                'swap.cost', 'swap.roomID', 'swap.status')
+                'swap.cost', 'swap.roomID', 'swap.status', 'swapItemOne.specialLink as itemOneSpecialImage', 'swapItemTwo.specialLink as itemTwoSpecialImage')
 
             ->leftJoin(
                 UserProfileEntity::class,              //Entity
