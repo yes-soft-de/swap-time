@@ -3,32 +3,6 @@
   "summary": {
     "injector": [],
     "module": [],
-    "injectable": [
-      {
-        "name": "CommentListWidget",
-        "constructor": {
-          "name": "",
-          "kind": "constructor",
-          "injectedType": {
-            "lookupKey": {
-              "root": "asset:swaptime_flutter/lib/module_comment/ui/widget/comments_list_widget/comment_list_widget.dart#CommentListWidget",
-              "qualifier": null
-            },
-            "isProvider": false
-          },
-          "singleton": false,
-          "asynchronous": false,
-          "dependencies": [
-            {
-              "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/module_comment/state_manager/comment_state_manager/comment_state_manager.dart#CommentStateManager",
-                "qualifier": null
-              },
-              "isProvider": false
-            }
-          ]
-        }
-      }
-    ]
+    "injectable": []
   }
 }

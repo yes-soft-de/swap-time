@@ -1,36 +1,29 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
-import 'package:swaptime_flutter/module_comment/model/comment_model/comment_model.dart';
+import 'package:swaptime_flutter/module_comment/manager/comment_manager/comment_manager.dart';
+import 'package:swaptime_flutter/module_comment/request/create_comment/create_comment.dart';
+import 'package:swaptime_flutter/module_comment/response/comment/create_comment_response.dart';
 
 @provide
 class CommentService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final AuthService _authService;
+  final CommentManager _commentManager;
+  CommentService(
+    this._authService,
+    this._commentManager,
+  );
 
-  CommentService(this._authService);
-
-  Future<CommentModel> postComment(String gameId, String commentMsg) async {
+  Future<CreateCommentResponse> postComment(
+      int gameId, String commentMsg) async {
     String uid = await _authService.userID;
-    CommentModel model = CommentModel(userId: uid, comment: commentMsg);
-    await _firestore
-        .collection('comments')
-        .doc(gameId)
-        .collection('comments')
-        .add(model.toJson());
-    return model;
-  }
+    CreateCommentRequest commentRequest = CreateCommentRequest(
+        comment: commentMsg,
+        userID: uid,
+        date: DateTime.now().toIso8601String(),
+        swapItemID: gameId);
 
-  Future<List<CommentModel>> getComments(String gameId) async {
-    List<CommentModel> comments = [];
-    var commentResponse = await _firestore
-        .collection('comments')
-        .doc(gameId)
-        .collection('comments')
-        .get();
-    commentResponse.docs.forEach((element) {
-      comments.add(CommentModel.fromJson(element.data()));
-    });
-    return comments;
+    var newComment = await _commentManager.createComment(commentRequest);
+
+    return newComment;
   }
 }

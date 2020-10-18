@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/games_routes.dart';
 import 'package:swaptime_flutter/games_module/model/game_model.dart';
+import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/games_module/state_manager/games_list_state_manager/games_list_state_manager.dart';
 import 'package:swaptime_flutter/games_module/states/games_list_state/game_list_states.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_large/game_card_large.dart';
@@ -11,12 +12,14 @@ import 'package:swaptime_flutter/games_module/ui/widget/game_card_medium/game_ca
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_small/game_card_small.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
+import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 
 @provide
 class GameCardList extends StatefulWidget {
   final GamesListStateManager _stateManager;
+  final AuthService _authService;
 
-  GameCardList(this._stateManager);
+  GameCardList(this._stateManager, this._authService);
 
   @override
   State<StatefulWidget> createState() => _GameCardListState();
@@ -26,12 +29,18 @@ class _GameCardListState extends State<GameCardList> {
   GameCardType currentType = GameCardType.GAME_CARD_MEDIUM;
   GamesListState currentState = GamesListStateInit();
 
+  bool loggedIn = false;
+
   @override
   void initState() {
     super.initState();
     widget._stateManager.stateStream.listen((event) {
       currentState = event;
       if (mounted) setState(() {});
+    });
+
+    widget._authService.isLoggedIn.then((value) {
+      loggedIn = value;
     });
     widget._stateManager.getAvailableGames();
   }
@@ -90,53 +99,27 @@ class _GameCardListState extends State<GameCardList> {
     Widget gamesGrid;
     switch (currentType) {
       case GameCardType.GAME_CARD_SMALL:
-        gamesGrid = FutureBuilder(
-          future: getSmallCards(),
-          builder:
-              (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
-            if (!snapshot.hasData) {
-              return Container();
-            }
-            return GridView.count(
-                crossAxisCount: 3,
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                children: snapshot.data);
-          },
+        gamesGrid = GridView.count(
+          crossAxisCount: 3,
+          shrinkWrap: true,
+          physics: ScrollPhysics(),
+          children: getSmallCards(),
         );
         break;
       case GameCardType.GAME_CARD_MEDIUM:
-        gamesGrid = FutureBuilder(
-          future: getMediumCards(),
-          builder:
-              (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
-            if (!snapshot.hasData) {
-              return Container();
-            }
-            return GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              physics: ScrollPhysics(),
-              children: snapshot.data,
-            );
-          },
+        gamesGrid = GridView.count(
+          crossAxisCount: 2,
+          shrinkWrap: true,
+          physics: ScrollPhysics(),
+          children: getMediumCards(),
         );
         break;
       case GameCardType.GAME_CARD_LARGE:
-        gamesGrid = FutureBuilder(
-          future: getLargeCards(),
-          builder:
-              (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
-            if (!snapshot.hasData) {
-              return Container();
-            }
-            return GridView.count(
-              crossAxisCount: 1,
-              shrinkWrap: true,
-              physics: ScrollPhysics(),
-              children: snapshot.data,
-            );
-          },
+        gamesGrid = GridView.count(
+          crossAxisCount: 1,
+          shrinkWrap: true,
+          physics: ScrollPhysics(),
+          children: getLargeCards(),
         );
         break;
       default:
@@ -161,34 +144,34 @@ class _GameCardListState extends State<GameCardList> {
     );
   }
 
-  Future<List<Widget>> getSmallCards() async {
+  List<Widget> getSmallCards() {
     GamesListStateLoadSuccess state = currentState;
     List<Widget> cards = [];
 
-    for (int i = 0; i < state.games.length; i++) {
-      bool loved = await widget._stateManager.isLoved(state.games[i].id);
-      loved ??= false;
-      String username =
-          await widget._stateManager.getUserName(state.games[i].userID);
+    for (int i = 0; i < _processList(state.games).length; i++) {
       cards.add(GestureDetector(
         onTap: () {
           Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
-              arguments: state.games[i].id);
+              arguments: _processList(state.games)[i].id);
         },
         child: GameCardSmall(
           gameModel: GameModel(
-            gameTitle: state.games[i].name,
-            imageUrl: state.games[i].mainImage,
-            gameOwnerFirstName: username,
-            loved: loved,
-            itemId: state.games[i].id,
+            gameTitle: _processList(state.games)[i].name,
+            imageUrl: _processList(state.games)[i].mainImage.substring(29),
+            gameOwnerFirstName: _processList(state.games)[i].name,
+            loved:
+                _processList(state.games)[i].interaction.checkLoved && loggedIn,
+            itemId: _processList(state.games)[i].id.toString(),
           ),
           onChatRequested: (itemId) {},
           onLoved: (loved) {
             if (loved) {
-              widget._stateManager.unLove(state.games[i].id);
+              widget._stateManager
+                  .unLove(_processList(state.games)[i].id.toString());
             } else {
-              widget._stateManager.love(state.games[i].id).then((value) {
+              widget._stateManager
+                  .love(_processList(state.games)[i].id.toString(), null)
+                  .then((value) {
                 if (value == null) {
                   Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
                 }
@@ -205,33 +188,33 @@ class _GameCardListState extends State<GameCardList> {
     return cards;
   }
 
-  Future<List<Widget>> getMediumCards() async {
+  List<Widget> getMediumCards() {
     GamesListStateLoadSuccess state = currentState;
     List<Widget> cards = [];
-    for (int i = 0; i < state.games.length; i++) {
-      bool loved = await widget._stateManager.isLoved(state.games[i].id);
-      loved ??= false;
-      String username =
-          await widget._stateManager.getUserName(state.games[i].userID);
+    for (int i = 0; i < _processList(state.games).length; i++) {
       cards.add(GestureDetector(
         onTap: () {
           Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
-              arguments: state.games[i].id);
+              arguments: _processList(state.games)[i].id);
         },
         child: GameCardMedium(
           gameModel: GameModel(
-            gameTitle: state.games[i].name,
-            imageUrl: state.games[i].mainImage,
-            gameOwnerFirstName: username,
-            loved: loved,
-            itemId: state.games[i].id,
+            gameTitle: _processList(state.games)[i].name,
+            imageUrl: _processList(state.games)[i].mainImage.substring(29),
+            gameOwnerFirstName: _processList(state.games)[i].name,
+            loved:
+                _processList(state.games)[i].interaction.checkLoved && loggedIn,
+            itemId: _processList(state.games)[i].id.toString(),
           ),
           onChatRequested: (itemId) {},
           onLoved: (loved) {
             if (loved) {
-              widget._stateManager.unLove(state.games[i].id);
+              widget._stateManager
+                  .unLove(_processList(state.games)[i].id.toString());
             } else {
-              widget._stateManager.love(state.games[i].id).then((value) {
+              widget._stateManager
+                  .love(_processList(state.games)[i].id.toString(), null)
+                  .then((value) {
                 if (value == null) {
                   Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
                 }
@@ -247,27 +230,24 @@ class _GameCardListState extends State<GameCardList> {
     return cards;
   }
 
-  Future<List<Widget>> getLargeCards() async {
+  List<Widget> getLargeCards() {
     GamesListStateLoadSuccess state = currentState;
     List<Widget> cards = [];
 
-    for (int i = 0; i < state.games.length; i++) {
-      bool loved = await widget._stateManager.isLoved(state.games[i].id);
-      loved ??= false;
-      String username =
-          await widget._stateManager.getUserName(state.games[i].userID);
+    for (int i = 0; i < _processList(state.games).length; i++) {
       cards.add(GestureDetector(
         onTap: () {
           Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
-              arguments: state.games[i].id);
+              arguments: _processList(state.games)[i].id);
         },
         child: GameCardLarge(
           gameModel: GameModel(
-            gameTitle: state.games[i].name,
-            imageUrl: state.games[i].mainImage,
-            gameOwnerFirstName: username,
-            loved: loved,
-            itemId: state.games[i].id,
+            gameTitle: _processList(state.games)[i].name,
+            imageUrl: _processList(state.games)[i].mainImage.substring(29),
+            gameOwnerFirstName: _processList(state.games)[i].name,
+            loved:
+                _processList(state.games)[i].interaction.checkLoved && loggedIn,
+            itemId: _processList(state.games)[i].id.toString(),
           ),
           onChatRequested: (itemId) {
             Navigator.of(context)
@@ -275,9 +255,12 @@ class _GameCardListState extends State<GameCardList> {
           },
           onLoved: (loved) {
             if (loved) {
-              widget._stateManager.unLove(state.games[i].id);
+              widget._stateManager
+                  .unLove(_processList(state.games)[i].id.toString());
             } else {
-              widget._stateManager.love(state.games[i].id).then((value) {
+              widget._stateManager
+                  .love(_processList(state.games)[i].id.toString(), null)
+                  .then((value) {
                 if (value == null) {
                   Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
                 }
@@ -292,5 +275,13 @@ class _GameCardListState extends State<GameCardList> {
     }
 
     return cards;
+  }
+
+  List<Games> _processList(List<Games> gamesList) {
+    Map<int, dynamic> games = {};
+    gamesList.forEach((element) {
+      games[element.id] = element;
+    });
+    return List.from(games.values);
   }
 }

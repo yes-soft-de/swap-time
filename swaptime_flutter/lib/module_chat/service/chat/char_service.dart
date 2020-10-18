@@ -12,7 +12,7 @@ class ChatService {
 
   // This is Real Time, That is Why I went this way
   final PublishSubject<List<ChatModel>> _chatPublishSubject =
-      new PublishSubject();
+  new PublishSubject();
 
   Stream<List<ChatModel>> get chatMessagesStream => _chatPublishSubject.stream;
 
@@ -20,7 +20,7 @@ class ChatService {
     _chatManager.getMessages(chatRoomID).listen((event) {
       List<ChatModel> chatMessagesList = [];
       event.docs.forEach((element) {
-        chatMessagesList.add(new ChatModel.fromJson({}));
+        chatMessagesList.add(new ChatModel.fromJson(element.data()));
       });
 
       _chatPublishSubject.add(chatMessagesList);
@@ -31,7 +31,9 @@ class ChatService {
     FirebaseAuth auth = await FirebaseAuth.instance;
     User user = auth.currentUser;
     ChatModel model = new ChatModel(
-        msg: msg, sender: user.uid, sentDate: DateTime.now().toIso8601String());
+      msg: msg,
+      sender: user.uid,
+      sentDate: DateTime.now().toIso8601String(),);
     _chatManager.sendMessage(chatRoomID, model);
   }
 

@@ -28,14 +28,14 @@
             },
             {
               "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/liked_module/service/liked_service/liked_service.dart#LikedService",
+                "root": "asset:swaptime_flutter/lib/interaction_module/service/liked_service/liked_service.dart#LikedService",
                 "qualifier": null
               },
               "isProvider": false
             },
             {
               "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/module_profile/service/general_profile/general_profile.dart#GeneralProfileService",
+                "root": "asset:swaptime_flutter/lib/module_profile/service/profile/profile.dart#ProfileService",
                 "qualifier": null
               },
               "isProvider": false

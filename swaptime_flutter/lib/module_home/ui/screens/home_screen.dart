@@ -3,7 +3,7 @@ import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/camera/camer_routes.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_list/game_card_list.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
-import 'package:swaptime_flutter/liked_module/ui/liked_screen/liked_screen.dart';
+import 'package:swaptime_flutter/interaction_module/ui/liked_screen/liked_screen.dart';
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_forms/forms_routes.dart';
@@ -11,7 +11,7 @@ import 'package:swaptime_flutter/module_forms/ui/screen/add_by_api/add_by_api.da
 import 'package:swaptime_flutter/module_navigation/ui/widget/navigation_drawer/swap_navigation_drawer.dart';
 import 'package:swaptime_flutter/module_notifications/ui/screens/notification_screen/notification_screen.dart';
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
-import 'package:swaptime_flutter/module_profile/service/my_profile/my_profile.dart';
+import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
 import 'package:swaptime_flutter/module_profile/ui/profile_screen/profile_screen.dart';
 import 'package:swaptime_flutter/module_settings/ui/ui/settings_page/settings_page.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
@@ -20,7 +20,7 @@ import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 @provide
 class HomeScreen extends StatefulWidget {
   final AuthService _auth;
-  final MyProfileService _myProfileService;
+  final ProfileService _myProfileService;
   final GameCardList _gameCardList;
   final ProfileScreen _profileScreen;
   final SettingsPage _settingsPage;
@@ -48,12 +48,22 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentPage = 0;
 
   bool overlayOpened = false;
+  bool initiated = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var args = ModalRoute.of(context).settings.arguments;
-    if (args != null) {
-      currentPage = args;
+    if (!initiated) {
+      var args = ModalRoute.of(context).settings.arguments;
+
+      if (args != null) {
+        currentPage = args;
+      }
+      initiated = true;
     }
 
     var bodyPages = <Widget>[

@@ -47,5 +47,13 @@
   "signOut": "Sign out",
   "notLoggedIn": "Not Logged in!",
   "darkMode": "Dark Mode",
-  "login": "Login"
+  "login": "Login",
+  "confirm": "Confirm!",
+  "confirmationCode": "Confirmation Code",
+  "productDetails": "Product Details:",
+  "name": "Name",
+  "description": "Description",
+  "emptyText": "Empty Text?!!",
+  "platform": "Platform",
+  "search": "Search..."
 }

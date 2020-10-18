@@ -99,42 +99,42 @@ class _MyAppState extends State<MyApp> {
     fullRoutesList.addAll(widget._gamesModule.getRoutes());
 
     return FutureBuilder(
-      future: getConfiguratedApp(fullRoutesList),
-      initialData: Scaffold(),
+      future: getConfiguredApp(fullRoutesList),
       builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
         return snapshot.data;
       },
     );
   }
 
-  Future<Widget> getConfiguratedApp(
-      Map<String, WidgetBuilder> fullRoutesList) async {
+  Future<Widget> getConfiguredApp(
+    Map<String, WidgetBuilder> fullRoutesList,
+  ) async {
     lang ??= await widget._localizationService.getLanguage();
     isDarkMode ??= await widget._swapThemeService.isDarkMode();
-    print(isDarkMode.toString());
 
     return MaterialApp(
-        navigatorObservers: <NavigatorObserver>[observer],
-        locale: Locale.fromSubtags(
-          languageCode: lang ?? 'en',
-        ),
-        localizationsDelegates: [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        theme: isDarkMode == true
-            ? ThemeData(
-                brightness: Brightness.dark,
-              )
-            : ThemeData(
-                brightness: Brightness.light,
-                primaryColor: Colors.white,
-              ),
-        supportedLocales: S.delegate.supportedLocales,
-        title: 'Swaptime',
-        routes: fullRoutesList,
-        initialRoute: HomeRoutes.ROUTE_HOME);
+      navigatorObservers: <NavigatorObserver>[observer],
+      locale: Locale.fromSubtags(
+        languageCode: lang ?? 'en',
+      ),
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      theme: isDarkMode == true
+          ? ThemeData(
+              brightness: Brightness.dark,
+            )
+          : ThemeData(
+              brightness: Brightness.light,
+              primaryColor: Colors.white,
+            ),
+      supportedLocales: S.delegate.supportedLocales,
+      title: 'Swaptime',
+      routes: fullRoutesList,
+      initialRoute: HomeRoutes.ROUTE_HOME,
+    );
   }
 }
