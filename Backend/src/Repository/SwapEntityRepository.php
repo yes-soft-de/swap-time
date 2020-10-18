@@ -3,7 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\SwapEntity;
+use App\Entity\SwapItemEntity;
+use App\Entity\UserProfileEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -47,11 +50,38 @@ class SwapEntityRepository extends ServiceEntityRepository
 
     public function getItemByUserID($userID)
     {
-        //dd($userID);
         $r =  $this->createQueryBuilder('swap')
 
-            ->select('swap.id', 'swap.date', 'swap.userIdOne', 'swap.userIdTwo', 'swap.swapItemIdOne',
-                'swap.swapItemIdTwo', 'swap.cost', 'swap.roomID', 'swap.status')
+            ->select('swap.id', 'swap.date', 'swap.userIdOne', 'userOne.userName as userOneName','userTwo.userName as userTwoName',
+                'swap.userIdTwo', 'swap.swapItemIdOne', 'userOne.image as userOneImage', 'userTwo.image as userTwoImage',
+                'swap.swapItemIdTwo','swapItemOne.mainImage as swapItemOneImage','swapItemTwo.mainImage as swapItemTwoImage',
+                'swap.cost', 'swap.roomID', 'swap.status')
+
+            ->leftJoin(
+                UserProfileEntity::class,              //Entity
+                'userOne',                        //Alias
+                Join::WITH,              //Join Type
+                'userOne.userID = swap.userIdOne'  //Join Column
+            )
+            ->leftJoin(
+                UserProfileEntity::class,              //Entity
+                'userTwo',                        //Alias
+                Join::WITH,              //Join Type
+                'userTwo.userID = swap.userIdTwo'  //Join Column
+            )
+
+            ->leftJoin(
+                SwapItemEntity::class,              //Entity
+                'swapItemOne',                        //Alias
+                Join::WITH,              //Join Type
+                'swapItemOne.id = swap.swapItemIdOne'  //Join Column
+            )
+            ->leftJoin(
+                SwapItemEntity::class,              //Entity
+                'swapItemTwo',                        //Alias
+                Join::WITH,              //Join Type
+                'swapItemTwo.id = swap.swapItemIdTwo'  //Join Column
+            )
 
             ->andWhere('swap.userIdOne=:userID')
             ->setParameter('userID', $userID)
@@ -60,7 +90,7 @@ class SwapEntityRepository extends ServiceEntityRepository
 
             ->getQuery()
             ->getResult();
-        //dd($r);
+
         return $r;
     }
 }

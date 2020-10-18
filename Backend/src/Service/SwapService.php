@@ -12,16 +12,19 @@ use App\Request\SwapUpdateRequest;
 use App\Response\SwapCreateResponse;
 use App\Response\SwapItemsResponse;
 use App\Response\SwapsResponse;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class SwapService
 {
     private $autoMapping;
     private $swapManager;
+    private $params;
 
-    public function __construct(AutoMapping $autoMapping, SwapManager $swapManager)
+    public function __construct(AutoMapping $autoMapping, SwapManager $swapManager, ParameterBagInterface $params)
     {
         $this->autoMapping = $autoMapping;
         $this->swapManager = $swapManager;
+        $this->params = $params->get('upload_base_url').'/';
     }
 
     public function swapCreate(SwapCreateRequest $request)
@@ -76,6 +79,11 @@ class SwapService
 
         foreach ($items as $item)
         {
+            $item['userOneImage'] = $this->params.$item['userOneImage'];
+            $item['userTwoImage'] = $this->params.$item['userTwoImage'];
+            $item['swapItemOneImage'] = $this->params.$item['swapItemOneImage'];
+            $item['swapItemTwoImage'] = $this->params.$item['swapItemTwoImage'];
+
             $itemsResponse[] = $this->autoMapping->map('array', SwapsResponse::class, $item);
         }
 

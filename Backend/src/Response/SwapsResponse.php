@@ -12,11 +12,23 @@ class SwapsResponse
 
     public $userIdOne;
 
+    public $userOneName;
+
+    public $userOneImage;
+
+    public $userTwoName;
+
+    public $userTwoImage;
+
     public $userIdTwo;
 
     public $swapItemIdOne;
 
+    public $swapItemOneImage;
+
     public $swapItemIdTwo;
+
+    public $swapItemTwoImage;
 
     public $cost;
 
