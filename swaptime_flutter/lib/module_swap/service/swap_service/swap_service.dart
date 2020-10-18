@@ -1,5 +1,4 @@
 import 'package:inject/inject.dart';
-import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/games_module/service/games_list_service/games_list_service.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_notifications/model/notifcation_item/notification_item.dart';
@@ -65,33 +64,11 @@ class SwapService {
     return result != null ? SwapModel() : null;
   }
 
-  Future<List<SwapModel>> getSwapRequests() async {
+  Future<List<SwapListItem>> getSwapRequests() async {
     String uid = await _authService.userID;
-    SwapListResponse response = await _swapManager.getMySwaps(uid);
+    var result = await _swapManager.getMySwaps(uid);
 
-    List<SwapModel> swaps = [];
-
-    for (int i = 0; i < response.data.length; i++) {
-      SwapModel result = SwapModel();
-      var firstGameId = response.data[i].swapItemIdOne;
-      if (firstGameId != null) {
-        Games gameOne = await _gamesListService.getGameDetails(firstGameId);
-        result.firstGame = gameOne;
-      }
-
-      var secondGameId = response.data[i].swapItemIdTwo;
-      if (secondGameId != null) {
-        Games gameTwo = await _gamesListService.getGameDetails(secondGameId);
-        result.secondGame = gameTwo;
-      }
-
-      result.roomId = response.data[i].roomID;
-      result.id = response.data[i].id.toString();
-
-      swaps.add(result);
-    }
-
-    return swaps;
+    return result.data;
   }
 
   Future<bool> isRequested(int gameId) async {

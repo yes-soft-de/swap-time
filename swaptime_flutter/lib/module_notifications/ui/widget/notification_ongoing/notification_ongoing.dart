@@ -156,8 +156,9 @@ class _NotificationState extends State<NotificationOnGoing> {
     if (game != null) {
       return Stack(
         children: [
-          Image.network(
-            game.mainImage.substring(29),
+          FadeInImage.assetNetwork(
+            placeholder: 'assets/images/logo.jpg',
+            image: game.mainImage.substring(29),
             fit: BoxFit.cover,
           ),
           _getOverlay(game),
@@ -190,8 +191,9 @@ class _NotificationState extends State<NotificationOnGoing> {
           },
           child: Container(
             decoration: BoxDecoration(
-                color: SwapThemeDataService.getAccent(),
-                borderRadius: BorderRadius.all(Radius.circular(8))),
+              color: SwapThemeDataService.getAccent(),
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Icon(

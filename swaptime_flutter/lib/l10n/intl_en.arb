@@ -55,5 +55,6 @@
   "description": "Description",
   "emptyText": "Empty Text?!!",
   "platform": "Platform",
-  "search": "Search..."
+  "search": "Search...",
+  "loadMore": "Load More"
 }

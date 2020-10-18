@@ -592,6 +592,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Load More`
+  String get loadMore {
+    return Intl.message(
+      'Load More',
+      name: 'loadMore',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

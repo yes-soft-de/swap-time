@@ -213,11 +213,9 @@ class AppComponent$Injector implements _i1.AppComponent {
           _createGamesListService(),
           _createSwapService());
   _i38.NotificationsStateManager _createNotificationsStateManager() =>
-      _i38.NotificationsStateManager(
-          _createNotificationService(), _createSwapService());
+      _i38.NotificationsStateManager(_createNotificationService());
   _i39.NotificationService _createNotificationService() =>
-      _i39.NotificationService(_createAuthService(), _createGamesListService(),
-          _createSwapService());
+      _i39.NotificationService(_createSwapService());
   _i40.SwapService _createSwapService() => _i40.SwapService(
       _createAuthService(), _createSwapManager(), _createGamesListService());
   _i41.SwapManager _createSwapManager() =>
