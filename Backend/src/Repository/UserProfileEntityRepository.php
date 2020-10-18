@@ -21,16 +21,24 @@ class UserProfileEntityRepository extends ServiceEntityRepository
 
     public function getProfileByUSerID($userID)
     {
-        $r =  $this->createQueryBuilder('profile')
+        return $this->createQueryBuilder('profile')
 
             ->select('profile.userName', 'profile.image', 'profile.story', 'profile.location')
             ->andWhere('profile.userID=:userID')
             ->setParameter('userID', $userID)
 
-
             ->getQuery()
             ->getResult();
+    }
 
-        return $r;
+    public function getUserProfile($userID)
+    {
+        return $this->createQueryBuilder('profile')
+
+            ->andWhere('profile.userID=:userID')
+            ->setParameter('userID', $userID)
+
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

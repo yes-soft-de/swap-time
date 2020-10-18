@@ -75,7 +75,7 @@ class UserManager
 
     public function userProfileUpdate(UserProfileUpdateRequest $request)
     {
-        $item = $this->userProfileEntityRepository->getProfileByUSerID($request->getUserID());
+        $item = $this->userProfileEntityRepository->getUserProfile($request->getUserID());
 
         if ($item)
         {
