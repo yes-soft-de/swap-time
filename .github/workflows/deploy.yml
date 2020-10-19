@@ -1,7 +1,11 @@
+name: iOS Deploy
+
 jobs:
   deploy:
     runs-on: macos-latest
-    
+
+on: [push]
+
 steps:
   - uses: actions/checkout@v2
 
