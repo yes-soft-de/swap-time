@@ -27,7 +27,7 @@ jobs:
     - name: Install tools
       run: |
         cd swaptime_flutter && flutter pub get
-        cd ./swaptime_flutter/ios && pod install
+        cd ./ios && pod install
 
     - name: Setup SSH Keys and known_hosts for fastlane match
       run: |
