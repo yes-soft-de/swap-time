@@ -1,6 +1,6 @@
 jobs:
-    deploy:
-      runs-on: macos-latest
+  deploy:
+    runs-on: macos-latest
   steps:
     - uses: actions/checkout@v2
     - name: Select Xcode version
