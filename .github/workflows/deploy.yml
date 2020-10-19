@@ -12,7 +12,7 @@ jobs:
       run: sudo xcode-select -s '/Applications/Xcode_11.3.app/Contents/Developer'
 
     - name: Bundle install
-      run: cd ./swaptime_flutter/ios && bundle install
+      run: cd ./swaptime_flutter/ios && bundle update --bundler && bundle install
 
     - name: Setup JDK
       uses: actions/setup-java@v1
