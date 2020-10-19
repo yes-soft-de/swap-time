@@ -1,7 +1,8 @@
 default_platform(:ios)
-
 platform :ios do
-  if is_ci
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    if is_ci
       create_keychain(
         name: ENV['MATCH_KEYCHAIN_NAME'],
         password: ENV["MATCH_KEYCHAIN_PASSWORD"],
