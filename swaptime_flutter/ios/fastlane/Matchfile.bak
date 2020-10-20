@@ -1,4 +1,0 @@
-git_url("git@github.com:yes-soft-de/swap-time.git")
-storage_mode("git")
-app_identifier(["com.example.swapTime"])
-username(ENV['FASTLANE_USER'])
