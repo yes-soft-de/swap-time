@@ -44,6 +44,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "insertViaCamera" : MessageLookupByLibrary.simpleMessage("الادخال عبر الكاميرا"),
     "language" : MessageLookupByLibrary.simpleMessage("اللغة"),
     "lebanon" : MessageLookupByLibrary.simpleMessage("لبنان"),
+    "loadMore" : MessageLookupByLibrary.simpleMessage("Load More"),
     "loading" : MessageLookupByLibrary.simpleMessage("جار التحميل!"),
     "location" : MessageLookupByLibrary.simpleMessage("الموقع"),
     "login" : MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),

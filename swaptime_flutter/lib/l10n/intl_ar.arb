@@ -55,5 +55,6 @@
   "description": "الوصف",
   "emptyText": "نص فارغ?!!",
   "platform": "منصة الالعاب - نظام التشغيل",
-  "search": "Search..."
+  "search": "Search...",
+  "loadMore": "Load More"
 }

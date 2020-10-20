@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/games_module/service/games_list_service/games_list_service.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_home/states/notifications_state/notification_state.dart';
@@ -35,6 +36,7 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   NotificationState currentState;
+  int viewLimit = 10;
 
   @override
   void initState() {
@@ -68,10 +70,26 @@ class _NotificationScreenState extends State<NotificationScreen> {
       );
     } else {
       NotificationStateLoadSuccess state = currentState;
-      return Flex(
-        direction: Axis.vertical,
-        children: getNotificationsList(state.notifications),
-      );
+      if (state.notifications.length >= viewLimit) {
+        List<Widget> list =
+            getNotificationsList(state.notifications.sublist(0, viewLimit));
+        list.add(OutlinedButton(
+          child: Text(S.of(context).loadMore),
+          onPressed: () {
+            viewLimit += 10;
+            setState(() {});
+          },
+        ));
+        return Flex(
+          direction: Axis.vertical,
+          children: list,
+        );
+      } else {
+        return Flex(
+          direction: Axis.vertical,
+          children: getNotificationsList(state.notifications),
+        );
+      }
     }
   }
 
