@@ -13,6 +13,9 @@ platform :ios do
       )
     end
     sync_code_signing(type: "appstore")
+    enable_automatic_code_signing(
+      path: "Runner.xcworkspace"
+    )
     build_app(
       workspace: "Runner.xcworkspace",
       scheme: "MyApp",
