@@ -12,10 +12,15 @@ platform :ios do
         lock_when_sleeps: false
       )
     end
-    sync_code_signing(type: "appstore")
-    enable_automatic_code_signing(
-      path: "Runner.xcworkspace"
+    
+    
+    match(
+      type: "appstore",
+      readonly: is_ci,
+      keychain_name: ENV['MATCH_KEYCHAIN_NAME'],
+      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
     )
+
     build_app(
       workspace: "Runner.xcworkspace",
       scheme: "MyApp",
