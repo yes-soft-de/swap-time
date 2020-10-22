@@ -30,7 +30,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSCalendarsUsageDescription</key>
+	<key>NSCameraUsageDescription</key>
 	<string>Hi, we need to access camera please</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Hi, we need to access the mic please</string>
