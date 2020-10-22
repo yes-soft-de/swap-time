@@ -15,7 +15,7 @@ platform :ios do
     
     
     match(
-      type: "development",
+      type: "appstore",
       readonly: is_ci,
       keychain_name: ENV['MATCH_KEYCHAIN_NAME'],
       keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
@@ -24,7 +24,7 @@ platform :ios do
     build_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
-      export_method: "development"
+      export_method: "app-store"
     )
     upload_to_testflight
   end
