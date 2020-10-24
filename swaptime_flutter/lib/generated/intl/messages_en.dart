@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "favorite" : MessageLookupByLibrary.simpleMessage("Favorite"),
     "feed" : MessageLookupByLibrary.simpleMessage("Feed"),
     "feedback" : MessageLookupByLibrary.simpleMessage("Feedback!"),
+    "games" : MessageLookupByLibrary.simpleMessage("Games"),
     "gamesList" : MessageLookupByLibrary.simpleMessage("Games List"),
     "home" : MessageLookupByLibrary.simpleMessage("Home"),
     "insertViaAPreset" : MessageLookupByLibrary.simpleMessage("Insert via a Preset"),

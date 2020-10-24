@@ -93,23 +93,31 @@ class LikedService {
   Future<void> recordUserLike(String userId) async {
     FirebaseFirestore store = FirebaseFirestore.instance;
 
-    await store
-        .collection('user_interactions')
-        .doc('likes')
-        .collection(userId)
-        .add({});
+    try {
+      store
+          .collection('user_interactions')
+          .doc('likes')
+          .collection(userId)
+          .add({});
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<int> getUserLikes(String userId) async {
     print('Requesting Likes');
     FirebaseFirestore store = FirebaseFirestore.instance;
 
-    var result = await store
-        .collection('user_interactions')
-        .doc('likes')
-        .collection(userId)
-        .get();
-    print('Got ${result.size} Likes');
-    return result.size;
+    try {
+      var result = await store
+          .collection('user_interactions')
+          .doc('likes')
+          .collection(userId)
+          .get();
+      print('Got ${result.size} Likes');
+      return result.size;
+    } catch (e) {
+      return 0;
+    }
   }
 }

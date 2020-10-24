@@ -203,7 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   Text(
-                                    'Likes',
+                                    S.of(context).games,
                                     style: TextStyle(
                                       fontSize: 18,
                                       color: Colors.white,
@@ -232,32 +232,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     color: SwapThemeDataService.getPrimary(),
-                    child: Padding(
-                        padding: const EdgeInsets.all(24.0),
-                        child: FutureBuilder(
-                          future: widget._preferencesHelper.getUserStory(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<String> snapshot) {
-                            if (snapshot.hasData && snapshot.data != null) {
-                              return Text(
-                                snapshot.data,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              );
-                            }
-                            return Text(
-                              'Please Add a Story!',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            );
-                          },
-                        )),
+                    child: Row(
+                      children: [
+                        Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: FutureBuilder(
+                              future: widget._preferencesHelper.getUserStory(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<String> snapshot) {
+                                if (snapshot.hasData && snapshot.data != null) {
+                                  return Text(
+                                    snapshot.data,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  );
+                                }
+                                return Text(
+                                  'Please Add a Story!',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                );
+                              },
+                            )),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -69,13 +69,17 @@ class GamesListService {
 
   Future<void> recordView(String userId) async {
     FirebaseFirestore store = FirebaseFirestore.instance;
-
+    print('Viewing ' + userId);
     if (userId != null) {
-      await store
-          .collection('user_interactions')
-          .doc('views')
-          .collection(userId)
-          .add({});
+      try {
+        store
+            .collection('user_interactions')
+            .doc('views')
+            .collection(userId)
+            .add({'msg': 'Hello'});
+      } catch (e) {
+        print(e);
+      }
     }
   }
 
@@ -83,12 +87,16 @@ class GamesListService {
     print('Requesting views');
     FirebaseFirestore store = FirebaseFirestore.instance;
 
-    var result = await store
-        .collection('user_interactions')
-        .doc('views')
-        .collection(userId)
-        .get();
-    print('Got ${result.size} views');
-    return result.size;
+    try {
+      var result = await store
+          .collection('user_interactions')
+          .doc('views')
+          .collection(userId)
+          .get();
+      print('Got ${result.size} views');
+      return result.size;
+    } catch (e) {
+      return 0;
+    }
   }
 }

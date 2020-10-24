@@ -55,10 +55,11 @@
   "description": "الوصف",
   "emptyText": "نص فارغ?!!",
   "platform": "منصة الالعاب - نظام التشغيل",
-  "search": "Search...",
-  "loadMore": "Load More",
-  "likes": "Likes",
-  "views": "Views",
-  "comment": "Comment",
-  "thisGameIsGreat": "This Game is Great"
+  "search": "البحث...",
+  "loadMore": "المزيد",
+  "likes": "الاعجابات",
+  "views": "المشاهدات",
+  "comment": "تعليق",
+  "thisGameIsGreat": "هذه اللعبة رائعة",
+  "games": "الألعاب"
 }
