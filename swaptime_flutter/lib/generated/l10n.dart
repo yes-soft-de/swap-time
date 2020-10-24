@@ -602,6 +602,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Likes`
+  String get likes {
+    return Intl.message(
+      'Likes',
+      name: 'likes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Views`
+  String get views {
+    return Intl.message(
+      'Views',
+      name: 'views',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Comment`
+  String get comment {
+    return Intl.message(
+      'Comment',
+      name: 'comment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This Game is Great`
+  String get thisGameIsGreat {
+    return Intl.message(
+      'This Game is Great',
+      name: 'thisGameIsGreat',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -113,9 +113,12 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          FadeInImage.assetNetwork(
-            placeholder: 'assets/images/logo.jpg',
-            image: state.details.mainImage.substring(29),
+          Container(
+            height: 256,
+            child: FadeInImage.assetNetwork(
+              placeholder: 'assets/images/logo.jpg',
+              image: state.details.mainImage.substring(29),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(32, 8, 16, 8),

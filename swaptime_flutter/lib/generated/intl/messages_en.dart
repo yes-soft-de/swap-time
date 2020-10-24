@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "add" : MessageLookupByLibrary.simpleMessage("Add"),
     "beTheFirstToComment" : MessageLookupByLibrary.simpleMessage("Be the First to Comment"),
     "chatRoom" : MessageLookupByLibrary.simpleMessage("Chat Room"),
+    "comment" : MessageLookupByLibrary.simpleMessage("Comment"),
     "confirm" : MessageLookupByLibrary.simpleMessage("Confirm!"),
     "confirmationCode" : MessageLookupByLibrary.simpleMessage("Confirmation Code"),
     "darkMode" : MessageLookupByLibrary.simpleMessage("Dark Mode"),
@@ -44,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "insertViaCamera" : MessageLookupByLibrary.simpleMessage("Insert via Camera"),
     "language" : MessageLookupByLibrary.simpleMessage("Language"),
     "lebanon" : MessageLookupByLibrary.simpleMessage("Lebanon"),
+    "likes" : MessageLookupByLibrary.simpleMessage("Likes"),
     "loadMore" : MessageLookupByLibrary.simpleMessage("Load More"),
     "loading" : MessageLookupByLibrary.simpleMessage("Loading!"),
     "location" : MessageLookupByLibrary.simpleMessage("Location"),
@@ -73,10 +75,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "startWriting" : MessageLookupByLibrary.simpleMessage("Start Writing"),
     "submitGame" : MessageLookupByLibrary.simpleMessage("Submit Game!"),
     "syria" : MessageLookupByLibrary.simpleMessage("Syria"),
+    "thisGameIsGreat" : MessageLookupByLibrary.simpleMessage("This Game is Great"),
     "toMyCollection" : MessageLookupByLibrary.simpleMessage("to my collection"),
     "tos" : MessageLookupByLibrary.simpleMessage("TOS"),
     "uploadImage" : MessageLookupByLibrary.simpleMessage("Upload Image"),
     "usa" : MessageLookupByLibrary.simpleMessage("USA"),
-    "username" : MessageLookupByLibrary.simpleMessage("Username:")
+    "username" : MessageLookupByLibrary.simpleMessage("Username:"),
+    "views" : MessageLookupByLibrary.simpleMessage("Views")
   };
 }

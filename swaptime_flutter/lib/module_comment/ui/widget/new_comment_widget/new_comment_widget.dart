@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 class NewCommentWidget extends StatelessWidget {
   final TextEditingController _newCommentController = TextEditingController();
   final Function(String) onCommentPost;
+
   NewCommentWidget(this.onCommentPost);
 
   @override
@@ -21,9 +23,8 @@ class NewCommentWidget extends StatelessWidget {
               child: TextFormField(
                 controller: _newCommentController,
                 decoration: InputDecoration(
-                    hintText: 'This Game is Great',
-                    labelStyle: TextStyle(color: Colors.black),
-                    labelText: 'Comment'),
+                    hintText: S.of(context).thisGameIsGreat,
+                    labelText: S.of(context).comment),
               ),
             ),
           ),
@@ -38,10 +39,12 @@ class NewCommentWidget extends StatelessWidget {
               Icons.add,
               color: Colors.white,
             ),
-            onPressed: () {
-              onCommentPost(_newCommentController.text);
-              _newCommentController.clear();
-            },
+            onPressed: _newCommentController.text.isNotEmpty
+                ? () {
+                    onCommentPost(_newCommentController.text);
+                    _newCommentController.clear();
+                  }
+                : null,
           ),
         )
       ],

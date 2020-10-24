@@ -56,5 +56,9 @@
   "emptyText": "Empty Text?!!",
   "platform": "Platform",
   "search": "Search...",
-  "loadMore": "Load More"
+  "loadMore": "Load More",
+  "likes": "Likes",
+  "views": "Views",
+  "comment": "Comment",
+  "thisGameIsGreat": "This Game is Great"
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/manager/games_manager/games_manager.dart';
 import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
@@ -10,6 +11,7 @@ class GamesListService {
   final GamesManager _manager;
   final AuthService _authService;
   final MyProfileManager _profileManager;
+
   GamesListService(this._manager, this._authService, this._profileManager);
 
   Future<List<Games>> get getAvailableGames => _manager.getAvailableGames;
@@ -60,6 +62,33 @@ class GamesListService {
       theGame.comments[i].profile = profile;
     }
 
+    await recordView(theGame.userID);
+
     return theGame;
+  }
+
+  Future<void> recordView(String userId) async {
+    FirebaseFirestore store = FirebaseFirestore.instance;
+
+    if (userId != null) {
+      await store
+          .collection('user_interactions')
+          .doc('views')
+          .collection(userId)
+          .add({});
+    }
+  }
+
+  Future<int> getViews(String userId) async {
+    print('Requesting views');
+    FirebaseFirestore store = FirebaseFirestore.instance;
+
+    var result = await store
+        .collection('user_interactions')
+        .doc('views')
+        .collection(userId)
+        .get();
+    print('Got ${result.size} views');
+    return result.size;
   }
 }

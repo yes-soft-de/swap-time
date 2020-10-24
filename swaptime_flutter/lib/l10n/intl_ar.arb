@@ -56,5 +56,9 @@
   "emptyText": "نص فارغ?!!",
   "platform": "منصة الالعاب - نظام التشغيل",
   "search": "Search...",
-  "loadMore": "Load More"
+  "loadMore": "Load More",
+  "likes": "Likes",
+  "views": "Views",
+  "comment": "Comment",
+  "thisGameIsGreat": "This Game is Great"
 }

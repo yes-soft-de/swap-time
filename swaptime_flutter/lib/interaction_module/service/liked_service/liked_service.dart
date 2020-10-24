@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/games_module/service/games_list_service/games_list_service.dart';
@@ -22,6 +23,10 @@ class LikedService {
 
   Future<bool> like(String itemId, String interactionId) async {
     log('loving: $itemId');
+
+    var game = await this._gamesListService.getGameDetails(int.parse(itemId));
+    await this.recordUserLike(game.userID);
+
     bool signIn = await _authService.isLoggedIn;
     if (!signIn) {
       return null;
@@ -83,5 +88,28 @@ class LikedService {
       }
     }
     return items;
+  }
+
+  Future<void> recordUserLike(String userId) async {
+    FirebaseFirestore store = FirebaseFirestore.instance;
+
+    await store
+        .collection('user_interactions')
+        .doc('likes')
+        .collection(userId)
+        .add({});
+  }
+
+  Future<int> getUserLikes(String userId) async {
+    print('Requesting Likes');
+    FirebaseFirestore store = FirebaseFirestore.instance;
+
+    var result = await store
+        .collection('user_interactions')
+        .doc('likes')
+        .collection(userId)
+        .get();
+    print('Got ${result.size} Likes');
+    return result.size;
   }
 }

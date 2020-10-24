@@ -18,20 +18,20 @@ import '../../module_profile/manager/my_profile_manager/my_profile_manager.dart'
 import '../../module_profile/repository/my_profile/my_profile.dart' as _i16;
 import '../../module_profile/presistance/profile_shared_preferences.dart'
     as _i17;
-import '../../games_module/ui/widget/game_card_list/game_card_list.dart'
-    as _i18;
-import '../../games_module/state_manager/games_list_state_manager/games_list_state_manager.dart'
-    as _i19;
-import '../../games_module/service/games_list_service/games_list_service.dart'
-    as _i20;
-import '../../games_module/manager/games_manager/games_manager.dart' as _i21;
-import '../../games_module/repository/games_repository/games_repository.dart'
-    as _i22;
 import '../../interaction_module/service/liked_service/liked_service.dart'
-    as _i23;
+    as _i18;
+import '../../games_module/service/games_list_service/games_list_service.dart'
+    as _i19;
+import '../../games_module/manager/games_manager/games_manager.dart' as _i20;
+import '../../games_module/repository/games_repository/games_repository.dart'
+    as _i21;
 import '../../interaction_module/manager/interaction/interaction_manger.dart'
-    as _i24;
+    as _i22;
 import '../../interaction_module/repository/interaction/interaction_repository.dart'
+    as _i23;
+import '../../games_module/ui/widget/game_card_list/game_card_list.dart'
+    as _i24;
+import '../../games_module/state_manager/games_list_state_manager/games_list_state_manager.dart'
     as _i25;
 import '../../module_forms/ui/screen/add_by_api/add_by_api.dart' as _i26;
 import '../../module_forms/state_manager/add_by_api_manager/add_by_api_manager.dart'
@@ -150,32 +150,34 @@ class AppComponent$Injector implements _i1.AppComponent {
   _i14.ProfileService _createProfileService() => _i14.ProfileService(
       _createMyProfileManager(),
       _createProfileSharedPreferencesHelper(),
-      _createAuthService());
+      _createAuthService(),
+      _createLikedService(),
+      _createGamesListService());
   _i15.MyProfileManager _createMyProfileManager() =>
       _i15.MyProfileManager(_createMyProfileRepository());
   _i16.MyProfileRepository _createMyProfileRepository() =>
       _i16.MyProfileRepository(_createApiClient());
   _i17.ProfileSharedPreferencesHelper _createProfileSharedPreferencesHelper() =>
       _i17.ProfileSharedPreferencesHelper();
-  _i18.GameCardList _createGameCardList() =>
-      _i18.GameCardList(_createGamesListStateManager(), _createAuthService());
-  _i19.GamesListStateManager _createGamesListStateManager() =>
-      _i19.GamesListStateManager(_createGamesListService(),
-          _createLikedService(), _createProfileService());
-  _i20.GamesListService _createGamesListService() => _i20.GamesListService(
-      _createGamesManager(), _createAuthService(), _createMyProfileManager());
-  _i21.GamesManager _createGamesManager() =>
-      _i21.GamesManager(_createGamesRepository());
-  _i22.GamesRepository _createGamesRepository() =>
-      _i22.GamesRepository(_createApiClient(), _createAuthService());
-  _i23.LikedService _createLikedService() => _i23.LikedService(
+  _i18.LikedService _createLikedService() => _i18.LikedService(
       _createAuthService(),
       _createGamesListService(),
       _createInteractionManager());
-  _i24.InteractionManager _createInteractionManager() =>
-      _i24.InteractionManager(_createInteractionRepository());
-  _i25.InteractionRepository _createInteractionRepository() =>
-      _i25.InteractionRepository(_createApiClient());
+  _i19.GamesListService _createGamesListService() => _i19.GamesListService(
+      _createGamesManager(), _createAuthService(), _createMyProfileManager());
+  _i20.GamesManager _createGamesManager() =>
+      _i20.GamesManager(_createGamesRepository());
+  _i21.GamesRepository _createGamesRepository() =>
+      _i21.GamesRepository(_createApiClient(), _createAuthService());
+  _i22.InteractionManager _createInteractionManager() =>
+      _i22.InteractionManager(_createInteractionRepository());
+  _i23.InteractionRepository _createInteractionRepository() =>
+      _i23.InteractionRepository(_createApiClient());
+  _i24.GameCardList _createGameCardList() =>
+      _i24.GameCardList(_createGamesListStateManager(), _createAuthService());
+  _i25.GamesListStateManager _createGamesListStateManager() =>
+      _i25.GamesListStateManager(_createGamesListService(),
+          _createLikedService(), _createProfileService());
   _i26.AddByApiScreen _createAddByApiScreen() =>
       _i26.AddByApiScreen(_createAddByApiStateManager());
   _i27.AddByApiStateManager _createAddByApiStateManager() =>

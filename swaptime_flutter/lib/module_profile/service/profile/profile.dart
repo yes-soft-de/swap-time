@@ -1,4 +1,6 @@
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/games_module/service/games_list_service/games_list_service.dart';
+import 'package:swaptime_flutter/interaction_module/service/liked_service/liked_service.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_profile/manager/my_profile_manager/my_profile_manager.dart';
 import 'package:swaptime_flutter/module_profile/model/profile_model/profile_model.dart';
@@ -11,8 +13,16 @@ class ProfileService {
   final MyProfileManager _manager;
   final ProfileSharedPreferencesHelper _preferencesHelper;
   final AuthService _authService;
+  final GamesListService _gamesListService;
+  final LikedService _likedService;
 
-  ProfileService(this._manager, this._preferencesHelper, this._authService);
+  ProfileService(
+    this._manager,
+    this._preferencesHelper,
+    this._authService,
+    this._likedService,
+    this._gamesListService,
+  );
 
   Future<bool> hasProfile() async {
     String userImage = await _preferencesHelper.getImage();
@@ -49,13 +59,30 @@ class ProfileService {
   }
 
   Future<ProfileResponse> getUserProfile(String userId) async {
+    print('Requesting User Profile With ID: ' + userId);
     var me = await _authService.userID;
+    int likes = await this._likedService.getUserLikes(userId);
+    int views = await this._gamesListService.getViews(userId);
+    int games = (await this._gamesListService.getUserGames(userId)).length;
 
+    print('Games $games & views $views & likes $likes');
+    print('Got User Profile');
     if (userId == me) {
       var myProfile = await profile;
-      return ProfileResponse(userName: myProfile.name, image: myProfile.image);
+      return ProfileResponse(
+        userName: myProfile.name,
+        image: myProfile.image,
+        likes: likes,
+        games: games,
+        views: views,
+      );
     }
-
     return _manager.getUserProfile(userId);
+  }
+
+  Future<ProfileResponse> getMyProfile() async {
+    print('Requesting User Profile');
+    String uid = await _authService.userID;
+    return await getUserProfile(uid);
   }
 }

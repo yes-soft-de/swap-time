@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "add" : MessageLookupByLibrary.simpleMessage("اضافة"),
     "beTheFirstToComment" : MessageLookupByLibrary.simpleMessage("كن أول المعلقين"),
     "chatRoom" : MessageLookupByLibrary.simpleMessage("غلاف المحادثة"),
+    "comment" : MessageLookupByLibrary.simpleMessage("Comment"),
     "confirm" : MessageLookupByLibrary.simpleMessage("تأكيد!"),
     "confirmationCode" : MessageLookupByLibrary.simpleMessage("رمز التأكيد"),
     "darkMode" : MessageLookupByLibrary.simpleMessage("الوضع الليلي"),
@@ -44,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "insertViaCamera" : MessageLookupByLibrary.simpleMessage("الادخال عبر الكاميرا"),
     "language" : MessageLookupByLibrary.simpleMessage("اللغة"),
     "lebanon" : MessageLookupByLibrary.simpleMessage("لبنان"),
+    "likes" : MessageLookupByLibrary.simpleMessage("Likes"),
     "loadMore" : MessageLookupByLibrary.simpleMessage("Load More"),
     "loading" : MessageLookupByLibrary.simpleMessage("جار التحميل!"),
     "location" : MessageLookupByLibrary.simpleMessage("الموقع"),
@@ -73,10 +75,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "startWriting" : MessageLookupByLibrary.simpleMessage("ابدأ الكتابة"),
     "submitGame" : MessageLookupByLibrary.simpleMessage("احفظ اللعبة!"),
     "syria" : MessageLookupByLibrary.simpleMessage("سوريا"),
+    "thisGameIsGreat" : MessageLookupByLibrary.simpleMessage("This Game is Great"),
     "toMyCollection" : MessageLookupByLibrary.simpleMessage("لمجموعتي"),
     "tos" : MessageLookupByLibrary.simpleMessage("شروط الاستخدام"),
     "uploadImage" : MessageLookupByLibrary.simpleMessage("حفظ الصورة"),
     "usa" : MessageLookupByLibrary.simpleMessage("الولايات المتحدة"),
-    "username" : MessageLookupByLibrary.simpleMessage("اسم المستخدم:")
+    "username" : MessageLookupByLibrary.simpleMessage("اسم المستخدم:"),
+    "views" : MessageLookupByLibrary.simpleMessage("Views")
   };
 }

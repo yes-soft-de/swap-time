@@ -23,6 +23,7 @@ class Games {
   List<String> tag;
   String description;
   String mainImage;
+  int views = 0;
   String userID;
   String userName;
   String commentNumber;
@@ -37,6 +38,7 @@ class Games {
       this.category,
       this.platform,
       this.tag,
+      this.views,
       this.description,
       this.mainImage,
       this.userID,
