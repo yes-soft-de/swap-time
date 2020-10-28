@@ -27,7 +27,8 @@ class LikedItemCard extends StatelessWidget {
                 children: [
                   FadeInImage.assetNetwork(
                     placeholder: 'assets/images/logo.jpg',
-                    image: ownerImageUrl,
+                    image: ownerImageUrl ??
+                        'https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/link_broken.png',
                   ),
                   Text(
                     ownerFirstName,

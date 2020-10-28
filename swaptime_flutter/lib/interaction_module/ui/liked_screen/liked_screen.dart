@@ -97,7 +97,6 @@ class _LikedScreenState extends State<LikedScreen> {
         child: LikedItemCard(
           gameImageUrl: element.mainImage.substring(29),
           ownerFirstName: element.userName,
-          ownerImageUrl: element.images[0].substring(29),
         ),
       ));
     });
