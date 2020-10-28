@@ -29,6 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirmationCode" : MessageLookupByLibrary.simpleMessage("رمز التأكيد"),
     "darkMode" : MessageLookupByLibrary.simpleMessage("الوضع الليلي"),
     "description" : MessageLookupByLibrary.simpleMessage("الوصف"),
+    "emptyComment" : MessageLookupByLibrary.simpleMessage("لا يوجد تعليق!"),
     "emptyList" : MessageLookupByLibrary.simpleMessage("قائمة فارغة"),
     "emptyTagList" : MessageLookupByLibrary.simpleMessage("قائمة فهرس فارغة"),
     "emptyText" : MessageLookupByLibrary.simpleMessage("نص فارغ?!!"),

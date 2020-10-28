@@ -79,14 +79,13 @@ class LikedService {
   }
 
   Future<List<Games>> getLiked() async {
-    String userId = await _authService.userID;
     List<Games> gamesList = await _gamesListService.getAvailableGames;
     List<Games> items = [];
-    for (int i = 0; i < gamesList.length; i++) {
-      if (gamesList[i].interaction.checkLoved) {
-        items.add(gamesList[i]);
+    gamesList.forEach((element) {
+      if (element.interaction.checkLoved) {
+        items.add(element);
       }
-    }
+    });
     return items;
   }
 

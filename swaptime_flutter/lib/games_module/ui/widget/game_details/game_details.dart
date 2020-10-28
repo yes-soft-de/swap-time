@@ -103,21 +103,30 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
 
   Widget getSuccessUI() {
     GameDetailsStateLoadSuccess state = currentState;
+
     List<Chip> tagsChips = [];
-    state.details.tag.forEach((element) {
+    if (state.details.tag.isEmpty) {
       tagsChips.add(Chip(
-        label: Text(element),
+        label: Text(S.of(context).emptyTagList),
       ));
-    });
+    } else {
+      state.details.tag.forEach((element) {
+        tagsChips.add(Chip(
+          label: Text(element),
+        ));
+      });
+    }
 
     return SingleChildScrollView(
       child: Column(
         children: [
           Container(
             height: 256,
+            width: MediaQuery.of(context).size.width,
             child: FadeInImage.assetNetwork(
               placeholder: 'assets/images/logo.jpg',
               image: state.details.mainImage.substring(29),
+              fit: BoxFit.cover,
             ),
           ),
           Padding(
@@ -139,66 +148,58 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                       ),
                     ),
                     FutureBuilder(
-                      future: widget._swapService.isRequested(gameId),
-                      builder:
-                          (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                        if (snapshot.hasData) {
-                          print('Is Requested? ' + snapshot.data.toString());
-                        }
-                        if (snapshot.data != true) {
-                          return GestureDetector(
-                            onTap: () {
-                              Scaffold.of(context).showSnackBar(
-                                  SnackBar(content: Text('Requesting a swap')));
-                              swapRequested = true;
-                              widget._swapService
-                                  .createSwap(state.details.userID, gameId)
-                                  .then((value) {
-                                swapRequested = true;
-                                setState(() {});
-                              }).catchError((e) => {
-                                        Navigator.of(context).pushNamed(
-                                            AuthRoutes.ROUTE_AUTHORIZE)
-                                      });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: SwapThemeDataService.getPrimary(),
-                              ),
-                              child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    S.of(context).requestASwap,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  )),
-                            ),
-                          );
-                        } else {
-                          return GestureDetector(
-                            onTap: () {
-                              widget._swapService.createSwap(
-                                state.details.userID,
-                                gameId,
-                              );
-                              swapRequested = true;
-                              setState(() {});
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.check,
-                                  color: SwapThemeDataService.getAccent(),
-                                ),
-                              ),
-                            ),
-                          );
-                        }
+                      future: widget._authService.userID,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<String> userIdSnap) {
+                        return userIdSnap.data == state.details.userID
+                            ? Icon(Icons.stop)
+                            : FutureBuilder(
+                                future: widget._swapService.isRequested(gameId),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<bool> isRequestedSnap) {
+                                  if (isRequestedSnap.hasData) {
+                                    print('Is Requested? ' +
+                                        isRequestedSnap.data.toString());
+                                    if (isRequestedSnap.data != true) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Scaffold.of(context).showSnackBar(
+                                              SnackBar(
+                                                  content: Text(
+                                                      'Requesting a swap')));
+                                          swapRequested = true;
+                                          widget._swapService
+                                              .createSwap(
+                                                  state.details.userID, gameId)
+                                              .then((value) {
+                                            swapRequested = true;
+                                            setState(() {});
+                                          }).catchError((e) => {
+                                                    Navigator.of(context)
+                                                        .pushNamed(AuthRoutes
+                                                            .ROUTE_AUTHORIZE)
+                                                  });
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: SwapThemeDataService
+                                                .getPrimary(),
+                                          ),
+                                          child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                S.of(context).requestASwap,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              )),
+                                        ),
+                                      );
+                                    }
+                                  }
+                                  return Icon(Icons.check);
+                                });
                       },
                     )
                   ],

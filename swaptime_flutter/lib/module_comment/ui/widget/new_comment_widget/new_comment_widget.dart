@@ -35,17 +35,20 @@ class NewCommentWidget extends StatelessWidget {
             shape: BoxShape.circle,
           ),
           child: IconButton(
-            icon: Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-            onPressed: _newCommentController.text.isNotEmpty
-                ? () {
-                    onCommentPost(_newCommentController.text);
-                    _newCommentController.clear();
-                  }
-                : null,
-          ),
+              icon: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                if (_newCommentController.text.length > 3) {
+                  onCommentPost(_newCommentController.text);
+                  _newCommentController.clear();
+                } else {
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text(S.of(context).emptyComment),
+                  ));
+                }
+              }),
         )
       ],
     );

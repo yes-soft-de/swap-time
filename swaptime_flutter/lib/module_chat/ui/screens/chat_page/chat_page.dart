@@ -77,7 +77,6 @@ class ChatPageState extends State<ChatPage> {
     });
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Column(
         // direction: Axis.vertical,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -134,7 +133,8 @@ class ChatPageState extends State<ChatPage> {
                                     } else if (oldGame == gameTwo) {
                                       gameTwo = newGame;
                                     }
-
+                                    currentState = null;
+                                    setState(() {});
                                     widget._swapService
                                         .updateSwap(NotificationModel(
                                             gameOne: gameOne,
@@ -177,7 +177,6 @@ class ChatPageState extends State<ChatPage> {
                         height: 48,
                         width: 48,
                         decoration: BoxDecoration(
-                            color: Colors.greenAccent,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(90))),
                         child: Icon(Icons.send),

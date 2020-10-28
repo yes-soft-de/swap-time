@@ -6,3 +6,5 @@ class NotificationStateLoadSuccess extends NotificationState {
   List<NotificationModel> notifications;
   NotificationStateLoadSuccess(this.notifications);
 }
+
+class NotificationStateLoading extends NotificationState {}

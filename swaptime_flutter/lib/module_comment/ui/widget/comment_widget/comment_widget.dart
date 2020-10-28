@@ -15,18 +15,17 @@ class CommentWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Flex(
-            direction: Axis.horizontal,
+            direction: Axis.vertical,
             children: [
               Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Flex(
-                    direction: Axis.vertical,
+                    direction: Axis.horizontal,
                     children: [
                       Container(
                         height: 48,
                         width: 48,
                         decoration: BoxDecoration(
-                          shape: BoxShape.circle,
                           image: DecorationImage(
                             image: NetworkImage(commentModel.profile.image),
                           ),
@@ -35,11 +34,10 @@ class CommentWidget extends StatelessWidget {
                       Text(commentModel.profile.userName)
                     ],
                   )),
-              Expanded(
-                  child: Padding(
+              Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(commentModel.comment),
-              ))
+              )
             ],
           ),
           Padding(

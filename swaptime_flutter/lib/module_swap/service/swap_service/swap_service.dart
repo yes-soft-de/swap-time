@@ -67,8 +67,15 @@ class SwapService {
   Future<List<SwapListItem>> getSwapRequests() async {
     String uid = await _authService.userID;
     var result = await _swapManager.getMySwaps(uid);
-
-    return result.data;
+    var swapMap = <String, SwapListItem>{};
+    if (result != null) {
+      result.data.forEach((element) {
+        swapMap[element.roomID] = element;
+      });
+    } else {
+      return [];
+    }
+    return swapMap.values.toList();
   }
 
   Future<bool> isRequested(int gameId) async {

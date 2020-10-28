@@ -2,6 +2,9 @@ name: iOS Deploy
 
 on: [push]
 
+branch: 
+  - dev-mobile
+
 jobs:
   deploy:
     runs-on: macos-latest

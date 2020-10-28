@@ -76,6 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         return FadeInImage.assetNetwork(
                           placeholder: 'assets/images/logo.jpg',
                           image: snapshot.data,
+                          fit: BoxFit.cover,
                         );
                       }
                       return SvgPicture.asset('assets/images/logo.svg');
@@ -86,14 +87,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     top: 8,
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Color(0xF8FFFFFF),
+                          color: Theme.of(context).brightness != Brightness.dark
+                              ? Color(0xF8FFFFFF)
+                              : Colors.black,
                           borderRadius: BorderRadius.all(Radius.circular(90))),
                       child: IconButton(
                         onPressed: () {
                           Navigator.of(context)
                               .pushNamed(ProfileRoutes.MY_ROUTE_PROFILE);
                         },
-                        icon: Icon(Icons.find_replace),
+                        icon: Icon(Icons.repeat_sharp),
                       ),
                     ),
                   )
@@ -112,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         flex: 1,
                         fit: FlexFit.tight,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(4.0),
                           child: Container(
                             height: 96,
                             color: SwapThemeDataService.getPrimary(),
@@ -125,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Text(
                                     snapshot.data.likes.toString(),
                                     style: TextStyle(
-                                      fontSize: 36,
+                                      fontSize: 24,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -148,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         flex: 1,
                         fit: FlexFit.tight,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(4.0),
                           child: Container(
                             height: 96,
                             color: SwapThemeDataService.getPrimary(),
@@ -161,7 +164,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Text(
                                     snapshot.data.views.toString(),
                                     style: TextStyle(
-                                      fontSize: 36,
+                                      fontSize: 24,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -184,7 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         flex: 1,
                         fit: FlexFit.tight,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(4.0),
                           child: Container(
                             height: 96,
                             color: SwapThemeDataService.getPrimary(),
@@ -197,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Text(
                                     snapshot.data.games.toString(),
                                     style: TextStyle(
-                                      fontSize: 36,
+                                      fontSize: 24,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -220,7 +223,119 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   );
                 }
               }
-              return Container();
+              return Flex(
+                direction: Axis.horizontal,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    fit: FlexFit.tight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Container(
+                        height: 96,
+                        color: SwapThemeDataService.getPrimary(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Flex(
+                            direction: Axis.vertical,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '...',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                S.of(context).likes,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    fit: FlexFit.tight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: 96,
+                        color: SwapThemeDataService.getPrimary(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Flex(
+                            direction: Axis.vertical,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '...',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                S.of(context).views,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    fit: FlexFit.tight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Container(
+                        height: 96,
+                        color: SwapThemeDataService.getPrimary(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Flex(
+                            direction: Axis.vertical,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '...',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                S.of(context).games,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
             },
           ),
           Flex(
@@ -229,7 +344,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Flexible(
                 flex: 1,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(4.0),
                   child: Container(
                     color: SwapThemeDataService.getPrimary(),
                     child: Row(

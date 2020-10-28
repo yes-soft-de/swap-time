@@ -12,6 +12,7 @@ class NotificationsStateManager {
   NotificationsStateManager(this._service);
 
   void getNotifications() {
+    _stateSubject.add(NotificationStateLoading());
     _service.getNotifications().then((value) {
       _stateSubject.add(NotificationStateLoadSuccess(value));
     });

@@ -61,5 +61,6 @@
   "views": "Views",
   "comment": "Comment",
   "thisGameIsGreat": "This Game is Great",
-  "games": "Games"
+  "games": "Games",
+  "emptyComment": "Empty Comment!"
 }

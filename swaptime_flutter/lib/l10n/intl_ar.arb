@@ -61,5 +61,6 @@
   "views": "المشاهدات",
   "comment": "تعليق",
   "thisGameIsGreat": "هذه اللعبة رائعة",
-  "games": "الألعاب"
+  "games": "الألعاب",
+  "emptyComment": "لا يوجد تعليق!"
 }

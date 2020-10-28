@@ -16,7 +16,9 @@ class CommentListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> commentWidgetLines = [];
     commentList.forEach((element) {
-      commentWidgetLines.add(CommentWidget(element));
+      if (element.comment.length > 2) {
+        commentWidgetLines.add(CommentWidget(element));
+      }
     });
     if (commentWidgetLines.isEmpty) {
       commentWidgetLines.add(Padding(

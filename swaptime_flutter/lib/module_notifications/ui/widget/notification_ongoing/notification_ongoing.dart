@@ -51,7 +51,9 @@ class _NotificationState extends State<NotificationOnGoing> {
       padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).brightness != Brightness.dark
+              ? Colors.white
+              : Colors.black,
           boxShadow: [
             BoxShadow(
                 offset: Offset.fromDirection(90),

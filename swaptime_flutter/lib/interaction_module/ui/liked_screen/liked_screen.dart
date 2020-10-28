@@ -9,7 +9,6 @@ import 'package:swaptime_flutter/interaction_module/ui/widget/liked_item/liked_i
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
-import 'package:swaptime_flutter/module_profile/response/profile_response/profile_response.dart';
 import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
 
 @provide
@@ -88,28 +87,18 @@ class _LikedScreenState extends State<LikedScreen> {
     }
 
     _processGames(state.games).forEach((element) {
-      likedGames.add(FutureBuilder(
-        future: widget._profileService.getUserProfile(element.userID),
-        builder:
-            (BuildContext context, AsyncSnapshot<ProfileResponse> snapshot) {
-          if (snapshot.hasData && snapshot.data != null) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed(
-                  GamesRoutes.ROUTE_GAME_DETAILS,
-                  arguments: element.id,
-                );
-              },
-              child: LikedItemCard(
-                gameImageUrl: element.mainImage.substring(29),
-                ownerFirstName: snapshot.data.userName,
-                ownerImageUrl: snapshot.data.image.substring(29),
-              ),
-            );
-          } else {
-            return Container();
-          }
+      likedGames.add(GestureDetector(
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            GamesRoutes.ROUTE_GAME_DETAILS,
+            arguments: element.id,
+          );
         },
+        child: LikedItemCard(
+          gameImageUrl: element.mainImage.substring(29),
+          ownerFirstName: element.userName,
+          ownerImageUrl: element.images[0].substring(29),
+        ),
       ));
     });
 
