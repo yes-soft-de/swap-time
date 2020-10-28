@@ -84,19 +84,21 @@ class _GameCardLargeState extends State<GameCardLarge> {
                         ],
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(
-                        widget.gameModel.loved
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: SwapThemeDataService.getPrimary(),
-                      ),
-                      onPressed: () {
-                        widget.onLoved(widget.gameModel.loved);
-                        widget.gameModel.loved = !widget.gameModel.loved;
-                        setState(() {});
-                      },
-                    ),
+                    widget.gameModel.lovable
+                        ? IconButton(
+                            icon: Icon(
+                              widget.gameModel.loved
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: SwapThemeDataService.getPrimary(),
+                            ),
+                            onPressed: () {
+                              widget.onLoved(widget.gameModel.loved);
+                              widget.gameModel.loved = !widget.gameModel.loved;
+                              setState(() {});
+                            },
+                          )
+                        : Container(),
                     IconButton(
                       icon: Icon(
                         Icons.chat,

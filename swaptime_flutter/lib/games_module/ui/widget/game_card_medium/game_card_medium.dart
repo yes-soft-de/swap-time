@@ -89,18 +89,20 @@ class _GameCardMediumState extends State<GameCardMedium> {
                         ],
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(
-                        widget.gameModel.loved
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                      ),
-                      onPressed: () {
-                        widget.onLoved(widget.gameModel.loved);
-                        widget.gameModel.loved = !widget.gameModel.loved;
-                        setState(() {});
-                      },
-                    ),
+                    widget.gameModel.lovable
+                        ? IconButton(
+                            icon: Icon(
+                              widget.gameModel.loved
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                            ),
+                            onPressed: () {
+                              widget.onLoved(widget.gameModel.loved);
+                              widget.gameModel.loved = !widget.gameModel.loved;
+                              setState(() {});
+                            },
+                          )
+                        : Container(),
                   ],
                 ),
               ),

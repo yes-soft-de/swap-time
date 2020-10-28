@@ -159,6 +159,7 @@ class _GameCardListState extends State<GameCardList> {
             gameTitle: _processList(state.games)[i].name,
             imageUrl: _processList(state.games)[i].mainImage.substring(29),
             gameOwnerFirstName: _processList(state.games)[i].name,
+            lovable: loggedIn,
             loved:
                 _processList(state.games)[i].interaction.checkLoved && loggedIn,
             itemId: _processList(state.games)[i].id.toString(),
@@ -201,6 +202,7 @@ class _GameCardListState extends State<GameCardList> {
           gameModel: GameModel(
             gameTitle: _processList(state.games)[i].name,
             imageUrl: _processList(state.games)[i].mainImage.substring(29),
+            lovable: loggedIn,
             gameOwnerFirstName: _processList(state.games)[i].name,
             loved:
                 _processList(state.games)[i].interaction.checkLoved && loggedIn,
@@ -245,6 +247,7 @@ class _GameCardListState extends State<GameCardList> {
             gameTitle: _processList(state.games)[i].name,
             imageUrl: _processList(state.games)[i].mainImage.substring(29),
             gameOwnerFirstName: _processList(state.games)[i].name,
+            lovable: loggedIn,
             loved:
                 _processList(state.games)[i].interaction.checkLoved && loggedIn,
             itemId: _processList(state.games)[i].id.toString(),
