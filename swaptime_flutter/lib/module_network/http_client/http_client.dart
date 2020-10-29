@@ -10,7 +10,7 @@ class ApiClient {
   String token;
   final Logger _logger;
   final String tag = 'ApiClient';
-
+  Dio client = new Dio(BaseOptions(receiveTimeout: 2000, connectTimeout: 2000));
   ApiClient(this._logger);
 
   void setToken(String token) {
@@ -22,7 +22,6 @@ class ApiClient {
     Map<String, String> queryParams,
     Map<String, String> headers,
   }) async {
-    Dio client = new Dio(BaseOptions());
     try {
       _logger.info(tag, 'Requesting GET to: ' + url);
       var response = await client.get(
@@ -35,7 +34,7 @@ class ApiClient {
         if (e == DioErrorType.RESPONSE) {
           var pref = await SharedPreferences.getInstance();
           await pref.remove('token');
-          return get(url, queryParams: queryParams);
+          return null;
         }
       }
       _logger.error(tag, e.toString() + ' ' + url);
@@ -49,7 +48,7 @@ class ApiClient {
     Map<String, String> queryParams,
     Map<String, String> headers,
   }) async {
-    Dio client = new Dio(BaseOptions(headers: headers));
+    Dio client = new Dio(BaseOptions());
     try {
       _logger.info(tag, 'Requesting Post to: ' + url);
       _logger.info(tag, 'POST: ' + jsonEncode(payLoad));
@@ -63,7 +62,7 @@ class ApiClient {
     } catch (e) {
       _logger.error(tag, e.toString() + url);
       if (headers != null) {
-        return get(url, queryParams: queryParams);
+        return null;
       }
       return null;
     }
@@ -75,7 +74,6 @@ class ApiClient {
     Map<String, String> queryParams,
     Map<String, String> headers,
   }) async {
-    Dio client = new Dio(BaseOptions(headers: headers));
     try {
       _logger.info(tag, 'Requesting PUT to: ' + url);
       _logger.info(tag, 'PUT: ' + jsonEncode(payLoad));

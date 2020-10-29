@@ -126,10 +126,11 @@ class ChatPageState extends State<ChatPage> {
                                         context: context,
                                         builder: (context) => dialog)
                                     .then((rawNewGame) {
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text(S.of(context).savingData)));
                                   Games newGame = rawNewGame;
                                   if (newGame != null) {
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                        content:
+                                            Text(S.of(context).savingData)));
                                     if (oldGame == gameOne) {
                                       gameOne = newGame;
                                     } else if (oldGame == gameTwo) {

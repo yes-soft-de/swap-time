@@ -34,6 +34,7 @@ class NotificationScreen extends StatefulWidget {
 class _NotificationScreenState extends State<NotificationScreen> {
   NotificationState currentState;
   int viewLimit = 10;
+  bool initiated = false;
 
   @override
   void initState() {
@@ -60,31 +61,47 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (!(currentState is NotificationStateLoadSuccess)) {
+    if (!initiated) {
+      initiated = true;
       widget._manager.getNotifications();
       return Center(
         child: CircularProgressIndicator(),
       );
     } else {
-      NotificationStateLoadSuccess state = currentState;
-      if (state.notifications.length >= viewLimit) {
-        List<Widget> list =
-            getNotificationsList(state.notifications.sublist(0, viewLimit));
-        list.add(OutlinedButton(
-          child: Text(S.of(context).loadMore),
-          onPressed: () {
-            viewLimit += 10;
-            setState(() {});
-          },
-        ));
-        return Flex(
-          direction: Axis.vertical,
-          children: list,
-        );
+      if (currentState is NotificationStateLoadSuccess) {
+        NotificationStateLoadSuccess state = currentState;
+        if (state.notifications.length >= viewLimit) {
+          List<Widget> list =
+              getNotificationsList(state.notifications.sublist(0, viewLimit));
+          list.add(OutlinedButton(
+            child: Text(S.of(context).loadMore),
+            onPressed: () {
+              viewLimit += 10;
+              setState(() {});
+            },
+          ));
+          return Flex(
+            direction: Axis.vertical,
+            children: list,
+          );
+        } else {
+          return Flex(
+            direction: Axis.vertical,
+            children: getNotificationsList(state.notifications),
+          );
+        }
       } else {
         return Flex(
           direction: Axis.vertical,
-          children: getNotificationsList(state.notifications),
+          children: [
+            Text(S.of(context).errorLoadingData),
+            OutlinedButton(
+              child: Text(S.of(context).retry),
+              onPressed: () {
+                widget._manager.getNotifications();
+              },
+            )
+          ],
         );
       }
     }
@@ -117,10 +134,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
               );
               showDialog(context: context, builder: (context) => dialog)
                   .then((rawNewGame) {
-                Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text(S.of(context).savingData)));
                 Games newGame = rawNewGame;
                 if (newGame != null) {
+                  Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text(S.of(context).savingData)));
                   if (oldGame == notifications[i].gameOne) {
                     notifications[i].gameOne = newGame;
                   } else if (oldGame == notifications[i].gameTwo) {

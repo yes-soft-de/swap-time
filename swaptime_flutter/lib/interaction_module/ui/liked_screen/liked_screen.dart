@@ -29,6 +29,7 @@ class LikedScreen extends StatefulWidget {
 
 class _LikedScreenState extends State<LikedScreen> {
   LikedState currentState;
+  bool initiated = false;
 
   @override
   void initState() {
@@ -55,7 +56,8 @@ class _LikedScreenState extends State<LikedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (!(currentState is LikedStateLoadSuccess)) {
+    if (!initiated) {
+      initiated = true;
       widget._stateManager.getLikedGames();
     }
     return getCurrentUI();
