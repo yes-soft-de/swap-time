@@ -62,5 +62,6 @@
   "comment": "Comment",
   "thisGameIsGreat": "This Game is Great",
   "games": "Games",
-  "emptyComment": "Empty Comment!"
+  "emptyComment": "Empty Comment!",
+  "savingData": "Saving Data"
 }

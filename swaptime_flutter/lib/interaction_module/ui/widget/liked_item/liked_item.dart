@@ -20,23 +20,23 @@ class LikedItemCard extends StatelessWidget {
           direction: Axis.horizontal,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Flexible(
-              flex: 2,
-              child: Flex(
-                direction: Axis.vertical,
-                children: [
-                  FadeInImage.assetNetwork(
-                    placeholder: 'assets/images/logo.jpg',
-                    image: ownerImageUrl ??
-                        'https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/link_broken.png',
-                  ),
-                  Text(
-                    ownerFirstName,
-                    style: TextStyle(fontSize: 12),
-                  )
-                ],
-              ),
-            ),
+            // Flexible(
+            //   flex: 2,
+            //   child: Flex(
+            //     direction: Axis.vertical,
+            //     children: [
+            //       FadeInImage.assetNetwork(
+            //         placeholder: 'assets/images/logo.jpg',
+            //         image: ownerImageUrl ??
+            //             'https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/link_broken.png',
+            //       ),
+            //       Text(
+            //         ownerFirstName,
+            //         style: TextStyle(fontSize: 12),
+            //       )
+            //     ],
+            //   ),
+            // ),
             Flexible(
               flex: 6,
               child: Stack(
@@ -48,12 +48,15 @@ class LikedItemCard extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  Positioned(
+                  Positioned.directional(
                     bottom: 8,
-                    right: 8,
+                    textDirection: Directionality.of(context),
+                    end: 8,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? Colors.white
+                            : Colors.black,
                         borderRadius: BorderRadius.all(Radius.circular(90)),
                       ),
                       child: Padding(

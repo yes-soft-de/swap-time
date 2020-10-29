@@ -11,7 +11,6 @@ import 'package:swaptime_flutter/module_notifications/state_manager/notification
 import 'package:swaptime_flutter/module_notifications/ui/widget/notification_ongoing/notification_ongoing.dart';
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
 import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
-import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
 import 'package:swaptime_flutter/module_swap/ui/widget/exchange_setter_widget/exchange_setter_widget.dart';
 
 @provide
@@ -20,14 +19,12 @@ class NotificationScreen extends StatefulWidget {
   final AuthService _authService;
   final ProfileService _myProfileService;
   final GamesListService _gamesListService;
-  final SwapService _swapService;
 
   NotificationScreen(
     this._manager,
     this._myProfileService,
     this._authService,
     this._gamesListService,
-    this._swapService,
   );
 
   @override
@@ -120,6 +117,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
               );
               showDialog(context: context, builder: (context) => dialog)
                   .then((rawNewGame) {
+                Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text(S.of(context).savingData)));
                 Games newGame = rawNewGame;
                 if (newGame != null) {
                   if (oldGame == notifications[i].gameOne) {
@@ -128,11 +127,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     notifications[i].gameTwo = newGame;
                   }
 
-                  widget._swapService
-                      .updateSwap(notifications[i])
-                      .then((value) {
-                    widget._manager.getNotifications();
-                  });
+                  widget._manager.updateSwap(notifications[i]);
                 }
               });
             },

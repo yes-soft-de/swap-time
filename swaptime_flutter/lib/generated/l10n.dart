@@ -9,8 +9,6 @@ import 'intl/messages_all.dart';
 // **************************************************************************
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
-// ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
 
 class S {
   S();
@@ -660,6 +658,16 @@ class S {
     return Intl.message(
       'Empty Comment!',
       name: 'emptyComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saving Data`
+  String get savingData {
+    return Intl.message(
+      'Saving Data',
+      name: 'savingData',
       desc: '',
       args: [],
     );

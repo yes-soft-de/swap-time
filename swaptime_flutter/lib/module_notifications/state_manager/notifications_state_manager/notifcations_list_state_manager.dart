@@ -1,7 +1,9 @@
 import 'package:inject/inject.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:swaptime_flutter/module_home/states/notifications_state/notification_state.dart';
+import 'package:swaptime_flutter/module_notifications/model/notifcation_item/notification_item.dart';
 import 'package:swaptime_flutter/module_notifications/service/notification_service/notification_service.dart';
+import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
 
 @provide
 class NotificationsStateManager {
@@ -9,7 +11,8 @@ class NotificationsStateManager {
   Stream<NotificationState> get stateStream => _stateSubject.stream;
 
   final NotificationService _service;
-  NotificationsStateManager(this._service);
+  final SwapService _swapService;
+  NotificationsStateManager(this._service, this._swapService);
 
   void getNotifications() {
     _stateSubject.add(NotificationStateLoading());
@@ -18,5 +21,10 @@ class NotificationsStateManager {
     });
   }
 
-  void startSwap(String swapId) {}
+  void updateSwap(NotificationModel swapItemModel) {
+    _stateSubject.add(NotificationStateLoading());
+    _swapService.updateSwap(swapItemModel).then((value) {
+      getNotifications();
+    });
+  }
 }

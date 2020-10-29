@@ -62,5 +62,6 @@
   "comment": "تعليق",
   "thisGameIsGreat": "هذه اللعبة رائعة",
   "games": "الألعاب",
-  "emptyComment": "لا يوجد تعليق!"
+  "emptyComment": "لا يوجد تعليق!",
+  "savingData": "Saving Data"
 }
