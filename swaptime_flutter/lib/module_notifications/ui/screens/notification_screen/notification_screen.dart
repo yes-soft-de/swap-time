@@ -90,6 +90,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
             children: getNotificationsList(state.notifications),
           );
         }
+      } else if (currentState is NotificationStateLoading) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
       } else {
         return Flex(
           direction: Axis.vertical,
