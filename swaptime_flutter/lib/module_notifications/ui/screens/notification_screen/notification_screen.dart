@@ -35,6 +35,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
   NotificationState currentState;
   int viewLimit = 10;
   bool initiated = false;
+  int activeIndex = -1;
+  Games gameToChange;
+  Games gameOne;
+  Games gameTwo;
+
+  List<NotificationModel> notifications;
 
   @override
   void initState() {
@@ -70,26 +76,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
     } else {
       if (currentState is NotificationStateLoadSuccess) {
         NotificationStateLoadSuccess state = currentState;
-        if (state.notifications.length >= viewLimit) {
-          List<Widget> list =
-              getNotificationsList(state.notifications.sublist(0, viewLimit));
-          list.add(OutlinedButton(
-            child: Text(S.of(context).loadMore),
-            onPressed: () {
-              viewLimit += 10;
-              setState(() {});
-            },
-          ));
-          return Flex(
-            direction: Axis.vertical,
-            children: list,
-          );
-        } else {
-          return Flex(
-            direction: Axis.vertical,
-            children: getNotificationsList(state.notifications),
-          );
-        }
+        notifications = state.notifications;
+        return FutureBuilder(
+            future: widget._authService.userID,
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.hasData) {
+                return getNotificationsList(snapshot.data);
+              } else {
+                return CircularProgressIndicator();
+              }
+            });
       } else if (currentState is NotificationStateLoading) {
         return Center(
           child: CircularProgressIndicator(),
@@ -111,51 +107,63 @@ class _NotificationScreenState extends State<NotificationScreen> {
     }
   }
 
-  List<Widget> getNotificationsList(List<NotificationModel> notifications) {
+  Widget getNotificationsList(String myId) {
     List<Widget> notCards = [];
     for (int i = 0; i < notifications.length; i++) {
-      notCards.add(FutureBuilder(
-        future: widget._authService.userID,
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          return NotificationOnGoing(
-            gameOne: notifications[i].gameOne,
-            gameTow: notifications[i].gameTwo,
-            chatRoomId: notifications[i].chatRoomId,
-            myId: snapshot.data,
-            swapId: notifications[i].swapId,
-            onChangeRequest: (game) {
-              // Change Games
-              Games oldGame = game;
-              if (game == notifications[i].gameTwo) {
-                oldGame = notifications[i].gameTwo;
-              }
-              var dialog = Dialog(
-                child: ExchangeSetterWidget(
-                  gamesListService: widget._gamesListService,
-                  myId: snapshot.data,
-                  userId: game != null ? game.userID : null,
-                ),
-              );
-              showDialog(context: context, builder: (context) => dialog)
-                  .then((rawNewGame) {
-                Games newGame = rawNewGame;
-                if (newGame != null) {
-                  Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text(S.of(context).savingData)));
-                  if (oldGame == notifications[i].gameOne) {
-                    notifications[i].gameOne = newGame;
-                  } else if (oldGame == notifications[i].gameTwo) {
-                    notifications[i].gameTwo = newGame;
-                  }
+      notCards.add(NotificationOnGoing(
+        gameOne: notifications[i].gameOne,
+        gameTow: notifications[i].gameTwo,
+        chatRoomId: notifications[i].chatRoomId,
+        myId: myId,
+        swapId: notifications[i].swapId,
+        onChangeRequest: (game) {
+          // Setting the Scene
+          activeIndex = i;
+          gameOne = notifications[i].gameOne;
+          gameTwo = notifications[i].gameTwo;
+          gameToChange = notifications[i].gameOne;
 
-                  widget._manager.updateSwap(notifications[i]);
-                }
-              });
-            },
+          print(
+              'Setter i $activeIndex Game One: ${gameOne} and Game Two: ${gameTwo.id.toString()}');
+
+          if (game == notifications[i].gameTwo) {
+            gameToChange = notifications[i].gameTwo;
+          }
+
+          var dialog = Dialog(
+            child: ExchangeSetterWidget(
+              gamesListService: widget._gamesListService,
+              myId: myId,
+              userId: game != null ? game.userID : null,
+            ),
           );
+          showDialog(context: context, builder: (context) => dialog)
+              .then((rawNewGame) {
+            _updateSwapCard(rawNewGame);
+          });
         },
       ));
     }
-    return notCards;
+    return Flex(
+      direction: Axis.vertical,
+      children: notCards,
+    );
+  }
+
+  _updateSwapCard(Games rawNewGame) {
+    Games newGame = rawNewGame;
+    if (newGame != null) {
+      print(
+          'i $activeIndex Game One: ${gameOne.id} and Game Two: ${gameTwo.id}');
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text(S.of(context).savingData)));
+      if (gameToChange == notifications[activeIndex].gameOne) {
+        notifications[activeIndex].gameOne = newGame;
+        widget._manager.updateSwap(notifications[activeIndex]);
+      } else {
+        notifications[activeIndex].gameTwo = newGame;
+        widget._manager.updateSwap(notifications[activeIndex]);
+      }
+    }
   }
 }

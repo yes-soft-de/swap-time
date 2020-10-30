@@ -23,10 +23,12 @@ class NotificationService {
         gameOne: Games(
             mainImage: swap.swapItemOneImage,
             userName: swap.userTwoName,
+            id: swap.swapItemIdOne,
             userID: swap.userIdOne),
         gameTwo: Games(
             mainImage: swap.swapItemTwoImage,
             userName: swap.userTwoName,
+            id: swap.swapItemIdTwo,
             userID: swap.userIdTwo),
       ));
     }

@@ -22,7 +22,7 @@ platform :ios do
     )
 
     increment_build_number(
-	    build_number: "12"
+	    build_number: "20"
     )
 
     build_app(

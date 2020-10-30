@@ -46,6 +46,8 @@ class SwapService {
   }
 
   Future<SwapModel> updateSwap(NotificationModel swapItemModel) async {
+    print(
+        'Game One: ${swapItemModel.gameOne.id} and Game Two: ${swapItemModel.gameTwo.id}');
     UpdateSwapRequest updateSwapRequest = UpdateSwapRequest(
       id: swapItemModel.swapId,
       date: DateTime.now().toIso8601String(),

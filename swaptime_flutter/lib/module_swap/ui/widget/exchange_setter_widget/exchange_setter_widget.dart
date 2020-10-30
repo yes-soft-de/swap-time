@@ -74,6 +74,10 @@ class _ExchangeSetterWidgetState extends State<ExchangeSetterWidget> {
                         child: RaisedButton(
                           color: SwapThemeDataService.getPrimary(),
                           onPressed: () {
+                            print('Setting Active Game ID: ' +
+                                activeGame.id.toString() +
+                                ' For User: ' +
+                                activeGame.userID);
                             Navigator.of(context).pop(activeGame);
                           },
                           child: Text(

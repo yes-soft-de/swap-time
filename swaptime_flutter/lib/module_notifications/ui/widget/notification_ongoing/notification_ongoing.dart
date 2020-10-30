@@ -115,9 +115,7 @@ class _NotificationState extends State<NotificationOnGoing> {
                               width: 16,
                             ),
                             Text(
-                              gameOne.userID != myId
-                                  ? gameOne.userName
-                                  : gameTow.userID,
+                              gameOne.userName,
                             )
                           ],
                         ),
