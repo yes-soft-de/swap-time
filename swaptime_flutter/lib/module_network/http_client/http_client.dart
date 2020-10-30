@@ -10,7 +10,7 @@ class ApiClient {
   String token;
   final Logger _logger;
   final String tag = 'ApiClient';
-  Dio client = new Dio(BaseOptions(receiveTimeout: 2000, connectTimeout: 2000));
+  Dio client = new Dio(BaseOptions());
   ApiClient(this._logger);
 
   void setToken(String token) {
