@@ -70,7 +70,7 @@ class SwapService {
     var swapMap = <String, SwapListItem>{};
     if (result != null) {
       result.data.forEach((element) {
-        if (swapMap[element.roomID] != null) {
+        if (swapMap[element.roomID] == null) {
           swapMap[element.roomID] = element;
         }
       });
