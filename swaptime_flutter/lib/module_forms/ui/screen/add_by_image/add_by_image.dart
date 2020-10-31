@@ -36,7 +36,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
 
   Widget currentPage;
   final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
-  GamePlatform _gamePlatform;
+  GamePlatform _gamePlatform = GamePlatform.PC;
 
   @override
   void initState() {
@@ -127,9 +127,9 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-              DropdownButton(
+              DropdownButtonFormField(
                 hint: Text(S.of(context).platform),
-                value: _gamePlatform ?? GamePlatform.PS4,
+                value: _gamePlatform,
                 onChanged: (value) {
                   _gamePlatform = value;
                 },
