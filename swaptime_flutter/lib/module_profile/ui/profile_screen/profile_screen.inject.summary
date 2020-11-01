@@ -21,7 +21,7 @@
           "dependencies": [
             {
               "lookupKey": {
-                "root": "asset:swaptime_flutter/lib/games_module/ui/widget/game_card_list/game_card_list.dart#GameCardList",
+                "root": "asset:swaptime_flutter/lib/games_module/ui/widget/my_game_card_list/my_game_card_list.dart#MyGameCardList",
                 "qualifier": null
               },
               "isProvider": false

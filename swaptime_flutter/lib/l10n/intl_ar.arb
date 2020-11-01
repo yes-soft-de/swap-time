@@ -63,5 +63,12 @@
   "thisGameIsGreat": "هذه اللعبة رائعة",
   "games": "الألعاب",
   "emptyComment": "لا يوجد تعليق!",
-  "savingData": "Saving Data"
+  "savingData": "جار حفظ البيانات",
+  "aboutMe": "عني",
+  "myName": "اسمي",
+  "saveProfile": "احفظ التغييرات",
+  "saving": "جار حفظ البيانات!",
+  "captureMyPicture": "خذ صورتي من الكاميرا",
+  "uploadMe": "ارفع الصورة!",
+  "uploading": "جار الرفع"
 }

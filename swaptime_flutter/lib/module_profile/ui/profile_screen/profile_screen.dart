@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inject/inject.dart';
-import 'package:swaptime_flutter/games_module/ui/widget/game_card_list/game_card_list.dart';
+import 'package:swaptime_flutter/games_module/ui/widget/my_game_card_list/my_game_card_list.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
@@ -13,7 +13,7 @@ import 'package:swaptime_flutter/module_theme/service/theme_service/theme_servic
 
 @provide
 class ProfileScreen extends StatefulWidget {
-  final GameCardList _cardList;
+  final MyGameCardList _cardList;
   final AuthService _authService;
   final ProfileService _myProfileService;
   final ProfileSharedPreferencesHelper _preferencesHelper;

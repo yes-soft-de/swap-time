@@ -63,5 +63,12 @@
   "thisGameIsGreat": "This Game is Great",
   "games": "Games",
   "emptyComment": "Empty Comment!",
-  "savingData": "Saving Data"
+  "savingData": "Saving Data",
+  "aboutMe": "About Me",
+  "myName": "My Name",
+  "saveProfile": "Save Profile",
+  "saving": "Saving!",
+  "captureMyPicture": "Capture My Picture",
+  "uploadMe": "Upload Me!",
+  "uploading": "Uploading"
 }

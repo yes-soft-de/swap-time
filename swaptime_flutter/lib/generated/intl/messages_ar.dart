@@ -21,8 +21,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "aboutMe" : MessageLookupByLibrary.simpleMessage("عني"),
     "add" : MessageLookupByLibrary.simpleMessage("اضافة"),
     "beTheFirstToComment" : MessageLookupByLibrary.simpleMessage("كن أول المعلقين"),
+    "captureMyPicture" : MessageLookupByLibrary.simpleMessage("خذ صورتي من الكاميرا"),
     "chatRoom" : MessageLookupByLibrary.simpleMessage("غلاف المحادثة"),
     "comment" : MessageLookupByLibrary.simpleMessage("تعليق"),
     "confirm" : MessageLookupByLibrary.simpleMessage("تأكيد!"),
@@ -52,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "loading" : MessageLookupByLibrary.simpleMessage("جار التحميل!"),
     "location" : MessageLookupByLibrary.simpleMessage("الموقع"),
     "login" : MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+    "myName" : MessageLookupByLibrary.simpleMessage("اسمي"),
     "name" : MessageLookupByLibrary.simpleMessage("الاسم"),
     "noCameraFound" : MessageLookupByLibrary.simpleMessage("لا يوجد كاميرا"),
     "notLoggedIn" : MessageLookupByLibrary.simpleMessage("غير مسجل دخول!"),
@@ -66,7 +69,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "requestASwap" : MessageLookupByLibrary.simpleMessage("اطلب مبادلة!"),
     "retry" : MessageLookupByLibrary.simpleMessage("اعادة المحاولة"),
     "saudiArabia" : MessageLookupByLibrary.simpleMessage("السعودية"),
-    "savingData" : MessageLookupByLibrary.simpleMessage("Saving Data"),
+    "saveProfile" : MessageLookupByLibrary.simpleMessage("احفظ التغييرات"),
+    "saving" : MessageLookupByLibrary.simpleMessage("جار حفظ البيانات!"),
+    "savingData" : MessageLookupByLibrary.simpleMessage("جار حفظ البيانات"),
     "search" : MessageLookupByLibrary.simpleMessage("البحث..."),
     "searchAGame" : MessageLookupByLibrary.simpleMessage("ابحث عن لعبة :)"),
     "sendMeACode" : MessageLookupByLibrary.simpleMessage("ارسل الرمز!"),
@@ -82,6 +87,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "toMyCollection" : MessageLookupByLibrary.simpleMessage("لمجموعتي"),
     "tos" : MessageLookupByLibrary.simpleMessage("شروط الاستخدام"),
     "uploadImage" : MessageLookupByLibrary.simpleMessage("حفظ الصورة"),
+    "uploadMe" : MessageLookupByLibrary.simpleMessage("ارفع الصورة!"),
+    "uploading" : MessageLookupByLibrary.simpleMessage("جار الرفع"),
     "usa" : MessageLookupByLibrary.simpleMessage("الولايات المتحدة"),
     "username" : MessageLookupByLibrary.simpleMessage("اسم المستخدم:"),
     "views" : MessageLookupByLibrary.simpleMessage("المشاهدات")

@@ -33,17 +33,13 @@ class AuthService {
   }
 
   Future<String> getToken() async {
-    String token = await _prefsHelper.getToken();
-
-    if (token == null) {
-      bool isLoggedIn = await this.isLoggedIn;
-      if (isLoggedIn) {
-        await refreshToken();
-        return _prefsHelper.getToken();
-      }
+    bool isLoggedIn = await this.isLoggedIn;
+    if (isLoggedIn) {
+      await refreshToken();
+      return _prefsHelper.getToken();
     }
 
-    return token;
+    return null;
   }
 
   Future<void> refreshToken() async {

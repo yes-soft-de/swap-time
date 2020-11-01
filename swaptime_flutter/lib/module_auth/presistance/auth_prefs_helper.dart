@@ -44,6 +44,9 @@ class AuthPrefsHelper {
   }
 
   Future<void> setToken(String token) async {
+    if (token == null) {
+      return;
+    }
     SharedPreferences preferencesHelper = await SharedPreferences.getInstance();
     await preferencesHelper.setString(
       'token',

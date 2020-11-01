@@ -1,4 +1,5 @@
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/games_module/service/games_list_service/games_list_service.dart';
 import 'package:swaptime_flutter/interaction_module/service/liked_service/liked_service.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
@@ -63,7 +64,8 @@ class ProfileService {
     var me = await _authService.userID;
     int likes = await this._likedService.getUserLikes(userId);
     int views = await this._gamesListService.getViews(userId);
-    int games = (await this._gamesListService.getUserGames(userId)).length;
+    List<Games> gamesList = await this._gamesListService.getUserGames(userId);
+    int games = gamesList.length;
 
     print('Games $games & views $views & likes $likes');
     print('Got User Profile');

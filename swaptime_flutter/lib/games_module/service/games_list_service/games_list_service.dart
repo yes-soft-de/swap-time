@@ -17,15 +17,16 @@ class GamesListService {
   Future<List<Games>> get getAvailableGames => _manager.getAvailableGames;
 
   Future<List<Games>> getUserGames(String userId) async {
-    var games = <Games>[];
+    Map<int, Games> games = <int, Games>{};
     var allGames = await getAvailableGames;
+    if (allGames == null) return null;
     allGames.forEach((element) {
       if (element.userID == userId) {
-        games.add(element);
+        games[element.id] = element;
       }
     });
 
-    return games;
+    return games.values.toList();
   }
 
   Future<List<Games>> getMyGames() async {

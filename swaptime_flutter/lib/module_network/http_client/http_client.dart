@@ -10,7 +10,6 @@ class ApiClient {
   String token;
   final Logger _logger;
   final String tag = 'ApiClient';
-  Dio client = new Dio(BaseOptions());
   ApiClient(this._logger);
 
   void setToken(String token) {
@@ -24,6 +23,15 @@ class ApiClient {
   }) async {
     try {
       _logger.info(tag, 'Requesting GET to: ' + url);
+      _logger.info(tag, 'Headers: ' + headers.toString());
+      _logger.info(tag, 'Query: ' + queryParams.toString());
+      Dio client = Dio(BaseOptions());
+      if (headers != null) {
+        if (headers['Authorization'] != null) {
+          _logger.info(tag, 'Adding Auth Header');
+          client.options.headers['Authorization'] = headers['Authorization'];
+        }
+      }
       var response = await client.get(
         url,
         queryParameters: queryParams,
@@ -48,7 +56,7 @@ class ApiClient {
     Map<String, String> queryParams,
     Map<String, String> headers,
   }) async {
-    Dio client = new Dio(BaseOptions());
+    Dio client = Dio(BaseOptions());
     try {
       _logger.info(tag, 'Requesting Post to: ' + url);
       _logger.info(tag, 'POST: ' + jsonEncode(payLoad));
@@ -77,6 +85,7 @@ class ApiClient {
     try {
       _logger.info(tag, 'Requesting PUT to: ' + url);
       _logger.info(tag, 'PUT: ' + jsonEncode(payLoad));
+      Dio client = Dio(BaseOptions());
       var response = await client.put(
         url,
         queryParameters: queryParams,

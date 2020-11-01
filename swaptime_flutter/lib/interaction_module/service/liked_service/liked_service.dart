@@ -93,7 +93,7 @@ class LikedService {
     FirebaseFirestore store = FirebaseFirestore.instance;
 
     try {
-      store
+      await store
           .collection('user_interactions')
           .doc('likes')
           .collection(userId)

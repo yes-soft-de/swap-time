@@ -21,8 +21,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "aboutMe" : MessageLookupByLibrary.simpleMessage("About Me"),
     "add" : MessageLookupByLibrary.simpleMessage("Add"),
     "beTheFirstToComment" : MessageLookupByLibrary.simpleMessage("Be the First to Comment"),
+    "captureMyPicture" : MessageLookupByLibrary.simpleMessage("Capture My Picture"),
     "chatRoom" : MessageLookupByLibrary.simpleMessage("Chat Room"),
     "comment" : MessageLookupByLibrary.simpleMessage("Comment"),
     "confirm" : MessageLookupByLibrary.simpleMessage("Confirm!"),
@@ -52,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "loading" : MessageLookupByLibrary.simpleMessage("Loading!"),
     "location" : MessageLookupByLibrary.simpleMessage("Location"),
     "login" : MessageLookupByLibrary.simpleMessage("Login"),
+    "myName" : MessageLookupByLibrary.simpleMessage("My Name"),
     "name" : MessageLookupByLibrary.simpleMessage("Name"),
     "noCameraFound" : MessageLookupByLibrary.simpleMessage("No camera found"),
     "notLoggedIn" : MessageLookupByLibrary.simpleMessage("Not Logged in!"),
@@ -66,6 +69,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "requestASwap" : MessageLookupByLibrary.simpleMessage("Request a Swap!"),
     "retry" : MessageLookupByLibrary.simpleMessage("Retry"),
     "saudiArabia" : MessageLookupByLibrary.simpleMessage("Saudi Arabia"),
+    "saveProfile" : MessageLookupByLibrary.simpleMessage("Save Profile"),
+    "saving" : MessageLookupByLibrary.simpleMessage("Saving!"),
     "savingData" : MessageLookupByLibrary.simpleMessage("Saving Data"),
     "search" : MessageLookupByLibrary.simpleMessage("Search..."),
     "searchAGame" : MessageLookupByLibrary.simpleMessage("Search a Game :)"),
@@ -82,6 +87,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "toMyCollection" : MessageLookupByLibrary.simpleMessage("to my collection"),
     "tos" : MessageLookupByLibrary.simpleMessage("TOS"),
     "uploadImage" : MessageLookupByLibrary.simpleMessage("Upload Image"),
+    "uploadMe" : MessageLookupByLibrary.simpleMessage("Upload Me!"),
+    "uploading" : MessageLookupByLibrary.simpleMessage("Uploading"),
     "usa" : MessageLookupByLibrary.simpleMessage("USA"),
     "username" : MessageLookupByLibrary.simpleMessage("Username:"),
     "views" : MessageLookupByLibrary.simpleMessage("Views")

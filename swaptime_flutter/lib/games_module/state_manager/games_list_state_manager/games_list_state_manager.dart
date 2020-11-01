@@ -42,6 +42,17 @@ class GamesListStateManager {
     return _likedService.unLike(itemId, interactionId);
   }
 
+  void getUserGames(String userId) {
+    _service.getUserGames(userId).then((gamesList) {
+      if (gamesList == null) {
+        _stateSubject.add(GamesListStateLoadError());
+      } else {
+        var games = Set.of(gamesList);
+        _stateSubject.add(GamesListStateLoadSuccess(List.of(games)));
+      }
+    });
+  }
+
   Future<String> getUserName(String userId) async {
     ProfileResponse profile = await _profileService.getUserProfile(userId);
     return profile.userName;

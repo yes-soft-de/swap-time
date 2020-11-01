@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/camera/camer_routes.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
 import 'package:swaptime_flutter/module_profile/state/my_profile_state.dart';
@@ -70,6 +71,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   Widget getUI() {
     if (imageLocation == null) {
+      // Take My Picture
       return Flex(
         direction: Axis.vertical,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,7 +108,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Text(
-                                'Add Image',
+                                S.of(context).captureMyPicture,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -120,29 +122,13 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   ),
                 )
               : Container(),
-          Flex(
-            direction: Axis.vertical,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(labelText: 'My Name'),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TextFormField(
-                  minLines: 3,
-                  maxLines: 5,
-                  controller: _aboutController,
-                  decoration: InputDecoration(labelText: 'About Me'),
-                ),
-              ),
-            ],
-          ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                CameraRoutes.ROUTE_CAMERA,
+                arguments: ProfileRoutes.MY_ROUTE_PROFILE,
+              );
+            },
             child: Container(
               decoration:
                   BoxDecoration(color: SwapThemeDataService.getAccent()),
@@ -152,7 +138,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      !submittingProfile ? 'Save Profile' : 'Saving!',
+                      S.of(context).captureMyPicture,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -166,6 +152,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         ],
       );
     } else if (imageLocation != null && imageUrl == null) {
+      // Upload My Picture
       return Flex(
         direction: Axis.vertical,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -223,7 +210,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Text(
-                                uploading != true ? 'Upload Me!' : 'Uploading',
+                                uploading != true
+                                    ? S.of(context).uploadMe
+                                    : S.of(context).uploading,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -237,28 +226,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   ),
                 )
               : Container(),
-          Flex(
-            direction: Axis.vertical,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(labelText: 'My Name'),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TextFormField(
-                  controller: _aboutController,
-                  decoration: InputDecoration(labelText: 'About Me'),
-                ),
-              ),
-            ],
-          ),
           GestureDetector(
             onTap: () {
-              saveProfile();
+              widget._stateManager.upload(imageLocation);
             },
             child: Container(
               decoration:
@@ -269,7 +239,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      !submittingProfile ? 'Save Profile' : 'Saving!',
+                      uploading != true
+                          ? S.of(context).uploadMe
+                          : S.of(context).uploading,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -283,6 +255,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         ],
       );
     } else {
+      // Save the Full Profile
       return Flex(
         direction: Axis.vertical,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -327,17 +300,23 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 )
               : Container(),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: TextFormField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: 'My Name'),
+              decoration: InputDecoration(
+                labelText: S.of(context).myName,
+                hintText: S.of(context).myName,
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: TextFormField(
               controller: _aboutController,
-              decoration: InputDecoration(labelText: 'About Me'),
+              decoration: InputDecoration(
+                labelText: S.of(context).aboutMe,
+                hintText: S.of(context).aboutMe,
+              ),
             ),
           ),
           GestureDetector(
@@ -357,7 +336,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        !submittingProfile ? 'Save Profile' : 'Saving!',
+                        !submittingProfile
+                            ? S.of(context).saveProfile
+                            : S.of(context).saving,
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
