@@ -4,6 +4,7 @@ WORKDIR /tmp/
 COPY composer.json composer.json
 COPY composer.lock composer.lock
 RUN apt update -y && apt install zip -y && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN composer require symfony/console
 RUN composer install && composer update 
 RUN composer require symfony/translation && composer require doctrine/annotations && composer require symfony/orm-pack
 FROM php:7.4-apache
