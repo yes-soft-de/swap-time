@@ -742,6 +742,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Game Name`
+  String get gameName {
+    return Intl.message(
+      'Game Name',
+      name: 'gameName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `i.e. GTA V`
+  String get ieGtaV {
+    return Intl.message(
+      'i.e. GTA V',
+      name: 'ieGtaV',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tags`
+  String get tags {
+    return Intl.message(
+      'Tags',
+      name: 'tags',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `i.e. Racing`
+  String get ieRacing {
+    return Intl.message(
+      'i.e. Racing',
+      name: 'ieRacing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My game is an awesome game`
+  String get myGameIsAnAwesomeGame {
+    return Intl.message(
+      'My game is an awesome game',
+      name: 'myGameIsAnAwesomeGame',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

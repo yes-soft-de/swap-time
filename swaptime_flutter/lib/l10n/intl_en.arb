@@ -70,5 +70,10 @@
   "saving": "Saving!",
   "captureMyPicture": "Capture My Picture",
   "uploadMe": "Upload Me!",
-  "uploading": "Uploading"
+  "uploading": "Uploading",
+  "gameName": "Game Name",
+  "ieGtaV": "i.e. GTA V",
+  "tags": "Tags",
+  "ieRacing": "i.e. Racing",
+  "myGameIsAnAwesomeGame": "My game is an awesome game"
 }

@@ -47,6 +47,7 @@ class _GameCardLargeState extends State<GameCardLarge> {
             child: FadeInImage.assetNetwork(
               placeholder: 'assets/images/logo.jpg',
               image: widget.gameModel.imageUrl,
+              fit: BoxFit.cover,
             ),
           ),
           Positioned(

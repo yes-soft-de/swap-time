@@ -114,8 +114,8 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                 child: TextFormField(
                   controller: _gameName,
                   decoration: InputDecoration(
-                    hintText: 'i.e. GTA V',
-                    labelText: 'Game Name',
+                    hintText: S.of(context).ieGtaV,
+                    labelText: S.of(context).gameName,
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -168,8 +168,8 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                       child: TextFormField(
                         controller: _tagName,
                         decoration: InputDecoration(
-                          labelText: 'Tags',
-                          hintText: 'i.e. Racing',
+                          labelText: S.of(context).tags,
+                          hintText: S.of(context).ieRacing,
                           labelStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -217,8 +217,8 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                 child: TextFormField(
                   controller: _descriptionName,
                   decoration: InputDecoration(
-                    hintText: 'My game is an awesome game',
-                    labelText: 'Description',
+                    hintText: S.of(context).myGameIsAnAwesomeGame,
+                    labelText: S.of(context).description,
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
