@@ -21,10 +21,10 @@ COPY --from=vendor /tmp/vendor/ /var/www/html/vendor/
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 RUN docker-php-ext-configure gd && docker-php-ext-install gd
 RUN chmod  +x ./entrypoint.sh 
-RUN chmod -R 777 /www/html/var/
+
 CMD ["./entrypoint.sh"]
 
 ENV APP_ENV=prod
 #ENV APP_DEBUG=0 
 RUN php bin/console cache:clear
-RUN chmod -R 777 /www/html/var/
+
