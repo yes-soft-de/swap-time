@@ -25,5 +25,4 @@ CMD ["./entrypoint.sh"]
 
 ENV APP_ENV=prod
 #ENV APP_DEBUG=0 
-RUN chmod -R 777 var/cache
 RUN php bin/console cache:clear
