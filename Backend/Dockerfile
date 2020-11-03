@@ -23,6 +23,7 @@ RUN docker-php-ext-configure gd && docker-php-ext-install gd
 RUN chmod  +x ./entrypoint.sh 
 CMD ["./entrypoint.sh"]
 
-#ENV APP_ENV=prod
+ENV APP_ENV=prod
 #ENV APP_DEBUG=0 
-#RUN php bin/console cache:clear
+RUN sudo chmod -R 777 var/cache
+RUN php bin/console cache:clear
