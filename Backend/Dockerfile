@@ -23,6 +23,7 @@ RUN docker-php-ext-configure gd && docker-php-ext-install gd
 RUN chmod  +x ./entrypoint.sh 
 
 CMD ["./entrypoint.sh"]
+RUN chown -R www-data:www-data /var/www/html/var
 
 ENV APP_ENV=prod
 #ENV APP_DEBUG=0 
