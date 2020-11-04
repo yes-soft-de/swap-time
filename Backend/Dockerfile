@@ -25,6 +25,7 @@ RUN chmod  +x ./entrypoint.sh
 CMD ["./entrypoint.sh"]
 RUN pwd
 RUN chown -R www-data:www-data /var
+RUN ls -al 
 
 ENV APP_ENV=prod
 #ENV APP_DEBUG=0 
