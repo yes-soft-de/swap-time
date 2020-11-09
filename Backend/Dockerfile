@@ -22,7 +22,7 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 RUN docker-php-ext-configure gd && docker-php-ext-install gd
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 RUN chmod  +x ./entrypoint.sh 
-USER www-data
+
 CMD ["./entrypoint.sh"]
 
 
