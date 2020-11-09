@@ -13,6 +13,7 @@ FROM php:7.4-apache
 RUN apt-get update && apt-get install -y build-essential libssl-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY --chown=www-data:www-data . /var/www/html
+RUN a2enmod rewrite
 COPY --from=gcr.io/yescloud/swaps ./.env /var/www/html
 COPY --from=gcr.io/yescloud/swaps ./.htaccess /var/www/html/public
 COPY --from=gcr.io/yescloud/swaps ./jwt/ /var/www/html/config/jwt
