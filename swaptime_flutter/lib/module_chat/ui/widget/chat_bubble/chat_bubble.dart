@@ -38,13 +38,18 @@ class ChatBubbleWidgetState extends State<ChatBubbleWidget> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              '${widget.message}',
-              style: TextStyle(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
-              ),
+            child: Row(
+              children: [
+                Text(DateTime.parse(widget.sentDate).toString()),
+                Text(
+                  '${widget.message}',
+                  style: TextStyle(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

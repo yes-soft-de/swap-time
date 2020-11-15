@@ -84,16 +84,6 @@ class ChatPageState extends State<ChatPage> {
           AppBar(
             title: Text(S.of(context).chatRoom),
           ),
-          Expanded(
-            child: chatsMessagesWidgets != null
-                ? ListView(
-                    children: chatsMessagesWidgets,
-                    reverse: false,
-                  )
-                : Center(
-                    child: Text(S.of(context).loading),
-                  ),
-          ),
           Column(
             children: [
               gameOne == null && gameTwo == null
@@ -189,6 +179,16 @@ class ChatPageState extends State<ChatPage> {
                 ],
               ),
             ],
+          ),
+          Expanded(
+            child: chatsMessagesWidgets != null
+                ? ListView(
+                    children: chatsMessagesWidgets,
+                    reverse: false,
+                  )
+                : Center(
+                    child: Text(S.of(context).loading),
+                  ),
           ),
         ],
       ),

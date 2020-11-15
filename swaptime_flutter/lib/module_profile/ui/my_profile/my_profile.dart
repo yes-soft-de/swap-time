@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/camera/camer_routes.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
@@ -32,7 +33,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   String imageLocation;
   bool uploading = false;
   bool submittingProfile = false;
-
+  final picker = ImagePicker();
   MyProfileState currentState;
 
   @override
@@ -61,8 +62,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    imageLocation = ModalRoute.of(context).settings.arguments;
-
     return Scaffold(
       appBar: SwaptimeAppBar.getBackEnabledAppBar(),
       body: getUI(),
@@ -76,59 +75,97 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         direction: Axis.vertical,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          MediaQuery.of(context).viewInsets.bottom == 0
-              ? Container(
-                  height: 256,
-                  width: MediaQuery.of(context).size.width,
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                          child: Container(
-                              height: 256,
-                              width: double.infinity,
-                              child: SvgPicture.asset(
-                                'assets/images/logo.svg',
-                                fit: BoxFit.cover,
-                              ))),
-                      Positioned.fill(
-                          child: Container(
-                        alignment: Alignment.center,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(24)),
-                            color: SwapThemeDataService.getPrimary(),
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                CameraRoutes.ROUTE_CAMERA,
-                                arguments: ProfileRoutes.MY_ROUTE_PROFILE,
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                S.of(context).captureMyPicture,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                ),
+          Expanded(
+            child: Stack(
+              children: [
+                // BG
+                Positioned.fill(
+                    child: Container(
+                        height: 256,
+                        width: double.infinity,
+                        child: SvgPicture.asset(
+                          'assets/images/logo.svg',
+                          fit: BoxFit.cover,
+                        ))),
+                // Buttons
+                Positioned.fill(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(24)),
+                          color: SwapThemeDataService.getPrimary(),
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            picker
+                                .getImage(source: ImageSource.gallery)
+                                .then((image) {
+                              print('Got image response');
+                              if (image != null) {
+                                imageLocation = image.path;
+                                print(image.path);
+                                setState(() {});
+                              }
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              S.of(context).selectMyImageFromGallery,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
                               ),
                             ),
                           ),
                         ),
-                      )),
-                    ],
-                  ),
-                )
-              : Container(),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(24)),
+                          color: SwapThemeDataService.getPrimary(),
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            picker
+                                .getImage(source: ImageSource.camera)
+                                .then((image) {
+                              print('Got image response');
+                              if (image != null) {
+                                imageLocation = image.path;
+                                print(image.path);
+                                setState(() {});
+                              }
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              S.of(context).captureMyImageWithTheCamera,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                )),
+              ],
+            ),
+          ),
           GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushNamed(
-                CameraRoutes.ROUTE_CAMERA,
-                arguments: ProfileRoutes.MY_ROUTE_PROFILE,
-              );
-            },
+            onTap: () {},
             child: Container(
               decoration:
                   BoxDecoration(color: SwapThemeDataService.getAccent()),
@@ -157,27 +194,64 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         direction: Axis.vertical,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          MediaQuery.of(context).viewInsets.bottom == 0
-              ? Container(
-                  height: 256,
-                  width: MediaQuery.of(context).size.width,
-                  child: Stack(
+          Expanded(
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Image.file(
+                    File(imageLocation),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  right: 8,
+                  top: 8,
+                  child: Flex(
+                    direction: Axis.horizontal,
                     children: [
-                      Positioned.fill(
-                        child: Image.file(
-                          File(imageLocation),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Positioned(
-                        right: 16,
-                        top: 16,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).pushNamed(
-                              CameraRoutes.ROUTE_CAMERA,
-                              arguments: ProfileRoutes.MY_ROUTE_PROFILE,
-                            );
+                            picker
+                                .getImage(source: ImageSource.gallery)
+                                .then((image) {
+                              print('Got image response');
+                              if (image != null) {
+                                imageLocation = image.path;
+                                print(image.path);
+                                setState(() {});
+                              }
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: SwapThemeDataService.getPrimary(),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.refresh,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            picker
+                                .getImage(source: ImageSource.camera)
+                                .then((image) {
+                              print('Got image response');
+                              if (image != null) {
+                                imageLocation = image.path;
+                                print(image.path);
+                                setState(() {});
+                              }
+                            });
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -193,39 +267,40 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           ),
                         ),
                       ),
-                      Positioned.fill(
-                          child: Container(
-                        alignment: Alignment.center,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: SwapThemeDataService.getPrimary(),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16))),
-                          child: GestureDetector(
-                            onTap: () {
-                              uploading = true;
-                              setState(() {});
-                              widget._stateManager.upload(imageLocation);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                uploading != true
-                                    ? S.of(context).uploadMe
-                                    : S.of(context).uploading,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ))
                     ],
                   ),
-                )
-              : Container(),
+                ),
+                Positioned.fill(
+                    child: Container(
+                  alignment: Alignment.center,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: SwapThemeDataService.getPrimary(),
+                        borderRadius: BorderRadius.all(Radius.circular(16))),
+                    child: GestureDetector(
+                      onTap: () {
+                        uploading = true;
+                        setState(() {});
+                        widget._stateManager.upload(imageLocation);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          uploading != true
+                              ? S.of(context).uploadMe
+                              : S.of(context).uploading,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ))
+              ],
+            ),
+          ),
           GestureDetector(
             onTap: () {
               widget._stateManager.upload(imageLocation);

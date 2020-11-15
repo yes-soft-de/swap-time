@@ -792,6 +792,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Capture my image with the camera`
+  String get captureMyImageWithTheCamera {
+    return Intl.message(
+      'Capture my image with the camera',
+      name: 'captureMyImageWithTheCamera',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select my Image from gallery`
+  String get selectMyImageFromGallery {
+    return Intl.message(
+      'Select my Image from gallery',
+      name: 'selectMyImageFromGallery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Capture game image via camera`
+  String get captureGameImageViaCamera {
+    return Intl.message(
+      'Capture game image via camera',
+      name: 'captureGameImageViaCamera',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select game image from gallery`
+  String get selectGameImageFromGallery {
+    return Intl.message(
+      'Select game image from gallery',
+      name: 'selectGameImageFromGallery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove Image`
+  String get removeImage {
+    return Intl.message(
+      'Remove Image',
+      name: 'removeImage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

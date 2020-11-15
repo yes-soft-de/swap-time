@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_forms/navigation_args/by_api_args/by_api_args.dart';
@@ -33,7 +34,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
 
   String filePath;
   String imageUrl;
-
+  final picker = ImagePicker();
   Widget currentPage;
   final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
   GamePlatform _gamePlatform = GamePlatform.PC;
@@ -127,38 +128,42 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-              DropdownButtonFormField(
-                hint: Text(S.of(context).platform),
-                value: _gamePlatform,
-                onChanged: (value) {
-                  _gamePlatform = value;
-                },
-                items: [
-                  DropdownMenuItem(
-                    value: GamePlatform.SWITCH,
-                    child: Text(GamePlatform.SWITCH.toString().split('.')[1]),
-                  ),
-                  DropdownMenuItem(
-                    value: GamePlatform.XBOX_ONE,
-                    child: Text(GamePlatform.XBOX_ONE.toString().split('.')[1]),
-                  ),
-                  DropdownMenuItem(
-                    value: GamePlatform.PC,
-                    child: Text(GamePlatform.PC.toString().split('.')[1]),
-                  ),
-                  DropdownMenuItem(
-                    value: GamePlatform.PS3,
-                    child: Text(GamePlatform.PS3.toString().split('.')[1]),
-                  ),
-                  DropdownMenuItem(
-                    value: GamePlatform.PS4,
-                    child: Text(GamePlatform.PS4.toString().split('.')[1]),
-                  ),
-                  DropdownMenuItem(
-                    value: GamePlatform.PS5,
-                    child: Text(GamePlatform.PS5.toString().split('.')[1]),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DropdownButtonFormField(
+                  hint: Text(S.of(context).platform),
+                  value: _gamePlatform,
+                  onChanged: (value) {
+                    _gamePlatform = value;
+                  },
+                  items: [
+                    DropdownMenuItem(
+                      value: GamePlatform.SWITCH,
+                      child: Text(GamePlatform.SWITCH.toString().split('.')[1]),
+                    ),
+                    DropdownMenuItem(
+                      value: GamePlatform.XBOX_ONE,
+                      child:
+                          Text(GamePlatform.XBOX_ONE.toString().split('.')[1]),
+                    ),
+                    DropdownMenuItem(
+                      value: GamePlatform.PC,
+                      child: Text(GamePlatform.PC.toString().split('.')[1]),
+                    ),
+                    DropdownMenuItem(
+                      value: GamePlatform.PS3,
+                      child: Text(GamePlatform.PS3.toString().split('.')[1]),
+                    ),
+                    DropdownMenuItem(
+                      value: GamePlatform.PS4,
+                      child: Text(GamePlatform.PS4.toString().split('.')[1]),
+                    ),
+                    DropdownMenuItem(
+                      value: GamePlatform.PS5,
+                      child: Text(GamePlatform.PS5.toString().split('.')[1]),
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -284,37 +289,71 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
           children: [
             Positioned.fill(child: Image.file(File(filePath))),
             Positioned.fill(
-                child: Center(
-              child: OutlineButton(
-                onPressed: () {
-                  widget._stateManager.upload(filePath);
-                },
-                child: Container(
-                  height: 48,
-                  alignment: Alignment.center,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(24),
-                      ),
-                      color: Colors.black26,
-                    ),
-                    child: Flex(
-                      direction: Axis.horizontal,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.upload_file),
+                child: Flex(
+              direction: Axis.vertical,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    widget._stateManager.upload(filePath);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(24),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(S.of(context).uploadImage),
-                        )
-                      ],
+                        color: Colors.black26,
+                      ),
+                      child: Flex(
+                        direction: Axis.horizontal,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.upload_file),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(S.of(context).uploadImage),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
+                GestureDetector(
+                  onTap: () {
+                    filePath = null;
+                    setState(() {});
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(24),
+                        ),
+                        color: Colors.black26,
+                      ),
+                      child: Flex(
+                        direction: Axis.horizontal,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.delete),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(S.of(context).removeImage),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ))
           ],
         ),
@@ -322,43 +361,94 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
     } else {
       return Container(
         height: MediaQuery.of(context).size.height / 4,
-        child: Stack(
-          children: [
-            Positioned.fill(child: SvgPicture.asset('assets/images/logo.svg')),
-            Positioned.fill(
-                child: Center(
-              child: OutlineButton(
-                onPressed: () {
-                  widget._stateManager.upload(filePath);
-                },
-                child: Container(
-                  height: 48,
-                  alignment: Alignment.center,
+        child: Expanded(
+          child: Stack(
+            children: [
+              // BG
+              Positioned.fill(
                   child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(24),
+                      height: 256,
+                      width: double.infinity,
+                      child: SvgPicture.asset(
+                        'assets/images/logo.svg',
+                        fit: BoxFit.cover,
+                      ))),
+              // Buttons
+              Positioned.fill(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(24)),
+                        color: SwapThemeDataService.getPrimary(),
                       ),
-                      color: Colors.black26,
-                    ),
-                    child: Flex(
-                      direction: Axis.horizontal,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.upload_file),
+                      child: GestureDetector(
+                        onTap: () {
+                          picker
+                              .getImage(source: ImageSource.gallery)
+                              .then((image) {
+                            print('Got image response');
+                            if (image != null) {
+                              filePath = image.path;
+                              print(image.path);
+                              setState(() {});
+                            }
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            S.of(context).selectGameImageFromGallery,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(S.of(context).uploadImage),
-                        )
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ))
-          ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(24)),
+                        color: SwapThemeDataService.getPrimary(),
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          picker
+                              .getImage(source: ImageSource.camera)
+                              .then((image) {
+                            print('Got image response');
+                            if (image != null) {
+                              filePath = image.path;
+                              print(image.path);
+                              setState(() {});
+                            }
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            S.of(context).captureGameImageViaCamera,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              )),
+            ],
+          ),
         ),
       );
     }

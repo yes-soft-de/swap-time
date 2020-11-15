@@ -297,7 +297,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     var hasProfile =
                         await widget._myProfileService.hasProfile();
                     if (hasProfile) {
-                      overlayOpened = true;
+                      await Navigator.of(context)
+                          .pushNamed(FormsRoutes.ROUTE_ADD_BY_IMAGE);
                       setState(() {});
                     } else {
                       await Navigator.of(context)

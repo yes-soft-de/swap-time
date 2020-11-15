@@ -74,6 +74,11 @@
   "gameName": "اسم اللعبة",
   "ieGtaV": "i.e. GTA V",
   "tags": "تصنيفات",
-  "ieRacing": "i.e. Racing",
-  "myGameIsAnAwesomeGame": "التوصيف هنا"
+  "ieRacing": "كـ لعبة سباق",
+  "myGameIsAnAwesomeGame": "التوصيف هنا",
+  "captureMyImageWithTheCamera": "افتح الكاميرا لالتقاط صورتي",
+  "selectMyImageFromGallery": "اختر صورتي",
+  "captureGameImageViaCamera": "صور اللعبة",
+  "selectGameImageFromGallery": "اختر صورة اللعبة",
+  "removeImage": "حذف الصورة"
 }

@@ -75,5 +75,10 @@
   "ieGtaV": "i.e. GTA V",
   "tags": "Tags",
   "ieRacing": "i.e. Racing",
-  "myGameIsAnAwesomeGame": "My game is an awesome game"
+  "myGameIsAnAwesomeGame": "My game is an awesome game",
+  "captureMyImageWithTheCamera": "Capture my image with the camera",
+  "selectMyImageFromGallery": "Select my Image from gallery",
+  "captureGameImageViaCamera": "Capture game image via camera",
+  "selectGameImageFromGallery": "Select game image from gallery",
+  "removeImage": "Remove Image"
 }
