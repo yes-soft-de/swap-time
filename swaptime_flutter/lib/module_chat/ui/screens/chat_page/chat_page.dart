@@ -145,39 +145,6 @@ class ChatPageState extends State<ChatPage> {
                           },
                         )
                       : Container(),
-              Flex(
-                direction: Axis.horizontal,
-                children: <Widget>[
-                  Flexible(
-                    flex: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: S.of(context).startWriting,
-                        ),
-                        controller: _msgController,
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: GestureDetector(
-                      onTap: () {
-                        sendMessage();
-                      },
-                      child: Container(
-                        height: 48,
-                        width: 48,
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(90))),
-                        child: Icon(Icons.send),
-                      ),
-                    ),
-                  )
-                ],
-              ),
             ],
           ),
           Expanded(
@@ -189,6 +156,38 @@ class ChatPageState extends State<ChatPage> {
                 : Center(
                     child: Text(S.of(context).loading),
                   ),
+          ),
+          Flex(
+            direction: Axis.horizontal,
+            children: <Widget>[
+              Flexible(
+                flex: 5,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: S.of(context).startWriting,
+                    ),
+                    controller: _msgController,
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: GestureDetector(
+                  onTap: () {
+                    sendMessage();
+                  },
+                  child: Container(
+                    height: 48,
+                    width: 48,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(90))),
+                    child: Icon(Icons.send),
+                  ),
+                ),
+              )
+            ],
           ),
         ],
       ),

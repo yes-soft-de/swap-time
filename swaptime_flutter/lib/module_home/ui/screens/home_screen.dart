@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
-import 'package:swaptime_flutter/camera/camer_routes.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_list/game_card_list.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/interaction_module/ui/liked_screen/liked_screen.dart';
@@ -221,8 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   onPressed: () {
                     Navigator.of(context).pushNamed(
-                      CameraRoutes.ROUTE_CAMERA,
-                      arguments: FormsRoutes.ROUTE_ADD_BY_IMAGE,
+                      FormsRoutes.ROUTE_ADD_BY_IMAGE,
                     );
                   },
                 ),
@@ -297,9 +295,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     var hasProfile =
                         await widget._myProfileService.hasProfile();
                     if (hasProfile) {
-                      await Navigator.of(context)
-                          .pushNamed(FormsRoutes.ROUTE_ADD_BY_IMAGE);
-                      setState(() {});
+                      if (!overlayOpened) {
+                        overlayOpened = true;
+                        setState(() {});
+                      } else {
+                        await Navigator.of(context)
+                            .pushNamed(FormsRoutes.ROUTE_ADD_BY_IMAGE);
+                      }
                     } else {
                       await Navigator.of(context)
                           .pushNamed(ProfileRoutes.MY_ROUTE_PROFILE);
