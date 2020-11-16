@@ -44,7 +44,9 @@ class ChatBubbleWidgetState extends State<ChatBubbleWidget> {
                             .difference(DateTime.now())
                             .inHours >
                         24
-                    ? DateTime.parse(widget.sentDate).toString()
+                    ? DateTime.parse(widget.sentDate)
+                        .toString()
+                        .substring(0, 15)
                     : DateTime.parse(widget.sentDate)
                             .difference(DateTime.now())
                             .inHours
