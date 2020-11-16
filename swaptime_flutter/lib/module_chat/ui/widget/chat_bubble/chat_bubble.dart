@@ -38,9 +38,18 @@ class ChatBubbleWidgetState extends State<ChatBubbleWidget> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
+            child: Column(
               children: [
-                Text(DateTime.parse(widget.sentDate).toString()),
+                Text(DateTime.parse(widget.sentDate)
+                            .difference(DateTime.now())
+                            .inHours >
+                        24
+                    ? DateTime.parse(widget.sentDate).toString()
+                    : DateTime.parse(widget.sentDate)
+                            .difference(DateTime.now())
+                            .inHours
+                            .toString() +
+                        ' ago'),
                 Text(
                   '${widget.message}',
                   style: TextStyle(
