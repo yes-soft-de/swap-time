@@ -20,6 +20,7 @@ import 'di/components/app.component.dart';
 import 'generated/l10n.dart';
 import 'module_home/home.module.dart';
 import 'module_localization/service/localization_service/localization_service.dart';
+import 'module_search/search_module.dart';
 
 typedef Provider<T> = T Function();
 
@@ -46,6 +47,7 @@ class MyApp extends StatefulWidget {
   final GamesModule _gamesModule;
   final LocalizationService _localizationService;
   final SwapThemeDataService _swapThemeService;
+  final SearchModule _searchModule;
 
   MyApp(
     this._homeModule,
@@ -57,6 +59,7 @@ class MyApp extends StatefulWidget {
     this._profileModule,
     this._localizationService,
     this._swapThemeService,
+    this._searchModule,
   );
 
   @override
@@ -98,6 +101,7 @@ class _MyAppState extends State<MyApp> {
     fullRoutesList.addAll(widget._cameraModule.getRoutes());
     fullRoutesList.addAll(widget._profileModule.getRoutes());
     fullRoutesList.addAll(widget._gamesModule.getRoutes());
+    fullRoutesList.addAll(widget._searchModule.getRoutes());
 
     return FutureBuilder(
       future: getConfiguredApp(fullRoutesList),

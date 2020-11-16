@@ -36,6 +36,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   final picker = ImagePicker();
   MyProfileState currentState;
 
+  bool searchActive = false;
+
   @override
   void initState() {
     super.initState();

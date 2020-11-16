@@ -80,5 +80,9 @@
   "selectMyImageFromGallery": "Select my Image from gallery",
   "captureGameImageViaCamera": "Capture game image via camera",
   "selectGameImageFromGallery": "Select game image from gallery",
-  "removeImage": "Remove Image"
+  "removeImage": "Remove Image",
+  "minutesAgo": "minutes ago",
+  "byAdded": "By Added",
+  "byName": "By Name",
+  "byComments": "By Comments"
 }

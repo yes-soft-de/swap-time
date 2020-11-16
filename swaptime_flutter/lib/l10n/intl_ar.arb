@@ -80,5 +80,9 @@
   "selectMyImageFromGallery": "اختر صورتي",
   "captureGameImageViaCamera": "صور اللعبة",
   "selectGameImageFromGallery": "اختر صورة اللعبة",
-  "removeImage": "حذف الصورة"
+  "removeImage": "حذف الصورة",
+  "minutesAgo": "minutes ago",
+  "byAdded": "By Added",
+  "byName": "By Name",
+  "byComments": "By Comments"
 }

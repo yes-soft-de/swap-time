@@ -12,6 +12,7 @@ import 'package:swaptime_flutter/module_notifications/ui/screens/notification_sc
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
 import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
 import 'package:swaptime_flutter/module_profile/ui/profile_screen/profile_screen.dart';
+import 'package:swaptime_flutter/module_search/search_routes.dart';
 import 'package:swaptime_flutter/module_settings/ui/ui/settings_page/settings_page.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
@@ -48,6 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool overlayOpened = false;
   bool initiated = false;
+
+  bool searchEnabled = false;
 
   @override
   void initState() {
@@ -115,7 +118,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
         key: _drawerKey,
-        appBar: SwaptimeAppBar.getSwaptimeAppBar(_drawerKey),
+        appBar: searchEnabled
+            ? SwaptimeAppBar.getSearchAppBar(context, (query) {
+                if (query == null) {
+                  searchEnabled = false;
+                  setState(() {});
+                } else {
+                  Navigator.of(context)
+                      .pushNamed(SearchRoutes.ROUTE_SEARCH, arguments: query);
+                }
+              })
+            : SwaptimeAppBar.getSwaptimeAppBar(_drawerKey, () {
+                searchEnabled = true;
+                setState(() {});
+              }),
         drawer: SwapNavigationDrawer(widget._myProfileService),
         floatingActionButton: _getFAB(),
         bottomNavigationBar: _getBottomNavigationBar(),

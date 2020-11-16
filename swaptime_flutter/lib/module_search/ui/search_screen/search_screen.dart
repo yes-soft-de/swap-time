@@ -8,28 +8,32 @@ import 'package:swaptime_flutter/games_module/state_manager/games_list_state_man
 import 'package:swaptime_flutter/games_module/states/games_list_state/game_list_states.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_large/game_card_large.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_list_header/game_card_list_header.dart';
-import 'package:swaptime_flutter/games_module/ui/widget/game_card_medium/game_card_medium.dart';
-import 'package:swaptime_flutter/games_module/ui/widget/game_card_small/game_card_small.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
+import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 
 @provide
-class GameCardList extends StatefulWidget {
+class SearchScreen extends StatefulWidget {
   final GamesListStateManager _stateManager;
   final AuthService _authService;
 
-  GameCardList(this._stateManager, this._authService);
+  SearchScreen(
+    this._stateManager,
+    this._authService,
+  );
 
   @override
-  State<StatefulWidget> createState() => _GameCardListState();
+  State<StatefulWidget> createState() => _SearchScreenState();
 }
 
-class _GameCardListState extends State<GameCardList> {
+class _SearchScreenState extends State<SearchScreen> {
   GameCardType currentType = GameCardType.GAME_CARD_MEDIUM;
   GamesListState currentState = GamesListStateInit();
   List<Games> gamesList = [];
   List<Games> visibleGames = [];
+
+  String activeSearchQuery;
 
   SortByType activeSort;
 
@@ -56,6 +60,11 @@ class _GameCardListState extends State<GameCardList> {
 
   @override
   Widget build(BuildContext context) {
+    if (activeSearchQuery == null) {
+      if (ModalRoute.of(context).settings.arguments is String) {
+        activeSearchQuery = ModalRoute.of(context).settings.arguments;
+      }
+    }
     return calibrateScreen();
   }
 
@@ -105,139 +114,53 @@ class _GameCardListState extends State<GameCardList> {
   }
 
   Widget getSuccessUI() {
-    Widget gamesGrid;
-    switch (currentType) {
-      case GameCardType.GAME_CARD_SMALL:
-        gamesGrid = GridView.count(
-          crossAxisCount: 3,
-          shrinkWrap: true,
-          physics: ScrollPhysics(),
-          children: getSmallCards(),
-        );
-        break;
-      case GameCardType.GAME_CARD_MEDIUM:
-        gamesGrid = GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: ScrollPhysics(),
-          children: getMediumCards(),
-        );
-        break;
-      case GameCardType.GAME_CARD_LARGE:
-        gamesGrid = GridView.count(
-          crossAxisCount: 1,
-          shrinkWrap: true,
-          physics: ScrollPhysics(),
-          children: getLargeCards(),
-        );
-        break;
-      default:
-        return Container();
-    }
+    Widget gamesGrid = GridView.count(
+      crossAxisCount: 1,
+      shrinkWrap: true,
+      physics: ScrollPhysics(),
+      children: getLargeCards(),
+    );
 
-    return Flex(
-      direction: Axis.vertical,
-      children: [
-        GameCardListHeader(
-          selectedCardType: currentType,
-          onTypeChanged: (newType) {
-            currentType = newType;
-            if (mounted) setState(() {});
-          },
-          onSortChanged: (newSort) {
-            activeSort = newSort;
-            visibleGames = _processList(gamesList);
-            setState(() {});
-          },
-        ),
-        Container(
-          height: 16,
-        ),
-        gamesGrid
-      ],
+    return Scaffold(
+      appBar: SwaptimeAppBar.getSearchAppBar(context, (searchQuery) {
+        if (searchQuery == null) {
+          Navigator.of(context).pop();
+        }
+        activeSearchQuery = searchQuery;
+        _calcVisibleBySearchQuery();
+        setState(() {});
+      }),
+      body: ListView(
+        children: [
+          gamesGrid,
+        ],
+      ),
     );
   }
 
-  List<Widget> getSmallCards() {
-    List<Widget> cards = [];
-
-    for (int i = 0; i < visibleGames.length; i++) {
-      cards.add(GestureDetector(
-        onTap: () {
-          Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
-              arguments: visibleGames[i].id);
-        },
-        child: GameCardSmall(
-          gameModel: GameModel(
-            gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i].mainImage.substring(29),
-            gameOwnerFirstName: visibleGames[i].name,
-            lovable: loggedIn,
-            loved: visibleGames[i].interaction.checkLoved && loggedIn,
-            itemId: visibleGames[i].id.toString(),
-          ),
-          onChatRequested: (itemId) {},
-          onLoved: (loved) {
-            if (loved) {
-              widget._stateManager.unLove(visibleGames[i].id.toString());
-            } else {
-              widget._stateManager
-                  .love(visibleGames[i].id.toString(), null)
-                  .then((value) {
-                if (value == null) {
-                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
-                }
-              });
-            }
-          },
-          onReport: (itemId) {
-            Fluttertoast.showToast(msg: 'Report is Sent!');
-          },
-        ),
-      ));
+  void _calcVisibleBySearchQuery() {
+    if (activeSearchQuery != null) {
+      List<Games> activeGames = [];
+      gamesList.forEach((element) {
+        if (element.name
+            .toLowerCase()
+            .contains(activeSearchQuery.toLowerCase())) {
+          activeGames.add(element);
+          return;
+        }
+        if (element.description
+            .toLowerCase()
+            .contains(activeSearchQuery.toLowerCase())) {
+          activeGames.add(element);
+          return;
+        }
+        if (element.tag.contains(activeSearchQuery.toLowerCase())) {
+          activeGames.add(element);
+          return;
+        }
+      });
+      visibleGames = activeGames;
     }
-
-    return cards;
-  }
-
-  List<Widget> getMediumCards() {
-    List<Widget> cards = [];
-    for (int i = 0; i < visibleGames.length; i++) {
-      cards.add(GestureDetector(
-        onTap: () {
-          Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
-              arguments: visibleGames[i].id);
-        },
-        child: GameCardMedium(
-          gameModel: GameModel(
-            gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i].mainImage.substring(29),
-            lovable: loggedIn,
-            gameOwnerFirstName: visibleGames[i].name,
-            loved: visibleGames[i].interaction.checkLoved && loggedIn,
-            itemId: visibleGames[i].id.toString(),
-          ),
-          onChatRequested: (itemId) {},
-          onLoved: (loved) {
-            if (loved) {
-              widget._stateManager.unLove(visibleGames[i].id.toString());
-            } else {
-              widget._stateManager
-                  .love(visibleGames[i].id.toString(), null)
-                  .then((value) {
-                if (value == null) {
-                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
-                }
-              });
-            }
-          },
-          onReport: (itemId) {
-            Fluttertoast.showToast(msg: 'Report is Sent!');
-          },
-        ),
-      ));
-    }
-    return cards;
   }
 
   List<Widget> getLargeCards() {

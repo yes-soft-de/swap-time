@@ -104,6 +104,8 @@ import '../../module_profile/profile_module.dart' as _i72;
 import '../../module_profile/ui/my_profile/my_profile.dart' as _i73;
 import '../../module_profile/state_manager/my_profile/my_profile_state_manager.dart'
     as _i74;
+import '../../module_search/search_module.dart' as _i75;
+import '../../module_search/ui/search_screen/search_screen.dart' as _i76;
 
 class AppComponent$Injector implements _i1.AppComponent {
   AppComponent$Injector._();
@@ -129,7 +131,8 @@ class AppComponent$Injector implements _i1.AppComponent {
       _createCameraModule(),
       _createProfileModule(),
       _createLocalizationService(),
-      _createSwapThemeDataService());
+      _createSwapThemeDataService(),
+      _createSearchModule());
   _i7.HomeModule _createHomeModule() => _i7.HomeModule(_createHomeScreen());
   _i8.HomeScreen _createHomeScreen() => _i8.HomeScreen(
       _createAuthService(),
@@ -260,7 +263,8 @@ class AppComponent$Injector implements _i1.AppComponent {
       _createSwapService(),
       _createCommentService(),
       _createAuthService(),
-      _createGameCardList());
+      _createGameCardList(),
+      _createProfileService());
   _i56.GameDetailsManager _createGameDetailsManager() =>
       _i56.GameDetailsManager(_createGamesListService());
   _i57.CommentService _createCommentService() =>
@@ -299,6 +303,10 @@ class AppComponent$Injector implements _i1.AppComponent {
   _i74.MyProfileStateManager _createMyProfileStateManager() =>
       _i74.MyProfileStateManager(
           _createImageUploadService(), _createProfileService());
+  _i75.SearchModule _createSearchModule() =>
+      _i75.SearchModule(_createSearchScreen());
+  _i76.SearchScreen _createSearchScreen() =>
+      _i76.SearchScreen(_createGamesListStateManager(), _createAuthService());
   @override
   _i6.MyApp get app => _createMyApp();
 }

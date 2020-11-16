@@ -7,8 +7,10 @@ import 'package:swaptime_flutter/games_module/ui/widget/game_card_list/game_card
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
+import 'package:swaptime_flutter/module_comment/model/comment_model/comment_model.dart';
 import 'package:swaptime_flutter/module_comment/service/comment_service/comment_service.dart';
 import 'package:swaptime_flutter/module_comment/ui/widget/comments_list_widget/comment_list_widget.dart';
+import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
 import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
@@ -20,6 +22,7 @@ class GameDetailsScreen extends StatefulWidget {
   final CommentService _commentService;
   final AuthService _authService;
   final GameCardList _gameCardList;
+  final ProfileService _profileService;
 
   GameDetailsScreen(
     this._manager,
@@ -27,6 +30,7 @@ class GameDetailsScreen extends StatefulWidget {
     this._commentService,
     this._authService,
     this._gameCardList,
+    this._profileService,
   );
 
   @override
@@ -293,8 +297,15 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                           (newComment) => {
                             widget._commentService
                                 .postComment(gameId, newComment)
-                                .then((value) {
-                              widget._manager.getGameDetails(gameId);
+                                .then((value) async {
+                              var uid = await widget._authService.userID;
+                              var profile = await widget._profileService
+                                  .getUserProfile(uid);
+                              state.details.comments.add(CommentModel(
+                                  comment: newComment,
+                                  userID: uid,
+                                  swapItemID: gameId,
+                                  profile: profile));
                             }),
                             snapshot.data
                           },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 
 class ChatBubbleWidget extends StatefulWidget {
   final bool showImage;
@@ -39,6 +40,7 @@ class ChatBubbleWidgetState extends State<ChatBubbleWidget> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(DateTime.parse(widget.sentDate)
                             .difference(DateTime.now())
@@ -51,7 +53,7 @@ class ChatBubbleWidgetState extends State<ChatBubbleWidget> {
                             .difference(DateTime.now())
                             .inHours
                             .toString() +
-                        ' ago'),
+                        S.of(context).minutesAgo),
                 Text(
                   '${widget.message}',
                   style: TextStyle(
