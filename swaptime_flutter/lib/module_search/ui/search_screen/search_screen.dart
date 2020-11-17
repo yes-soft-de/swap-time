@@ -74,13 +74,19 @@ class _SearchScreenState extends State<SearchScreen> {
         return getSuccessUI();
         break;
       case GamesListStateLoadError:
-        return getErrorUI();
+        return Scaffold(
+          body: getErrorUI()
+        );
         break;
       case GamesListStateLoading:
-        return getLoadingUI();
+        return Scaffold(
+          body: getLoadingUI(),
+          );
         break;
       default:
-        return Container();
+        return Scaffold(
+          body: Container()
+        );
     }
   }
 

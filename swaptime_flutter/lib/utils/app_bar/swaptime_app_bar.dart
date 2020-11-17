@@ -33,7 +33,6 @@ class SwaptimeAppBar {
     return AppBar(
       title: Text(
         'Swaptime',
-        style: TextStyle(fontWeight: FontWeight.w300),
       ),
       centerTitle: true,
       actions: [
@@ -69,22 +68,27 @@ class SwaptimeAppBar {
           : Colors.white,
       title: TextFormField(
         controller: controller,
+        style: TextStyle(
+            color: Theme.of(context).brightness != Brightness.light
+                ? Colors.black
+                : Colors.white),
         decoration: InputDecoration(
-            hintText: S.of(context).search,
-            labelText: S.of(context).search,
-            hintStyle: TextStyle(
-              color: Theme.of(context).brightness != Brightness.light
-                  ? Colors.black
-                  : Colors.white,
-            ),
-            labelStyle: TextStyle(
-              color: Theme.of(context).brightness != Brightness.light
-                  ? Colors.black
-                  : Colors.white,
-            ),
-            fillColor: Theme.of(context).brightness == Brightness.light
-                ? Colors.white
-                : Colors.black),
+          hintText: S.of(context).search,
+          labelText: S.of(context).search,
+          hintStyle: TextStyle(
+            color: Theme.of(context).brightness != Brightness.light
+                ? Colors.black
+                : Colors.white,
+          ),
+          labelStyle: TextStyle(
+            color: Theme.of(context).brightness != Brightness.light
+                ? Colors.black
+                : Colors.white,
+          ),
+          fillColor: Theme.of(context).brightness == Brightness.light
+              ? Colors.white
+              : Colors.black,
+        ),
       ),
       actions: [
         IconButton(
