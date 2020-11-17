@@ -11,9 +11,7 @@ class CommentWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: .25)
-        ),
+        decoration: BoxDecoration(border: Border.all(width: .25)),
         child: Flex(
           direction: Axis.vertical,
           children: [

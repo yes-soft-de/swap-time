@@ -64,16 +64,14 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
         appBar: SwaptimeAppBar.getBackEnabledAppBar(onReport: () {
           showDialog(
               context: context,
-              child: ReportDialog(
-                  onConfirm: () {
-                    widget._manager.reportGame(gameId.toString());
-                    reported = true;
-                    Navigator.of(context).pop();
-                    if(mounted) setState(() {});
-                  },
-                  onCancel: () {
-                    Navigator.of(context).pop();
-                  }));
+              child: ReportDialog(onConfirm: () {
+                widget._manager.reportGame(gameId.toString());
+                reported = true;
+                Navigator.of(context).pop();
+                if (mounted) setState(() {});
+              }, onCancel: () {
+                Navigator.of(context).pop();
+              }));
         }),
         body: Center(
           child: Text(S.of(context).errorGettingSwapItemId),
