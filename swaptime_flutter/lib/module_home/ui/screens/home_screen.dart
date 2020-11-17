@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_list/game_card_list.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
@@ -51,6 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool initiated = false;
 
   bool searchEnabled = false;
+  bool isFabVisible = true;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -68,11 +71,37 @@ class _HomeScreenState extends State<HomeScreen> {
       initiated = true;
     }
 
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        if (isFabVisible == true) {
+          print('**** ${isFabVisible} up'); //Move IO away from setState
+          setState(() {
+            isFabVisible = false;
+          });
+        }
+      } else {
+        if (_scrollController.position.userScrollDirection ==
+            ScrollDirection.forward) {
+          if (isFabVisible == false) {
+            /* only set when the previous state is false
+               * Less widget rebuilds
+               */
+            print('**** ${isFabVisible} down'); //Move IO away from setState
+            setState(() {
+              isFabVisible = true;
+            });
+          }
+        }
+      }
+    });
+
     var bodyPages = <Widget>[
       Column(
         children: [
           Expanded(
               child: ListView(
+            controller: _scrollController,
             children: [
               widget._gameCardList,
             ],
@@ -83,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Expanded(
               child: ListView(
+            controller: _scrollController,
             children: [
               widget._notificationScreen,
             ],
@@ -93,6 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Expanded(
               child: ListView(
+            controller: _scrollController,
             children: [
               widget._likedScreen,
             ],
@@ -103,6 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Expanded(
               child: SingleChildScrollView(
+            controller: _scrollController,
             child: widget._profileScreen,
           )),
         ],
@@ -133,7 +165,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 setState(() {});
               }),
         drawer: SwapNavigationDrawer(widget._myProfileService),
-        floatingActionButton: _getFAB(),
+        floatingActionButton: Visibility(
+          visible: isFabVisible,
+          child: _getFAB(),
+        ),
         bottomNavigationBar: _getBottomNavigationBar(),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 8, 8, 0),

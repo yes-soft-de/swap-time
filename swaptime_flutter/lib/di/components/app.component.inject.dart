@@ -80,32 +80,33 @@ import '../../games_module/games_module.dart' as _i54;
 import '../../games_module/ui/widget/game_details/game_details.dart' as _i55;
 import '../../games_module/state_manager/game_details_state_manager/game_details_list_manager.dart'
     as _i56;
+import '../../module_report/service/report_service/report_service.dart' as _i57;
 import '../../module_comment/service/comment_service/comment_service.dart'
-    as _i57;
-import '../../module_comment/manager/comment_manager/comment_manager.dart'
     as _i58;
-import '../../module_comment/repository/comment/comment_repository.dart'
+import '../../module_comment/manager/comment_manager/comment_manager.dart'
     as _i59;
-import '../../module_auth/auth_module.dart' as _i60;
-import '../../module_auth/ui/screen/auth_screen/auth_screen.dart' as _i61;
+import '../../module_comment/repository/comment/comment_repository.dart'
+    as _i60;
+import '../../module_auth/auth_module.dart' as _i61;
+import '../../module_auth/ui/screen/auth_screen/auth_screen.dart' as _i62;
 import '../../module_auth/state_manager/auth_state_manager/auth_state_manager.dart'
-    as _i62;
-import '../../module_chat/chat_module.dart' as _i63;
-import '../../module_chat/ui/screens/chat_page/chat_page.dart' as _i64;
-import '../../module_chat/bloc/chat_page/chat_page.bloc.dart' as _i65;
-import '../../module_chat/service/chat/char_service.dart' as _i66;
-import '../../module_chat/manager/chat/chat_manager.dart' as _i67;
-import '../../module_chat/repository/chat/chat_repository.dart' as _i68;
+    as _i63;
+import '../../module_chat/chat_module.dart' as _i64;
+import '../../module_chat/ui/screens/chat_page/chat_page.dart' as _i65;
+import '../../module_chat/bloc/chat_page/chat_page.bloc.dart' as _i66;
+import '../../module_chat/service/chat/char_service.dart' as _i67;
+import '../../module_chat/manager/chat/chat_manager.dart' as _i68;
+import '../../module_chat/repository/chat/chat_repository.dart' as _i69;
 import '../../module_persistence/sharedpref/shared_preferences_helper.dart'
-    as _i69;
-import '../../camera/camera_module.dart' as _i70;
-import '../../camera/ui/screen/camera_screen/camera_screen.dart' as _i71;
-import '../../module_profile/profile_module.dart' as _i72;
-import '../../module_profile/ui/my_profile/my_profile.dart' as _i73;
+    as _i70;
+import '../../camera/camera_module.dart' as _i71;
+import '../../camera/ui/screen/camera_screen/camera_screen.dart' as _i72;
+import '../../module_profile/profile_module.dart' as _i73;
+import '../../module_profile/ui/my_profile/my_profile.dart' as _i74;
 import '../../module_profile/state_manager/my_profile/my_profile_state_manager.dart'
-    as _i74;
-import '../../module_search/search_module.dart' as _i75;
-import '../../module_search/ui/search_screen/search_screen.dart' as _i76;
+    as _i75;
+import '../../module_search/search_module.dart' as _i76;
+import '../../module_search/ui/search_screen/search_screen.dart' as _i77;
 
 class AppComponent$Injector implements _i1.AppComponent {
   AppComponent$Injector._();
@@ -266,47 +267,50 @@ class AppComponent$Injector implements _i1.AppComponent {
       _createGameCardList(),
       _createProfileService());
   _i56.GameDetailsManager _createGameDetailsManager() =>
-      _i56.GameDetailsManager(_createGamesListService());
-  _i57.CommentService _createCommentService() =>
-      _i57.CommentService(_createAuthService(), _createCommentManager());
-  _i58.CommentManager _createCommentManager() =>
-      _i58.CommentManager(_createCommentRepository());
-  _i59.CommentRepository _createCommentRepository() =>
-      _i59.CommentRepository(_createApiClient());
-  _i60.AuthModule _createAuthModule() => _i60.AuthModule(_createAuthScreen());
-  _i61.AuthScreen _createAuthScreen() =>
-      _i61.AuthScreen(_createAuthStateManager());
-  _i62.AuthStateManager _createAuthStateManager() =>
-      _i62.AuthStateManager(_createAuthService());
-  _i63.ChatModule _createChatModule() =>
-      _i63.ChatModule(_createChatPage(), _createAuthGuard());
-  _i64.ChatPage _createChatPage() => _i64.ChatPage(_createChatPageBloc(),
+      _i56.GameDetailsManager(
+          _createGamesListService(), _createReportService());
+  _i57.ReportService _createReportService() =>
+      _i57.ReportService(_createAuthService());
+  _i58.CommentService _createCommentService() =>
+      _i58.CommentService(_createAuthService(), _createCommentManager());
+  _i59.CommentManager _createCommentManager() =>
+      _i59.CommentManager(_createCommentRepository());
+  _i60.CommentRepository _createCommentRepository() =>
+      _i60.CommentRepository(_createApiClient());
+  _i61.AuthModule _createAuthModule() => _i61.AuthModule(_createAuthScreen());
+  _i62.AuthScreen _createAuthScreen() =>
+      _i62.AuthScreen(_createAuthStateManager());
+  _i63.AuthStateManager _createAuthStateManager() =>
+      _i63.AuthStateManager(_createAuthService());
+  _i64.ChatModule _createChatModule() =>
+      _i64.ChatModule(_createChatPage(), _createAuthGuard());
+  _i65.ChatPage _createChatPage() => _i65.ChatPage(_createChatPageBloc(),
       _createAuthService(), _createGamesListService(), _createSwapService());
-  _i65.ChatPageBloc _createChatPageBloc() =>
-      _i65.ChatPageBloc(_createChatService());
-  _i66.ChatService _createChatService() =>
-      _i66.ChatService(_createChatManager());
-  _i67.ChatManager _createChatManager() =>
-      _i67.ChatManager(_createChatRepository());
-  _i68.ChatRepository _createChatRepository() => _i68.ChatRepository();
+  _i66.ChatPageBloc _createChatPageBloc() =>
+      _i66.ChatPageBloc(_createChatService());
+  _i67.ChatService _createChatService() =>
+      _i67.ChatService(_createChatManager());
+  _i68.ChatManager _createChatManager() =>
+      _i68.ChatManager(_createChatRepository());
+  _i69.ChatRepository _createChatRepository() => _i69.ChatRepository();
   _i4.AuthGuard _createAuthGuard() =>
       _singletonAuthGuard ??= _i4.AuthGuard(_createSharedPreferencesHelper());
-  _i69.SharedPreferencesHelper _createSharedPreferencesHelper() =>
-      _i69.SharedPreferencesHelper();
-  _i70.CameraModule _createCameraModule() =>
-      _i70.CameraModule(_createCameraScreen());
-  _i71.CameraScreen _createCameraScreen() => _i71.CameraScreen();
-  _i72.ProfileModule _createProfileModule() =>
-      _i72.ProfileModule(_createMyProfileScreen());
-  _i73.MyProfileScreen _createMyProfileScreen() =>
-      _i73.MyProfileScreen(_createMyProfileStateManager());
-  _i74.MyProfileStateManager _createMyProfileStateManager() =>
-      _i74.MyProfileStateManager(
+  _i70.SharedPreferencesHelper _createSharedPreferencesHelper() =>
+      _i70.SharedPreferencesHelper();
+  _i71.CameraModule _createCameraModule() =>
+      _i71.CameraModule(_createCameraScreen());
+  _i72.CameraScreen _createCameraScreen() => _i72.CameraScreen();
+  _i73.ProfileModule _createProfileModule() =>
+      _i73.ProfileModule(_createMyProfileScreen());
+  _i74.MyProfileScreen _createMyProfileScreen() =>
+      _i74.MyProfileScreen(_createMyProfileStateManager());
+  _i75.MyProfileStateManager _createMyProfileStateManager() =>
+      _i75.MyProfileStateManager(
           _createImageUploadService(), _createProfileService());
-  _i75.SearchModule _createSearchModule() =>
-      _i75.SearchModule(_createSearchScreen());
-  _i76.SearchScreen _createSearchScreen() =>
-      _i76.SearchScreen(_createGamesListStateManager(), _createAuthService());
+  _i76.SearchModule _createSearchModule() =>
+      _i76.SearchModule(_createSearchScreen());
+  _i77.SearchScreen _createSearchScreen() =>
+      _i77.SearchScreen(_createGamesListStateManager(), _createAuthService());
   @override
   _i6.MyApp get app => _createMyApp();
 }

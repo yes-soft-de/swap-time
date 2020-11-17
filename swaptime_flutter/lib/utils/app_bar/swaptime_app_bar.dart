@@ -29,13 +29,25 @@ class SwaptimeAppBar {
     );
   }
 
-  static AppBar getBackEnabledAppBar() {
+  static AppBar getBackEnabledAppBar({Function() onReport, bool reported}) {
     return AppBar(
       title: Text(
         'Swaptime',
         style: TextStyle(fontWeight: FontWeight.w300),
       ),
       centerTitle: true,
+      actions: [
+        onReport != null
+            ? IconButton(
+                onPressed: () {
+                  onReport();
+                },
+                icon: Icon(
+                  reported == true ? Icons.flag : Icons.flag_outlined,
+                ),
+              )
+            : Container()
+      ],
     );
   }
 

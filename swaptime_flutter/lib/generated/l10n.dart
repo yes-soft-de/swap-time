@@ -882,6 +882,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Requesting a swap`
+  String get requestingASwap {
+    return Intl.message(
+      'Requesting a swap',
+      name: 'requestingASwap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report Dialog`
+  String get reportDialog {
+    return Intl.message(
+      'Report Dialog',
+      name: 'reportDialog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report Reason`
+  String get reportReason {
+    return Intl.message(
+      'Report Reason',
+      name: 'reportReason',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reason`
+  String get reason {
+    return Intl.message(
+      'Reason',
+      name: 'reason',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report`
+  String get report {
+    return Intl.message(
+      'Report',
+      name: 'report',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

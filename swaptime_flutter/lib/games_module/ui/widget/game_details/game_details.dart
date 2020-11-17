@@ -11,6 +11,7 @@ import 'package:swaptime_flutter/module_comment/model/comment_model/comment_mode
 import 'package:swaptime_flutter/module_comment/service/comment_service/comment_service.dart';
 import 'package:swaptime_flutter/module_comment/ui/widget/comments_list_widget/comment_list_widget.dart';
 import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
+import 'package:swaptime_flutter/module_report/ui/widget/report_dialog/report_dialog.dart';
 import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
@@ -41,6 +42,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
   GameDetailsState currentState;
   int gameId;
   bool swapRequested = false;
+  bool reported = false;
 
   @override
   void initState() {
@@ -59,7 +61,20 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     }
     if (gameId == null) {
       return Scaffold(
-        appBar: SwaptimeAppBar.getBackEnabledAppBar(),
+        appBar: SwaptimeAppBar.getBackEnabledAppBar(onReport: () {
+          showDialog(
+              context: context,
+              child: ReportDialog(
+                  onConfirm: () {
+                    widget._manager.reportGame(gameId.toString());
+                    reported = true;
+                    Navigator.of(context).pop();
+                    if(mounted) setState(() {});
+                  },
+                  onCancel: () {
+                    Navigator.of(context).pop();
+                  }));
+        }),
         body: Center(
           child: Text(S.of(context).errorGettingSwapItemId),
         ),
@@ -162,45 +177,41 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                                 builder: (BuildContext context,
                                     AsyncSnapshot<bool> isRequestedSnap) {
                                   if (isRequestedSnap.hasData) {
-                                    print('Is Requested? ' +
-                                        isRequestedSnap.data.toString());
-                                    if (isRequestedSnap.data != true) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Scaffold.of(context).showSnackBar(
-                                              SnackBar(
-                                                  content: Text(
-                                                      'Requesting a swap')));
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Scaffold.of(context).showSnackBar(
+                                            SnackBar(
+                                                content: Text(S
+                                                    .of(context)
+                                                    .requestingASwap)));
+                                        swapRequested = true;
+                                        widget._swapService
+                                            .createSwap(
+                                                state.details.userID, gameId)
+                                            .then((value) {
                                           swapRequested = true;
-                                          widget._swapService
-                                              .createSwap(
-                                                  state.details.userID, gameId)
-                                              .then((value) {
-                                            swapRequested = true;
-                                            setState(() {});
-                                          }).catchError((e) => {
-                                                    Navigator.of(context)
-                                                        .pushNamed(AuthRoutes
-                                                            .ROUTE_AUTHORIZE)
-                                                  });
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: SwapThemeDataService
-                                                .getPrimary(),
-                                          ),
-                                          child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                S.of(context).requestASwap,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                ),
-                                              )),
+                                          setState(() {});
+                                        }).catchError((e) => {
+                                                  Navigator.of(context)
+                                                      .pushNamed(AuthRoutes
+                                                          .ROUTE_AUTHORIZE)
+                                                });
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color:
+                                              SwapThemeDataService.getPrimary(),
                                         ),
-                                      );
-                                    }
+                                        child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              S.of(context).requestASwap,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            )),
+                                      ),
+                                    );
                                   }
                                   return Icon(Icons.check);
                                 });

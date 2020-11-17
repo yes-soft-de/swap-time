@@ -84,5 +84,11 @@
   "minutesAgo": "minutes ago",
   "byAdded": "By Added",
   "byName": "By Name",
-  "byComments": "By Comments"
+  "byComments": "By Comments",
+  "requestingASwap": "Requesting a swap",
+  "reportDialog": "Report Dialog",
+  "reportReason": "Report Reason",
+  "reason": "Reason",
+  "cancel": "Cancel",
+  "report": "Report"
 }
