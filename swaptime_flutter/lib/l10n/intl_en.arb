@@ -91,5 +91,6 @@
   "reason": "Reason",
   "cancel": "Cancel",
   "report": "Report",
-  "reportingGame": "Reporting Game"
+  "reportingGame": "Reporting Game",
+  "resendCode": "Resend Code"
 }

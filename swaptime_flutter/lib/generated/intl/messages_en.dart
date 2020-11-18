@@ -85,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "reportingGame" : MessageLookupByLibrary.simpleMessage("Reporting Game"),
     "requestASwap" : MessageLookupByLibrary.simpleMessage("Request a Swap!"),
     "requestingASwap" : MessageLookupByLibrary.simpleMessage("Requesting a swap"),
+    "resendCode" : MessageLookupByLibrary.simpleMessage("Resend Code"),
     "retry" : MessageLookupByLibrary.simpleMessage("Retry"),
     "saudiArabia" : MessageLookupByLibrary.simpleMessage("Saudi Arabia"),
     "saveProfile" : MessageLookupByLibrary.simpleMessage("Save Profile"),

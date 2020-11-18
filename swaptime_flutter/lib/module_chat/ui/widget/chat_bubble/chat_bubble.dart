@@ -44,11 +44,11 @@ class ChatBubbleWidgetState extends State<ChatBubbleWidget> {
               children: [
                 Text(DateTime.parse(widget.sentDate)
                             .difference(DateTime.now())
-                            .inHours >
+                            .inHours <
                         24
                     ? DateTime.parse(widget.sentDate)
                         .toString()
-                        .substring(0, 15)
+                        .substring(10, 15)
                     : DateTime.parse(widget.sentDate)
                             .difference(DateTime.now())
                             .inHours

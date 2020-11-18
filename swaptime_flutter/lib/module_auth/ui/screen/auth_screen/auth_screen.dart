@@ -34,6 +34,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   final GlobalKey _confirmCodeKey = GlobalKey<FormState>();
   final TextEditingController _confirmationController = TextEditingController();
+  bool retryEnabled = false;
 
   bool loading = false;
 
@@ -67,6 +68,10 @@ class _AuthScreenState extends State<AuthScreen> {
 
   void _getUI() {
     if (_currentState is AuthStateCodeSent) {
+      Future.delayed(Duration(seconds: 30), () {
+        retryEnabled = true;
+        setState(() {});
+      });
       pageLayout = Scaffold(
           appBar: SwaptimeAppBar.getBackEnabledAppBar(),
           body: _getCodeSetter());
@@ -117,6 +122,15 @@ class _AuthScreenState extends State<AuthScreen> {
                 }),
           ),
           _errorMsg != null ? Text(_errorMsg) : Container(),
+          OutlinedButton(
+            onPressed: retryEnabled
+                ? () {
+                    widget.manager
+                        .SignInWithPhone(_phoneController.text.trim());
+                  }
+                : null,
+            child: Text(S.of(context).resendCode),
+          ),
           Container(
             decoration: BoxDecoration(color: SwapThemeDataService.getAccent()),
             child: GestureDetector(
