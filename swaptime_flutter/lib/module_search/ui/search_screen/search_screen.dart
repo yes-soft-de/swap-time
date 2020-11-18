@@ -74,33 +74,21 @@ class _SearchScreenState extends State<SearchScreen> {
         return getSuccessUI();
         break;
       case GamesListStateLoadError:
-        return Scaffold(
-          body: getErrorUI()
-        );
+        return Scaffold(body: getErrorUI());
         break;
       case GamesListStateLoading:
         return Scaffold(
           body: getLoadingUI(),
-          );
+        );
         break;
       default:
-        return Scaffold(
-          body: Container()
-        );
+        return Scaffold(body: getLoadingUI());
     }
   }
 
   Widget getLoadingUI() {
-    return Flex(
-      direction: Axis.vertical,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          children: [
-            CircularProgressIndicator(),
-          ],
-        )
-      ],
+    return Center(
+      child: CircularProgressIndicator(),
     );
   }
 
@@ -171,7 +159,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   List<Widget> getLargeCards() {
     List<Widget> cards = [];
-
+    _calcVisibleBySearchQuery();
     for (int i = 0; i < visibleGames.length; i++) {
       cards.add(GestureDetector(
         onTap: () {

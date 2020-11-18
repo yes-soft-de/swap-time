@@ -82,6 +82,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "report" : MessageLookupByLibrary.simpleMessage("Report"),
     "reportDialog" : MessageLookupByLibrary.simpleMessage("Report Dialog"),
     "reportReason" : MessageLookupByLibrary.simpleMessage("Report Reason"),
+    "reportingGame" : MessageLookupByLibrary.simpleMessage("Reporting Game"),
     "requestASwap" : MessageLookupByLibrary.simpleMessage("Request a Swap!"),
     "requestingASwap" : MessageLookupByLibrary.simpleMessage("Requesting a swap"),
     "retry" : MessageLookupByLibrary.simpleMessage("Retry"),

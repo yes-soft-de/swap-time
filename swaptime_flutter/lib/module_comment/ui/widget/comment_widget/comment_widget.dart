@@ -50,7 +50,7 @@ class CommentWidget extends StatelessWidget {
                             ? DateTime.fromMillisecondsSinceEpoch(
                                     commentModel.date.timestamp * 1000)
                                 .toString()
-                                .substring(0, 16)
+                                .substring(0, 10)
                             : DateTime.fromMillisecondsSinceEpoch(
                                         commentModel.date.timestamp * 1000)
                                     .difference(DateTime.now())

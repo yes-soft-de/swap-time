@@ -69,20 +69,25 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     }
 
     return Scaffold(
-      appBar: SwaptimeAppBar.getBackEnabledAppBar(onReport: () {
-          showDialog(
-              context: context,
-              builder: (_) => Dialog(
-                              child: ReportDialog(onConfirm: () {
-                  widget._manager.reportGame(gameId.toString());
-                  reported = true;
-                  Navigator.of(context).pop();
-                  if (mounted) setState(() {});
-                }, onCancel: () {
-                  Navigator.of(context).pop();
-                }),
-              ));
-        }),
+      appBar: SwaptimeAppBar.getBackEnabledAppBar(
+          reported: reported,
+          onReport: () {
+            showDialog(
+                context: context,
+                builder: (_) => Dialog(
+                      child: ReportDialog(onConfirm: () {
+                        widget._manager.reportGame(gameId.toString());
+                        Scaffold.of(context).showSnackBar(SnackBar(
+                          content: Text(S.of(context).reportingGame),
+                        ));
+                        reported = true;
+                        Navigator.of(context).pop();
+                        if (mounted) setState(() {});
+                      }, onCancel: () {
+                        Navigator.of(context).pop();
+                      }),
+                    ));
+          }),
       body: calibrateScreen(),
     );
   }
@@ -124,11 +129,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     GameDetailsStateLoadSuccess state = currentState;
 
     List<Chip> tagsChips = [];
-    if (state.details.tag.isEmpty) {
-      tagsChips.add(Chip(
-        label: Text(S.of(context).emptyTagList),
-      ));
-    } else {
+    if (state.details.tag.isNotEmpty) {
       state.details.tag.forEach((element) {
         tagsChips.add(Chip(
           label: Text(element),
@@ -152,6 +153,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
             padding: const EdgeInsets.fromLTRB(32, 8, 16, 8),
             child: Flex(
               direction: Axis.vertical,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Header
                 Row(
@@ -286,12 +288,14 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
             decoration: BoxDecoration(
               color: Colors.black26,
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Wrap(
-                children: tagsChips,
-              ),
-            ),
+            child: tagsChips.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Wrap(
+                      children: tagsChips,
+                    ),
+                  )
+                : Container(),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),

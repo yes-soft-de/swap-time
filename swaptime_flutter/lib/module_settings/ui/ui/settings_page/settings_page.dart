@@ -80,7 +80,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       AsyncSnapshot<bool> snapshot,
                     ) {
                       return Switch(
-                          value: snapshot.data == true,
+                          value:
+                              Theme.of(context).brightness == Brightness.dark,
                           onChanged: (mode) {
                             widget._themeDataService
                                 .switchDarkMode(mode)

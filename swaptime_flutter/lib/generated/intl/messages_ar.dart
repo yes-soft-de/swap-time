@@ -82,6 +82,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "report" : MessageLookupByLibrary.simpleMessage("تبليغ"),
     "reportDialog" : MessageLookupByLibrary.simpleMessage("تبليغ"),
     "reportReason" : MessageLookupByLibrary.simpleMessage("سبب التبليغ"),
+    "reportingGame" : MessageLookupByLibrary.simpleMessage("Reporting Game"),
     "requestASwap" : MessageLookupByLibrary.simpleMessage("اطلب مبادلة!"),
     "requestingASwap" : MessageLookupByLibrary.simpleMessage("جار طلب المبادلة"),
     "retry" : MessageLookupByLibrary.simpleMessage("اعادة المحاولة"),

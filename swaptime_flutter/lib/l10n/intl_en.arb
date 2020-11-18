@@ -90,5 +90,6 @@
   "reportReason": "Report Reason",
   "reason": "Reason",
   "cancel": "Cancel",
-  "report": "Report"
+  "report": "Report",
+  "reportingGame": "Reporting Game"
 }
