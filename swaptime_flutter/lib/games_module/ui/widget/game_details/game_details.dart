@@ -61,18 +61,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     }
     if (gameId == null) {
       return Scaffold(
-        appBar: SwaptimeAppBar.getBackEnabledAppBar(onReport: () {
-          showDialog(
-              context: context,
-              child: ReportDialog(onConfirm: () {
-                widget._manager.reportGame(gameId.toString());
-                reported = true;
-                Navigator.of(context).pop();
-                if (mounted) setState(() {});
-              }, onCancel: () {
-                Navigator.of(context).pop();
-              }));
-        }),
+        appBar: SwaptimeAppBar.getBackEnabledAppBar(),
         body: Center(
           child: Text(S.of(context).errorGettingSwapItemId),
         ),
@@ -80,7 +69,20 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     }
 
     return Scaffold(
-      appBar: SwaptimeAppBar.getBackEnabledAppBar(),
+      appBar: SwaptimeAppBar.getBackEnabledAppBar(onReport: () {
+          showDialog(
+              context: context,
+              builder: (_) => Dialog(
+                              child: ReportDialog(onConfirm: () {
+                  widget._manager.reportGame(gameId.toString());
+                  reported = true;
+                  Navigator.of(context).pop();
+                  if (mounted) setState(() {});
+                }, onCancel: () {
+                  Navigator.of(context).pop();
+                }),
+              ));
+        }),
       body: calibrateScreen(),
     );
   }

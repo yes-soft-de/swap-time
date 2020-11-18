@@ -300,7 +300,7 @@ class _GameCardListState extends State<GameCardList> {
       return games;
     } else if (activeSort == SortByType.SORT_BY_COMMENTS) {
       games.sort((a, b) => a.commentNumber.compareTo(b.commentNumber));
-      return games;
+      return games.reversed;
     } else {
       return games;
     }

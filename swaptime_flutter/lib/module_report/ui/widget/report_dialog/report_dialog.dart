@@ -12,43 +12,62 @@ class ReportDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flex(
-      direction: Axis.vertical,
-      children: [
-        Row(
-          children: [
-            Text(S.of(context).reportDialog),
-          ],
-        ),
-        Row(
-          children: [
-            TextFormField(
+    return Container(
+      height: MediaQuery.of(context).size.height / 2,
+      width: MediaQuery.of(context).size.width,
+      child: Flex(
+        direction: Axis.vertical,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                Text(S.of(context).reportDialog,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextFormField(
               decoration: InputDecoration(
                 hintText: S.of(context).reportReason,
                 labelText: S.of(context).reason,
               ),
-            )
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            OutlinedButton(
-              child: Text(S.of(context).cancel),
-              onPressed: () {
-                onCancel();
-              },
+              maxLines: 4,
             ),
-            RaisedButton(
-              color: Colors.red,
-              child: Text(S.of(context).report),
-              onPressed: () {
-                onConfirm();
-              },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                OutlinedButton(
+                  child: Text(S.of(context).cancel),
+                  onPressed: () {
+                    onCancel();
+                  },
+                ),
+                RaisedButton(
+                  color: Colors.red,
+                  child: Text(
+                    S.of(context).report,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () {
+                    onConfirm();
+                  },
+                ),
+              ],
             ),
-          ],
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }

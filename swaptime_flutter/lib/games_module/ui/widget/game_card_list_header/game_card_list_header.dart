@@ -32,7 +32,7 @@ class _GameCardHeader extends State<GameCardListHeader> {
                 padding: const EdgeInsets.all(8.0),
                 child: Icon(Icons.sort),
               ),
-              Text(''),
+              Text(S.of(context).gamesList),
             ],
           ),
           onChanged: (by) {
@@ -53,7 +53,6 @@ class _GameCardHeader extends State<GameCardListHeader> {
             ),
           ],
         ),
-        Text(S.of(context).gamesList),
         Flex(
           direction: Axis.horizontal,
           children: [
