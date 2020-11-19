@@ -42,31 +42,36 @@ class ChatBubbleWidgetState extends State<ChatBubbleWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(DateTime.parse(widget.sentDate)
-                            .difference(DateTime.now())
-                            .inHours <
-                        24
-                    ? DateTime.parse(widget.sentDate)
-                        .toString()
-                        .substring(10, 15)
-                    : DateTime.parse(widget.sentDate)
-                            .difference(DateTime.now())
-                            .inHours
-                            .toString() +
-                        S.of(context).minutesAgo),
-                Text(
-                  '${widget.message}',
-                  style: TextStyle(
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white
-                        : Colors.black,
-                  ),
-                ),
+                Text(calcDifference(widget.sentDate)),
+                widget.message.contains('http')
+                    ? Image.network(widget.message)
+                    : Text(
+                        '${widget.message}',
+                        style: TextStyle(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                      ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  String calcDifference(String date) {
+    DateTime sentDate = DateTime.parse(date);
+    var diff = DateTime.now().difference(sentDate);
+
+    if (DateTime.now().difference(sentDate).inMinutes < 60) {
+      var minutes = diff.inMinutes;
+      return minutes.toString() + ' ' + S.of(context).minutesAgo;
+    } else if (diff.inHours < 24) {
+      return diff.inHours.toString() + ' ' + S.of(context).hoursAgo;
+    } else {
+      return sentDate.toString().substring(0, 10);
+    }
   }
 }

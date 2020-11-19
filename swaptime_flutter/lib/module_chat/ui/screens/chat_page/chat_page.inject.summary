@@ -46,6 +46,13 @@
                 "qualifier": null
               },
               "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_upload/service/image_upload/image_upload_service.dart#ImageUploadService",
+                "qualifier": null
+              },
+              "isProvider": false
             }
           ]
         }

@@ -191,7 +191,7 @@ class _GameCardListState extends State<GameCardList> {
             }
           },
           onReport: (itemId) {
-            Fluttertoast.showToast(msg: 'Report is Sent!');
+            Fluttertoast.showToast(msg: S.of(context).reportIsSent);
           },
         ),
       ));
@@ -232,7 +232,7 @@ class _GameCardListState extends State<GameCardList> {
             }
           },
           onReport: (itemId) {
-            Fluttertoast.showToast(msg: 'Report is Sent!');
+            Fluttertoast.showToast(msg: S.of(context).reportIsSent);
           },
         ),
       ));
@@ -258,6 +258,7 @@ class _GameCardListState extends State<GameCardList> {
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
             itemId: visibleGames[i].id.toString(),
           ),
+          comments: int.tryParse(visibleGames[i].commentNumber) ?? 0,
           onChatRequested: (itemId) {
             Navigator.of(context)
                 .pushNamed(GamesRoutes.ROUTE_GAME_DETAILS, arguments: itemId);
@@ -275,9 +276,7 @@ class _GameCardListState extends State<GameCardList> {
               });
             }
           },
-          onReport: (itemId) {
-            Fluttertoast.showToast(msg: 'Report is Sent!');
-          },
+          onReport: (itemId) {},
         ),
       ));
     }

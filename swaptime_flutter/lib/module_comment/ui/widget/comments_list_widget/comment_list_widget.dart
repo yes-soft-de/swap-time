@@ -10,7 +10,7 @@ class CommentListWidget extends StatelessWidget {
   final List<CommentModel> commentList;
   final Function(String newComment) onCommentAdded;
 
-  CommentListWidget(this.commentList, this.onCommentAdded, [this.userId]);
+  CommentListWidget(this.commentList, [this.onCommentAdded, this.userId]);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class CommentListWidget extends StatelessWidget {
       commentWidgetLines.add(NewCommentWidget((newComment) {
         onCommentAdded(newComment);
       }));
-    } else {
+    } else if (onCommentAdded != null) {
       commentWidgetLines.add(GestureDetector(
         onTap: () {
           Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);

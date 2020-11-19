@@ -21,6 +21,15 @@ class NotificationsStateManager {
     });
   }
 
+  void startNotificationRefreshCycle() {
+    Future.delayed(Duration(minutes: 1), () {
+      _service.getNotifications().then((value) {
+        _stateSubject.add(NotificationStateLoadSuccess(value));
+      });
+      startNotificationRefreshCycle();
+    });
+  }
+
   void updateSwap(NotificationModel swapItemModel) {
     _stateSubject.add(NotificationStateLoading());
     _swapService.updateSwap(swapItemModel).then((value) {

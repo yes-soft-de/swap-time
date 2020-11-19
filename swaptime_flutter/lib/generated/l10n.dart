@@ -962,6 +962,76 @@ class S {
       args: [],
     );
   }
+
+  /// `Hours Ago`
+  String get hoursAgo {
+    return Intl.message(
+      'Hours Ago',
+      name: 'hoursAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report is Sent!`
+  String get reportIsSent {
+    return Intl.message(
+      'Report is Sent!',
+      name: 'reportIsSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending Approval`
+  String get pendingApproval {
+    return Intl.message(
+      'Pending Approval',
+      name: 'pendingApproval',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error Uploading Image`
+  String get errorUploadingImage {
+    return Intl.message(
+      'Error Uploading Image',
+      name: 'errorUploadingImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Upload your Image`
+  String get pleaseUploadYourImage {
+    return Intl.message(
+      'Please Upload your Image',
+      name: 'pleaseUploadYourImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Enter Your Name`
+  String get pleaseEnterYourName {
+    return Intl.message(
+      'Please Enter Your Name',
+      name: 'pleaseEnterYourName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Enter A Short Story about you ;)`
+  String get pleaseEnterAShortStoryAboutYou {
+    return Intl.message(
+      'Please Enter A Short Story about you ;)',
+      name: 'pleaseEnterAShortStoryAboutYou',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/games_module/model/game_model.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
+import 'package:swaptime_flutter/module_report/ui/widget/report_dialog/report_dialog.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 class GameCardLarge extends StatefulWidget {
@@ -7,13 +9,14 @@ class GameCardLarge extends StatefulWidget {
   final Function(bool) onLoved;
   final Function(String) onReport;
   final Function(String) onChatRequested;
+  final int comments;
 
-  GameCardLarge({
-    @required this.gameModel,
-    @required this.onChatRequested,
-    @required this.onLoved,
-    @required this.onReport,
-  });
+  GameCardLarge(
+      {@required this.gameModel,
+      @required this.onChatRequested,
+      @required this.onLoved,
+      @required this.onReport,
+      this.comments});
 
   @override
   State<StatefulWidget> createState() => _GameCardLargeState();
@@ -24,6 +27,8 @@ class _GameCardLargeState extends State<GameCardLarge> {
   Widget build(BuildContext context) {
     widget.gameModel.imageUrl ??=
         'https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/link_broken.png';
+
+    bool reported = false;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -44,10 +49,13 @@ class _GameCardLargeState extends State<GameCardLarge> {
         child: Stack(
           children: [
             Positioned.fill(
-              child: FadeInImage.assetNetwork(
-                placeholder: 'assets/images/logo.jpg',
-                image: widget.gameModel.imageUrl,
-                fit: BoxFit.cover,
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/images/logo.jpg',
+                  image: widget.gameModel.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Positioned(
@@ -85,6 +93,21 @@ class _GameCardLargeState extends State<GameCardLarge> {
                           ],
                         ),
                       ),
+                      Flex(
+                        direction: Axis.horizontal,
+                        children: [
+                          Text(widget.comments.toString()),
+                          IconButton(
+                            icon: Icon(
+                              Icons.chat,
+                              color: SwapThemeDataService.getPrimary(),
+                            ),
+                            onPressed: () {
+                              widget.onChatRequested(widget.gameModel.itemId);
+                            },
+                          ),
+                        ],
+                      ),
                       widget.gameModel.lovable
                           ? IconButton(
                               icon: Icon(
@@ -103,20 +126,28 @@ class _GameCardLargeState extends State<GameCardLarge> {
                           : Container(),
                       IconButton(
                         icon: Icon(
-                          Icons.chat,
+                          reported ? Icons.flag : Icons.flag_outlined,
                           color: SwapThemeDataService.getPrimary(),
                         ),
                         onPressed: () {
-                          widget.onChatRequested(widget.gameModel.itemId);
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.flag,
-                          color: SwapThemeDataService.getPrimary(),
-                        ),
-                        onPressed: () {
-                          widget.onReport(widget.gameModel.itemId);
+                          reported = true;
+                          setState(() {});
+                          showDialog(
+                              context: context,
+                              builder: (_) => Dialog(
+                                    child: ReportDialog(onConfirm: () {
+                                      widget.onReport(widget.gameModel.itemId);
+                                      Scaffold.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content:
+                                            Text(S.of(context).reportingGame),
+                                      ));
+                                      Navigator.of(context).pop();
+                                      if (mounted) setState(() {});
+                                    }, onCancel: () {
+                                      Navigator.of(context).pop();
+                                    }),
+                                  ));
                         },
                       ),
                     ],

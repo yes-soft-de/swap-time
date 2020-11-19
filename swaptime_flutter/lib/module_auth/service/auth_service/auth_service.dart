@@ -10,6 +10,7 @@ class AuthService {
   final AuthPrefsHelper _prefsHelper;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final AuthManager _authManager;
+
   AuthService(this._prefsHelper, this._authManager);
 
   Future<bool> loginUser(
@@ -34,7 +35,15 @@ class AuthService {
 
   Future<String> getToken() async {
     bool isLoggedIn = await this.isLoggedIn;
+    var tokenDate = await this._prefsHelper.getTokenDate();
+    var diff = DateTime.now().difference(DateTime.parse(tokenDate)).inMinutes;
     if (isLoggedIn) {
+      if (diff < 0) {
+        diff = diff * -1;
+      }
+      if (diff < 55) {
+        return _prefsHelper.getToken();
+      }
       await refreshToken();
       return _prefsHelper.getToken();
     }
@@ -49,6 +58,7 @@ class AuthService {
   }
 
   Future<bool> get isLoggedIn => _prefsHelper.isSignedIn();
+
   Future<String> get userID => _prefsHelper.getUserId();
 
   Future<void> logout() async {

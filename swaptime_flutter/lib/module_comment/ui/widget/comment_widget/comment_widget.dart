@@ -9,7 +9,7 @@ class CommentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return commentModel.profile == null ? Container() : Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
         decoration: BoxDecoration(border: Border.all(width: .25)),
@@ -25,7 +25,9 @@ class CommentWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                      image: NetworkImage(commentModel.profile.image),
+                      image: commentModel.profile != null
+                          ? NetworkImage(commentModel.profile.image)
+                          : AssetImage('assets/images/logo.jpg'),
                       fit: BoxFit.cover),
                 ),
               ),
@@ -42,22 +44,10 @@ class CommentWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(commentModel.profile.userName),
-                        Text(DateTime.fromMillisecondsSinceEpoch(
-                                        commentModel.date.timestamp * 1000)
-                                    .difference(DateTime.now())
-                                    .inHours <
-                                24
-                            ? DateTime.fromMillisecondsSinceEpoch(
-                                    commentModel.date.timestamp * 1000)
-                                .toString()
-                                .substring(0, 10)
-                            : DateTime.fromMillisecondsSinceEpoch(
-                                        commentModel.date.timestamp * 1000)
-                                    .difference(DateTime.now())
-                                    .inHours
-                                    .toString() +
-                                ' ' +
-                                S.of(context).minutesAgo),
+                        Text(calcDifference(
+                            DateTime.fromMicrosecondsSinceEpoch(
+                                commentModel.date.timestamp * 1000),
+                            context)),
                       ],
                     ),
                   ),
@@ -78,5 +68,18 @@ class CommentWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String calcDifference(DateTime sentDate, BuildContext context) {
+    var diff = DateTime.now().difference(sentDate);
+
+    if (DateTime.now().difference(sentDate).inMinutes < 60) {
+      var minutes = diff.inMinutes;
+      return minutes.toString() + ' ' + S.of(context).minutesAgo;
+    } else if (diff.inHours < 24) {
+      return diff.inHours.toString() + ' ' + S.of(context).hoursAgo;
+    } else {
+      return sentDate.toString().substring(0, 10);
+    }
   }
 }

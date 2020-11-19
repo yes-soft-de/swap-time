@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_chat/args/chat_arguments.dart';
 import 'package:swaptime_flutter/module_chat/chat_routes.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
@@ -27,7 +28,12 @@ class NotificationOnGoing extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _NotificationState(
-      this.gameOne, this.gameTow, this.chatRoomId, this.myId, this.swapId);
+        this.gameOne,
+        this.gameTow,
+        this.chatRoomId,
+        this.myId,
+        this.swapId,
+      );
 }
 
 class _NotificationState extends State<NotificationOnGoing> {
@@ -140,7 +146,8 @@ class _NotificationState extends State<NotificationOnGoing> {
                                           swapId: swapId,
                                         ));
                               } else {
-                                Fluttertoast.showToast(msg: 'Pending Approval');
+                                Fluttertoast.showToast(
+                                    msg: S.of(context).pendingApproval);
                               }
                             })
                       ],

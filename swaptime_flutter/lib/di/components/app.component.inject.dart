@@ -284,8 +284,12 @@ class AppComponent$Injector implements _i1.AppComponent {
       _i63.AuthStateManager(_createAuthService());
   _i64.ChatModule _createChatModule() =>
       _i64.ChatModule(_createChatPage(), _createAuthGuard());
-  _i65.ChatPage _createChatPage() => _i65.ChatPage(_createChatPageBloc(),
-      _createAuthService(), _createGamesListService(), _createSwapService());
+  _i65.ChatPage _createChatPage() => _i65.ChatPage(
+      _createChatPageBloc(),
+      _createAuthService(),
+      _createGamesListService(),
+      _createSwapService(),
+      _createImageUploadService());
   _i66.ChatPageBloc _createChatPageBloc() =>
       _i66.ChatPageBloc(_createChatService());
   _i67.ChatService _createChatService() =>

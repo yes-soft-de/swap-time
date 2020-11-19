@@ -12,4 +12,7 @@ class MyProfileStateImageUploadSuccess extends MyProfileState {
   MyProfileStateImageUploadSuccess(this.imageUrl);
 }
 
-class MyProfileStateUpdateError extends MyProfileState {}
+class MyProfileStateUpdateError extends MyProfileState {
+  String err;
+  MyProfileStateUpdateError(err);
+}

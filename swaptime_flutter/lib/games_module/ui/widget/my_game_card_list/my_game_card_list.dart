@@ -182,7 +182,7 @@ class _MyGameCardListState extends State<MyGameCardList> {
             }
           },
           onReport: (itemId) {
-            Fluttertoast.showToast(msg: 'Report is Sent!');
+            Fluttertoast.showToast(msg: S.of(context).reportIsSent);
           },
         ),
       ));
@@ -226,7 +226,7 @@ class _MyGameCardListState extends State<MyGameCardList> {
             }
           },
           onReport: (itemId) {
-            Fluttertoast.showToast(msg: 'Report is Sent!');
+            Fluttertoast.showToast(msg: S.of(context).reportIsSent);
           },
         ),
       ));
@@ -245,6 +245,8 @@ class _MyGameCardListState extends State<MyGameCardList> {
               arguments: _processList(state.games)[i].id);
         },
         child: GameCardLarge(
+          comments:
+              int.tryParse(_processList(state.games)[i].commentNumber) ?? 0,
           gameModel: GameModel(
             gameTitle: _processList(state.games)[i].name,
             imageUrl: _processList(state.games)[i].mainImage.substring(29),
@@ -273,7 +275,7 @@ class _MyGameCardListState extends State<MyGameCardList> {
             }
           },
           onReport: (itemId) {
-            Fluttertoast.showToast(msg: 'Report is Sent!');
+            Fluttertoast.showToast(msg: S.of(context).reportIsSent);
           },
         ),
       ));

@@ -92,5 +92,12 @@
   "cancel": "Cancel",
   "report": "Report",
   "reportingGame": "Reporting Game",
-  "resendCode": "Resend Code"
+  "resendCode": "Resend Code",
+  "hoursAgo": "Hours Ago",
+  "reportIsSent": "Report is Sent!",
+  "pendingApproval": "Pending Approval",
+  "errorUploadingImage": "Error Uploading Image",
+  "pleaseUploadYourImage": "Please Upload your Image",
+  "pleaseEnterYourName": "Please Enter Your Name",
+  "pleaseEnterAShortStoryAboutYou": "Please Enter A Short Story about you ;)"
 }

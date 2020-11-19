@@ -107,7 +107,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                             picker
                                 .getImage(source: ImageSource.gallery)
                                 .then((image) {
-                              print('Got image response');
                               if (image != null) {
                                 imageLocation = image.path;
                                 print(image.path);
@@ -434,15 +433,15 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   void saveProfile() {
     if (imageUrl == null) {
-      Fluttertoast.showToast(msg: 'Please Upload your Image');
+      Fluttertoast.showToast(msg: S.of(context).pleaseUploadYourImage);
       return;
     }
     if (_nameController.text.isEmpty) {
-      Fluttertoast.showToast(msg: 'Please Enter Your Name');
+      Fluttertoast.showToast(msg: S.of(context).pleaseEnterYourName);
       return;
     }
     if (_aboutController.text.isEmpty) {
-      Fluttertoast.showToast(msg: 'Please Enter A Short Story about you ;)');
+      Fluttertoast.showToast(msg: S.of(context).pleaseEnterAShortStoryAboutYou);
       return;
     }
     submittingProfile = true;

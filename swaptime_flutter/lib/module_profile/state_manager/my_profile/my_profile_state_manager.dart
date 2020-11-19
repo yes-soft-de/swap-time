@@ -1,4 +1,3 @@
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inject/inject.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
@@ -19,7 +18,8 @@ class MyProfileStateManager {
   void setMyProfile(String username, String about, String image) {
     _myProfileService.createProfile(username, image, about).then((value) {
       if (value == null) {
-        Fluttertoast.showToast(msg: 'Error Submitting Profile');
+        _stateSubject
+            .add(MyProfileStateUpdateError('Error Submitting Profile'));
       } else {
         _stateSubject.add(MyProfileStateUpdateSuccess());
       }
@@ -29,7 +29,8 @@ class MyProfileStateManager {
   void upload(String imagePath) {
     this._uploadService.uploadImage(imagePath).then((value) {
       if (value == null) {
-        Fluttertoast.showToast(msg: 'Error Uploading Image');
+        _stateSubject
+            .add(MyProfileStateUpdateError('Error Submitting Profile'));
       } else {
         _stateSubject.add(MyProfileStateImageUploadSuccess(value));
       }

@@ -81,7 +81,7 @@
   "captureGameImageViaCamera": "صور اللعبة",
   "selectGameImageFromGallery": "اختر صورة اللعبة",
   "removeImage": "حذف الصورة",
-  "minutesAgo": "ساعات / ساعة",
+  "minutesAgo": "دقائق / دقيقة",
   "byAdded": "حسب تاريخ الاضافة",
   "byName": "حسب الاسم",
   "byComments": "حسب عدد التعليقات",
@@ -92,5 +92,12 @@
   "cancel": "الغاء",
   "report": "تبليغ",
   "reportingGame": "يتم التبليغ",
-  "resendCode": "Resend Code"
+  "resendCode": "اعادة ارسال",
+  "hoursAgo": "ساعة / ساعات",
+  "reportIsSent": "تم ارسال الابلاغ!",
+  "pendingApproval": "بانتظار القبول",
+  "errorUploadingImage": "خطأ في رفع الصفحة",
+  "pleaseUploadYourImage": "الرجاء رفع الصورة",
+  "pleaseEnterYourName": "الرجاء ادخال اسمك",
+  "pleaseEnterAShortStoryAboutYou": "اخبرنا القليل عن نفسك"
 }

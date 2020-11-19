@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
@@ -11,10 +9,12 @@ import 'package:swaptime_flutter/module_chat/args/chat_arguments.dart';
 import 'package:swaptime_flutter/module_chat/bloc/chat_page/chat_page.bloc.dart';
 import 'package:swaptime_flutter/module_chat/model/chat/chat_model.dart';
 import 'package:swaptime_flutter/module_chat/ui/widget/chat_bubble/chat_bubble.dart';
+import 'package:swaptime_flutter/module_chat/ui/widget/chat_writer/chat_writer.dart';
 import 'package:swaptime_flutter/module_notifications/model/notifcation_item/notification_item.dart';
 import 'package:swaptime_flutter/module_notifications/ui/widget/notification_ongoing/notification_ongoing.dart';
 import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
 import 'package:swaptime_flutter/module_swap/ui/widget/exchange_setter_widget/exchange_setter_widget.dart';
+import 'package:swaptime_flutter/module_upload/service/image_upload/image_upload_service.dart';
 
 @provide
 class ChatPage extends StatefulWidget {
@@ -22,12 +22,14 @@ class ChatPage extends StatefulWidget {
   final AuthService _authService;
   final GamesListService _gamesListService;
   final SwapService _swapService;
+  final ImageUploadService _uploadService;
 
   ChatPage(
     this._chatPageBloc,
     this._authService,
     this._gamesListService,
     this._swapService,
+    this._uploadService,
   );
 
   @override
@@ -157,37 +159,11 @@ class ChatPageState extends State<ChatPage> {
                     child: Text(S.of(context).loading),
                   ),
           ),
-          Flex(
-            direction: Axis.horizontal,
-            children: <Widget>[
-              Flexible(
-                flex: 5,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: S.of(context).startWriting,
-                    ),
-                    controller: _msgController,
-                  ),
-                ),
-              ),
-              Flexible(
-                flex: 1,
-                child: GestureDetector(
-                  onTap: () {
-                    sendMessage();
-                  },
-                  child: Container(
-                    height: 48,
-                    width: 48,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(90))),
-                    child: Icon(Icons.send),
-                  ),
-                ),
-              )
-            ],
+          ChatWriterWidget(
+            onMessageSend: (msg) {
+              widget._chatPageBloc.sendMessage(chatRoomId, msg);
+            },
+            uploadService: widget._uploadService,
           ),
         ],
       ),
@@ -208,11 +184,5 @@ class ChatPageState extends State<ChatPage> {
     });
     chatsMessagesWidgets = newMessagesList;
     return;
-  }
-
-  void sendMessage() {
-    log('Sending: ' + _msgController.text);
-    widget._chatPageBloc.sendMessage(chatRoomId, _msgController.text.trim());
-    _msgController.clear();
   }
 }
