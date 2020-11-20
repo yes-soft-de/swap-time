@@ -27,9 +27,8 @@ jobs:
           flutter-version: "1.22.4"
           channel: "stable"
 
-      - uses: nttld/setup-ndk@v1
-        with:
-          ndk-version: r21d
+      - name: Install NDK
+        run: echo "y" | sudo /usr/local/lib/android/sdk/tools/bin/sdkmanager --install "ndk;21.0.6113669" --sdk_root=${ANDROID_SDK_ROOT}
 
       - name: Configure Keystore
         run: |
