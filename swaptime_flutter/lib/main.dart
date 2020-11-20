@@ -111,36 +111,45 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Future<Widget> getConfiguredApp(
-    Map<String, WidgetBuilder> fullRoutesList,
-  ) async {
+  Future<Widget> getConfiguredApp(Map<String, WidgetBuilder> fullRoutesList) async {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-    lang ??= await widget._localizationService.getLanguage();
-    isDarkMode ??= await widget._swapThemeService.isDarkMode();
 
-    return MaterialApp(
-      navigatorObservers: <NavigatorObserver>[observer],
-      locale: Locale.fromSubtags(
-        languageCode: lang ?? 'en',
-      ),
-      localizationsDelegates: [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      theme: isDarkMode == true
-          ? ThemeData(
-              brightness: Brightness.dark,
-            )
-          : ThemeData(
-              brightness: Brightness.light,
-              primaryColor: Colors.white,
-            ),
-      supportedLocales: S.delegate.supportedLocales,
-      title: 'Swaptime',
-      routes: fullRoutesList,
-      initialRoute: HomeRoutes.ROUTE_HOME,
+    return FutureBuilder(
+      initialData: 'en',
+      future: widget._localizationService.getLanguage(),
+      builder: (BuildContext context, AsyncSnapshot<String> lang) {
+        return FutureBuilder(
+          future: widget._swapThemeService.isDarkMode(),
+          initialData: false,
+          builder:
+              (BuildContext context, AsyncSnapshot<bool> isDarkModeEnabled) {
+            return MaterialApp(
+              navigatorObservers: <NavigatorObserver>[observer],
+              locale: Locale.fromSubtags(
+                languageCode: lang ?? 'en',
+              ),
+              localizationsDelegates: [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              theme: isDarkMode == true
+                  ? ThemeData(
+                      brightness: Brightness.dark,
+                    )
+                  : ThemeData(
+                      brightness: Brightness.light,
+                      primaryColor: Colors.white,
+                    ),
+              supportedLocales: S.delegate.supportedLocales,
+              title: 'Swaptime',
+              routes: fullRoutesList,
+              initialRoute: HomeRoutes.ROUTE_HOME,
+            );
+          },
+        );
+      },
     );
   }
 }

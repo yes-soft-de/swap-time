@@ -54,7 +54,7 @@ jobs:
       - name: Get Flutter Packages tools
         run: |
           cd ./swaptime_flutter
-          flutter pub get
+          flutter pub upgrade
 
       - name: Install bundle
         run: |
