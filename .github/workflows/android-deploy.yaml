@@ -27,6 +27,10 @@ jobs:
           flutter-version: "1.22.3"
           channel: "stable"
 
+      - uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: "21.0.6113669"
+
       - name: Configure Keystore
         run: |
           cd ./swaptime_flutter/android
