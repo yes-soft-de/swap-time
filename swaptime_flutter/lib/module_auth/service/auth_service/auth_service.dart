@@ -34,20 +34,23 @@ class AuthService {
   }
 
   Future<String> getToken() async {
-    bool isLoggedIn = await this.isLoggedIn;
-    var tokenDate = await this._prefsHelper.getTokenDate();
-    var diff = DateTime.now().difference(DateTime.parse(tokenDate)).inMinutes;
-    if (isLoggedIn) {
-      if (diff < 0) {
-        diff = diff * -1;
-      }
-      if (diff < 55) {
+    try {
+      bool isLoggedIn = await this.isLoggedIn;
+      var tokenDate = await this._prefsHelper.getTokenDate();
+      var diff = DateTime.now().difference(DateTime.parse(tokenDate)).inMinutes;
+      if (isLoggedIn) {
+        if (diff < 0) {
+          diff = diff * -1;
+        }
+        if (diff < 55) {
+          return _prefsHelper.getToken();
+        }
+        await refreshToken();
         return _prefsHelper.getToken();
       }
-      await refreshToken();
-      return _prefsHelper.getToken();
+    } catch (e) {
+      return null;
     }
-
     return null;
   }
 

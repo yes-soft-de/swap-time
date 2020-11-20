@@ -71,21 +71,15 @@ class _MyAppState extends State<MyApp> {
   static FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: analytics);
 
-  String lang;
-  bool isDarkMode;
-
   @override
   void initState() {
     super.initState();
 
     widget._localizationService.localizationStream.listen((event) {
-      lang = event;
       setState(() {});
     });
 
     widget._swapThemeService.darkModeStream.listen((event) {
-      isDarkMode = event;
-      print('Dark Mode: ' + isDarkMode.toString());
       setState(() {});
     });
   }
@@ -105,6 +99,7 @@ class _MyAppState extends State<MyApp> {
 
     return FutureBuilder(
       future: getConfiguredApp(fullRoutesList),
+      initialData: Scaffold(),
       builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
         return snapshot.data;
       },
@@ -126,7 +121,7 @@ class _MyAppState extends State<MyApp> {
             return MaterialApp(
               navigatorObservers: <NavigatorObserver>[observer],
               locale: Locale.fromSubtags(
-                languageCode: lang ?? 'en',
+                languageCode: lang.data ?? 'en',
               ),
               localizationsDelegates: [
                 S.delegate,
@@ -134,7 +129,7 @@ class _MyAppState extends State<MyApp> {
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
               ],
-              theme: isDarkMode == true
+              theme: isDarkModeEnabled.data == true
                   ? ThemeData(
                       brightness: Brightness.dark,
                     )
