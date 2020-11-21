@@ -40,7 +40,7 @@ class NewCommentWidget extends StatelessWidget {
                 color: Colors.white,
               ),
               onPressed: () {
-                if (_newCommentController.text.length > 3) {
+                if (_newCommentController.text.isNotEmpty) {
                   onCommentPost(_newCommentController.text);
                   _newCommentController.clear();
                 } else {

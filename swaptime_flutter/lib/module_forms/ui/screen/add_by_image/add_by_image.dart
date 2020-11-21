@@ -39,10 +39,13 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
   final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
   GamePlatform _gamePlatform = GamePlatform.PC;
 
+  bool loading = false;
+
   @override
   void initState() {
     super.initState();
     widget._stateManager.stateStream.listen((event) {
+      loading = false;
       _calcCurrentState(event);
     });
 
@@ -107,7 +110,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
           child: ListView(
             children: [
               MediaQuery.of(context).viewInsets.bottom == 0
-                  ? _getImage()
+                  ? Container(height: 240, child: _getImage())
                   : Container(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -281,6 +284,33 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
           )),
         ],
       );
+    } else if (filePath != null && loading) {
+      return Container(
+        height: 240,
+        child: Stack(
+          children: [
+            Positioned.fill(
+                child: Image.file(
+              File(filePath),
+              fit: BoxFit.cover,
+              height: 240,
+            )),
+            Positioned.fill(
+              child: Container(
+                color: Colors.black38,
+                child: Center(
+                  child: Text(
+                    S.of(context).loading,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
     } else if (filePath != null) {
       return Container(
         height: 240,
@@ -302,6 +332,8 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
+                      loading = true;
+                      setState(() {});
                       widget._stateManager.upload(filePath);
                     },
                     child: Container(

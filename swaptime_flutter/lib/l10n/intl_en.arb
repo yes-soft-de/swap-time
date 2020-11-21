@@ -99,5 +99,6 @@
   "errorUploadingImage": "Error Uploading Image",
   "pleaseUploadYourImage": "Please Upload your Image",
   "pleaseEnterYourName": "Please Enter Your Name",
-  "pleaseEnterAShortStoryAboutYou": "Please Enter A Short Story about you ;)"
+  "pleaseEnterAShortStoryAboutYou": "Please Enter A Short Story about you ;)",
+  "swapRequestSent": "Swap Request Sent"
 }

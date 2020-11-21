@@ -99,5 +99,6 @@
   "errorUploadingImage": "خطأ في رفع الصفحة",
   "pleaseUploadYourImage": "الرجاء رفع الصورة",
   "pleaseEnterYourName": "الرجاء ادخال اسمك",
-  "pleaseEnterAShortStoryAboutYou": "اخبرنا القليل عن نفسك"
+  "pleaseEnterAShortStoryAboutYou": "اخبرنا القليل عن نفسك",
+  "swapRequestSent": "تم ارسال طلب مبادلة"
 }

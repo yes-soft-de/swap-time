@@ -83,8 +83,9 @@ class _AddByApiState extends State<AddByApiScreen> {
                       children: getSearchResult(),
                     )
                   : Center(
-                      child:
-                          Text(loading ? 'Loading' : S.of(context).searchAGame),
+                      child: Text(loading
+                          ? S.of(context).loading
+                          : S.of(context).searchAGame),
                     ),
             ),
             selectedGamePlatform != null

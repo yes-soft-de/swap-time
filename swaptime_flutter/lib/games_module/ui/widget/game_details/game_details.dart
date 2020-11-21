@@ -168,57 +168,69 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                         ),
                       ),
                     ),
-                    FutureBuilder(
-                      future: widget._authService.userID,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> userIdSnap) {
-                        return userIdSnap.data == state.details.userID
-                            ? Icon(Icons.stop)
-                            : FutureBuilder(
-                                future: widget._swapService.isRequested(gameId),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<bool> isRequestedSnap) {
-                                  if (isRequestedSnap.hasData) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Scaffold.of(context).showSnackBar(
-                                            SnackBar(
-                                                content: Text(S
-                                                    .of(context)
-                                                    .requestingASwap)));
-                                        swapRequested = true;
-                                        widget._swapService
-                                            .createSwap(
-                                                state.details.userID, gameId)
-                                            .then((value) {
-                                          swapRequested = true;
-                                          setState(() {});
-                                        }).catchError((e) => {
-                                                  Navigator.of(context)
-                                                      .pushNamed(AuthRoutes
-                                                          .ROUTE_AUTHORIZE)
-                                                });
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color:
-                                              SwapThemeDataService.getPrimary(),
-                                        ),
-                                        child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              S.of(context).requestASwap,
-                                              style: TextStyle(
-                                                color: Colors.white,
+                    swapRequested != true
+                        ? FutureBuilder(
+                            future: widget._authService.userID,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<String> userIdSnap) {
+                              return userIdSnap.data == state.details.userID
+                                  ? Icon(Icons.stop)
+                                  : FutureBuilder(
+                                      future: widget._swapService
+                                          .isRequested(gameId),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<bool> isRequestedSnap) {
+                                        if (isRequestedSnap.hasData) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              Scaffold.of(context).showSnackBar(
+                                                  SnackBar(
+                                                      content: Text(S
+                                                          .of(context)
+                                                          .requestingASwap)));
+                                              swapRequested = true;
+                                              setState(() {});
+                                              widget._swapService
+                                                  .createSwap(
+                                                      state.details.userID,
+                                                      gameId)
+                                                  .then((value) {
+                                                swapRequested = true;
+                                                Scaffold.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content: Text(S
+                                                      .of(context)
+                                                      .swapRequestSent),
+                                                ));
+                                                setState(() {});
+                                              }).catchError((e) => {
+                                                        Navigator.of(context)
+                                                            .pushNamed(AuthRoutes
+                                                                .ROUTE_AUTHORIZE)
+                                                      });
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: SwapThemeDataService
+                                                    .getPrimary(),
                                               ),
-                                            )),
-                                      ),
-                                    );
-                                  }
-                                  return Icon(Icons.check);
-                                });
-                      },
-                    )
+                                              child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    S.of(context).requestASwap,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  )),
+                                            ),
+                                          );
+                                        }
+                                        return Icon(Icons.check);
+                                      });
+                            },
+                          )
+                        : Icon(Icons.check)
                   ],
                 ),
                 Container(
@@ -319,8 +331,14 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                               state.details.comments.add(CommentModel(
                                   comment: newComment,
                                   userID: uid,
+                                  date: Date(
+                                      timestamp: (DateTime.now()
+                                                  .millisecondsSinceEpoch /
+                                              1000)
+                                          .floor()),
                                   swapItemID: gameId,
                                   profile: profile));
+                              setState(() {});
                             }),
                             snapshot.data
                           },

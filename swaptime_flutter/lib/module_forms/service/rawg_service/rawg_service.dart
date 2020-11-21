@@ -28,6 +28,9 @@ class RawGService {
 
   List<GamePlatform> getGamePlatformList(List<Platforms> platforms) {
     var platformList = <GamePlatform>[];
+    if (platforms.isEmpty) {
+      return [];
+    }
     platforms.forEach((element) {
       var platform = RawGHelper.getGamePlatform(element.platform.id);
       if (platform != null) platformList.add(platform);

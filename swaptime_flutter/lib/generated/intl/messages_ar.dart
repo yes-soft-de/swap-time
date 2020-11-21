@@ -110,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "startChat" : MessageLookupByLibrary.simpleMessage("ابدأ المحادثة"),
     "startWriting" : MessageLookupByLibrary.simpleMessage("ابدأ الكتابة"),
     "submitGame" : MessageLookupByLibrary.simpleMessage("احفظ اللعبة!"),
+    "swapRequestSent" : MessageLookupByLibrary.simpleMessage("تم ارسال طلب مبادلة"),
     "syria" : MessageLookupByLibrary.simpleMessage("سوريا"),
     "tags" : MessageLookupByLibrary.simpleMessage("تصنيفات"),
     "thisGameIsGreat" : MessageLookupByLibrary.simpleMessage("هذه اللعبة رائعة"),
