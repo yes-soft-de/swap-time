@@ -137,7 +137,7 @@ class _GameCardLargeState extends State<GameCardLarge> {
                               builder: (_) => Dialog(
                                     child: ReportDialog(onConfirm: () {
                                       widget.onReport(widget.gameModel.itemId);
-                                      Scaffold.of(context)
+                                      ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
                                         content:
                                             Text(S.of(context).reportingGame),

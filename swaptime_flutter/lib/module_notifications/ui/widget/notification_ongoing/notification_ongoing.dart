@@ -14,6 +14,7 @@ class NotificationOnGoing extends StatefulWidget {
   final String myId;
   final String chatRoomId;
   final String swapId;
+  final bool finished;
   final bool shrink;
   final Function(Games) onChangeRequest;
 
@@ -22,9 +23,11 @@ class NotificationOnGoing extends StatefulWidget {
       @required this.gameTow,
       @required this.chatRoomId,
       @required this.myId,
+      @required this.finished,
       @required this.swapId,
       @required this.onChangeRequest,
-      this.shrink});
+      this.shrink,
+      });
 
   @override
   State<StatefulWidget> createState() => _NotificationState(

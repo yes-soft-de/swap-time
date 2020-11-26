@@ -73,7 +73,7 @@ class GamesListService {
     print('Viewing ' + userId);
     if (userId != null) {
       try {
-        store
+        await store
             .collection('user_interactions')
             .doc('views')
             .collection(userId)

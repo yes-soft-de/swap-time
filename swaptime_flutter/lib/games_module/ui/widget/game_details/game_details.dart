@@ -77,7 +77,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                 builder: (_) => Dialog(
                       child: ReportDialog(onConfirm: () {
                         widget._manager.reportGame(gameId.toString());
-                        Scaffold.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(S.of(context).reportingGame),
                         ));
                         reported = true;
@@ -183,7 +183,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                                         if (isRequestedSnap.hasData) {
                                           return GestureDetector(
                                             onTap: () {
-                                              Scaffold.of(context).showSnackBar(
+                                              ScaffoldMessenger.of(context).showSnackBar(
                                                   SnackBar(
                                                       content: Text(S
                                                           .of(context)
@@ -196,7 +196,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                                                       gameId)
                                                   .then((value) {
                                                 swapRequested = true;
-                                                Scaffold.of(context)
+                                                ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
                                                   content: Text(S
                                                       .of(context)
