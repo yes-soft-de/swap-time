@@ -36,4 +36,12 @@ class NotificationsStateManager {
       getNotifications();
     });
   }
+
+  void setNotificationComplete(NotificationModel swapItemModel) {
+    swapItemModel.complete = true;
+    _stateSubject.add(NotificationStateLoading());
+    _swapService.updateSwap(swapItemModel).then((value) {
+      getNotifications();
+    });
+  }
 }

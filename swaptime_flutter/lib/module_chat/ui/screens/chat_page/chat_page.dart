@@ -40,13 +40,13 @@ class ChatPageState extends State<ChatPage> {
   List<ChatModel> _chatMessagesList = [];
   int currentState = ChatPageBloc.STATUS_CODE_INIT;
 
-  final TextEditingController _msgController = TextEditingController();
   List<ChatBubbleWidget> chatsMessagesWidgets = [];
 
   String chatRoomId;
   Games gameOne;
   Games gameTwo;
   String swapId;
+  bool finished;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +56,7 @@ class ChatPageState extends State<ChatPage> {
       gameOne = args.gameOne;
       gameTwo = args.gameTow;
       swapId = args.swapId;
+      finished = args.finished;
     } else {
       chatRoomId = ModalRoute.of(context).settings.arguments;
     }
@@ -101,6 +102,18 @@ class ChatPageState extends State<ChatPage> {
                               gameTow: gameTwo,
                               chatRoomId: chatRoomId,
                               myId: snapshot.data,
+                              finished: finished,
+                              onSwapComplete: (swap) {
+                                widget._chatPageBloc.setNotificationComplete(
+                                    NotificationModel(
+                                        gameOne: gameOne,
+                                        gameTwo: gameTwo,
+                                        chatRoomId: chatRoomId,
+                                        complete: finished,
+                                        swapId: swapId));
+                                finished = true;
+                                setState(() {});
+                              },
                               onChangeRequest: (game) {
                                 // Change Games
                                 Games oldGame = game;
@@ -120,9 +133,10 @@ class ChatPageState extends State<ChatPage> {
                                     .then((rawNewGame) {
                                   Games newGame = rawNewGame;
                                   if (newGame != null) {
-                                    Scaffold.of(context).showSnackBar(SnackBar(
-                                        content:
-                                            Text(S.of(context).savingData)));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                S.of(context).savingData)));
                                     if (oldGame == gameOne) {
                                       gameOne = newGame;
                                     } else if (oldGame == gameTwo) {
@@ -135,7 +149,8 @@ class ChatPageState extends State<ChatPage> {
                                             gameOne: gameOne,
                                             gameTwo: gameTwo,
                                             chatRoomId: chatRoomId,
-                                            swapId: swapId))
+                                            swapId: swapId,
+                                            complete: finished))
                                         .then((value) {
                                       setState(() {});
                                     });

@@ -2,6 +2,8 @@ import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:inject/inject.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:swaptime_flutter/module_chat/model/chat/chat_model.dart';
+import 'package:swaptime_flutter/module_notifications/model/notifcation_item/notification_item.dart';
+import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
 
 import '../../service/chat/char_service.dart';
 
@@ -15,8 +17,9 @@ class ChatPageBloc {
   bool listening = false;
 
   final ChatService _chatService;
+  final SwapService _swapService;
 
-  ChatPageBloc(this._chatService);
+  ChatPageBloc(this._chatService, this._swapService);
 
   final PublishSubject<Pair<int, List<ChatModel>>> _chatBlocSubject =
       new PublishSubject();
@@ -39,5 +42,10 @@ class ChatPageBloc {
 
   void dispose() {
     _chatBlocSubject.close();
+  }
+
+  void setNotificationComplete(NotificationModel swapItemModel) {
+    swapItemModel.complete = true;
+    _swapService.updateSwap(swapItemModel);
   }
 }

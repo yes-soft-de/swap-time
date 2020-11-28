@@ -1044,6 +1044,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Swap completed`
+  String get swapCompleted {
+    return Intl.message(
+      'Swap completed',
+      name: 'swapCompleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Posting new Comment`
+  String get postingNewComment {
+    return Intl.message(
+      'Posting new Comment',
+      name: 'postingNewComment',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

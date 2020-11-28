@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 
 class ChatArguments {
@@ -5,11 +6,13 @@ class ChatArguments {
   final Games gameOne;
   final Games gameTow;
   final String swapId;
+  final bool finished;
 
   ChatArguments({
-    this.chatRoomId,
-    this.gameOne,
-    this.gameTow,
-    this.swapId,
+    @required this.chatRoomId,
+    @required this.gameOne,
+    @required this.gameTow,
+    @required this.swapId,
+    @required this.finished,
   });
 }

@@ -224,8 +224,8 @@ class AppComponent$Injector implements _i1.AppComponent {
           _createNotificationService(), _createSwapService());
   _i39.NotificationService _createNotificationService() =>
       _i39.NotificationService(_createSwapService());
-  _i40.SwapService _createSwapService() => _i40.SwapService(
-      _createAuthService(), _createSwapManager(), _createGamesListService());
+  _i40.SwapService _createSwapService() =>
+      _i40.SwapService(_createAuthService(), _createSwapManager());
   _i41.SwapManager _createSwapManager() =>
       _i41.SwapManager(_createSwapRepository());
   _i42.SwapRepository _createSwapRepository() =>
@@ -291,7 +291,7 @@ class AppComponent$Injector implements _i1.AppComponent {
       _createSwapService(),
       _createImageUploadService());
   _i66.ChatPageBloc _createChatPageBloc() =>
-      _i66.ChatPageBloc(_createChatService());
+      _i66.ChatPageBloc(_createChatService(), _createSwapService());
   _i67.ChatService _createChatService() =>
       _i67.ChatService(_createChatManager());
   _i68.ChatManager _createChatManager() =>

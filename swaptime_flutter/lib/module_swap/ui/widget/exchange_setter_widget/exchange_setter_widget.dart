@@ -42,57 +42,51 @@ class _ExchangeSetterWidgetState extends State<ExchangeSetterWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('New Build');
-    return Container(
-      height: 240,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Flex(
-          direction: Axis.vertical,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              S.of(context).setExchangeGame,
-              style: TextStyle(fontSize: 24),
-            ),
-            Expanded(
-              child: userGames != null
-                  ? ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: getGamesCards(userGames),
-                    )
-                  : Container(
-                      alignment: Alignment.center,
-                      child: Text(S.of(context).loading),
-                    ),
-            ),
-            activeGame != null
-                ? Row(
-                    children: [
-                      Expanded(
-                        child: RaisedButton(
-                          color: SwapThemeDataService.getPrimary(),
-                          onPressed: () {
-                            print('Setting Active Game ID: ' +
-                                activeGame.id.toString() +
-                                ' For User: ' +
-                                activeGame.userID);
-                            Navigator.of(context).pop(activeGame);
-                          },
-                          child: Text(
-                            S.of(context).setGame,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Flex(
+        direction: Axis.vertical,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            S.of(context).setExchangeGame,
+            style: TextStyle(fontSize: 24),
+          ),
+          userGames != null
+              ? SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    children: getGamesCards(userGames),
+                  ),
+                )
+              : Container(
+                  alignment: Alignment.center,
+                  child: Text(S.of(context).loading),
+                ),
+          activeGame != null
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    RaisedButton(
+                      color: SwapThemeDataService.getPrimary(),
+                      onPressed: () {
+                        Navigator.of(context).pop(activeGame);
+                      },
+                      child: Text(
+                        S.of(context).setGame,
+                        style: TextStyle(
+                          color: Colors.white,
                         ),
                       ),
-                    ],
-                  )
-                : Container()
-          ],
-        ),
+                    ),
+                  ],
+                )
+              : Container(
+                  height: 44,
+                )
+        ],
       ),
     );
   }
@@ -100,25 +94,25 @@ class _ExchangeSetterWidgetState extends State<ExchangeSetterWidget> {
   List<Widget> getGamesCards(List<Games> games) {
     List<Widget> gameCards = [];
     games.forEach((game) {
-      gameCards.add(activeGame != null
-          ? ExchangeGameCard(
-              game,
-              activeGame.id == game.id,
-              (game) {
-                activeGame = game;
-                print('New Game ${activeGame.id}');
-                setState(() {});
-              },
-            )
-          : ExchangeGameCard(
-              game,
-              false,
-              (game) {
-                activeGame = game;
-                print('New Game ${activeGame.id}');
-                setState(() {});
-              },
-            ));
+      gameCards.add(Container(
+        child: activeGame != null
+            ? ExchangeGameCard(
+                game,
+                activeGame.id == game.id,
+                (game) {
+                  activeGame = game;
+                  setState(() {});
+                },
+              )
+            : ExchangeGameCard(
+                game,
+                false,
+                (game) {
+                  activeGame = game;
+                  setState(() {});
+                },
+              ),
+      ));
     });
     return gameCards;
   }

@@ -30,6 +30,7 @@ class NotificationService {
             userName: swap.userTwoName,
             id: swap.swapItemIdTwo,
             userID: swap.userIdTwo),
+        complete: swap.status == 'finished',
       ));
     }
     return notifications;

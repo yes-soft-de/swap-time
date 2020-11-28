@@ -100,5 +100,7 @@
   "pleaseUploadYourImage": "Please Upload your Image",
   "pleaseEnterYourName": "Please Enter Your Name",
   "pleaseEnterAShortStoryAboutYou": "Please Enter A Short Story about you ;)",
-  "swapRequestSent": "Swap Request Sent"
+  "swapRequestSent": "Swap Request Sent",
+  "swapCompleted": "Swap completed",
+  "postingNewComment": "Posting new Comment"
 }

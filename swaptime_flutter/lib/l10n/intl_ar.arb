@@ -17,7 +17,7 @@
   "usa": "الولايات المتحدة",
   "lebanon": "لبنان",
   "syria": "سوريا",
-  "chatRoom": "غلاف المحادثة",
+  "chatRoom": "غرفة المحادثة",
   "startWriting": "ابدأ الكتابة",
   "beTheFirstToComment": "كن أول المعلقين",
   "searchAGame": "ابحث عن لعبة :)",
@@ -100,5 +100,7 @@
   "pleaseUploadYourImage": "الرجاء رفع الصورة",
   "pleaseEnterYourName": "الرجاء ادخال اسمك",
   "pleaseEnterAShortStoryAboutYou": "اخبرنا القليل عن نفسك",
-  "swapRequestSent": "تم ارسال طلب مبادلة"
+  "swapRequestSent": "تم ارسال طلب مبادلة",
+  "swapCompleted": "Swap completed",
+  "postingNewComment": "Posting new Comment"
 }

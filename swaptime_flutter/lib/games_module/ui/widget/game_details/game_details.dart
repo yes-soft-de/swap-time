@@ -183,8 +183,8 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                                         if (isRequestedSnap.hasData) {
                                           return GestureDetector(
                                             onTap: () {
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
                                                       content: Text(S
                                                           .of(context)
                                                           .requestingASwap)));
@@ -318,33 +318,34 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     if (snapshot.hasData) {
-                      if (snapshot.data != null) {
-                        return CommentListWidget(
-                          state.details.comments,
-                          (newComment) => {
-                            widget._commentService
-                                .postComment(gameId, newComment)
-                                .then((value) async {
-                              var uid = await widget._authService.userID;
-                              var profile = await widget._profileService
-                                  .getUserProfile(uid);
-                              state.details.comments.add(CommentModel(
-                                  comment: newComment,
-                                  userID: uid,
-                                  date: Date(
-                                      timestamp: (DateTime.now()
-                                                  .millisecondsSinceEpoch /
-                                              1000)
-                                          .floor()),
-                                  swapItemID: gameId,
-                                  profile: profile));
-                              setState(() {});
-                            }),
-                            snapshot.data
-                          },
-                          snapshot.data,
-                        );
-                      }
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(S.of(context).postingNewComment),
+                      ));
+                      return CommentListWidget(
+                        state.details.comments,
+                        (newComment) => {
+                          widget._commentService
+                              .postComment(gameId, newComment)
+                              .then((value) async {
+                            var uid = await widget._authService.userID;
+                            var profile = await widget._profileService
+                                .getUserProfile(uid);
+                            state.details.comments.add(CommentModel(
+                                comment: newComment,
+                                userID: uid,
+                                date: Date(
+                                    timestamp:
+                                        (DateTime.now().millisecondsSinceEpoch /
+                                                1000)
+                                            .floor()),
+                                swapItemID: gameId,
+                                profile: profile));
+                            setState(() {});
+                          }),
+                          snapshot.data
+                        },
+                        snapshot.data,
+                      );
                     }
                     return CommentListWidget(
                         state.details.comments,

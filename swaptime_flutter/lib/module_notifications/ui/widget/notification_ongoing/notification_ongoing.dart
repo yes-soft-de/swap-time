@@ -17,17 +17,19 @@ class NotificationOnGoing extends StatefulWidget {
   final bool finished;
   final bool shrink;
   final Function(Games) onChangeRequest;
+  final Function(String) onSwapComplete;
 
-  NotificationOnGoing(
-      {@required this.gameOne,
-      @required this.gameTow,
-      @required this.chatRoomId,
-      @required this.myId,
-      @required this.finished,
-      @required this.swapId,
-      @required this.onChangeRequest,
-      this.shrink,
-      });
+  NotificationOnGoing({
+    @required this.gameOne,
+    @required this.gameTow,
+    @required this.chatRoomId,
+    @required this.myId,
+    @required this.finished,
+    @required this.swapId,
+    @required this.onChangeRequest,
+    @required this.onSwapComplete,
+    this.shrink,
+  });
 
   @override
   State<StatefulWidget> createState() => _NotificationState(
@@ -58,18 +60,10 @@ class _NotificationState extends State<NotificationOnGoing> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).brightness != Brightness.dark
-              ? Colors.white
-              : Colors.black,
-          boxShadow: [
-            BoxShadow(
-                offset: Offset.fromDirection(90),
-                blurRadius: 8,
-                color: Colors.grey),
-          ],
-        ),
+      child: Card(
+        color: Theme.of(context).brightness != Brightness.dark
+            ? Colors.white
+            : Colors.black,
         child: Flex(
           direction: Axis.vertical,
           children: [
@@ -77,21 +71,7 @@ class _NotificationState extends State<NotificationOnGoing> {
               children: [
                 Container(
                   height: 120,
-                  child: Flex(
-                    direction: Axis.horizontal,
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: _gameSelector(gameOne),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: _gameSelector(gameTow),
-                      ),
-                    ],
-                  ),
+                  child: _getGamesRow(),
                 ),
               ],
             ),
@@ -129,13 +109,13 @@ class _NotificationState extends State<NotificationOnGoing> {
                           ],
                         ),
                         IconButton(
-                            icon: chatRoomId != null
+                            icon: chatRoomId != null && !widget.finished
                                 ? Icon(
                                     Icons.chat,
                                     color: SwapThemeDataService.getPrimary(),
                                   )
                                 : Icon(
-                                    Icons.pending_rounded,
+                                    Icons.check,
                                     color: SwapThemeDataService.getPrimary(),
                                   ),
                             onPressed: () {
@@ -144,13 +124,15 @@ class _NotificationState extends State<NotificationOnGoing> {
                                     .pushNamed(ChatRoutes.chatRoute,
                                         arguments: ChatArguments(
                                           chatRoomId: chatRoomId,
+                                          finished: widget.finished,
                                           gameOne: gameOne,
                                           gameTow: gameTow,
                                           swapId: swapId,
                                         ));
                               } else {
                                 Fluttertoast.showToast(
-                                    msg: S.of(context).pendingApproval);
+                                  msg: S.of(context).pendingApproval,
+                                );
                               }
                             })
                       ],
@@ -162,14 +144,109 @@ class _NotificationState extends State<NotificationOnGoing> {
     );
   }
 
+  Widget _getGamesRow() {
+    if (gameOne.mainImage.length < 30) {
+      // Return Selector only on one game, which is the other one
+      return Flex(
+        direction: Axis.horizontal,
+        children: [
+          Flexible(
+            flex: 1,
+            fit: FlexFit.tight,
+            child: _gameSelector(gameOne),
+          ),
+          Flexible(
+            flex: 1,
+            fit: FlexFit.tight,
+            child: FadeInImage.assetNetwork(
+              placeholder: 'assets/images/logo.jpg',
+              image: gameTow.mainImage.substring(29),
+              fit: BoxFit.cover,
+            ),
+          )
+        ],
+      );
+    } else if (gameTow.mainImage.length < 30) {
+      // Return Selector only on one game, which is the other one
+      return Flex(
+        direction: Axis.horizontal,
+        children: [
+          Flexible(
+            flex: 1,
+            fit: FlexFit.tight,
+            child: FadeInImage.assetNetwork(
+              placeholder: 'assets/images/logo.jpg',
+              image: gameOne.mainImage.substring(29),
+              fit: BoxFit.cover,
+            ),
+          ),
+          Flexible(
+            flex: 1,
+            fit: FlexFit.tight,
+            child: _gameSelector(gameTow),
+          ),
+        ],
+      );
+    }
+
+    return Stack(
+      children: [
+        Flex(
+          direction: Axis.horizontal,
+          children: [
+            Flexible(
+              flex: 1,
+              fit: FlexFit.tight,
+              child: _gameSelector(gameOne),
+            ),
+            Flexible(
+              flex: 1,
+              fit: FlexFit.tight,
+              child: _gameSelector(gameTow),
+            )
+          ],
+        ),
+        widget.finished == true
+            ? Positioned.fill(
+                child: Container(
+                  color: Colors.black45,
+                  child: Center(
+                      child: Text(
+                    S.of(context).swapCompleted,
+                    style: TextStyle(fontSize: 24),
+                  )),
+                ),
+              )
+            : Positioned.fill(
+                child: Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: SwapThemeDataService.getPrimary(),
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.check),
+                      onPressed: () {
+                        widget.onSwapComplete(swapId);
+                      },
+                    ),
+                  ),
+                ),
+              )
+      ],
+    );
+  }
+
   Widget _gameSelector(Games game) {
     if (game != null) {
       return Stack(
         children: [
-          FadeInImage.assetNetwork(
-            placeholder: 'assets/images/logo.jpg',
-            image: game.mainImage.substring(29),
-            fit: BoxFit.cover,
+          Positioned.fill(
+            child: FadeInImage.assetNetwork(
+              placeholder: 'assets/images/logo.jpg',
+              image: game.mainImage.substring(29),
+              fit: BoxFit.cover,
+            ),
           ),
           _getOverlay(game),
         ],
@@ -202,10 +279,10 @@ class _NotificationState extends State<NotificationOnGoing> {
           child: Container(
             decoration: BoxDecoration(
               color: SwapThemeDataService.getAccent(),
-              borderRadius: BorderRadius.all(Radius.circular(8)),
+              shape: BoxShape.circle,
             ),
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(8.0),
               child: Icon(
                 Icons.refresh,
                 color: Colors.white,

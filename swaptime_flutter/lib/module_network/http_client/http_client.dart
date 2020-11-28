@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:inject/inject.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swaptime_flutter/utils/logger/logger.dart';
 
 @provide
@@ -38,13 +37,6 @@ class ApiClient {
       );
       return _processResponse(response);
     } catch (e) {
-      if (e is DioErrorType) {
-        if (e == DioErrorType.RESPONSE) {
-          var pref = await SharedPreferences.getInstance();
-          await pref.remove('token');
-          return null;
-        }
-      }
       _logger.error(tag, e.toString() + ' ' + url);
       return null;
     }
@@ -69,9 +61,6 @@ class ApiClient {
       return _processResponse(response);
     } catch (e) {
       _logger.error(tag, e.toString() + url);
-      if (headers != null) {
-        return null;
-      }
       return null;
     }
   }

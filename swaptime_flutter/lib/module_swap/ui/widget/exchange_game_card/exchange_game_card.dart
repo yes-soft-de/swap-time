@@ -18,50 +18,81 @@ class ExchangeGameCard extends StatelessWidget {
       onTap: () {
         onGameSelected(game);
       },
-      child: Flex(
-        direction: Axis.vertical,
-        children: [
-          !active
-              ? Container(
-                  height: 112,
-                  width: 112,
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: FadeInImage.assetNetwork(
-                          placeholder: 'assets/images/logo.png',
-                          image: game.mainImage.substring(29),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              : Container(
-                  height: 112,
-                  width: 112,
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: Image.network(game.mainImage.substring(29)),
+      child: !active
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 136,
+                width: 136,
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: FadeInImage.assetNetwork(
+                        placeholder: 'assets/images/logo.png',
+                        image: game.mainImage.substring(29),
+                        fit: BoxFit.cover,
                       ),
-                      Positioned.fill(
-                        child: Container(
-                          color: Color(0x44000000),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        color: Colors.black38,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            game.name,
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
-                      Positioned.fill(
-                          child: Container(
-                        child: Icon(
-                          Icons.check,
-                          color: Colors.white,
-                        ),
-                      ))
-                    ],
-                  ),
+                    )
+                  ],
                 ),
-          Text(game.name),
-        ],
-      ),
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 136,
+                width: 136,
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: Image.network(
+                        game.mainImage.substring(29),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          game.name,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: Container(
+                        color: Color(0x44000000),
+                      ),
+                    ),
+                    Positioned.fill(
+                        child: Container(
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.white,
+                      ),
+                    ))
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }

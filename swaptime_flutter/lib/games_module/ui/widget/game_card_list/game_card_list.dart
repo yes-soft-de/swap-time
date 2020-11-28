@@ -285,7 +285,6 @@ class _GameCardListState extends State<GameCardList> {
   }
 
   List<Games> _processList(List<Games> gamesList) {
-    print('Processing data, sorting ' + activeSort.toString());
     Map<int, dynamic> games = {};
     gamesList.forEach((element) {
       games[element.id] = element;

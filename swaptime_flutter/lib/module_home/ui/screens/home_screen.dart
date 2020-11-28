@@ -205,27 +205,27 @@ class _HomeScreenState extends State<HomeScreen> {
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text(S.of(context).home),
+          label: S.of(context).home,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.notifications),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text(S.of(context).notifications),
+          label: S.of(context).notifications,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.favorite),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text(S.of(context).favorite),
+          label: S.of(context).favorite,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text(S.of(context).profile),
+          label: S.of(context).profile,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text(S.of(context).settings),
+          label: S.of(context).settings,
         ),
       ],
     );

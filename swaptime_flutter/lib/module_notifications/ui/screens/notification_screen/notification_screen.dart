@@ -116,6 +116,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
         chatRoomId: notifications[i].chatRoomId,
         myId: myId,
         swapId: notifications[i].swapId,
+        finished: notifications[i].complete,
+        onSwapComplete: (swapId) {
+          widget._manager.setNotificationComplete(notifications[i]);
+        },
         onChangeRequest: (game) {
           // Setting the Scene
           activeIndex = i;
@@ -155,7 +159,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     if (newGame != null) {
       print(
           'i $activeIndex Game One: ${gameOne.id} and Game Two: ${gameTwo.id}');
-      Scaffold.of(context)
+      ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(S.of(context).savingData)));
       if (gameToChange == notifications[activeIndex].gameOne) {
         notifications[activeIndex].gameOne = newGame;
