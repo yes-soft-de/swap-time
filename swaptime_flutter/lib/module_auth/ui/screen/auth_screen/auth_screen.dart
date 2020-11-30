@@ -125,8 +125,8 @@ class _AuthScreenState extends State<AuthScreen> {
           OutlinedButton(
             onPressed: retryEnabled
                 ? () {
-                    widget.manager
-                        .SignInWithPhone(_phoneController.text.trim());
+                    _currentState = null;
+                    setState(() {});
                   }
                 : null,
             child: Text(S.of(context).resendCode),
