@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/games_module/model/game_model.dart';
-import 'package:swaptime_flutter/generated/l10n.dart';
-import 'package:swaptime_flutter/module_report/ui/widget/report_dialog/report_dialog.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 class GameCardLarge extends StatefulWidget {
@@ -132,22 +130,7 @@ class _GameCardLargeState extends State<GameCardLarge> {
                         onPressed: () {
                           reported = true;
                           setState(() {});
-                          showDialog(
-                              context: context,
-                              builder: (_) => Dialog(
-                                    child: ReportDialog(onConfirm: () {
-                                      widget.onReport(widget.gameModel.itemId);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content:
-                                            Text(S.of(context).reportingGame),
-                                      ));
-                                      Navigator.of(context).pop();
-                                      if (mounted) setState(() {});
-                                    }, onCancel: () {
-                                      Navigator.of(context).pop();
-                                    }),
-                                  ));
+                          widget.onReport(widget.gameModel.itemId);
                         },
                       ),
                     ],

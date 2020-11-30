@@ -75,7 +75,6 @@ class _HomeScreenState extends State<HomeScreen> {
       if (_scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
         if (isFabVisible == true) {
-          print('**** ${isFabVisible} up'); //Move IO away from setState
           setState(() {
             isFabVisible = false;
           });
@@ -84,10 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
         if (_scrollController.position.userScrollDirection ==
             ScrollDirection.forward) {
           if (isFabVisible == false) {
-            /* only set when the previous state is false
-               * Less widget rebuilds
-               */
-            print('**** ${isFabVisible} down'); //Move IO away from setState
             setState(() {
               isFabVisible = true;
             });

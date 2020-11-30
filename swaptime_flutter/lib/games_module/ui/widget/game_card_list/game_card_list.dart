@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/games_routes.dart';
 import 'package:swaptime_flutter/games_module/model/game_model.dart';
@@ -13,13 +12,20 @@ import 'package:swaptime_flutter/games_module/ui/widget/game_card_small/game_car
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
+import 'package:swaptime_flutter/module_report/service/report_service/report_service.dart';
+import 'package:swaptime_flutter/module_report/ui/widget/report_dialog/report_dialog.dart';
 
 @provide
 class GameCardList extends StatefulWidget {
   final GamesListStateManager _stateManager;
   final AuthService _authService;
+  final ReportService _reportService;
 
-  GameCardList(this._stateManager, this._authService);
+  GameCardList(
+    this._stateManager,
+    this._authService,
+    this._reportService,
+  );
 
   @override
   State<StatefulWidget> createState() => _GameCardListState();
@@ -191,7 +197,7 @@ class _GameCardListState extends State<GameCardList> {
             }
           },
           onReport: (itemId) {
-            Fluttertoast.showToast(msg: S.of(context).reportIsSent);
+            _reportDialog(itemId);
           },
         ),
       ));
@@ -213,7 +219,7 @@ class _GameCardListState extends State<GameCardList> {
             gameTitle: visibleGames[i].name,
             imageUrl: visibleGames[i].mainImage.substring(29),
             lovable: loggedIn,
-            gameOwnerFirstName: visibleGames[i].name,
+            gameOwnerFirstName: visibleGames[i].userName,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
             itemId: visibleGames[i].id.toString(),
           ),
@@ -232,7 +238,7 @@ class _GameCardListState extends State<GameCardList> {
             }
           },
           onReport: (itemId) {
-            Fluttertoast.showToast(msg: S.of(context).reportIsSent);
+            _reportDialog(itemId);
           },
         ),
       ));
@@ -253,7 +259,7 @@ class _GameCardListState extends State<GameCardList> {
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
             imageUrl: visibleGames[i].mainImage.substring(29),
-            gameOwnerFirstName: visibleGames[i].name,
+            gameOwnerFirstName: visibleGames[i].userName,
             lovable: loggedIn,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
             itemId: visibleGames[i].id.toString(),
@@ -276,7 +282,9 @@ class _GameCardListState extends State<GameCardList> {
               });
             }
           },
-          onReport: (itemId) {},
+          onReport: (itemId) {
+            _reportDialog(itemId);
+          },
         ),
       ));
     }
@@ -302,5 +310,25 @@ class _GameCardListState extends State<GameCardList> {
     } else {
       return games;
     }
+  }
+
+  void _reportDialog(String itemId) {
+    showDialog(
+        context: context,
+        builder: (_) => Dialog(
+              child: ReportDialog(onConfirm: () async {
+                Navigator.of(context).pop(itemId);
+              }, onCancel: () {
+                Navigator.of(context).pop();
+              }),
+            )).then((value) {
+      if (value != null) {
+        widget._reportService.reportGame(value);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(S.of(context).reportIsSent),
+        ));
+        widget._stateManager.getAvailableGames();
+      }
+    });
   }
 }

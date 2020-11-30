@@ -101,6 +101,6 @@
   "pleaseEnterYourName": "الرجاء ادخال اسمك",
   "pleaseEnterAShortStoryAboutYou": "اخبرنا القليل عن نفسك",
   "swapRequestSent": "تم ارسال طلب مبادلة",
-  "swapCompleted": "Swap completed",
-  "postingNewComment": "Posting new Comment"
+  "swapCompleted": "تم انهاء المبادلة",
+  "postingNewComment": "جار حفظ التعليق"
 }

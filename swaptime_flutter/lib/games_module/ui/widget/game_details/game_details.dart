@@ -55,7 +55,11 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    gameId = ModalRoute.of(context).settings.arguments;
+    if (ModalRoute.of(context).settings.arguments is String) {
+      gameId = int.tryParse(ModalRoute.of(context).settings.arguments);
+    } else {
+      gameId = ModalRoute.of(context).settings.arguments;
+    }
     if (currentState == null) {
       widget._manager.getGameDetails(gameId);
     }
@@ -315,24 +319,24 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                 width: MediaQuery.of(context).size.width,
                 child: FutureBuilder(
                   future: widget._authService.userID,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasData) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(S.of(context).postingNewComment),
-                      ));
+                  builder: (BuildContext context,
+                      AsyncSnapshot<String> userIdSnapshot) {
+                    if (userIdSnapshot.hasData) {
                       return CommentListWidget(
-                        state.details.comments,
-                        (newComment) => {
+                        commentList: state.details.comments,
+                        userId: userIdSnapshot.data,
+                        onCommentAdded: (newComment) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(S.of(context).postingNewComment),
+                          ));
                           widget._commentService
                               .postComment(gameId, newComment)
                               .then((value) async {
-                            var uid = await widget._authService.userID;
                             var profile = await widget._profileService
-                                .getUserProfile(uid);
+                                .getUserProfile(userIdSnapshot.data);
                             state.details.comments.add(CommentModel(
                                 comment: newComment,
-                                userID: uid,
+                                userID: userIdSnapshot.data,
                                 date: Date(
                                     timestamp:
                                         (DateTime.now().millisecondsSinceEpoch /
@@ -341,19 +345,35 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                                 swapItemID: gameId,
                                 profile: profile));
                             setState(() {});
-                          }),
-                          snapshot.data
+                          });
                         },
-                        snapshot.data,
                       );
                     }
                     return CommentListWidget(
-                        state.details.comments,
-                        (newComment) => {
-                              widget._commentService
-                                  .postComment(gameId, newComment),
-                              snapshot.data
-                            });
+                      commentList: state.details.comments,
+                      onCommentAdded: (newComment) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(S.of(context).postingNewComment),
+                        ));
+                        widget._commentService
+                            .postComment(gameId, newComment)
+                            .then((value) async {
+                          var profile = await widget._profileService
+                              .getUserProfile(userIdSnapshot.data);
+                          state.details.comments.add(CommentModel(
+                              comment: newComment,
+                              userID: userIdSnapshot.data,
+                              date: Date(
+                                  timestamp:
+                                      (DateTime.now().millisecondsSinceEpoch /
+                                              1000)
+                                          .floor()),
+                              swapItemID: gameId,
+                              profile: profile));
+                          setState(() {});
+                        });
+                      },
+                    );
                   },
                 )),
           ),

@@ -5,16 +5,38 @@ import 'package:swaptime_flutter/games_module/response/games_response/games_resp
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_profile/manager/my_profile_manager/my_profile_manager.dart';
 import 'package:swaptime_flutter/module_profile/response/profile_response/profile_response.dart';
+import 'package:swaptime_flutter/module_report/service/report_service/report_service.dart';
 
 @provide
 class GamesListService {
   final GamesManager _manager;
   final AuthService _authService;
   final MyProfileManager _profileManager;
+  final ReportService _reportService;
 
-  GamesListService(this._manager, this._authService, this._profileManager);
+  GamesListService(
+    this._manager,
+    this._authService,
+    this._profileManager,
+    this._reportService,
+  );
 
-  Future<List<Games>> get getAvailableGames => _manager.getAvailableGames;
+  Future<List<Games>> get getAvailableGames async {
+    List<Games> allGamesList = await _manager.getAvailableGames;
+    allGamesList = _shrinkList(allGamesList);
+    var visibleGames = <Games>[];
+
+    for (int i = 0; i < allGamesList.length; i++) {
+      var reported =
+          await _reportService.isReported(allGamesList[i].id.toString());
+      if (reported == true) {
+        print('game is reported');
+        continue;
+      }
+      visibleGames.add(allGamesList[i]);
+    }
+    return visibleGames;
+  }
 
   Future<List<Games>> getUserGames(String userId) async {
     Map<int, Games> games = <int, Games>{};
@@ -99,5 +121,13 @@ class GamesListService {
     } catch (e) {
       return 0;
     }
+  }
+
+  List<Games> _shrinkList(List<Games> originalList) {
+    Map<int, Games> gamesMap = {};
+    originalList.forEach((element) {
+      gamesMap[element.id] = element;
+    });
+    return List.from(gamesMap.values);
   }
 }

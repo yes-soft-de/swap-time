@@ -6,7 +6,7 @@ class NewCommentWidget extends StatelessWidget {
   final TextEditingController _newCommentController = TextEditingController();
   final Function(String) onCommentPost;
 
-  NewCommentWidget(this.onCommentPost);
+  NewCommentWidget({this.onCommentPost});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class NewCommentWidget extends StatelessWidget {
                   onCommentPost(_newCommentController.text);
                   _newCommentController.clear();
                 } else {
-                  Scaffold.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(S.of(context).emptyComment),
                   ));
                 }

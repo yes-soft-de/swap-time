@@ -25,62 +25,62 @@ import '../../games_module/service/games_list_service/games_list_service.dart'
 import '../../games_module/manager/games_manager/games_manager.dart' as _i20;
 import '../../games_module/repository/games_repository/games_repository.dart'
     as _i21;
+import '../../module_report/service/report_service/report_service.dart' as _i22;
 import '../../interaction_module/manager/interaction/interaction_manger.dart'
-    as _i22;
-import '../../interaction_module/repository/interaction/interaction_repository.dart'
     as _i23;
-import '../../games_module/ui/widget/game_card_list/game_card_list.dart'
+import '../../interaction_module/repository/interaction/interaction_repository.dart'
     as _i24;
-import '../../games_module/state_manager/games_list_state_manager/games_list_state_manager.dart'
+import '../../games_module/ui/widget/game_card_list/game_card_list.dart'
     as _i25;
-import '../../module_forms/ui/screen/add_by_api/add_by_api.dart' as _i26;
+import '../../games_module/state_manager/games_list_state_manager/games_list_state_manager.dart'
+    as _i26;
+import '../../module_forms/ui/screen/add_by_api/add_by_api.dart' as _i27;
 import '../../module_forms/state_manager/add_by_api_manager/add_by_api_manager.dart'
-    as _i27;
-import '../../module_forms/service/rawg_service/rawg_service.dart' as _i28;
-import '../../module_forms/manager/rawg_manager/rawg_manager.dart' as _i29;
+    as _i28;
+import '../../module_forms/service/rawg_service/rawg_service.dart' as _i29;
+import '../../module_forms/manager/rawg_manager/rawg_manager.dart' as _i30;
 import '../../module_forms/repository/rawg_repository/rawg_repository.dart'
-    as _i30;
-import '../../interaction_module/ui/liked_screen/liked_screen.dart' as _i31;
+    as _i31;
+import '../../interaction_module/ui/liked_screen/liked_screen.dart' as _i32;
 import '../../interaction_module/state_manager/liked_manager/liked_state_manager.dart'
-    as _i32;
-import '../../module_settings/ui/ui/settings_page/settings_page.dart' as _i33;
+    as _i33;
+import '../../module_settings/ui/ui/settings_page/settings_page.dart' as _i34;
 import '../../module_localization/presistance/localization_preferences_helper/localization_preferences_helper.dart'
-    as _i34;
-import '../../module_theme/service/theme_service/theme_service.dart' as _i35;
-import '../../module_theme/pressistance/theme_preferences_helper.dart' as _i36;
+    as _i35;
+import '../../module_theme/service/theme_service/theme_service.dart' as _i36;
+import '../../module_theme/pressistance/theme_preferences_helper.dart' as _i37;
 import '../../module_notifications/ui/screens/notification_screen/notification_screen.dart'
-    as _i37;
-import '../../module_notifications/state_manager/notifications_state_manager/notifcations_list_state_manager.dart'
     as _i38;
-import '../../module_notifications/service/notification_service/notification_service.dart'
+import '../../module_notifications/state_manager/notifications_state_manager/notifcations_list_state_manager.dart'
     as _i39;
-import '../../module_swap/service/swap_service/swap_service.dart' as _i40;
-import '../../module_swap/manager/swap/swap_manager.dart' as _i41;
+import '../../module_notifications/service/notification_service/notification_service.dart'
+    as _i40;
+import '../../module_swap/service/swap_service/swap_service.dart' as _i41;
+import '../../module_swap/manager/swap/swap_manager.dart' as _i42;
 import '../../module_swap/repository/swap_repository/swap_repository.dart'
-    as _i42;
-import '../../module_profile/ui/profile_screen/profile_screen.dart' as _i43;
+    as _i43;
+import '../../module_profile/ui/profile_screen/profile_screen.dart' as _i44;
 import '../../games_module/ui/widget/my_game_card_list/my_game_card_list.dart'
-    as _i44;
-import '../../module_forms/forms_module.dart' as _i45;
-import '../../module_forms/ui/screen/add_by_image/add_by_image.dart' as _i46;
+    as _i45;
+import '../../module_forms/forms_module.dart' as _i46;
+import '../../module_forms/ui/screen/add_by_image/add_by_image.dart' as _i47;
 import '../../module_forms/state_manager/add_by_image_manager/add_by_image_manager.dart'
-    as _i47;
-import '../../module_forms/service/by_image_service/by_image_service.dart'
     as _i48;
-import '../../module_upload/service/image_upload/image_upload_service.dart'
+import '../../module_forms/service/by_image_service/by_image_service.dart'
     as _i49;
-import '../../module_upload/manager/upload_manager/upload_manager.dart' as _i50;
+import '../../module_upload/service/image_upload/image_upload_service.dart'
+    as _i50;
+import '../../module_upload/manager/upload_manager/upload_manager.dart' as _i51;
 import '../../module_upload/repository/upload_repository/upload_repository.dart'
-    as _i51;
-import '../../module_forms/manager/swap_item_repository/swap_item_repository.dart'
     as _i52;
-import '../../module_forms/repository/swap_item_respository/swap_item_repository.dart'
+import '../../module_forms/manager/swap_item_repository/swap_item_repository.dart'
     as _i53;
-import '../../games_module/games_module.dart' as _i54;
-import '../../games_module/ui/widget/game_details/game_details.dart' as _i55;
+import '../../module_forms/repository/swap_item_respository/swap_item_repository.dart'
+    as _i54;
+import '../../games_module/games_module.dart' as _i55;
+import '../../games_module/ui/widget/game_details/game_details.dart' as _i56;
 import '../../games_module/state_manager/game_details_state_manager/game_details_list_manager.dart'
-    as _i56;
-import '../../module_report/service/report_service/report_service.dart' as _i57;
+    as _i57;
 import '../../module_comment/service/comment_service/comment_service.dart'
     as _i58;
 import '../../module_comment/manager/comment_manager/comment_manager.dart'
@@ -170,107 +170,112 @@ class AppComponent$Injector implements _i1.AppComponent {
       _createGamesListService(),
       _createInteractionManager());
   _i19.GamesListService _createGamesListService() => _i19.GamesListService(
-      _createGamesManager(), _createAuthService(), _createMyProfileManager());
+      _createGamesManager(),
+      _createAuthService(),
+      _createMyProfileManager(),
+      _createReportService());
   _i20.GamesManager _createGamesManager() =>
       _i20.GamesManager(_createGamesRepository());
   _i21.GamesRepository _createGamesRepository() =>
       _i21.GamesRepository(_createApiClient(), _createAuthService());
-  _i22.InteractionManager _createInteractionManager() =>
-      _i22.InteractionManager(_createInteractionRepository());
-  _i23.InteractionRepository _createInteractionRepository() =>
-      _i23.InteractionRepository(_createApiClient());
-  _i24.GameCardList _createGameCardList() =>
-      _i24.GameCardList(_createGamesListStateManager(), _createAuthService());
-  _i25.GamesListStateManager _createGamesListStateManager() =>
-      _i25.GamesListStateManager(_createGamesListService(),
+  _i22.ReportService _createReportService() =>
+      _i22.ReportService(_createAuthService());
+  _i23.InteractionManager _createInteractionManager() =>
+      _i23.InteractionManager(_createInteractionRepository());
+  _i24.InteractionRepository _createInteractionRepository() =>
+      _i24.InteractionRepository(_createApiClient());
+  _i25.GameCardList _createGameCardList() => _i25.GameCardList(
+      _createGamesListStateManager(),
+      _createAuthService(),
+      _createReportService());
+  _i26.GamesListStateManager _createGamesListStateManager() =>
+      _i26.GamesListStateManager(_createGamesListService(),
           _createLikedService(), _createProfileService());
-  _i26.AddByApiScreen _createAddByApiScreen() =>
-      _i26.AddByApiScreen(_createAddByApiStateManager());
-  _i27.AddByApiStateManager _createAddByApiStateManager() =>
-      _i27.AddByApiStateManager(_createRawGService());
-  _i28.RawGService _createRawGService() =>
-      _i28.RawGService(_createRawGManager());
-  _i29.RawGManager _createRawGManager() =>
-      _i29.RawGManager(_createRawGRepository());
-  _i30.RawGRepository _createRawGRepository() =>
-      _i30.RawGRepository(_createApiClient());
-  _i31.LikedScreen _createLikedScreen() => _i31.LikedScreen(
+  _i27.AddByApiScreen _createAddByApiScreen() =>
+      _i27.AddByApiScreen(_createAddByApiStateManager());
+  _i28.AddByApiStateManager _createAddByApiStateManager() =>
+      _i28.AddByApiStateManager(_createRawGService());
+  _i29.RawGService _createRawGService() =>
+      _i29.RawGService(_createRawGManager());
+  _i30.RawGManager _createRawGManager() =>
+      _i30.RawGManager(_createRawGRepository());
+  _i31.RawGRepository _createRawGRepository() =>
+      _i31.RawGRepository(_createApiClient());
+  _i32.LikedScreen _createLikedScreen() => _i32.LikedScreen(
       _createLikedStateManager(),
       _createAuthService(),
       _createProfileService());
-  _i32.LikedStateManager _createLikedStateManager() =>
-      _i32.LikedStateManager(_createLikedService());
-  _i33.SettingsPage _createSettingsPage() => _i33.SettingsPage(
+  _i33.LikedStateManager _createLikedStateManager() =>
+      _i33.LikedStateManager(_createLikedService());
+  _i34.SettingsPage _createSettingsPage() => _i34.SettingsPage(
       _createAuthService(),
       _createLocalizationService(),
       _createSwapThemeDataService());
   _i3.LocalizationService _createLocalizationService() =>
       _singletonLocalizationService ??=
           _i3.LocalizationService(_createLocalizationPreferencesHelper());
-  _i34.LocalizationPreferencesHelper _createLocalizationPreferencesHelper() =>
-      _i34.LocalizationPreferencesHelper();
-  _i35.SwapThemeDataService _createSwapThemeDataService() =>
-      _i35.SwapThemeDataService(_createThemePreferencesHelper());
-  _i36.ThemePreferencesHelper _createThemePreferencesHelper() =>
-      _i36.ThemePreferencesHelper();
-  _i37.NotificationScreen _createNotificationScreen() =>
-      _i37.NotificationScreen(
+  _i35.LocalizationPreferencesHelper _createLocalizationPreferencesHelper() =>
+      _i35.LocalizationPreferencesHelper();
+  _i36.SwapThemeDataService _createSwapThemeDataService() =>
+      _i36.SwapThemeDataService(_createThemePreferencesHelper());
+  _i37.ThemePreferencesHelper _createThemePreferencesHelper() =>
+      _i37.ThemePreferencesHelper();
+  _i38.NotificationScreen _createNotificationScreen() =>
+      _i38.NotificationScreen(
           _createNotificationsStateManager(),
           _createProfileService(),
           _createAuthService(),
           _createGamesListService());
-  _i38.NotificationsStateManager _createNotificationsStateManager() =>
-      _i38.NotificationsStateManager(
+  _i39.NotificationsStateManager _createNotificationsStateManager() =>
+      _i39.NotificationsStateManager(
           _createNotificationService(), _createSwapService());
-  _i39.NotificationService _createNotificationService() =>
-      _i39.NotificationService(_createSwapService());
-  _i40.SwapService _createSwapService() =>
-      _i40.SwapService(_createAuthService(), _createSwapManager());
-  _i41.SwapManager _createSwapManager() =>
-      _i41.SwapManager(_createSwapRepository());
-  _i42.SwapRepository _createSwapRepository() =>
-      _i42.SwapRepository(_createApiClient());
-  _i43.ProfileScreen _createProfileScreen() => _i43.ProfileScreen(
+  _i40.NotificationService _createNotificationService() =>
+      _i40.NotificationService(_createSwapService());
+  _i41.SwapService _createSwapService() =>
+      _i41.SwapService(_createAuthService(), _createSwapManager());
+  _i42.SwapManager _createSwapManager() =>
+      _i42.SwapManager(_createSwapRepository());
+  _i43.SwapRepository _createSwapRepository() =>
+      _i43.SwapRepository(_createApiClient());
+  _i44.ProfileScreen _createProfileScreen() => _i44.ProfileScreen(
       _createMyGameCardList(),
       _createAuthService(),
       _createProfileService(),
       _createProfileSharedPreferencesHelper());
-  _i44.MyGameCardList _createMyGameCardList() =>
-      _i44.MyGameCardList(_createGamesListStateManager(), _createAuthService());
-  _i45.FormsModule _createFormsModule() =>
-      _i45.FormsModule(_createAddByImageScreen());
-  _i46.AddByImageScreen _createAddByImageScreen() =>
-      _i46.AddByImageScreen(_createAddByImageStateManager());
-  _i47.AddByImageStateManager _createAddByImageStateManager() =>
-      _i47.AddByImageStateManager(_createByImageService());
-  _i48.ByImageService _createByImageService() => _i48.ByImageService(
+  _i45.MyGameCardList _createMyGameCardList() =>
+      _i45.MyGameCardList(_createGamesListStateManager(), _createAuthService());
+  _i46.FormsModule _createFormsModule() =>
+      _i46.FormsModule(_createAddByImageScreen());
+  _i47.AddByImageScreen _createAddByImageScreen() =>
+      _i47.AddByImageScreen(_createAddByImageStateManager());
+  _i48.AddByImageStateManager _createAddByImageStateManager() =>
+      _i48.AddByImageStateManager(_createByImageService());
+  _i49.ByImageService _createByImageService() => _i49.ByImageService(
       _createImageUploadService(),
       _createLogger(),
       _createSwapItemManager(),
       _createAuthService());
-  _i49.ImageUploadService _createImageUploadService() =>
-      _i49.ImageUploadService(_createUploadManager());
-  _i50.UploadManager _createUploadManager() =>
-      _i50.UploadManager(_createUploadRepository());
-  _i51.UploadRepository _createUploadRepository() => _i51.UploadRepository();
-  _i52.SwapItemManager _createSwapItemManager() =>
-      _i52.SwapItemManager(_createSwapItemRepository());
-  _i53.SwapItemRepository _createSwapItemRepository() =>
-      _i53.SwapItemRepository(_createApiClient());
-  _i54.GamesModule _createGamesModule() =>
-      _i54.GamesModule(_createGameDetailsScreen());
-  _i55.GameDetailsScreen _createGameDetailsScreen() => _i55.GameDetailsScreen(
+  _i50.ImageUploadService _createImageUploadService() =>
+      _i50.ImageUploadService(_createUploadManager());
+  _i51.UploadManager _createUploadManager() =>
+      _i51.UploadManager(_createUploadRepository());
+  _i52.UploadRepository _createUploadRepository() => _i52.UploadRepository();
+  _i53.SwapItemManager _createSwapItemManager() =>
+      _i53.SwapItemManager(_createSwapItemRepository());
+  _i54.SwapItemRepository _createSwapItemRepository() =>
+      _i54.SwapItemRepository(_createApiClient());
+  _i55.GamesModule _createGamesModule() =>
+      _i55.GamesModule(_createGameDetailsScreen());
+  _i56.GameDetailsScreen _createGameDetailsScreen() => _i56.GameDetailsScreen(
       _createGameDetailsManager(),
       _createSwapService(),
       _createCommentService(),
       _createAuthService(),
       _createGameCardList(),
       _createProfileService());
-  _i56.GameDetailsManager _createGameDetailsManager() =>
-      _i56.GameDetailsManager(
+  _i57.GameDetailsManager _createGameDetailsManager() =>
+      _i57.GameDetailsManager(
           _createGamesListService(), _createReportService());
-  _i57.ReportService _createReportService() =>
-      _i57.ReportService(_createAuthService());
   _i58.CommentService _createCommentService() =>
       _i58.CommentService(_createAuthService(), _createCommentManager());
   _i59.CommentManager _createCommentManager() =>
