@@ -6,11 +6,7 @@ use App\Entity\Interaction;
 use App\Repository\InteractionRepository;
 use App\Request\CreateInteractionRequest;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Flex\Response;
 use App\Request\UpdateInteractionRequest;
-use App\Request\GetByIdRequest;
 
 class InteractionManager
 {
@@ -29,6 +25,7 @@ class InteractionManager
     public function create(CreateInteractionRequest $request)
     {
         $interActionEntity = $this->autoMapping->map(CreateInteractionRequest::class, Interaction::class, $request);
+        $interActionEntity->setDate($request->getDate());
 
         $this->entityManager->persist($interActionEntity);
         $this->entityManager->flush();
@@ -40,6 +37,7 @@ class InteractionManager
     public function update(UpdateInteractionRequest $request)
     {
         $interaction = $this->interactionRepository->find($request->getId());
+        $interaction->setDate($request->getDate());
 
         if (!$interaction)
         {

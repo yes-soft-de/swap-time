@@ -2,12 +2,39 @@
 
 namespace App\Request;
 
+use DateTime;
+
 class CreateInteractionRequest
 {
     private $id;
     private $userID;
     private $swapItemID;
     private $type;
+    private $date;
+
+    public function getDate(): DateTime
+    {
+        try
+        {
+            return new DateTime((string)$this->date);
+        }
+        catch (\Exception $e)
+        {
+        }
+    }
+
+    public function setDate(\DateTime $date): self
+    {
+        try
+        {
+            $this->date = new \DateTime((string)$date);
+        }
+        catch (\Exception $e)
+        {
+        }
+
+        return $this;
+    }
 
      /**
      * @return mixed
