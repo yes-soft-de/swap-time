@@ -24,6 +24,7 @@ class GamesListStateManager {
   );
 
   void getAvailableGames() {
+    _stateSubject.add(GamesListStateLoading());
     _service.getAvailableGames.then((gamesList) {
       if (gamesList == null) {
         _stateSubject.add(GamesListStateLoadError());

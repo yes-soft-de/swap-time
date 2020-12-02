@@ -6,10 +6,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inject/inject.dart';
-import 'package:swaptime_flutter/camera/camer_routes.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
-import 'package:swaptime_flutter/module_profile/profile_routes.dart';
 import 'package:swaptime_flutter/module_profile/state/my_profile_state.dart';
 import 'package:swaptime_flutter/module_profile/state_manager/my_profile/my_profile_state_manager.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
@@ -34,13 +32,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   bool uploading = false;
   bool submittingProfile = false;
   final picker = ImagePicker();
-  MyProfileState currentState;
+  MyProfileState currentState = MyProfileStateLoading();
 
   bool searchActive = false;
 
   @override
   void initState() {
     super.initState();
+    widget._stateManager.getMyProfile();
     widget._stateManager.stateStream.listen((event) {
       currentState = event;
       uploading = false;
@@ -52,13 +51,21 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     if (currentState is MyProfileStateImageUploadSuccess) {
       MyProfileStateImageUploadSuccess state = currentState;
       imageUrl = state.imageUrl;
-      setState(() {});
-    }
-    if (currentState is MyProfileStateUpdateSuccess) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        HomeRoutes.ROUTE_HOME,
-        (route) => false,
-      );
+      if (mounted) setState(() {});
+    } else if (currentState is MyProfileStateGetSuccess) {
+      MyProfileStateGetSuccess state = currentState;
+      _nameController.text = state.profile.userName;
+      imageUrl = state.profile.image;
+      _aboutController.text = state.profile.story;
+      print('Story is: ${state.profile.story}');
+      if (mounted) setState(() {});
+    } else if (currentState is MyProfileStateUpdateSuccess) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          HomeRoutes.ROUTE_HOME,
+          (route) => false,
+        );
+      });
     }
   }
 
@@ -71,6 +78,117 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   }
 
   Widget getUI() {
+    if (currentState is MyProfileStateLoading) {
+      return Center(
+        child: Text(S.of(context).loading),
+      );
+    }
+    if (imageUrl != null) {
+      // My old profile is here!!
+      return Flex(
+        direction: Axis.vertical,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          MediaQuery.of(context).viewInsets.bottom == 0
+              ? Container(
+                  height: 256,
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                          child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                      )),
+                      Positioned(
+                        right: 16,
+                        top: 16,
+                        child: GestureDetector(
+                          onTap: () {
+                            picker
+                                .getImage(source: ImageSource.camera)
+                                .then((image) {
+                              print('Got image response');
+                              if (image != null) {
+                                imageLocation = image.path;
+                                imageUrl = null;
+                                print(image.path);
+                                setState(() {});
+                              }
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: SwapThemeDataService.getPrimary(),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.camera_alt,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              : Container(),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: TextFormField(
+              controller: _nameController,
+              decoration: InputDecoration(
+                labelText: S.of(context).myName,
+                hintText: S.of(context).myName,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: TextFormField(
+              controller: _aboutController,
+              decoration: InputDecoration(
+                labelText: S.of(context).aboutMe,
+                hintText: S.of(context).aboutMe,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              saveProfile();
+            },
+            child: GestureDetector(
+              onTap: () {
+                saveProfile();
+              },
+              child: Container(
+                decoration:
+                    BoxDecoration(color: SwapThemeDataService.getAccent()),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        !submittingProfile
+                            ? S.of(context).saveProfile
+                            : S.of(context).saving,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      );
+    }
     if (imageLocation == null) {
       // Take My Picture
       return Flex(
@@ -352,10 +470,17 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         top: 16,
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).pushNamed(
-                              CameraRoutes.ROUTE_CAMERA,
-                              arguments: ProfileRoutes.MY_ROUTE_PROFILE,
-                            );
+                            picker
+                                .getImage(source: ImageSource.camera)
+                                .then((image) {
+                              print('Got image response');
+                              if (image != null) {
+                                imageLocation = image.path;
+                                imageUrl = null;
+                                print(image.path);
+                                setState(() {});
+                              }
+                            });
                           },
                           child: Container(
                             decoration: BoxDecoration(

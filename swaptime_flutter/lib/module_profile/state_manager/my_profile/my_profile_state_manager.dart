@@ -26,6 +26,16 @@ class MyProfileStateManager {
     });
   }
 
+  void getMyProfile() {
+    this._myProfileService.getMyProfile().then((value) {
+      if (value != null) {
+        this._stateSubject.add(MyProfileStateGetSuccess(value));
+      } else {
+        this._stateSubject.add(null);
+      }
+    });
+  }
+
   void upload(String imagePath) {
     this._uploadService.uploadImage(imagePath).then((value) {
       if (value == null) {

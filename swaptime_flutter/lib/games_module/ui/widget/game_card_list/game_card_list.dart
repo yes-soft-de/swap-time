@@ -82,16 +82,11 @@ class _GameCardListState extends State<GameCardList> {
   }
 
   Widget getLoadingUI() {
-    return Flex(
-      direction: Axis.vertical,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          children: [
-            CircularProgressIndicator(),
-          ],
-        )
-      ],
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 

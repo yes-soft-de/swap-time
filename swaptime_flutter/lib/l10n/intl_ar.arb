@@ -102,5 +102,6 @@
   "pleaseEnterAShortStoryAboutYou": "اخبرنا القليل عن نفسك",
   "swapRequestSent": "تم ارسال طلب مبادلة",
   "swapCompleted": "تم انهاء المبادلة",
-  "postingNewComment": "جار حفظ التعليق"
+  "postingNewComment": "جار حفظ التعليق",
+  "editProfile": "الملف الشخصي"
 }

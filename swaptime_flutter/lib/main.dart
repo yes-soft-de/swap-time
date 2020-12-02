@@ -26,8 +26,6 @@ import 'module_home/home.module.dart';
 import 'module_localization/service/localization_service/localization_service.dart';
 import 'module_search/search_module.dart';
 
-typedef Provider<T> = T Function();
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -138,18 +136,11 @@ class _MyAppState extends State<MyApp> {
     fullRoutesList.addAll(widget._gamesModule.getRoutes());
     fullRoutesList.addAll(widget._searchModule.getRoutes());
 
-    return FutureBuilder(
-      future: getConfiguredApp(fullRoutesList),
-      initialData: Scaffold(),
-      builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-        return snapshot.data;
-      },
-    );
+    return getConfiguredApp(fullRoutesList);
   }
 
-  Future<Widget> getConfiguredApp(
-      Map<String, WidgetBuilder> fullRoutesList) async {
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  Widget getConfiguredApp(Map<String, WidgetBuilder> fullRoutesList) {
+    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
 
     return FutureBuilder(
       initialData: 'en',

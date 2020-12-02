@@ -102,5 +102,6 @@
   "pleaseEnterAShortStoryAboutYou": "Please Enter A Short Story about you ;)",
   "swapRequestSent": "Swap Request Sent",
   "swapCompleted": "Swap completed",
-  "postingNewComment": "Posting new Comment"
+  "postingNewComment": "Posting new Comment",
+  "editProfile": "Edit Profile"
 }

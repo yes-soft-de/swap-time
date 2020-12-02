@@ -6,6 +6,7 @@ import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.d
 import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/module_localization/service/localization_service/localization_service.dart';
 import 'package:swaptime_flutter/module_profile/presistance/profile_shared_preferences.dart';
+import 'package:swaptime_flutter/module_profile/profile_routes.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 @provide
@@ -87,6 +88,32 @@ class _SettingsPageState extends State<SettingsPage> {
                                 .switchDarkMode(mode)
                                 .then((value) {});
                           });
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              color: Colors.black12,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Flex(
+                direction: Axis.horizontal,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(S.of(context).editProfile),
+                  IconButton(
+                    icon: Icon(Icons.person),
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pushNamed(ProfileRoutes.MY_ROUTE_PROFILE);
                     },
                   ),
                 ],

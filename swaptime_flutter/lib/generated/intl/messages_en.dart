@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirmationCode" : MessageLookupByLibrary.simpleMessage("Confirmation Code"),
     "darkMode" : MessageLookupByLibrary.simpleMessage("Dark Mode"),
     "description" : MessageLookupByLibrary.simpleMessage("Description"),
+    "editProfile" : MessageLookupByLibrary.simpleMessage("Edit Profile"),
     "emptyComment" : MessageLookupByLibrary.simpleMessage("Empty Comment!"),
     "emptyList" : MessageLookupByLibrary.simpleMessage("Empty List"),
     "emptyTagList" : MessageLookupByLibrary.simpleMessage("Empty Tag List"),

@@ -67,13 +67,13 @@ class ProfileService {
     List<Games> gamesList = await this._gamesListService.getUserGames(userId);
     int games = gamesList.length;
 
-    print('Games $games & views $views & likes $likes');
-    print('Got User Profile');
     if (userId == me) {
       var myProfile = await profile;
+      print('Story: ${myProfile.story}');
       return ProfileResponse(
         userName: myProfile.name,
         image: myProfile.image,
+        story: myProfile.story,
         likes: likes,
         games: games,
         views: views,
