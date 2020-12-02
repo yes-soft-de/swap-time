@@ -4,7 +4,7 @@
 
 ### Composer thing 
 ```
-composer update
+composer update 
 ```
 ### Database setup
 First add to** .env** file correct connection string
