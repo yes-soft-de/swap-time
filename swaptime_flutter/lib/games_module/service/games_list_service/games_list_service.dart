@@ -79,10 +79,12 @@ class GamesListService {
       }
     }
 
-    for (int i = 0; i < theGame.comments.length; i++) {
-      String userId = theGame.comments[i].userID;
-      ProfileResponse profile = await _profileManager.getUserProfile(userId);
-      theGame.comments[i].profile = profile;
+    if (theGame.comments != null) {
+      for (int i = 0; i < theGame.comments.length; i++) {
+        String userId = theGame.comments[i].userID;
+        ProfileResponse profile = await _profileManager.getUserProfile(userId);
+        theGame.comments[i].profile = profile;
+      }
     }
 
     await recordView(theGame.userID);

@@ -10,6 +10,7 @@ import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.d
 import 'package:swaptime_flutter/module_comment/model/comment_model/comment_model.dart';
 import 'package:swaptime_flutter/module_comment/service/comment_service/comment_service.dart';
 import 'package:swaptime_flutter/module_comment/ui/widget/comments_list_widget/comment_list_widget.dart';
+import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
 import 'package:swaptime_flutter/module_report/ui/widget/report_dialog/report_dialog.dart';
 import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
@@ -85,8 +86,8 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                           content: Text(S.of(context).reportingGame),
                         ));
                         reported = true;
-                        Navigator.of(context).pop();
-                        if (mounted) setState(() {});
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            HomeRoutes.ROUTE_HOME, (route) => false);
                       }, onCancel: () {
                         Navigator.of(context).pop();
                       }),

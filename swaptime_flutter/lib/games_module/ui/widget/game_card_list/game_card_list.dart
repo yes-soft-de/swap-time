@@ -57,6 +57,7 @@ class _GameCardListState extends State<GameCardList> {
     widget._authService.isLoggedIn.then((value) {
       loggedIn = value;
     });
+
     widget._stateManager.getAvailableGames();
   }
 
@@ -301,7 +302,7 @@ class _GameCardListState extends State<GameCardList> {
       return games;
     } else if (activeSort == SortByType.SORT_BY_COMMENTS) {
       games.sort((a, b) => a.commentNumber.compareTo(b.commentNumber));
-      return games.reversed;
+      return games.reversed.toList();
     } else {
       return games;
     }
@@ -325,5 +326,10 @@ class _GameCardListState extends State<GameCardList> {
         widget._stateManager.getAvailableGames();
       }
     });
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
   }
 }
