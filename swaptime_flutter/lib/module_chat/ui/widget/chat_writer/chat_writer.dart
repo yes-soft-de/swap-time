@@ -97,7 +97,7 @@ class _ChatWriterWidget extends State<ChatWriterWidget> {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
             child: TextField(
               decoration: InputDecoration(
                 hintText: S.of(context).startWriting,
@@ -107,6 +107,7 @@ class _ChatWriterWidget extends State<ChatWriterWidget> {
           ),
         ),
         IconButton(
+          padding: EdgeInsets.all(4),
           onPressed: () {
             sendMessage(_msgController.text.trim());
           },

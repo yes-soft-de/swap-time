@@ -103,5 +103,6 @@
   "swapRequestSent": "Swap Request Sent",
   "swapCompleted": "Swap completed",
   "postingNewComment": "Posting new Comment",
-  "editProfile": "Edit Profile"
+  "editProfile": "Edit Profile",
+  "requestingProfileDateFromTheServer": "Requesting Profile Data from the server"
 }

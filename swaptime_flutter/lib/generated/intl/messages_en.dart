@@ -94,6 +94,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "reportingGame" : MessageLookupByLibrary.simpleMessage("Reporting Game"),
     "requestASwap" : MessageLookupByLibrary.simpleMessage("Request a Swap!"),
     "requestingASwap" : MessageLookupByLibrary.simpleMessage("Requesting a swap"),
+    "requestingProfileDateFromTheServer" : MessageLookupByLibrary.simpleMessage("Requesting Profile Date from the server"),
     "resendCode" : MessageLookupByLibrary.simpleMessage("Resend Code"),
     "retry" : MessageLookupByLibrary.simpleMessage("Retry"),
     "saudiArabia" : MessageLookupByLibrary.simpleMessage("Saudi Arabia"),

@@ -103,5 +103,6 @@
   "swapRequestSent": "تم ارسال طلب مبادلة",
   "swapCompleted": "تم انهاء المبادلة",
   "postingNewComment": "جار حفظ التعليق",
-  "editProfile": "الملف الشخصي"
+  "editProfile": "الملف الشخصي",
+  "requestingProfileDateFromTheServer": "جار طلب معلومات الحساب"
 }

@@ -95,60 +95,44 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              color: Colors.black12,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Flex(
-                direction: Axis.horizontal,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(S.of(context).editProfile),
-                  IconButton(
-                    icon: Icon(Icons.person),
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed(ProfileRoutes.MY_ROUTE_PROFILE);
-                    },
+        FutureBuilder(
+          future: widget._authService.isLoggedIn,
+          builder:
+              (BuildContext context, AsyncSnapshot<bool> loggedInSnapshot) {
+            if (loggedInSnapshot.hasData) {
+              if (loggedInSnapshot.data == true) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      color: Colors.black12,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Flex(
+                        direction: Axis.horizontal,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(S.of(context).editProfile),
+                          IconButton(
+                            icon: Icon(Icons.person),
+                            onPressed: () {
+                              // Enable Edit Mode, by passing true as argument
+                              Navigator.of(context).pushNamed(
+                                  ProfileRoutes.MY_ROUTE_PROFILE,
+                                  arguments: true);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              color: Colors.black12,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Flex(
-                direction: Axis.horizontal,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(S.of(context).location),
-                  FutureBuilder(
-                    future: ProfileSharedPreferencesHelper().getUserLocation(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      if (snapshot.hasData) {
-                        return Text(snapshot.data);
-                      }
-                      return Text('');
-                    },
-                  )
-                ],
-              ),
-            ),
-          ),
+                );
+              }
+            }
+            return Container();
+          },
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

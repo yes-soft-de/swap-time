@@ -35,6 +35,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   MyProfileState currentState = MyProfileStateLoading();
 
   bool searchActive = false;
+  bool editMode = false;
 
   @override
   void initState() {
@@ -48,16 +49,21 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   }
 
   void processEvent() {
-    if (currentState is MyProfileStateImageUploadSuccess) {
+    if (currentState is MyProfileStateGetSuccess) {
+      MyProfileStateGetSuccess state = currentState;
+      // If not edit mode, redirect
+      if (editMode != true) {
+        Navigator.of(context).pushNamed(HomeRoutes.ROUTE_HOME);
+      } else {
+        _nameController.text = state.profile.userName;
+        imageUrl = state.profile.image;
+        _aboutController.text = state.profile.story;
+        print('User Image $imageUrl');
+        if (mounted) setState(() {});
+      }
+    } else if (currentState is MyProfileStateImageUploadSuccess) {
       MyProfileStateImageUploadSuccess state = currentState;
       imageUrl = state.imageUrl;
-      if (mounted) setState(() {});
-    } else if (currentState is MyProfileStateGetSuccess) {
-      MyProfileStateGetSuccess state = currentState;
-      _nameController.text = state.profile.userName;
-      imageUrl = state.profile.image;
-      _aboutController.text = state.profile.story;
-      print('Story is: ${state.profile.story}');
       if (mounted) setState(() {});
     } else if (currentState is MyProfileStateUpdateSuccess) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -71,6 +77,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (ModalRoute.of(context).settings.arguments == true) {
+      editMode = true;
+    }
     return Scaffold(
       appBar: SwaptimeAppBar.getBackEnabledAppBar(),
       body: getUI(),
@@ -80,7 +89,16 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   Widget getUI() {
     if (currentState is MyProfileStateLoading) {
       return Center(
-        child: Text(S.of(context).loading),
+        child: Flex(
+          direction: Axis.vertical,
+          children: [
+            LinearProgressIndicator(),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(S.of(context).requestingProfileDateFromTheServer),
+            ),
+          ],
+        ),
       );
     }
     if (imageUrl != null) {

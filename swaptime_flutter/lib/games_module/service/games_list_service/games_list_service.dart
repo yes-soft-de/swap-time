@@ -27,10 +27,10 @@ class GamesListService {
     var visibleGames = <Games>[];
 
     for (int i = 0; i < allGamesList.length; i++) {
-      var reported =
-          await _reportService.isReported(allGamesList[i].id.toString());
+      var reported = await _reportService.isReported(
+        allGamesList[i].id.toString(),
+      );
       if (reported == true) {
-        print('game is reported');
         continue;
       }
       visibleGames.add(allGamesList[i]);
@@ -126,6 +126,9 @@ class GamesListService {
   }
 
   List<Games> _shrinkList(List<Games> originalList) {
+    if (originalList == null) {
+      return null;
+    }
     Map<int, Games> gamesMap = {};
     originalList.forEach((element) {
       gamesMap[element.id] = element;

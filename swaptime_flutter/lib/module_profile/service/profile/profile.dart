@@ -33,7 +33,8 @@ class ProfileService {
   Future<ProfileModel> get profile async {
     var username = await _preferencesHelper.getUsername();
     var image = await _preferencesHelper.getImage();
-    return ProfileModel(name: username, image: image);
+    var story = await _preferencesHelper.getUserStory();
+    return ProfileModel(name: username, image: image, story: story);
   }
 
   Future<ProfileResponse> createProfile(
@@ -62,14 +63,27 @@ class ProfileService {
   Future<ProfileResponse> getUserProfile(String userId) async {
     print('Requesting User Profile With ID: ' + userId);
     var me = await _authService.userID;
-    int likes = await this._likedService.getUserLikes(userId);
-    int views = await this._gamesListService.getViews(userId);
-    List<Games> gamesList = await this._gamesListService.getUserGames(userId);
-    int games = gamesList.length;
+    var interactions = await Future.wait([
+      this._likedService.getUserLikes(userId),
+      this._gamesListService.getViews(userId),
+      this._gamesListService.getUserGames(userId)
+    ]);
+
+    int likes = 0;
+    int views = 0;
+    int games = 0;
+
+    try {
+      likes = interactions[0];
+      views = interactions[1];
+      List<Games> gamesList = interactions[3];
+      games = gamesList.length;
+    } catch (e) {
+      print('Empty Games List');
+    }
 
     if (userId == me) {
       var myProfile = await profile;
-      print('Story: ${myProfile.story}');
       return ProfileResponse(
         userName: myProfile.name,
         image: myProfile.image,

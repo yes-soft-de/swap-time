@@ -1074,6 +1074,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Requesting Profile Date from the server`
+  String get requestingProfileDateFromTheServer {
+    return Intl.message(
+      'Requesting Profile Date from the server',
+      name: 'requestingProfileDateFromTheServer',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -94,6 +94,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "reportingGame" : MessageLookupByLibrary.simpleMessage("يتم التبليغ"),
     "requestASwap" : MessageLookupByLibrary.simpleMessage("اطلب مبادلة!"),
     "requestingASwap" : MessageLookupByLibrary.simpleMessage("جار طلب المبادلة"),
+    "requestingProfileDateFromTheServer" : MessageLookupByLibrary.simpleMessage("جار طلب معلومات الحساب"),
     "resendCode" : MessageLookupByLibrary.simpleMessage("اعادة ارسال"),
     "retry" : MessageLookupByLibrary.simpleMessage("اعادة المحاولة"),
     "saudiArabia" : MessageLookupByLibrary.simpleMessage("السعودية"),

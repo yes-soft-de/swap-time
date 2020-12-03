@@ -55,7 +55,9 @@ class _AuthScreenState extends State<AuthScreen> {
     });
 
     if (_currentState is AuthStateSuccess) {
-      Navigator.of(context).pushReplacementNamed(redirectTo);
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Navigator.of(context).pushReplacementNamed(redirectTo);
+      });
     }
     if (_currentState is AuthStateError) {
       AuthStateError errorState = _currentState;

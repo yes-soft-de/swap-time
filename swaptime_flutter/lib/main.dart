@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -87,6 +88,18 @@ class _MyAppState extends State<MyApp> {
 
       _fcm.requestNotificationPermissions(IosNotificationSettings());
     }
+
+    _fcm.getToken().then((token) {
+      if (token != null) {
+        if (FirebaseAuth.instance.currentUser.uid != null) {
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser.uid)
+              .collection('notificationTokens')
+              .add({token: true});
+        }
+      }
+    });
 
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
