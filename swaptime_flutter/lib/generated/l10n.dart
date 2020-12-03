@@ -1075,11 +1075,51 @@ class S {
     );
   }
 
-  /// `Requesting Profile Date from the server`
+  /// `Requesting Profile Data from the server`
   String get requestingProfileDateFromTheServer {
     return Intl.message(
-      'Requesting Profile Date from the server',
+      'Requesting Profile Data from the server',
       name: 'requestingProfileDateFromTheServer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saving to liked list`
+  String get savingToLikedList {
+    return Intl.message(
+      'Saving to liked list',
+      name: 'savingToLikedList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Removing From Like List`
+  String get removingFromLikeList {
+    return Intl.message(
+      'Removing From Like List',
+      name: 'removingFromLikeList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Removed love from item`
+  String get removedLoveFromItem {
+    return Intl.message(
+      'Removed love from item',
+      name: 'removedLoveFromItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Item Loved!`
+  String get itemLoved {
+    return Intl.message(
+      'Item Loved!',
+      name: 'itemLoved',
       desc: '',
       args: [],
     );

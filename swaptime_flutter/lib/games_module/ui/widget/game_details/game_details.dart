@@ -150,7 +150,9 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
             width: MediaQuery.of(context).size.width,
             child: FadeInImage.assetNetwork(
               placeholder: 'assets/images/logo.jpg',
-              image: state.details.mainImage.substring(29),
+              image: state.details.mainImage.substring(
+                state.details.mainImage.indexOf('https://'),
+              ),
               fit: BoxFit.cover,
             ),
           ),
@@ -178,61 +180,61 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                             future: widget._authService.userID,
                             builder: (BuildContext context,
                                 AsyncSnapshot<String> userIdSnap) {
-                              return userIdSnap.data == state.details.userID
-                                  ? Icon(Icons.stop)
-                                  : FutureBuilder(
-                                      future: widget._swapService
-                                          .isRequested(gameId),
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot<bool> isRequestedSnap) {
-                                        if (isRequestedSnap.hasData) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      content: Text(S
-                                                          .of(context)
-                                                          .requestingASwap)));
-                                              swapRequested = true;
-                                              setState(() {});
-                                              widget._swapService
-                                                  .createSwap(
-                                                      state.details.userID,
-                                                      gameId)
-                                                  .then((value) {
-                                                swapRequested = true;
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
+                              if (userIdSnap.data == state.details.userID) {
+                                Icon(Icons.stop);
+                              }
+                              return FutureBuilder(
+                                  future:
+                                      widget._swapService.isRequested(gameId),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<bool> isRequestedSnap) {
+                                    if (isRequestedSnap.hasData) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
                                                   content: Text(S
                                                       .of(context)
-                                                      .swapRequestSent),
-                                                ));
-                                                setState(() {});
-                                              }).catchError((e) => {
-                                                        Navigator.of(context)
-                                                            .pushNamed(AuthRoutes
-                                                                .ROUTE_AUTHORIZE)
-                                                      });
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: SwapThemeDataService
-                                                    .getPrimary(),
-                                              ),
-                                              child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    S.of(context).requestASwap,
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                    ),
-                                                  )),
-                                            ),
-                                          );
-                                        }
-                                        return Icon(Icons.check);
-                                      });
+                                                      .requestingASwap)));
+                                          swapRequested = true;
+                                          setState(() {});
+                                          widget._swapService
+                                              .createSwap(
+                                                  state.details.userID, gameId)
+                                              .then((value) {
+                                            swapRequested = true;
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                              content: Text(S
+                                                  .of(context)
+                                                  .swapRequestSent),
+                                            ));
+                                            setState(() {});
+                                          }).catchError((e) => {
+                                                    Navigator.of(context)
+                                                        .pushNamed(AuthRoutes
+                                                            .ROUTE_AUTHORIZE)
+                                                  });
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: SwapThemeDataService
+                                                .getPrimary(),
+                                          ),
+                                          child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                S.of(context).requestASwap,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              )),
+                                        ),
+                                      );
+                                    }
+                                    return Icon(Icons.check);
+                                  });
                             },
                           )
                         : Icon(Icons.check)

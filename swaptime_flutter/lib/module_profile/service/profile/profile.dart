@@ -65,8 +65,7 @@ class ProfileService {
     var me = await _authService.userID;
     var interactions = await Future.wait([
       this._likedService.getUserLikes(userId),
-      this._gamesListService.getViews(userId),
-      this._gamesListService.getUserGames(userId)
+      this._gamesListService.getViews(userId)
     ]);
 
     int likes = 0;
@@ -76,11 +75,12 @@ class ProfileService {
     try {
       likes = interactions[0];
       views = interactions[1];
-      List<Games> gamesList = interactions[3];
-      games = gamesList.length;
     } catch (e) {
       print('Empty Games List');
     }
+
+    List<Games> gamesList = await this._gamesListService.getUserGames(userId);
+    games = gamesList.length;
 
     if (userId == me) {
       var myProfile = await profile;

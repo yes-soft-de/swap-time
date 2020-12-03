@@ -54,31 +54,34 @@ class SwapNavigationDrawer extends StatelessWidget {
                     }
                     return Container(
                       height: 116,
-                      color: Theme.of(context).brightness == Brightness.light
+                      color: Theme.of(context).brightness != Brightness.light
                           ? Colors.black38
                           : Colors.white38,
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Flex(
                           direction: Axis.horizontal,
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             // User Image
                             Container(
                               height: 56,
                               width: 56,
-                              decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(90)),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(4),
-                                child: Icon(
-                                  Icons.person,
-                                  color: Colors.white,
-                                ),
+                              child: FutureBuilder(
+                                future: profileService.profile,
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<ProfileModel> snapshot) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image:
+                                              NetworkImage(snapshot.data.image),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        shape: BoxShape.circle),
+                                  );
+                                },
                               ),
                             ),
                             // User Details
@@ -94,7 +97,10 @@ class SwapNavigationDrawer extends StatelessWidget {
                                     if (!snapshot.hasData) {
                                       return Text(S.of(context).loading);
                                     }
-                                    return Text('${snapshot.data.name}');
+                                    return Text(
+                                      '${snapshot.data.name}',
+                                      style: TextStyle(fontSize: 20),
+                                    );
                                   },
                                 ),
                               ],

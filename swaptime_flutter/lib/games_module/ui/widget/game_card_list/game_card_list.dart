@@ -172,7 +172,9 @@ class _GameCardListState extends State<GameCardList> {
         child: GameCardSmall(
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i].mainImage.substring(29),
+            imageUrl: visibleGames[i]
+                .mainImage
+                .substring(visibleGames[i].mainImage.indexOf('https://')),
             gameOwnerFirstName: visibleGames[i].name,
             lovable: loggedIn,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
@@ -181,13 +183,25 @@ class _GameCardListState extends State<GameCardList> {
           onChatRequested: (itemId) {},
           onLoved: (loved) {
             if (loved) {
-              widget._stateManager.unLove(visibleGames[i].id.toString());
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(S.of(context).savingToLikedList)));
+              widget._stateManager
+                  .unLove(visibleGames[i].id.toString())
+                  .then((value) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(S.of(context).itemLoved)));
+              });
             } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(S.of(context).removingFromLikeList)));
               widget._stateManager
                   .love(visibleGames[i].id.toString(), null)
                   .then((value) {
                 if (value == null) {
                   Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(S.of(context).removedLoveFromItem)));
                 }
               });
             }
@@ -213,7 +227,9 @@ class _GameCardListState extends State<GameCardList> {
         child: GameCardMedium(
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i].mainImage.substring(29),
+            imageUrl: visibleGames[i]
+                .mainImage
+                .substring(visibleGames[i].mainImage.indexOf('https://')),
             lovable: loggedIn,
             gameOwnerFirstName: visibleGames[i].userName,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
@@ -254,7 +270,9 @@ class _GameCardListState extends State<GameCardList> {
         child: GameCardLarge(
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i].mainImage.substring(29),
+            imageUrl: visibleGames[i]
+                .mainImage
+                .substring(visibleGames[i].mainImage.indexOf('https://')),
             gameOwnerFirstName: visibleGames[i].userName,
             lovable: loggedIn,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,

@@ -104,5 +104,9 @@
   "swapCompleted": "Swap completed",
   "postingNewComment": "Posting new Comment",
   "editProfile": "Edit Profile",
-  "requestingProfileDateFromTheServer": "Requesting Profile Data from the server"
+  "requestingProfileDateFromTheServer": "Requesting Profile Data from the server",
+  "savingToLikedList": "Saving to liked list",
+  "removingFromLikeList": "Removing From Like List",
+  "removedLoveFromItem": "Removed love from item",
+  "itemLoved": "Item Loved!"
 }

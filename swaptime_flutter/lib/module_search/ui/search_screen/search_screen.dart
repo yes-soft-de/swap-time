@@ -169,7 +169,7 @@ class _SearchScreenState extends State<SearchScreen> {
         child: GameCardLarge(
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i].mainImage.substring(29),
+            imageUrl: visibleGames[i].mainImage.substring(visibleGames[i].mainImage.indexOf('https://')),
             gameOwnerFirstName: visibleGames[i].name,
             lovable: loggedIn,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,

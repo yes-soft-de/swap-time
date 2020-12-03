@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
@@ -70,30 +71,35 @@ class _ChatWriterWidget extends State<ChatWriterWidget> {
     return Flex(
       direction: Axis.horizontal,
       children: <Widget>[
-        DropdownButton(
-          items: [
-            DropdownMenuItem(
-              child: Icon(Icons.image),
-              onTap: () {
-                _imagePicker
-                    .getImage(source: ImageSource.gallery)
-                    .then((value) {
-                  imageFile = File(value.path);
-                  setState(() {});
-                });
-              },
-            ),
-            DropdownMenuItem(
-              child: Icon(Icons.camera),
-              onTap: () {
-                _imagePicker.getImage(source: ImageSource.camera).then((value) {
-                  imageFile = File(value.path);
-                  setState(() {});
-                });
-              },
-            ),
-          ],
-          onChanged: (value) {},
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: DropdownButton(
+            items: [
+              DropdownMenuItem(
+                child: Icon(Icons.image),
+                onTap: () {
+                  _imagePicker
+                      .getImage(source: ImageSource.gallery)
+                      .then((value) {
+                    imageFile = File(value.path);
+                    setState(() {});
+                  });
+                },
+              ),
+              DropdownMenuItem(
+                child: Icon(Icons.camera),
+                onTap: () {
+                  _imagePicker
+                      .getImage(source: ImageSource.camera)
+                      .then((value) {
+                    imageFile = File(value.path);
+                    setState(() {});
+                  });
+                },
+              ),
+            ],
+            onChanged: (value) {},
+          ),
         ),
         Expanded(
           child: Padding(

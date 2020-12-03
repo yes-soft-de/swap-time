@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
@@ -35,6 +36,7 @@ class NewCommentWidget extends StatelessWidget {
             shape: BoxShape.circle,
           ),
           child: IconButton(
+              padding: EdgeInsets.all(4),
               icon: Icon(
                 Icons.add,
                 color: Colors.white,

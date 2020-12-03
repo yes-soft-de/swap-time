@@ -104,5 +104,9 @@
   "swapCompleted": "تم انهاء المبادلة",
   "postingNewComment": "جار حفظ التعليق",
   "editProfile": "الملف الشخصي",
-  "requestingProfileDateFromTheServer": "جار طلب معلومات الحساب"
+  "requestingProfileDateFromTheServer": "جار طلب معلومات الحساب",
+  "savingToLikedList": "Saving to liked list",
+  "removingFromLikeList": "Removing From Like List",
+  "removedLoveFromItem": "Removed love from item",
+  "itemLoved": "Item Loved!"
 }

@@ -160,7 +160,7 @@ class _NotificationState extends State<NotificationOnGoing> {
             fit: FlexFit.tight,
             child: FadeInImage.assetNetwork(
               placeholder: 'assets/images/logo.jpg',
-              image: gameTow.mainImage.substring(29),
+              image: gameTow.mainImage.substring(gameTow.mainImage.indexOf('https://')),
               fit: BoxFit.cover,
             ),
           )
@@ -176,7 +176,7 @@ class _NotificationState extends State<NotificationOnGoing> {
             fit: FlexFit.tight,
             child: FadeInImage.assetNetwork(
               placeholder: 'assets/images/logo.jpg',
-              image: gameOne.mainImage.substring(29),
+              image: gameOne.mainImage.substring(gameOne.mainImage.indexOf('https://')),
               fit: BoxFit.cover,
             ),
           ),
@@ -244,7 +244,7 @@ class _NotificationState extends State<NotificationOnGoing> {
           Positioned.fill(
             child: FadeInImage.assetNetwork(
               placeholder: 'assets/images/logo.jpg',
-              image: game.mainImage.substring(29),
+              image: game.mainImage.substring(game.mainImage.indexOf('https://')),
               fit: BoxFit.cover,
             ),
           ),
