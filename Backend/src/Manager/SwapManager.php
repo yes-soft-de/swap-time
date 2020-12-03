@@ -83,4 +83,18 @@ class SwapManager
     {
         return $this->swapEntityRepository->getItemByUserID($userID);
     }
+
+    public function getSwapByItemAndUserID($userID, $itemID)
+    {
+        $result = $this->swapEntityRepository->getSwapByItemAndUserID($userID, $itemID);
+
+        if ($result)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

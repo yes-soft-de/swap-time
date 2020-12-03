@@ -97,4 +97,9 @@ class SwapService
             return $this->params;
         }
     }
+
+    public function getSwapByItemAndUserID($userID, $itemID)
+    {
+        return $this->swapManager->getSwapByItemAndUserID($userID, $itemID);
+    }
 }

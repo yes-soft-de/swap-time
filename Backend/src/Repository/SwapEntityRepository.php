@@ -93,4 +93,19 @@ class SwapEntityRepository extends ServiceEntityRepository
 
         return $r;
     }
+
+    public function getSwapByItemAndUserID($userID, $itemID)
+    {
+        $r =  $this->createQueryBuilder('swap')
+
+            ->andWhere('swap.swapItemIdOne=:itemID')
+            ->andWhere('swap.userIdOne=:userID')
+            ->setParameter('itemID', $itemID)
+            ->setParameter('userID', $userID)
+
+            ->getQuery()
+            ->getResult();
+
+        return $r;
+    }
 }

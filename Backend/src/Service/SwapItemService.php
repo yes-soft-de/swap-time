@@ -9,6 +9,7 @@ use App\Entity\SwapItemEntity;
 use App\Manager\CommentManager;
 use App\Manager\ImageManager;
 use App\Manager\SwapItemManager;
+use App\Manager\SwapManager;
 use App\Request\SwapItemCreateRequest;
 use App\Response\ImageResponse;
 use App\Response\SwapItemCreateResponse;
@@ -23,9 +24,11 @@ class SwapItemService
     private $imageService;
     private $interactionService;
     private $params;
+    private $swapManager;
 
     public function __construct(AutoMapping $autoMapping, SwapItemManager $swapItemManager, CommentService $commentService,
-                                ImageService $imageService, InteractionService $interactionService, ParameterBagInterface $params)
+                                ImageService $imageService, InteractionService $interactionService,
+                                ParameterBagInterface $params, SwapManager $swapManager)
     {
         $this->autoMapping = $autoMapping;
         $this->swapItemManager = $swapItemManager;
@@ -34,6 +37,7 @@ class SwapItemService
         $this->interactionService = $interactionService;
 
         $this->params = $params->get('upload_base_url').'/';;
+        $this->swapManager = $swapManager;
     }
 
     public function swapItemCreate(SwapItemCreateRequest $request)
@@ -105,7 +109,7 @@ class SwapItemService
         return $itemsResponse;
     }
 
-    public function getSwapItemByID($id)
+    public function getSwapItemByID($userID, $id)
     {
         $item = $this->swapItemManager->getSwapItemByID($id);
 
@@ -122,6 +126,8 @@ class SwapItemService
         $images = $this->imageService->getImages($id);
         $itemsResponse->images = $images;
         //
+        $isRequested = $this->swapManager->getSwapByItemAndUserID($userID, $id);
+        $itemsResponse->isRequested = $isRequested;
 
         return $itemsResponse;
     }

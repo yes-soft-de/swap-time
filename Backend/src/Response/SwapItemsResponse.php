@@ -33,4 +33,6 @@ class SwapItemsResponse
     public $images;
 
     public $specialLink;
+
+    public $isRequested;
 }

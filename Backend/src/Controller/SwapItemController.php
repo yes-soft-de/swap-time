@@ -75,7 +75,13 @@ class SwapItemController extends BaseController
      */
     public function swapItemById(Request $request)
     {
-        $response = $this->swapItemService->getSwapItemByID($request->get('id'));
+        $userID = 0;
+        if ($this->getUser())
+        {
+            $userID = $this->getUser()->getUsername();
+        }
+
+        $response = $this->swapItemService->getSwapItemByID($userID, $request->get('id'));
 
         return $this->response($response,self::FETCH);
     }
