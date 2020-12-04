@@ -142,6 +142,3 @@ methods: POST
 /report
 methods: Get
 ```
-
-
-
