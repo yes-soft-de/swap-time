@@ -19,7 +19,7 @@ COPY --from=gcr.io/yescloud/swaps ./.env /var/www/html
 RUN apt update -y && apt install zip -y && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer update symfony/flex --no-plugins --no-scripts
 
-RUN composer dump-env prod
+#RUN composer dump-env prod
 COPY --from=gcr.io/yescloud/swaps ./.htaccess /var/www/html/public
 COPY --from=gcr.io/yescloud/swaps ./jwt/ /var/www/html/config/jwt
 RUN chown -R www-data:www-data /var && chmod -R g+rw /var
