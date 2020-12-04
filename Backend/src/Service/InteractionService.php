@@ -12,16 +12,20 @@ use App\Response\CreateInteractionResponse;
 use App\Response\InteractionResponse;
 use App\Response\UpdateInteractionResponse;
 use App\Response\GetInteractionResponse;
+use App\Response\UserInteractionsResponse;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class InteractionService
 {
     private $interactionManager;
     private $autoMapping;
+    private $params;
 
-    public function __construct(InteractionManager $interactionManager, AutoMapping $autoMapping)
+    public function __construct(InteractionManager $interactionManager, AutoMapping $autoMapping, ParameterBagInterface $params)
     {
         $this->interactionManager = $interactionManager;
         $this->autoMapping        = $autoMapping;
+        $this->params = $params->get('upload_base_url').'/';
     }
   
     public function create($request)
@@ -79,5 +83,29 @@ class InteractionService
     public function checkUserLoved($swapItemID, $userID)
     {
         return $this->interactionManager->checkUserLoved($swapItemID, $userID);
+    }
+
+    public function getUserInteraction($userID)
+    {
+        $result = $this->interactionManager->getUserInteraction($userID);
+
+        $response = [];
+
+        foreach ($result as $row) {
+            $row['mainImage'] =  $this->specialLinkCheck($row['specialLink']).$row['mainImage'];
+
+            $response[] = $this->autoMapping->map('array', UserInteractionsResponse::class, $row);
+
+        }
+
+        return $response;
+    }
+
+    public function specialLinkCheck($bool)
+    {
+        if ($bool == false)
+        {
+            return $this->params;
+        }
     }
 }

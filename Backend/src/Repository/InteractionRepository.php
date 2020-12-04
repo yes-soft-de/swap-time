@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Interaction;
+use App\Entity\SwapItemEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -120,4 +122,22 @@ class InteractionRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function getUserInteraction($userID)
+    {
+        return  $res= $this->createQueryBuilder('interaction')
+            ->select('interaction.swapItemID', 'interaction.date', 'swapItem.name', 'swapItem.mainImage', 'swapItem.specialLink')
+
+            ->leftJoin(
+                SwapItemEntity::class,              //Entity
+                'swapItem',                        //Alias
+                Join::WITH,              //Join Type
+                'swapItem.id = interaction.swapItemID'  //Join Column
+            )
+
+            ->andWhere('interaction.userID  = :userID')
+            ->setParameter('userID', $userID)
+
+            ->getQuery()
+            ->getResult();
+    }
 }

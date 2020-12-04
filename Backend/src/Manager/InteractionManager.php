@@ -84,4 +84,9 @@ class InteractionManager
             return false;
         }
     }
+
+    public function getUserInteraction($userID)
+    {
+        return $this->interactionRepository->getUserInteraction($userID);
+    }
 }

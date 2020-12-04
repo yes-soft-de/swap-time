@@ -92,4 +92,21 @@ class InteractionController extends BaseController
         $result = $this->interactionService->countInteractions($animeID);
         return $this->response($result, self::FETCH);
     }
+
+    /**
+     * @Route("/userinteraction", name="getUserInteractions1", methods={"GET"})
+     * @return JsonResponse
+     */
+    public function UserInteractions()
+    {
+        $userID = 0;
+        if ($this->getUser())
+        {
+            $userID = $this->getUser()->getUsername();
+        }
+
+        $result = $this->interactionService->getUserInteraction($userID);
+
+        return $this->response($result, self::FETCH);
+    }
 }
