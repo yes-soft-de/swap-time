@@ -9,6 +9,7 @@ class Urls {
   static const API_USER_GAMES = BASE_API + '/swapitembyuserid';
   static const API_GAME_BY_ID = BASE_API + '/swapitembyid';
   static const API_INTERACTION = BASE_API + '/interaction';
+  static const API_USER_INTERACTION = BASE_API + '/userinteraction';
 
   static const API_COMMENTS = BASE_API + '/comment';
   static const API_SWAP_BY_ME = BASE_API + '/swapbyuserid';

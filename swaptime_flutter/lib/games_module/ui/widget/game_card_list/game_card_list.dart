@@ -182,29 +182,7 @@ class _GameCardListState extends State<GameCardList> {
           ),
           onChatRequested: (itemId) {},
           onLoved: (loved) {
-            if (loved) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(S.of(context).savingToLikedList)));
-              widget._stateManager
-                  .unLove(visibleGames[i].id.toString())
-                  .then((value) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(S.of(context).itemLoved)));
-              });
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(S.of(context).removingFromLikeList)));
-              widget._stateManager
-                  .love(visibleGames[i].id.toString(), null)
-                  .then((value) {
-                if (value == null) {
-                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(S.of(context).removedLoveFromItem)));
-                }
-              });
-            }
+            _loveGame(loved, visibleGames[i].id.toString());
           },
           onReport: (itemId) {
             _reportDialog(itemId);
@@ -237,17 +215,7 @@ class _GameCardListState extends State<GameCardList> {
           ),
           onChatRequested: (itemId) {},
           onLoved: (loved) {
-            if (loved) {
-              widget._stateManager.unLove(visibleGames[i].id.toString());
-            } else {
-              widget._stateManager
-                  .love(visibleGames[i].id.toString(), null)
-                  .then((value) {
-                if (value == null) {
-                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
-                }
-              });
-            }
+            _loveGame(loved, visibleGames[i].id.toString());
           },
           onReport: (itemId) {
             _reportDialog(itemId);
@@ -271,9 +239,10 @@ class _GameCardListState extends State<GameCardList> {
           child: GameCardLarge(
             gameModel: GameModel(
               gameTitle: visibleGames[i].name,
-              imageUrl: visibleGames[i]
-                  .mainImage
-                  .substring(visibleGames[i].mainImage.indexOf('https://')),
+              imageUrl: visibleGames[i].mainImage.substring(
+                  visibleGames[i].mainImage.indexOf('https://') > 0
+                      ? visibleGames[i].mainImage.indexOf('https://')
+                      : 0),
               gameOwnerFirstName: visibleGames[i].userName,
               lovable: loggedIn,
               loved: visibleGames[i].interaction.checkLoved && loggedIn,
@@ -285,32 +254,7 @@ class _GameCardListState extends State<GameCardList> {
                   .pushNamed(GamesRoutes.ROUTE_GAME_DETAILS, arguments: itemId);
             },
             onLoved: (loved) {
-              if (loved) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(S.of(context).removingFromLikeList),
-                ));
-                widget._stateManager
-                    .unLove(visibleGames[i].id.toString())
-                    .then((value) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(S.of(context).removedLoveFromItem),
-                  ));
-                });
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(S.of(context).savingToLikedList),
-                ));
-                widget._stateManager
-                    .love(visibleGames[i].id.toString(), null)
-                    .then((value) {
-                  if (value == null) {
-                    Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
-                  }
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(S.of(context).itemLoved),
-                  ));
-                });
-              }
+              _loveGame(loved, visibleGames[i].id.toString());
             },
             onReport: (itemId) {
               _reportDialog(itemId);
@@ -361,6 +305,31 @@ class _GameCardListState extends State<GameCardList> {
         widget._stateManager.getAvailableGames();
       }
     });
+  }
+
+  void _loveGame(bool loved, String gameId) {
+    if (loved) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(S.of(context).removingFromLikeList),
+      ));
+      widget._stateManager.unLove(gameId).then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(S.of(context).removedLoveFromItem),
+        ));
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(S.of(context).savingToLikedList),
+      ));
+      widget._stateManager.love(gameId, null).then((value) {
+        if (value == null) {
+          Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
+        }
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(S.of(context).itemLoved),
+        ));
+      });
+    }
   }
 
   @override

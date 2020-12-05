@@ -39,7 +39,7 @@ class InteractionRepository {
     }
 
     Map<String, dynamic> response = await _apiClient.get(
-      Urls.API_INTERACTION,
+      Urls.API_USER_INTERACTION,
       headers: {'Authorization': 'Bearer ' + token},
     );
 

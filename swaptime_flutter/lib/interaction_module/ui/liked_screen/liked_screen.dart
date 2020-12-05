@@ -100,8 +100,10 @@ class _LikedScreenState extends State<LikedScreen> {
           gameImageUrl: element.mainImage
               .substring(element.mainImage.indexOf('https://')),
           ownerFirstName: ' ',
-          date:
-              DateTime.fromMillisecondsSinceEpoch(element.date.timestamp * 1000)
+          date: element.date == null
+              ? ' '
+              : DateTime.fromMillisecondsSinceEpoch(
+                      element.date.timestamp * 1000)
                   .toString()
                   .substring(0, 10),
         ),

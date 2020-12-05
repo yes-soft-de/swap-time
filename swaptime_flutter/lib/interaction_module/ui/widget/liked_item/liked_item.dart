@@ -50,9 +50,11 @@ class LikedItemCard extends StatelessWidget {
                         child: Flex(
                           direction: Axis.horizontal,
                           children: [
-                            Text(S.of(context).likedAt + date),
+                            date.length > 5
+                                ? Text(S.of(context).likedAt + date)
+                                : Container(),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(4.0),
                               child: Icon(Icons.send),
                             ),
                           ],

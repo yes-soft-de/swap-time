@@ -168,7 +168,10 @@ class _MyGameCardListState extends State<MyGameCardList> {
         child: GameCardSmall(
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i].mainImage,
+            imageUrl: visibleGames[i].mainImage.substring(
+                visibleGames[i].mainImage.indexOf('https://') > 0
+                    ? visibleGames[i].mainImage.indexOf('https://')
+                    : 0),
             gameOwnerFirstName: visibleGames[i].name,
             lovable: loggedIn,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
@@ -176,17 +179,7 @@ class _MyGameCardListState extends State<MyGameCardList> {
           ),
           onChatRequested: (itemId) {},
           onLoved: (loved) {
-            if (loved) {
-              widget._stateManager.unLove(visibleGames[i].id.toString());
-            } else {
-              widget._stateManager
-                  .love(visibleGames[i].id.toString(), null)
-                  .then((value) {
-                if (value == null) {
-                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
-                }
-              });
-            }
+            _loveGame(loved, visibleGames[i].id.toString());
           },
           onReport: (itemId) {
             Fluttertoast.showToast(msg: S.of(context).reportIsSent);
@@ -211,7 +204,10 @@ class _MyGameCardListState extends State<MyGameCardList> {
         child: GameCardMedium(
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i].mainImage,
+            imageUrl: visibleGames[i].mainImage.substring(
+                visibleGames[i].mainImage.indexOf('https://') > 0
+                    ? visibleGames[i].mainImage.indexOf('https://')
+                    : 0),
             lovable: loggedIn,
             gameOwnerFirstName: visibleGames[i].name,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
@@ -219,17 +215,7 @@ class _MyGameCardListState extends State<MyGameCardList> {
           ),
           onChatRequested: (itemId) {},
           onLoved: (loved) {
-            if (loved) {
-              widget._stateManager.unLove(visibleGames[i].id.toString());
-            } else {
-              widget._stateManager
-                  .love(visibleGames[i].id.toString(), null)
-                  .then((value) {
-                if (value == null) {
-                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
-                }
-              });
-            }
+            _loveGame(loved, visibleGames[i].id.toString());
           },
           onReport: (itemId) {
             Fluttertoast.showToast(msg: S.of(context).reportIsSent);
@@ -256,7 +242,10 @@ class _MyGameCardListState extends State<MyGameCardList> {
           comments: int.tryParse(visibleGames[i].commentNumber) ?? 0,
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i].mainImage,
+            imageUrl: visibleGames[i].mainImage.substring(
+                visibleGames[i].mainImage.indexOf('https://') > 0
+                    ? visibleGames[i].mainImage.indexOf('https://')
+                    : 0),
             gameOwnerFirstName: visibleGames[i].name,
             lovable: loggedIn,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
@@ -267,32 +256,7 @@ class _MyGameCardListState extends State<MyGameCardList> {
                 .pushNamed(GamesRoutes.ROUTE_GAME_DETAILS, arguments: itemId);
           },
           onLoved: (loved) {
-            if (loved) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(S.of(context).removingFromLikeList),
-              ));
-              widget._stateManager
-                  .unLove(visibleGames[i].id.toString())
-                  .then((value) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(S.of(context).removedLoveFromItem),
-                ));
-              });
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(S.of(context).savingToLikedList),
-              ));
-              widget._stateManager
-                  .love(visibleGames[i].id.toString(), null)
-                  .then((value) {
-                if (value == null) {
-                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
-                }
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(S.of(context).itemLoved),
-                ));
-              });
-            }
+            _loveGame(loved, visibleGames[i].id.toString());
           },
           onReport: (itemId) {
             Fluttertoast.showToast(msg: S.of(context).reportIsSent);
@@ -321,6 +285,36 @@ class _MyGameCardListState extends State<MyGameCardList> {
       return games.reversed.toList();
     } else {
       return games;
+    }
+  }
+
+  void _loveGame(bool loved, String gameId) {
+    if (loved) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(S.of(context).removingFromLikeList),
+      ));
+      widget._stateManager
+          .unLove(gameId)
+          .then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(S.of(context).removedLoveFromItem),
+        ));
+      });
+    }
+    else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(S.of(context).savingToLikedList),
+      ));
+      widget._stateManager
+          .love(gameId, null)
+          .then((value) {
+        if (value == null) {
+          Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
+        }
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(S.of(context).itemLoved),
+        ));
+      });
     }
   }
 }
