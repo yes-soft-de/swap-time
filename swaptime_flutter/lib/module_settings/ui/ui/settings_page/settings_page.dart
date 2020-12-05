@@ -59,42 +59,6 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              color: Colors.black12,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Flex(
-                direction: Axis.horizontal,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(S.of(context).darkMode),
-                  StreamBuilder(
-                    stream: widget._themeDataService.darkModeStream,
-                    initialData: false,
-                    builder: (
-                      BuildContext context,
-                      AsyncSnapshot<bool> snapshot,
-                    ) {
-                      return Switch(
-                          value:
-                              Theme.of(context).brightness == Brightness.dark,
-                          onChanged: (mode) {
-                            widget._themeDataService
-                                .switchDarkMode(mode)
-                                .then((value) {});
-                          });
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
         FutureBuilder(
           future: widget._authService.isLoggedIn,
           builder:
@@ -133,6 +97,42 @@ class _SettingsPageState extends State<SettingsPage> {
             }
             return Container();
           },
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              color: Colors.black12,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Flex(
+                direction: Axis.horizontal,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(S.of(context).darkMode),
+                  StreamBuilder(
+                    stream: widget._themeDataService.darkModeStream,
+                    initialData: false,
+                    builder: (
+                      BuildContext context,
+                      AsyncSnapshot<bool> snapshot,
+                    ) {
+                      return Switch(
+                          value:
+                              Theme.of(context).brightness == Brightness.dark,
+                          onChanged: (mode) {
+                            widget._themeDataService
+                                .switchDarkMode(mode)
+                                .then((value) {});
+                          });
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

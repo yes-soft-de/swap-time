@@ -4,7 +4,6 @@ import 'package:swaptime_flutter/games_module/manager/games_manager/games_manage
 import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_profile/manager/my_profile_manager/my_profile_manager.dart';
-import 'package:swaptime_flutter/module_profile/response/profile_response/profile_response.dart';
 import 'package:swaptime_flutter/module_report/service/report_service/report_service.dart';
 
 @provide
@@ -26,14 +25,16 @@ class GamesListService {
     allGamesList = _shrinkList(allGamesList);
     var visibleGames = <Games>[];
 
-    for (int i = 0; i < allGamesList.length; i++) {
-      var reported = await _reportService.isReported(
-        allGamesList[i].id.toString(),
-      );
-      if (reported == true) {
-        continue;
+    if (allGamesList != null) {
+      for (int i = 0; i < allGamesList.length; i++) {
+        var reported = await _reportService.isReported(
+          allGamesList[i].id.toString(),
+        );
+        if (reported == true) {
+          continue;
+        }
+        visibleGames.add(allGamesList[i]);
       }
-      visibleGames.add(allGamesList[i]);
     }
     return visibleGames;
   }
@@ -68,24 +69,8 @@ class GamesListService {
     if (gameId == -1) {
       return null;
     }
-    List<Games> games = await getAvailableGames;
-    if (games == null) {
-      return null;
-    }
-    Games theGame;
-    for (int i = 0; i < games.length; i++) {
-      if (games[i].id == gameId) {
-        theGame = games[i];
-      }
-    }
 
-    if (theGame.comments != null) {
-      for (int i = 0; i < theGame.comments.length; i++) {
-        String userId = theGame.comments[i].userID;
-        ProfileResponse profile = await _profileManager.getUserProfile(userId);
-        theGame.comments[i].profile = profile;
-      }
-    }
+    Games theGame = await _manager.getGameById(gameId);
 
     await recordView(theGame.userID);
 

@@ -38,7 +38,7 @@ class GamesRepository {
     return response == null ? null : GamesResponse.fromJson(response).games;
   }
 
-  Future<GameDetails> getGameDetails(int gameId) async {
+  Future<Games> getGameDetails(int gameId) async {
     String token = await _authService.getToken();
     Map<String, dynamic> response;
     if (token != null) {

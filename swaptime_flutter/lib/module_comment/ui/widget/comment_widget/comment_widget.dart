@@ -9,6 +9,9 @@ class CommentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (commentModel == null) {
+      return Container();
+    }
     return commentModel.profile == null
         ? Container()
         : Padding(
@@ -28,7 +31,7 @@ class CommentWidget extends StatelessWidget {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             image: commentModel.profile != null
-                                ? NetworkImage(commentModel.profile.image)
+                                ? NetworkImage(commentModel.profile.image ?? '')
                                 : AssetImage('assets/images/logo.jpg'),
                             fit: BoxFit.cover),
                       ),
@@ -45,9 +48,11 @@ class CommentWidget extends StatelessWidget {
                             direction: Axis.horizontal,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(commentModel.profile.userName),
+                              Text(commentModel.profile.userName ?? ' '),
                               Text(calcDifference(
-                                  commentModel.date.timestamp, context)),
+                                commentModel.date.timestamp,
+                                context,
+                              )),
                             ],
                           ),
                         ),
@@ -74,13 +79,19 @@ class CommentWidget extends StatelessWidget {
     var sentDate = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     var diff = DateTime.now().difference(sentDate);
 
+    int minutes = DateTime.now().difference(sentDate).inMinutes;
+    if (minutes < 0) minutes = minutes * -1;
     if (DateTime.now().difference(sentDate).inMinutes < 60) {
       var minutes = diff.inMinutes;
       return minutes.toString() + ' ' + S.of(context).minutesAgo;
-    } else if (diff.inHours < 24) {
-      return diff.inHours.toString() + ' ' + S.of(context).hoursAgo;
-    } else {
-      return sentDate.toString().substring(0, 10);
     }
+
+    int hours = diff.inHours;
+    if (hours < 0) hours = hours * -1;
+    if (diff.inHours < 24) {
+      return diff.inHours.toString() + ' ' + S.of(context).hoursAgo;
+    }
+
+    return sentDate.toString().substring(0, 10);
   }
 }

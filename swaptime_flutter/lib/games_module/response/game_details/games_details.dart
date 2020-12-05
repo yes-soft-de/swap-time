@@ -1,26 +1,17 @@
+import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/module_comment/model/comment_model/comment_model.dart';
 
 class GameDetailsResponse {
   String statusCode;
   String msg;
-  GameDetails data;
+  Games data;
 
   GameDetailsResponse({this.statusCode, this.msg, this.data});
 
   GameDetailsResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     msg = json['msg'];
-    data = json['data'] != null ? new GameDetails.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['status_code'] = this.statusCode;
-    data['msg'] = this.msg;
-    if (this.data != null) {
-      data['data'] = this.data.toJson();
-    }
-    return data;
+    data = json['data'] != null ? new Games.fromJson(json['data']) : null;
   }
 }
 

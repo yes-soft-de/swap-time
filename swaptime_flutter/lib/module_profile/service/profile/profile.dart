@@ -53,11 +53,15 @@ class ProfileService {
 
     ProfileResponse response = await _manager.createMyProfile(request);
     if (response == null) return null;
+    await cacheProfile(response);
+    return response;
+  }
+
+  Future<void> cacheProfile(ProfileResponse response) async {
     await _preferencesHelper.setUserName(response.userName);
     await _preferencesHelper.setUserImage(response.image);
     await _preferencesHelper.setUserLocation(response.location);
     await _preferencesHelper.setUserStory(response.story);
-    return response;
   }
 
   Future<ProfileResponse> getUserProfile(String userId) async {
