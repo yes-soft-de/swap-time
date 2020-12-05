@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\CommentEntity;
+use App\Entity\UserProfileEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,7 +24,14 @@ class CommentEntityRepository extends ServiceEntityRepository
     public function getCommentsByID($id)
     {
         $r = $this->createQueryBuilder('comments')
-            ->select('comments.id', 'comments.comment', 'comments.date', 'comments.userID', 'comments.swapItemID')
+            ->select('comments.id', 'comments.comment', 'comments.date', 'comments.userID', 'comments.swapItemID', 'comments.userName', 'comments.image')
+
+            ->leftJoin(
+                UserProfileEntity::class,              //Entity
+                'user',                        //Alias
+                Join::WITH,              //Join Type
+                'user.userID = comments.userID'  //Join Column
+            )
 
             ->andWhere('comments.swapItemID=:id')
             ->setParameter('id',$id)

@@ -10,16 +10,19 @@ use App\Manager\CommentManager;
 use App\Request\SwapItemCommentCreateRequest;
 use App\Response\SwapItemCommentCreateResponse;
 use App\Response\SwapItemCommentResponse;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class CommentService
 {
     private $autoMapping;
     private $commentManager;
+    private $params;
 
-    public function __construct(AutoMapping $autoMapping, CommentManager $commentManager)
+    public function __construct(AutoMapping $autoMapping, CommentManager $commentManager, ParameterBagInterface $params)
     {
         $this->autoMapping = $autoMapping;
         $this->commentManager = $commentManager;
+        $this->params = $params->get('upload_base_url').'/';
     }
 
     public function createSwapItemComment(SwapItemCommentCreateRequest $request)
@@ -38,6 +41,7 @@ class CommentService
 
         foreach ($comments as $comment)
         {
+            $comment['image'] =  $this->params.$comment['image'];
             $commentsResponse[] = $this->autoMapping->map('array', SwapItemCommentResponse::class, $comment);
         }
 

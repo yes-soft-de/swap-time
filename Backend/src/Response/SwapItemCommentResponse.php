@@ -12,5 +12,9 @@ class SwapItemCommentResponse
 
     public $userID;
 
+    public $userName;
+
+    public $image;
+
     public $swapItemID;
 }
