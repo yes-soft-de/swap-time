@@ -185,6 +185,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                                   .createSwap(state.details.userID, gameId)
                                   .then((value) {
                                 swapRequested = true;
+                                state.details.isRequested = true;
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                   content: Text(S.of(context).swapRequestSent),
