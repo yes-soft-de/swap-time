@@ -108,5 +108,6 @@
   "savingToLikedList": "Saving to liked list",
   "removingFromLikeList": "Removing From Like List",
   "removedLoveFromItem": "Removed love from item",
-  "itemLoved": "Item Loved!"
+  "itemLoved": "Item Loved!",
+  "likedAt": "Liked at:"
 }

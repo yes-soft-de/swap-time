@@ -105,8 +105,9 @@
   "postingNewComment": "جار حفظ التعليق",
   "editProfile": "الملف الشخصي",
   "requestingProfileDateFromTheServer": "جار طلب معلومات الحساب",
-  "savingToLikedList": "Saving to liked list",
-  "removingFromLikeList": "Removing From Like List",
-  "removedLoveFromItem": "Removed love from item",
-  "itemLoved": "Item Loved!"
+  "savingToLikedList": "يتم الحفظ بقائمة الاعجابات",
+  "removingFromLikeList": "تتم الازالة من قائمة الاعجابات",
+  "removedLoveFromItem": "تمت الازالة من قائمة الاعجابات",
+  "itemLoved": "تم تسجيل الاعجاب!",
+  "likedAt": "تم الاعجاب بتاريخ:"
 }

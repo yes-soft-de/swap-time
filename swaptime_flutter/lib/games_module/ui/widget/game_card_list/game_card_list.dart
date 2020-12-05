@@ -262,45 +262,62 @@ class _GameCardListState extends State<GameCardList> {
     List<Widget> cards = [];
 
     for (int i = 0; i < visibleGames.length; i++) {
-      cards.add(GestureDetector(
-        onTap: () {
-          Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
-              arguments: visibleGames[i].id);
-        },
-        child: GameCardLarge(
-          gameModel: GameModel(
-            gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i]
-                .mainImage
-                .substring(visibleGames[i].mainImage.indexOf('https://')),
-            gameOwnerFirstName: visibleGames[i].userName,
-            lovable: loggedIn,
-            loved: visibleGames[i].interaction.checkLoved && loggedIn,
-            itemId: visibleGames[i].id.toString(),
+      cards.add(
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
+                arguments: visibleGames[i].id);
+          },
+          child: GameCardLarge(
+            gameModel: GameModel(
+              gameTitle: visibleGames[i].name,
+              imageUrl: visibleGames[i]
+                  .mainImage
+                  .substring(visibleGames[i].mainImage.indexOf('https://')),
+              gameOwnerFirstName: visibleGames[i].userName,
+              lovable: loggedIn,
+              loved: visibleGames[i].interaction.checkLoved && loggedIn,
+              itemId: visibleGames[i].id.toString(),
+            ),
+            comments: int.tryParse(visibleGames[i].commentNumber) ?? 0,
+            onChatRequested: (itemId) {
+              Navigator.of(context)
+                  .pushNamed(GamesRoutes.ROUTE_GAME_DETAILS, arguments: itemId);
+            },
+            onLoved: (loved) {
+              if (loved) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(S.of(context).removingFromLikeList),
+                ));
+                widget._stateManager
+                    .unLove(visibleGames[i].id.toString())
+                    .then((value) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(S.of(context).removedLoveFromItem),
+                  ));
+                });
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(S.of(context).savingToLikedList),
+                ));
+                widget._stateManager
+                    .love(visibleGames[i].id.toString(), null)
+                    .then((value) {
+                  if (value == null) {
+                    Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
+                  }
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(S.of(context).itemLoved),
+                  ));
+                });
+              }
+            },
+            onReport: (itemId) {
+              _reportDialog(itemId);
+            },
           ),
-          comments: int.tryParse(visibleGames[i].commentNumber) ?? 0,
-          onChatRequested: (itemId) {
-            Navigator.of(context)
-                .pushNamed(GamesRoutes.ROUTE_GAME_DETAILS, arguments: itemId);
-          },
-          onLoved: (loved) {
-            if (loved) {
-              widget._stateManager.unLove(visibleGames[i].id.toString());
-            } else {
-              widget._stateManager
-                  .love(visibleGames[i].id.toString(), null)
-                  .then((value) {
-                if (value == null) {
-                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
-                }
-              });
-            }
-          },
-          onReport: (itemId) {
-            _reportDialog(itemId);
-          },
         ),
-      ));
+      );
     }
 
     return cards;

@@ -77,17 +77,20 @@ class CommentWidget extends StatelessWidget {
     var sentDate = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     var diff = DateTime.now().difference(sentDate);
 
+    // TODO: Remove this
+    if (diff != null) {
+      return sentDate.toString().substring(0, 10);
+    }
+
     int minutes = DateTime.now().difference(sentDate).inMinutes;
     if (minutes < 0) minutes = minutes * -1;
     if (minutes < 60) {
-      print(timestamp.toString() + ' Minutes Timestamp');
       return minutes.toString() + ' ' + S.of(context).minutesAgo;
     }
 
     int hours = diff.inHours;
     if (hours < 0) hours = hours * -1;
     if (hours < 24) {
-      print(timestamp.toString() + ' Hours Timestamp');
       return hours.toString() + ' ' + S.of(context).hoursAgo;
     }
 

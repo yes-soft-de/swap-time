@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "itemLoved" : MessageLookupByLibrary.simpleMessage("Item Loved!"),
     "language" : MessageLookupByLibrary.simpleMessage("Language"),
     "lebanon" : MessageLookupByLibrary.simpleMessage("Lebanon"),
+    "likedAt" : MessageLookupByLibrary.simpleMessage("Liked at:"),
     "likes" : MessageLookupByLibrary.simpleMessage("Likes"),
     "loadMore" : MessageLookupByLibrary.simpleMessage("Load More"),
     "loading" : MessageLookupByLibrary.simpleMessage("Loading!"),

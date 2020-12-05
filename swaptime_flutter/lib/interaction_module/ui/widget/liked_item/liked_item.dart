@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 
 class LikedItemCard extends StatelessWidget {
   final String ownerFirstName;
   final String ownerImageUrl;
   final String gameImageUrl;
+  final String date;
 
   LikedItemCard(
       {@required this.ownerFirstName,
       @required this.gameImageUrl,
+      @required this.date,
       this.ownerImageUrl});
 
   @override
@@ -20,23 +23,6 @@ class LikedItemCard extends StatelessWidget {
           direction: Axis.horizontal,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Flexible(
-            //   flex: 2,
-            //   child: Flex(
-            //     direction: Axis.vertical,
-            //     children: [
-            //       FadeInImage.assetNetwork(
-            //         placeholder: 'assets/images/logo.jpg',
-            //         image: ownerImageUrl ??
-            //             'https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/link_broken.png',
-            //       ),
-            //       Text(
-            //         ownerFirstName,
-            //         style: TextStyle(fontSize: 12),
-            //       )
-            //     ],
-            //   ),
-            // ),
             Flexible(
               flex: 6,
               child: Stack(
@@ -50,8 +36,8 @@ class LikedItemCard extends StatelessWidget {
                   ),
                   Positioned.directional(
                     bottom: 8,
-                    textDirection: Directionality.of(context),
                     end: 8,
+                    textDirection: Directionality.of(context),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Theme.of(context).brightness == Brightness.light
@@ -61,7 +47,16 @@ class LikedItemCard extends StatelessWidget {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.send),
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          children: [
+                            Text(S.of(context).likedAt + date),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(Icons.send),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   )

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/games_routes.dart';
-import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
+import 'package:swaptime_flutter/interaction_module/response/liked_games/liked_games.dart';
 import 'package:swaptime_flutter/interaction_module/state_manager/liked_manager/liked_state_manager.dart';
 import 'package:swaptime_flutter/interaction_module/states/liked_states.dart';
 import 'package:swaptime_flutter/interaction_module/ui/widget/liked_item/liked_item.dart';
@@ -93,12 +93,17 @@ class _LikedScreenState extends State<LikedScreen> {
         onTap: () {
           Navigator.of(context).pushNamed(
             GamesRoutes.ROUTE_GAME_DETAILS,
-            arguments: element.id,
+            arguments: element.swapItemID,
           );
         },
         child: LikedItemCard(
-          gameImageUrl: element.mainImage.substring(element.mainImage.indexOf('https://')),
-          ownerFirstName: element.userName,
+          gameImageUrl: element.mainImage
+              .substring(element.mainImage.indexOf('https://')),
+          ownerFirstName: ' ',
+          date:
+              DateTime.fromMillisecondsSinceEpoch(element.date.timestamp * 1000)
+                  .toString()
+                  .substring(0, 10),
         ),
       ));
     });
@@ -123,10 +128,10 @@ class _LikedScreenState extends State<LikedScreen> {
     );
   }
 
-  List<Games> _processGames(List<Games> gamesList) {
-    Map<int, Games> gamesMap = {};
+  List<LikedGameItem> _processGames(List<LikedGameItem> gamesList) {
+    Map<int, LikedGameItem> gamesMap = {};
     gamesList.forEach((element) {
-      gamesMap[element.id] = element;
+      gamesMap[element.swapItemID] = element;
     });
 
     return List.of(gamesMap.values);

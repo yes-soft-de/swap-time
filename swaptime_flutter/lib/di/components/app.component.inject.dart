@@ -183,7 +183,7 @@ class AppComponent$Injector implements _i1.AppComponent {
   _i23.InteractionManager _createInteractionManager() =>
       _i23.InteractionManager(_createInteractionRepository());
   _i24.InteractionRepository _createInteractionRepository() =>
-      _i24.InteractionRepository(_createApiClient());
+      _i24.InteractionRepository(_createApiClient(), _createAuthService());
   _i25.GameCardList _createGameCardList() => _i25.GameCardList(
       _createGamesListStateManager(),
       _createAuthService(),

@@ -268,14 +268,29 @@ class _MyGameCardListState extends State<MyGameCardList> {
           },
           onLoved: (loved) {
             if (loved) {
-              widget._stateManager.unLove(visibleGames[i].id.toString());
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(S.of(context).removingFromLikeList),
+              ));
+              widget._stateManager
+                  .unLove(visibleGames[i].id.toString())
+                  .then((value) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(S.of(context).removedLoveFromItem),
+                ));
+              });
             } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(S.of(context).savingToLikedList),
+              ));
               widget._stateManager
                   .love(visibleGames[i].id.toString(), null)
                   .then((value) {
                 if (value == null) {
                   Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
                 }
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(S.of(context).itemLoved),
+                ));
               });
             }
           },

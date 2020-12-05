@@ -2,11 +2,11 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inject/inject.dart';
-import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/games_module/service/games_list_service/games_list_service.dart';
 import 'package:swaptime_flutter/interaction_module/manager/interaction/interaction_manger.dart';
 import 'package:swaptime_flutter/interaction_module/request/interaction/interaction.dart';
 import 'package:swaptime_flutter/interaction_module/response/interaction/interaction_response.dart';
+import 'package:swaptime_flutter/interaction_module/response/liked_games/liked_games.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 
 @provide
@@ -78,15 +78,9 @@ class LikedService {
     return code >= 200 && code < 400;
   }
 
-  Future<List<Games>> getLiked() async {
-    List<Games> gamesList = await _gamesListService.getAvailableGames;
-    List<Games> items = [];
-    gamesList.forEach((element) {
-      if (element.interaction.checkLoved) {
-        items.add(element);
-      }
-    });
-    return items;
+  Future<List<LikedGameItem>> getLiked() async {
+    var data = await _interactionManager.getLikedGames;
+    return data.data;
   }
 
   Future<void> recordUserLike(String userId) async {

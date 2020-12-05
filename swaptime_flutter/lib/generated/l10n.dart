@@ -1124,6 +1124,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Liked at:`
+  String get likedAt {
+    return Intl.message(
+      'Liked at:',
+      name: 'likedAt',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
