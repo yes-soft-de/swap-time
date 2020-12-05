@@ -36,6 +36,7 @@ class CommentEntityRepository extends ServiceEntityRepository
             ->andWhere('comments.swapItemID=:id')
             ->setParameter('id',$id)
 
+            ->groupBy('comments.id')
             ->getQuery()
             ->getArrayResult();
 
