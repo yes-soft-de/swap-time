@@ -28,6 +28,7 @@ class MyProfileStateManager {
 
   void getMyProfile() {
     this._myProfileService.getMyProfile().then((value) {
+      print(value.toString());
       if (value != null) {
         this._myProfileService.cacheProfile(value).then((_) {
           this._stateSubject.add(MyProfileStateGetSuccess(value));

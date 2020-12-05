@@ -139,7 +139,7 @@ class _AuthScreenState extends State<AuthScreen> {
               onTap: () {
                 loading = true;
                 if (mounted) setState(() {});
-                widget.manager.confirmWithCode(_phoneController.text);
+                widget.manager.confirmWithCode(_confirmationController.text);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

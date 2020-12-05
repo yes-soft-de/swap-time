@@ -45,6 +45,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       currentState = event;
       uploading = false;
       processEvent();
+      setState(() {});
     });
   }
 
