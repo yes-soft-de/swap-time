@@ -24,7 +24,7 @@ class CommentEntityRepository extends ServiceEntityRepository
     public function getCommentsByID($id)
     {
         $r = $this->createQueryBuilder('comments')
-            ->select('comments.id', 'comments.comment', 'comments.date', 'comments.userID', 'comments.swapItemID', 'comments.userName', 'comments.image')
+            ->select('comments.id', 'comments.comment', 'comments.date', 'comments.userID', 'comments.swapItemID', 'user.userName', 'user.image')
 
             ->leftJoin(
                 UserProfileEntity::class,              //Entity
