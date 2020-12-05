@@ -30,6 +30,7 @@ class Games {
   Interaction interaction;
   List<CommentModel> comments;
   List<String> images;
+  bool isRequested;
   bool specialLink;
 
   Games(
@@ -39,6 +40,7 @@ class Games {
       this.platform,
       this.tag,
       this.views,
+      this.isRequested,
       this.description,
       this.mainImage,
       this.userID,
@@ -54,6 +56,7 @@ class Games {
     name = json['name'];
     category = json['category'];
     platform = json['platform'];
+    isRequested = json['isRequested'];
     tag = json['tag'].cast<String>();
     description = json['description'];
     mainImage = json['mainImage'];

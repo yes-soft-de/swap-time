@@ -1,18 +1,18 @@
-import 'package:swaptime_flutter/module_profile/response/profile_response/profile_response.dart';
-
 class CommentModel {
   String comment;
   Date date;
   String userID;
   int swapItemID;
-  ProfileResponse profile;
+  String userName;
+  String image;
 
   CommentModel({
     this.comment,
     this.date,
     this.userID,
     this.swapItemID,
-    this.profile,
+    this.userName,
+    this.image,
   });
 
   CommentModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +20,8 @@ class CommentModel {
     date = json['date'] != null ? new Date.fromJson(json['date']) : null;
     userID = json['userID'];
     swapItemID = json['swapItemID'];
+    userName = json['userName'];
+    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
@@ -30,6 +32,8 @@ class CommentModel {
     }
     data['userID'] = this.userID;
     data['swapItemID'] = this.swapItemID;
+    data['userName'] = this.userName;
+    data['image'] = this.image;
     return data;
   }
 }

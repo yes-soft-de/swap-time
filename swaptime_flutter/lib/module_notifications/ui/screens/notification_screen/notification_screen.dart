@@ -35,7 +35,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   NotificationState currentState;
   int viewLimit = 10;
   bool initiated = false;
-  int activeIndex = -1;
+  NotificationModel activeIndex;
   Games gameToChange;
   Games gameOne;
   Games gameTwo;
@@ -109,44 +109,43 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   Widget getNotificationsList(String myId) {
     List<Widget> notCards = [];
-    for (int i = 0; i < notifications.length; i++) {
-      notCards.add(NotificationOnGoing(
-        gameOne: notifications[i].gameOne,
-        gameTow: notifications[i].gameTwo,
-        chatRoomId: notifications[i].chatRoomId,
-        myId: myId,
-        swapId: notifications[i].swapId,
-        finished: notifications[i].complete,
-        onSwapComplete: (swapId) {
-          widget._manager.setNotificationComplete(notifications[i]);
-        },
-        onChangeRequest: (game) {
-          // Setting the Scene
-          activeIndex = i;
-          gameOne = notifications[i].gameOne;
-          gameTwo = notifications[i].gameTwo;
-          gameToChange = notifications[i].gameOne;
+    if (notifications != null) {
+      notifications.forEach((n) {
+        notCards.add(NotificationOnGoing(
+          gameOne: n.gameOne,
+          gameTow: n.gameTwo,
+          chatRoomId: n.chatRoomId,
+          myId: myId,
+          swapId: n.swapId,
+          finished: n.complete,
+          onSwapComplete: (swapId) {
+            widget._manager.setNotificationComplete(n);
+          },
+          onChangeRequest: (game) {
+            // Setting the Scene
+            activeIndex = n;
+            gameOne = n.gameOne;
+            gameTwo = n.gameTwo;
+            gameToChange = n.gameOne;
 
-          print(
-              'Setter i $activeIndex Game One: ${gameOne} and Game Two: ${gameTwo.id.toString()}');
+            if (game == n.gameTwo) {
+              gameToChange = n.gameTwo;
+            }
 
-          if (game == notifications[i].gameTwo) {
-            gameToChange = notifications[i].gameTwo;
-          }
-
-          var dialog = Dialog(
-            child: ExchangeSetterWidget(
-              gamesListService: widget._gamesListService,
-              myId: myId,
-              userId: game != null ? game.userID : null,
-            ),
-          );
-          showDialog(context: context, builder: (context) => dialog)
-              .then((rawNewGame) {
-            _updateSwapCard(rawNewGame);
-          });
-        },
-      ));
+            var dialog = Dialog(
+              child: ExchangeSetterWidget(
+                gamesListService: widget._gamesListService,
+                myId: myId,
+                userId: game != null ? game.userID : null,
+              ),
+            );
+            showDialog(context: context, builder: (context) => dialog)
+                .then((rawNewGame) {
+              _updateSwapCard(rawNewGame);
+            });
+          },
+        ));
+      });
     }
     return Flex(
       direction: Axis.vertical,
@@ -154,19 +153,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
   }
 
-  _updateSwapCard(Games rawNewGame) {
+  void _updateSwapCard(Games rawNewGame) {
     Games newGame = rawNewGame;
     if (newGame != null) {
       print(
           'i $activeIndex Game One: ${gameOne.id} and Game Two: ${gameTwo.id}');
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(S.of(context).savingData)));
-      if (gameToChange == notifications[activeIndex].gameOne) {
-        notifications[activeIndex].gameOne = newGame;
-        widget._manager.updateSwap(notifications[activeIndex]);
+      if (gameToChange == activeIndex.gameOne) {
+        activeIndex.gameOne = newGame;
+        widget._manager.updateSwap(activeIndex);
       } else {
-        notifications[activeIndex].gameTwo = newGame;
-        widget._manager.updateSwap(notifications[activeIndex]);
+        activeIndex.gameTwo = newGame;
+        widget._manager.updateSwap(activeIndex);
       }
     }
   }

@@ -69,10 +69,28 @@ class GamesListService {
     if (gameId == -1) {
       return null;
     }
+    // List<Games> games = await getAvailableGames;
+    // if (games == null) {
+    //   return null;
+    // }
+    // Games theGame;
+    // for (int i = 0; i < games.length; i++) {
+    //   if (games[i].id == gameId) {
+    //     theGame = games[i];
+    //   }
+    // }
+    //
+    // if (theGame.comments != null) {
+    //   for (int i = 0; i < theGame.comments.length; i++) {
+    //     String userId = theGame.comments[i].userID;
+    //     ProfileResponse profile = await _profileManager.getUserProfile(userId);
+    //     theGame.comments[i].profile = profile;
+    //   }
+    // }
 
     Games theGame = await _manager.getGameById(gameId);
 
-    await recordView(theGame.userID);
+    recordView(theGame.userID);
 
     return theGame;
   }

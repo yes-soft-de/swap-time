@@ -9,11 +9,8 @@ class ApiClient {
   String token;
   final Logger _logger;
   final String tag = 'ApiClient';
-  ApiClient(this._logger);
 
-  void setToken(String token) {
-    this.token;
-  }
+  ApiClient(this._logger);
 
   Future<Map<String, dynamic>> get(
     String url, {
@@ -24,7 +21,11 @@ class ApiClient {
       _logger.info(tag, 'Requesting GET to: ' + url);
       _logger.info(tag, 'Headers: ' + headers.toString());
       _logger.info(tag, 'Query: ' + queryParams.toString());
-      Dio client = Dio(BaseOptions());
+      Dio client = Dio(BaseOptions(
+          // sendTimeout: 20000,
+          // receiveTimeout: 20000,
+          // connectTimeout: 20000,
+          ));
       if (headers != null) {
         if (headers['Authorization'] != null) {
           _logger.info(tag, 'Adding Auth Header');

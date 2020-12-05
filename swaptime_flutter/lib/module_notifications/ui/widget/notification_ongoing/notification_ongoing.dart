@@ -160,7 +160,10 @@ class _NotificationState extends State<NotificationOnGoing> {
             fit: FlexFit.tight,
             child: FadeInImage.assetNetwork(
               placeholder: 'assets/images/logo.jpg',
-              image: gameTow.mainImage.substring(gameTow.mainImage.indexOf('https://')),
+              image: gameTow.mainImage.substring(
+                  gameTow.mainImage.indexOf('https://') > 0
+                      ? gameTow.mainImage.indexOf('https://')
+                      : 0),
               fit: BoxFit.cover,
             ),
           )
@@ -176,7 +179,10 @@ class _NotificationState extends State<NotificationOnGoing> {
             fit: FlexFit.tight,
             child: FadeInImage.assetNetwork(
               placeholder: 'assets/images/logo.jpg',
-              image: gameOne.mainImage.substring(gameOne.mainImage.indexOf('https://')),
+              image: gameOne.mainImage.substring(
+                  gameOne.mainImage.indexOf('https://') > 0
+                      ? gameOne.mainImage.indexOf('https://')
+                      : 0),
               fit: BoxFit.cover,
             ),
           ),
@@ -213,7 +219,10 @@ class _NotificationState extends State<NotificationOnGoing> {
                   child: Center(
                       child: Text(
                     S.of(context).swapCompleted,
-                    style: TextStyle(fontSize: 24),
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.white,
+                    ),
                   )),
                 ),
               )
@@ -244,7 +253,10 @@ class _NotificationState extends State<NotificationOnGoing> {
           Positioned.fill(
             child: FadeInImage.assetNetwork(
               placeholder: 'assets/images/logo.jpg',
-              image: game.mainImage.substring(game.mainImage.indexOf('https://')),
+              image: game.mainImage.substring(
+                  game.mainImage.indexOf('https://') > 0
+                      ? game.mainImage.indexOf('https://')
+                      : 0),
               fit: BoxFit.cover,
             ),
           ),

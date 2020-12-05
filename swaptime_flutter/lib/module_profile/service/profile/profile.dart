@@ -88,14 +88,16 @@ class ProfileService {
 
     if (userId == me) {
       var myProfile = await profile;
-      return ProfileResponse(
-        userName: myProfile.name,
-        image: myProfile.image,
-        story: myProfile.story,
-        likes: likes,
-        games: games,
-        views: views,
-      );
+      if (myProfile.name != null) {
+        return ProfileResponse(
+          userName: myProfile.name,
+          image: myProfile.image,
+          story: myProfile.story,
+          likes: likes,
+          games: games,
+          views: views,
+        );
+      }
     }
     return _manager.getUserProfile(userId);
   }

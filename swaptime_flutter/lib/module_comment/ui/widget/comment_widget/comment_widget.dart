@@ -12,67 +12,65 @@ class CommentWidget extends StatelessWidget {
     if (commentModel == null) {
       return Container();
     }
-    return commentModel.profile == null
-        ? Container()
-        : Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(border: Border.all(width: .25)),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(border: Border.all(width: .25)),
+        child: Flex(
+          direction: Axis.horizontal,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 36,
+                width: 36,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      image: commentModel.image != null
+                          ? NetworkImage(commentModel.image ?? '')
+                          : AssetImage('assets/images/logo.jpg'),
+                      fit: BoxFit.cover),
+                ),
+              ),
+            ),
+            Expanded(
               child: Flex(
-                direction: Axis.horizontal,
+                direction: Axis.vertical,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 36,
-                      width: 36,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: commentModel.profile != null
-                                ? NetworkImage(commentModel.profile.image ?? '')
-                                : AssetImage('assets/images/logo.jpg'),
-                            fit: BoxFit.cover),
-                      ),
+                    padding: EdgeInsets.all(8.0),
+                    child: Flex(
+                      direction: Axis.horizontal,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(commentModel.userName ?? ' '),
+                        Text(calcDifference(
+                          commentModel.date.timestamp,
+                          context,
+                        )),
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: Flex(
-                      direction: Axis.vertical,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Flex(
-                            direction: Axis.horizontal,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(commentModel.profile.userName ?? ' '),
-                              Text(calcDifference(
-                                commentModel.date.timestamp,
-                                context,
-                              )),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            commentModel.comment,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      commentModel.comment,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-          );
+          ],
+        ),
+      ),
+    );
   }
 
   String calcDifference(int timestamp, BuildContext context) {
@@ -81,15 +79,16 @@ class CommentWidget extends StatelessWidget {
 
     int minutes = DateTime.now().difference(sentDate).inMinutes;
     if (minutes < 0) minutes = minutes * -1;
-    if (DateTime.now().difference(sentDate).inMinutes < 60) {
-      var minutes = diff.inMinutes;
+    if (minutes < 60) {
+      print(timestamp.toString() + ' Minutes Timestamp');
       return minutes.toString() + ' ' + S.of(context).minutesAgo;
     }
 
     int hours = diff.inHours;
     if (hours < 0) hours = hours * -1;
-    if (diff.inHours < 24) {
-      return diff.inHours.toString() + ' ' + S.of(context).hoursAgo;
+    if (hours < 24) {
+      print(timestamp.toString() + ' Hours Timestamp');
+      return hours.toString() + ' ' + S.of(context).hoursAgo;
     }
 
     return sentDate.toString().substring(0, 10);
