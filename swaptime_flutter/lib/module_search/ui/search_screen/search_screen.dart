@@ -87,8 +87,30 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget getLoadingUI() {
-    return Center(
-      child: CircularProgressIndicator(),
+    if (gamesList != null) {
+      if (gamesList.isNotEmpty) {
+        return getSuccessUI();
+      }
+    }
+    return Scaffold(
+      appBar: SwaptimeAppBar.getSearchAppBar(
+        context: context,
+        activeQuery: activeSearchQuery,
+        watcherEnabled: true,
+        onSearchRequested: (searchQuery) {
+          if (searchQuery == null) {
+            Navigator.of(context).pop();
+          }
+          if (searchQuery != null && searchQuery != activeSearchQuery) {
+            activeSearchQuery = searchQuery;
+            _processList(gamesList);
+            setState(() {});
+          }
+        },
+      ),
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 
@@ -116,14 +138,21 @@ class _SearchScreenState extends State<SearchScreen> {
     );
 
     return Scaffold(
-      appBar: SwaptimeAppBar.getSearchAppBar(context, (searchQuery) {
-        if (searchQuery == null) {
-          Navigator.of(context).pop();
-        }
-        activeSearchQuery = searchQuery;
-        _calcVisibleBySearchQuery();
-        setState(() {});
-      }),
+      appBar: SwaptimeAppBar.getSearchAppBar(
+        context: context,
+        watcherEnabled: true,
+        activeQuery: activeSearchQuery,
+        onSearchRequested: (searchQuery) {
+          if (searchQuery == null) {
+            Navigator.of(context).pop();
+          }
+          if (searchQuery != null && searchQuery != activeSearchQuery) {
+            activeSearchQuery = searchQuery;
+            _processList(gamesList);
+            setState(() {});
+          }
+        },
+      ),
       body: ListView(
         children: [
           gamesGrid,
@@ -169,12 +198,15 @@ class _SearchScreenState extends State<SearchScreen> {
         child: GameCardLarge(
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i].mainImage.substring(visibleGames[i].mainImage.indexOf('https://')),
+            imageUrl: visibleGames[i]
+                .mainImage
+                .substring(visibleGames[i].mainImage.indexOf('https://')),
             gameOwnerFirstName: visibleGames[i].name,
             lovable: loggedIn,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
             itemId: visibleGames[i].id.toString(),
           ),
+          comments: int.tryParse(visibleGames[i].commentNumber),
           onChatRequested: (itemId) {
             Navigator.of(context)
                 .pushNamed(GamesRoutes.ROUTE_GAME_DETAILS, arguments: itemId);

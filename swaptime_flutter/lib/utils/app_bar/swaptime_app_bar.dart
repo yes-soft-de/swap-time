@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 
 class SwaptimeAppBar {
+  static final TextEditingController _searchController =
+      TextEditingController();
+
   static AppBar getSwaptimeAppBar(
       GlobalKey<ScaffoldState> drawerKey, Function() onSearchRequested) {
     return AppBar(
@@ -50,9 +53,12 @@ class SwaptimeAppBar {
     );
   }
 
-  static AppBar getSearchAppBar(
-      BuildContext context, Function(String) onSearchRequested) {
-    TextEditingController controller = TextEditingController();
+  static AppBar getSearchAppBar({
+    BuildContext context,
+    String activeQuery,
+    Function(String) onSearchRequested,
+    bool watcherEnabled,
+  }) {
     return AppBar(
       leading: IconButton(
         color: Theme.of(context).brightness != Brightness.light
@@ -67,7 +73,17 @@ class SwaptimeAppBar {
           ? Colors.black87
           : Colors.white,
       title: TextFormField(
-        controller: controller,
+        controller: _searchController,
+        onSaved: (searchQuery) {
+          if (watcherEnabled) {
+            onSearchRequested(searchQuery);
+          }
+        },
+        onChanged: (searchQuery) {
+          if (watcherEnabled) {
+            onSearchRequested(searchQuery);
+          }
+        },
         style: TextStyle(
             color: Theme.of(context).brightness != Brightness.light
                 ? Colors.black
@@ -99,7 +115,7 @@ class SwaptimeAppBar {
                 : Colors.black,
           ),
           onPressed: () {
-            onSearchRequested(controller.text.trim());
+            onSearchRequested(_searchController.text.trim());
           },
         )
       ],
