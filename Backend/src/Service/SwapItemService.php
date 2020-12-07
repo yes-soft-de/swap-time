@@ -70,7 +70,7 @@ class SwapItemService
             if($lovedCheck != false)
             {
                 $item['interaction']['checkLoved'] = true;
-                $item['interaction']['lovedID'] = $lovedCheck['id'];
+                $item['interaction']['lovedID'] = $lovedCheck[0]['id'];
             }
             else
             {

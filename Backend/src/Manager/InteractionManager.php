@@ -75,15 +75,18 @@ class InteractionManager
     {
         $loved = $this->interactionRepository->checkUserLoved($swapItemID, $userID);
 
+        if($loved)
+        {
+            if ($loved[0][1] > 0)
+            {
+                return $loved;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-        if ($loved[1] > 0)
-        {
-            return $loved;
-        }
-        else
-        {
-            return false;
-        }
     }
 
     public function getUserInteraction($userID)
