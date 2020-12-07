@@ -109,4 +109,22 @@ class InteractionController extends BaseController
 
         return $this->response($result, self::FETCH);
     }
+
+    /**
+     * @Route("/interaction/{itemID}", name="deleteInteraction", methods={"DELETE"})
+     * @param $itemID
+     * @return JsonResponse
+     */
+    public function deleteInteraction($itemID)
+    {
+        $userID = 0;
+        if ($this->getUser())
+        {
+            $userID = $this->getUser()->getUsername();
+        }
+
+        $result = $this->interactionService->deleteInteraction($itemID, $userID);
+
+        return $this->response($result, self::DELETE);
+    }
 }
