@@ -120,7 +120,7 @@ class InteractionRepository extends ServiceEntityRepository
             ->groupBy('interaction.id')
 
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
     }
 
     public function getUserInteraction($userID)
