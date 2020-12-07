@@ -143,3 +143,39 @@ methods: POST
 methods: Get
 ```
 
+### Interactions
+#### Create interaction
+```
+/interaction
+methods: POST
+```
+#### Update interaction
+```
+/interaction/{userID}/{animeID}/{type}
+methods: PUT
+```
+#### Get all interactions
+```
+/interaction/{animeID}
+methods: GET
+```
+#### Get interaction with user
+```
+/interaction/{animeID}/{userID}
+methods: GET
+```
+#### Count interactions
+```
+/countInteractions/{animeID}
+methods: GET
+```
+#### Get user interaction
+```
+/userinteraction
+methods: GET
+```
+#### Delete interaction
+```
+/interaction/{itemID}
+methods: DELETE
+```
