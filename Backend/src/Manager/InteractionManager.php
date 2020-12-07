@@ -98,7 +98,7 @@ class InteractionManager
     {
         $result = $this->interactionRepository->checkUserLoved($swapItemID, $userID);
 
-        $item = $this->interactionRepository->find($result["id"]);
+        $item = $this->interactionRepository->find($result[0]["id"]);
 
         if ($item)
         {
