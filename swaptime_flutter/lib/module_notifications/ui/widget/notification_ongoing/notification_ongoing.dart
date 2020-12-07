@@ -208,7 +208,14 @@ class _NotificationState extends State<NotificationOnGoing> {
             Flexible(
               flex: 1,
               fit: FlexFit.tight,
-              child: _gameSelector(gameTow),
+              child: FadeInImage.assetNetwork(
+                placeholder: 'assets/images/logo.jpg',
+                image: gameTow.mainImage.substring(
+                    gameTow.mainImage.indexOf('https://') > 0
+                        ? gameTow.mainImage.indexOf('https://')
+                        : 0),
+                fit: BoxFit.cover,
+              ),
             )
           ],
         ),

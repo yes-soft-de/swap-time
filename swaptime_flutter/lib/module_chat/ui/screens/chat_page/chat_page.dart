@@ -48,6 +48,8 @@ class ChatPageState extends State<ChatPage> {
   String swapId;
   bool finished;
 
+  bool initiated = false;
+
   @override
   Widget build(BuildContext context) {
     if (ModalRoute.of(context).settings.arguments is ChatArguments) {
@@ -57,6 +59,11 @@ class ChatPageState extends State<ChatPage> {
       gameTwo = args.gameTow;
       swapId = args.swapId;
       finished = args.finished;
+
+      widget._chatPageBloc.notificationStream.listen((event) {
+        gameOne = event.gameOne;
+        gameTwo = event.gameTwo;
+      });
     } else {
       chatRoomId = ModalRoute.of(context).settings.arguments;
     }

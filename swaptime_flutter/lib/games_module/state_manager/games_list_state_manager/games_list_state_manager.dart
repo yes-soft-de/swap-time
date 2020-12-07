@@ -39,8 +39,8 @@ class GamesListStateManager {
     return _likedService.like(itemId, interactionId);
   }
 
-  Future<bool> unLove(String itemId, [String interactionId]) {
-    return _likedService.unLike(itemId, interactionId);
+  Future<bool> unLove(String interactionId) {
+    return _likedService.unLike(interactionId);
   }
 
   void getUserGames(String userId) {

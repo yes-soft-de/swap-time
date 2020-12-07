@@ -32,6 +32,24 @@ class InteractionRepository {
     return response == null ? null : InteractionResponse.fromJson(response);
   }
 
+  Future<dynamic> deleteInteraction(String interactionId) async {
+    String token = await _authService.getToken();
+    if (token == null) {
+      return null;
+    }
+
+    Map<String, dynamic> response = await _apiClient.delete(
+      Urls.API_INTERACTION + interactionId,
+      headers: {'Authorization': 'Bearer ' + token},
+    );
+
+    if (response == null) {
+      return null;
+    }
+
+    return LikedGames.fromJson(response);
+  }
+
   Future<LikedGames> getLikedGames() async {
     String token = await _authService.getToken();
     if (token == null) {

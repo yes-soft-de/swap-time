@@ -52,22 +52,18 @@ class LikedService {
     return code >= 200 && code < 400;
   }
 
-  Future<bool> unLike(String itemId, [String interactionId]) async {
-    log('hating: $itemId');
+  Future<bool> unLike(String loveId) async {
+    log('hating: $loveId');
     bool signIn = await _authService.isLoggedIn;
     if (!signIn) {
       return null;
     }
     String userId = await _authService.userID;
     InteractionResponse response;
-    if (interactionId != null) {
-      var request = InteractionRequest(
-          userID: userId, swapItemID: itemId, type: 2, id: interactionId);
-      response = await _interactionManager.postInteraction(request);
+    if (loveId != null) {
+      response = await _interactionManager.deleteInteraction(loveId);
     } else {
-      var request =
-          InteractionRequest(userID: userId, swapItemID: itemId, type: 3);
-      response = await _interactionManager.updateInteraction(request);
+      return false;
     }
 
     if (response == null) {

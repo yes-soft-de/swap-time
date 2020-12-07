@@ -88,6 +88,37 @@ class ApiClient {
     }
   }
 
+  Future<Map<String, dynamic>> delete(
+      String url, {
+        Map<String, String> queryParams,
+        Map<String, String> headers,
+      }) async {
+    try {
+      _logger.info(tag, 'Requesting GET to: ' + url);
+      _logger.info(tag, 'Headers: ' + headers.toString());
+      _logger.info(tag, 'Query: ' + queryParams.toString());
+      Dio client = Dio(BaseOptions(
+        // sendTimeout: 20000,
+        // receiveTimeout: 20000,
+        // connectTimeout: 20000,
+      ));
+      if (headers != null) {
+        if (headers['Authorization'] != null) {
+          _logger.info(tag, 'Adding Auth Header');
+          client.options.headers['Authorization'] = headers['Authorization'];
+        }
+      }
+      var response = await client.delete(
+        url,
+        queryParameters: queryParams,
+      );
+      return _processResponse(response);
+    } catch (e) {
+      _logger.error(tag, e.toString() + ' ' + url);
+      return null;
+    }
+  }
+
   Map<String, dynamic> _processResponse(Response response) {
     if (response.statusCode >= 200 && response.statusCode < 400) {
       _logger.info(tag, response.data.toString());

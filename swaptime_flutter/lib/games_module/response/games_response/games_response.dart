@@ -80,11 +80,13 @@ class Games {
 class Interaction {
   String loved;
   bool checkLoved;
+  String lovedId;
 
   Interaction({this.loved, this.checkLoved});
 
   Interaction.fromJson(Map<String, dynamic> json) {
     loved = json['loved'];
     checkLoved = json['checkLoved'];
+    lovedId = json['lovedID'];
   }
 }
