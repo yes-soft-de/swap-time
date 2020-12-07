@@ -109,7 +109,7 @@ class InteractionRepository extends ServiceEntityRepository
     public function checkUserLoved($swapItemID, $userID)
     {
         return $this->createQueryBuilder('interaction')
-            ->select('count(interaction.type)')
+            ->select('count(interaction.type)', 'interaction.id')
 
             ->andWhere('interaction.swapItemID = :swapItemID')
             ->andWhere('interaction.userID = :userID')

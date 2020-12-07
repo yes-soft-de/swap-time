@@ -67,7 +67,16 @@ class SwapItemService
             $item['interaction']['loved'] = $lovedCount;
             //
             $lovedCheck = $this->interactionService->checkUserLoved($item['id'], $userID);
-            $item['interaction']['checkLoved'] = $lovedCheck;
+            if($lovedCheck != false)
+            {
+                $item['interaction']['checkLoved'] = true;
+                $item['interaction']['lovedID'] = $lovedCheck['id'];
+            }
+            else
+            {
+                $item['interaction']['checkLoved'] = false;
+                $item['interaction']['lovedID'] = 0;
+            }
             //
             $comments = $this->commentService->getCommentsByID($item['id']);
             $item['comments']= $comments;
