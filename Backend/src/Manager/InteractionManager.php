@@ -90,4 +90,19 @@ class InteractionManager
     {
         return $this->interactionRepository->getUserInteraction($userID);
     }
+
+    public function deleteInteraction($swapItemID, $userID)
+    {
+        $result = $this->interactionRepository->checkUserLoved($swapItemID, $userID);
+
+        $item = $this->interactionRepository->find($result["id"]);
+
+        if ($item)
+        {
+            $this->entityManager->remove($item);
+            $this->entityManager->flush();
+
+            return $item;
+        }
+    }
 }
