@@ -32,6 +32,13 @@
                 "qualifier": null
               },
               "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_notifications/service/notification_service/notification_service.dart#NotificationService",
+                "qualifier": null
+              },
+              "isProvider": false
             }
           ]
         }

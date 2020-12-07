@@ -179,7 +179,8 @@ class _MyGameCardListState extends State<MyGameCardList> {
           ),
           onChatRequested: (itemId) {},
           onLoved: (loved) {
-            _loveGame(visibleGames[i].id.toString(), visibleGames[i].interaction.lovedId);
+            _loveGame(visibleGames[i].id.toString(),
+                visibleGames[i].interaction.lovedId);
           },
           onReport: (itemId) {
             Fluttertoast.showToast(msg: S.of(context).reportIsSent);
@@ -215,7 +216,8 @@ class _MyGameCardListState extends State<MyGameCardList> {
           ),
           onChatRequested: (itemId) {},
           onLoved: (loved) {
-            _loveGame(visibleGames[i].id.toString(), visibleGames[i].interaction.lovedId);
+            _loveGame(visibleGames[i].id.toString(),
+                visibleGames[i].interaction.lovedId);
           },
           onReport: (itemId) {
             Fluttertoast.showToast(msg: S.of(context).reportIsSent);
@@ -256,7 +258,8 @@ class _MyGameCardListState extends State<MyGameCardList> {
                 .pushNamed(GamesRoutes.ROUTE_GAME_DETAILS, arguments: itemId);
           },
           onLoved: (loved) {
-            _loveGame(visibleGames[i].id.toString(), visibleGames[i].interaction.lovedId);
+            _loveGame(visibleGames[i].id.toString(),
+                visibleGames[i].interaction.lovedId);
           },
           onReport: (itemId) {
             Fluttertoast.showToast(msg: S.of(context).reportIsSent);
@@ -293,21 +296,16 @@ class _MyGameCardListState extends State<MyGameCardList> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(S.of(context).removingFromLikeList),
       ));
-      widget._stateManager
-          .unLove(interactionId)
-          .then((value) {
+      widget._stateManager.unLove(interactionId).then((value) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(S.of(context).removedLoveFromItem),
         ));
       });
-    }
-    else {
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(S.of(context).savingToLikedList),
       ));
-      widget._stateManager
-          .love(gameId, null)
-          .then((value) {
+      widget._stateManager.love(gameId, null).then((value) {
         if (value == null) {
           Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
         }

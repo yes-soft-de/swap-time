@@ -36,6 +36,7 @@ class ChatPageBloc {
       _chatBlocSubject.stream;
   final PublishSubject<NotificationModel> _notificationUpdateSubject =
       PublishSubject();
+
   Stream<NotificationModel> get notificationStream =>
       _notificationUpdateSubject.stream;
 
@@ -62,10 +63,18 @@ class ChatPageBloc {
     _swapService.updateSwap(swapItemModel);
   }
 
-  void checkSwapUpdates(NotificationModel swapItemModel) {
+  void checkSwapUpdates(String id) {
     _notificationService.getNotifications().then((value) {
       value.forEach((element) {
-        if (element.chatRoomId == _chatRoomId) {}
+        if (element.chatRoomId == id) {
+          _notificationUpdateSubject.add(NotificationModel(
+            chatRoomId: id,
+            complete: element.complete,
+            swapId: element.swapId,
+            gameOne: element.gameOne,
+            gameTwo: element.gameTwo,
+          ));
+        }
       });
     });
   }

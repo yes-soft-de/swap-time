@@ -89,19 +89,19 @@ class ApiClient {
   }
 
   Future<Map<String, dynamic>> delete(
-      String url, {
-        Map<String, String> queryParams,
-        Map<String, String> headers,
-      }) async {
+    String url, {
+    Map<String, String> queryParams,
+    Map<String, String> headers,
+  }) async {
     try {
       _logger.info(tag, 'Requesting GET to: ' + url);
       _logger.info(tag, 'Headers: ' + headers.toString());
       _logger.info(tag, 'Query: ' + queryParams.toString());
       Dio client = Dio(BaseOptions(
-        // sendTimeout: 20000,
-        // receiveTimeout: 20000,
-        // connectTimeout: 20000,
-      ));
+          // sendTimeout: 20000,
+          // receiveTimeout: 20000,
+          // connectTimeout: 20000,
+          ));
       if (headers != null) {
         if (headers['Authorization'] != null) {
           _logger.info(tag, 'Adding Auth Header');

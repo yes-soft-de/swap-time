@@ -295,8 +295,8 @@ class AppComponent$Injector implements _i1.AppComponent {
       _createGamesListService(),
       _createSwapService(),
       _createImageUploadService());
-  _i66.ChatPageBloc _createChatPageBloc() =>
-      _i66.ChatPageBloc(_createChatService(), _createSwapService());
+  _i66.ChatPageBloc _createChatPageBloc() => _i66.ChatPageBloc(
+      _createChatService(), _createSwapService(), _createNotificationService());
   _i67.ChatService _createChatService() =>
       _i67.ChatService(_createChatManager());
   _i68.ChatManager _createChatManager() =>

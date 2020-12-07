@@ -60,6 +60,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           Navigator.of(context).pushNamed(ProfileRoutes.MY_ROUTE_PROFILE);
           return;
         }
+        widget._manager.startNotificationRefreshCycle();
         setState(() {});
       });
     });
@@ -136,7 +137,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               child: ExchangeSetterWidget(
                 gamesListService: widget._gamesListService,
                 myId: myId,
-                userId: game != null ? game.userID : null,
+                userId: gameOne.userID,
               ),
             );
             showDialog(context: context, builder: (context) => dialog)
@@ -160,7 +161,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           'i $activeIndex Game One: ${gameOne.id} and Game Two: ${gameTwo.id}');
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(S.of(context).savingData)));
-      if (gameToChange == activeIndex.gameOne) {
+      if (gameToChange != activeIndex.gameOne) {
         activeIndex.gameOne = newGame;
         widget._manager.updateSwap(activeIndex);
       } else {

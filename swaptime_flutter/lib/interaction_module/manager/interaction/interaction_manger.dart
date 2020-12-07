@@ -17,7 +17,8 @@ class InteractionManager {
     return _repository.updateInteraction(request);
   }
 
-  Future<dynamic> deleteInteraction(String interactionId) => _repository.deleteInteraction(interactionId);
+  Future<dynamic> deleteInteraction(String interactionId) =>
+      _repository.deleteInteraction(interactionId);
 
   Future<LikedGames> get getLikedGames => _repository.getLikedGames();
 }

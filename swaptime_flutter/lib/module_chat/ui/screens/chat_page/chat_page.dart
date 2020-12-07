@@ -64,6 +64,8 @@ class ChatPageState extends State<ChatPage> {
         gameOne = event.gameOne;
         gameTwo = event.gameTwo;
       });
+
+      checkUpdates();
     } else {
       chatRoomId = ModalRoute.of(context).settings.arguments;
     }
@@ -190,6 +192,13 @@ class ChatPageState extends State<ChatPage> {
         ],
       ),
     );
+  }
+
+  void checkUpdates() {
+    widget._chatPageBloc.checkSwapUpdates(chatRoomId);
+    Future.delayed(Duration(seconds: 15), () {
+      checkUpdates();
+    });
   }
 
   Future<void> buildMessagesList(List<ChatModel> chatList) async {

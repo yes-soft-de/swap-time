@@ -22,7 +22,7 @@ class NotificationsStateManager {
   }
 
   void startNotificationRefreshCycle() {
-    Future.delayed(Duration(minutes: 1), () {
+    Future.delayed(Duration(seconds: 15), () {
       _service.getNotifications().then((value) {
         _stateSubject.add(NotificationStateLoadSuccess(value));
       });
