@@ -94,11 +94,11 @@ class InteractionManager
         return $this->interactionRepository->getUserInteraction($userID);
     }
 
-    public function deleteInteraction($swapItemID, $userID)
+    public function deleteInteraction($itemID)
     {
-        $result = $this->interactionRepository->checkUserLoved($swapItemID, $userID);
+        //$result = $this->interactionRepository->checkUserLoved($swapItemID);
 
-        $item = $this->interactionRepository->find($result[0]["id"]);
+        $item = $this->interactionRepository->find($itemID);
 
         if ($item)
         {

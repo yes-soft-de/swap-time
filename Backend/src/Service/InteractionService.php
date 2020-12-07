@@ -109,8 +109,8 @@ class InteractionService
         }
     }
 
-    public function deleteInteraction($swapItemID, $userID)
+    public function deleteInteraction($swapItemID)
     {
-        return $this->interactionManager->deleteInteraction($swapItemID, $userID);
+        return $this->interactionManager->deleteInteraction($swapItemID);
     }
 }

@@ -123,7 +123,7 @@ class InteractionController extends BaseController
             $userID = $this->getUser()->getUsername();
         }
 
-        $result = $this->interactionService->deleteInteraction($itemID, $userID);
+        $result = $this->interactionService->deleteInteraction($itemID);
 
         return $this->response($result, self::DELETE);
     }
