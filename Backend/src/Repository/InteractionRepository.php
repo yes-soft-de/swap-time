@@ -117,7 +117,8 @@ class InteractionRepository extends ServiceEntityRepository
 
             ->setParameter('swapItemID', $swapItemID)
             ->setParameter('userID', $userID)
-
+            ->groupBy('interaction.id')
+            
             ->getQuery()
             ->getOneOrNullResult();
     }
