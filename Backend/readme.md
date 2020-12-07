@@ -144,17 +144,17 @@ methods: Get
 ```
 
 ### Interactions
-#### Create interaction
+#### Create an interaction
 ```
 /interaction
 methods: POST
 ```
-#### Update interaction
+#### Update existing interaction
 ```
 /interaction/{userID}/{animeID}/{type}
 methods: PUT
 ```
-#### Get all interactions
+#### Get all interactions of an item
 ```
 /interaction/{animeID}
 methods: GET
@@ -164,7 +164,7 @@ methods: GET
 /interaction/{animeID}/{userID}
 methods: GET
 ```
-#### Count interactions
+#### Count interactions for an item
 ```
 /countInteractions/{animeID}
 methods: GET
@@ -174,7 +174,7 @@ methods: GET
 /userinteraction
 methods: GET
 ```
-#### Delete interaction
+#### Delete specific interaction
 ```
 /interaction/{itemID}
 methods: DELETE
