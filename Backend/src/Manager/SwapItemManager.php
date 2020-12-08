@@ -48,4 +48,17 @@ class SwapItemManager
     {
         return $this->swapItemEntityRepository->getItemByUserID($userID);
     }
+
+    public function deleteSwapItem($swapItemID)
+    {
+        $swapItem = $this->swapItemEntityRepository->find($swapItemID);
+
+        if ($swapItem)
+        {
+            $this->entityManager->remove($swapItem);
+            $this->entityManager->flush();
+
+            return $swapItem;
+        }
+    }
 }

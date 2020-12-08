@@ -149,4 +149,8 @@ class SwapItemService
         }
     }
 
+    public function deleteSwapItem($swapItemID)
+    {
+        return $this->swapItemManager->deleteSwapItem($swapItemID);
+    }
 }

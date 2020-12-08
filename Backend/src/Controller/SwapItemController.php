@@ -104,4 +104,16 @@ class SwapItemController extends BaseController
 
         return $this->response($response,self::FETCH);
     }
+
+    /**
+     * @Route("/swapitem/{id}", name="deleteSwapItemById", methods={"DELETE"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteSwapItem(Request $request)
+    {
+        $result = $this->swapItemService->deleteSwapItem($request->get('id'));
+
+        return $this->response($result, self::DELETE);
+    }
 }
