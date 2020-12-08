@@ -11,6 +11,7 @@ class RawGService {
   RawGService(this._manager);
 
   Future<List<SearchModel>> search(String query) async {
+    query = query.replaceAll(' ', '+');
     var response = await this._manager.search(query);
     List<SearchModel> searchList = [];
     response.results.forEach((element) {

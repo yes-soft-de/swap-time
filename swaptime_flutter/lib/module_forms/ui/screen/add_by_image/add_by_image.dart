@@ -14,6 +14,7 @@ import 'package:swaptime_flutter/module_forms/states/by_image_state/by_image_sta
 import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
+import 'package:swaptime_flutter/utils/image_cacher/image_cacher.dart';
 
 @provide
 class AddByImageScreen extends StatefulWidget {
@@ -60,7 +61,12 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
     if (args is String) {
       filePath = args;
     } else if (args is ByApiArgs) {
-      imageUrl = args.imageUrl;
+      if (filePath != null) {
+        ImageCacher.cachImage(args.imageUrl).then((value) {
+          filePath = value;
+          setState(() {});
+        });
+      }
       _gameName.text = args.gameName;
       if (args.gamePlatform != null) {
         _gamePlatform = args.gamePlatform;
@@ -266,7 +272,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                saving ? S.of(context).submitGame : S.of(context).saving,
+                saving ? S.of(context).saving : S.of(context).submitGame,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,

@@ -14,6 +14,7 @@ class Urls {
   static const API_COMMENTS = BASE_API + '/comment';
   static const API_SWAP_BY_ME = BASE_API + '/swapbyuserid';
   static const API_CREATE_SWAP = BASE_API + '/swap';
+  static const API_UPLOAD = BASE_API + '/uploadfile';
 
   static const API_DEBUG_REQUES =
       'https://6d1e6bd7404f63eb79a347bef494837d.m.pipedream.net';
