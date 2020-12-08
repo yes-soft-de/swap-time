@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ? SwaptimeAppBar.getSearchAppBar(
                 context: context,
                 activeQuery: '',
-                watcherEnabled: false,
+                watcherEnabled: true,
                 onSearchRequested: (query) {
                   if (query == null) {
                     searchEnabled = false;
