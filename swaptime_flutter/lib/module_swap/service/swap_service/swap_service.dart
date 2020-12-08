@@ -27,8 +27,8 @@ class SwapService {
 
     var swapResponse = await _swapManager.createSwap(
       CreateSwapRequest(
-        userIdOne: uid,
-        userIdTwo: gameOwnerId,
+        userIdOne: gameOwnerId,
+        userIdTwo: uid,
         swapItemIdOne: gameId,
         swapItemIdTwo: -1,
         date: DateTime.now().toIso8601String(),

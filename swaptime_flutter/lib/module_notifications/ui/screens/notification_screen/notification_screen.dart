@@ -44,10 +44,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   void initState() {
     super.initState();
-    widget._manager.stateStream.listen((event) {
-      currentState = event;
-      if (mounted) setState(() {});
-    });
 
     widget._authService.isLoggedIn.then((authorized) {
       if (authorized == false || authorized == null) {
@@ -69,6 +65,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     if (!initiated) {
       initiated = true;
+      widget._manager.stateStream.listen((event) {
+        currentState = event;
+        if (mounted) setState(() {});
+      });
       widget._manager.getNotifications();
       return Center(
         child: CircularProgressIndicator(),
@@ -110,36 +110,40 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget getNotificationsList(String myId) {
     List<Widget> notCards = [];
     if (notifications != null) {
-      notifications.forEach((n) {
-        notCards.add(NotificationOnGoing(
-          gameOne: n.gameOne,
-          gameTow: n.gameTwo,
-          chatRoomId: n.chatRoomId,
-          myId: myId,
-          swapId: n.swapId,
-          finished: n.complete,
-          onSwapComplete: (swapId) {
-            widget._manager.setNotificationComplete(n);
-          },
-          onChangeRequest: (game) {
-            // The Game we want to change
-            gameToChange = game;
-            print('Game to Change: ${game.id}');
+      if (notifications.isNotEmpty) {
+        notifications.forEach((n) {
+          notCards.add(NotificationOnGoing(
+            gameOne: n.gameOne,
+            gameTow: n.gameTwo,
+            chatRoomId: n.chatRoomId,
+            myId: myId,
+            swapId: n.swapId,
+            finished: n.complete,
+            onSwapComplete: (swapId) {
+              widget._manager.setNotificationComplete(n);
+            },
+            onChangeRequest: (game) {
+              // The Game we want to change
+              gameToChange = game;
+              print('Game to Change: ${game.id} for user: ${game.userID}');
 
-            var dialog = Dialog(
-              child: ExchangeSetterWidget(
-                gamesListService: widget._gamesListService,
-                userId: game.userID,
-              ),
-            );
-            showDialog(context: context, builder: (context) => dialog)
-                .then((rawNewGame) {
-              activeNotification = n;
-              _updateSwapCard(rawNewGame);
-            });
-          },
-        ));
-      });
+              // Create the dialog for the question
+              var dialog = Dialog(
+                child: ExchangeSetterWidget(
+                  gamesListService: widget._gamesListService,
+                  userId: game.userID,
+                ),
+              );
+
+              showDialog(context: context, builder: (context) => dialog)
+                  .then((rawNewGame) {
+                activeNotification = n;
+                _updateSwapCard(rawNewGame);
+              });
+            },
+          ));
+        });
+      }
     }
     return Flex(
       direction: Axis.vertical,
@@ -152,7 +156,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     if (newGame != null) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(S.of(context).savingData)));
-      print('Changing ${gameToChange.id} to ${newGame.id}');
       if (gameToChange.userID == activeNotification.gameOne.userID) {
         activeNotification.gameOne = newGame;
         widget._manager.updateSwap(activeNotification);
@@ -161,5 +164,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
         widget._manager.updateSwap(activeNotification);
       }
     }
+  }
+
+  @override
+  void dispose() {
+    widget._manager.dispose();
+    super.dispose();
   }
 }

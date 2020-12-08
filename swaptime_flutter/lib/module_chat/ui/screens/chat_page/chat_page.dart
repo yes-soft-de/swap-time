@@ -43,9 +43,7 @@ class ChatPageState extends State<ChatPage> {
   List<ChatBubbleWidget> chatsMessagesWidgets = [];
 
   Games gameToChange;
-
   String chatRoomId;
-
   NotificationModel activeNotification;
 
   bool initiated = false;
@@ -61,12 +59,14 @@ class ChatPageState extends State<ChatPage> {
           complete: args.finished,
           swapId: args.swapId);
 
+      chatRoomId = args.chatRoomId;
+
       widget._chatPageBloc.notificationStream.listen((event) {
         activeNotification.gameOne = event.gameOne;
         activeNotification.gameTwo = event.gameTwo;
       });
 
-      checkUpdates();
+      widget._chatPageBloc.startGamesUpdateCycle(args.swapId);
     } else {
       chatRoomId = ModalRoute.of(context).settings.arguments;
     }

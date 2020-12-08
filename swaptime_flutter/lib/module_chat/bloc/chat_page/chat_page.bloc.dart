@@ -15,9 +15,7 @@ class ChatPageBloc {
   static const STATUS_CODE_GOT_DATA = 1590;
   static const STATUS_CODE_BUILDING_UI = 1591;
 
-  bool listening = false;
-
-  String _chatRoomId;
+  bool listening = true;
 
   final ChatService _chatService;
   final SwapService _swapService;
@@ -42,7 +40,6 @@ class ChatPageBloc {
 
   // We Should get the UUID of the ChatRoom, as such we should request the data here
   void getMessages(String chatRoomID) {
-    _chatRoomId = chatRoomID;
     if (!listening) listening = true;
     _chatService.chatMessagesStream.listen((event) {
       _chatBlocSubject.add(Pair(STATUS_CODE_GOT_DATA, event));
@@ -55,7 +52,7 @@ class ChatPageBloc {
   }
 
   void dispose() {
-    _chatBlocSubject.close();
+    listening = false;
   }
 
   void setNotificationComplete(NotificationModel swapItemModel) {
@@ -76,6 +73,15 @@ class ChatPageBloc {
           ));
         }
       });
+    });
+  }
+
+  void startGamesUpdateCycle(swapId) {
+    checkSwapUpdates(swapId);
+    Future.delayed(Duration(seconds: 10), () {
+      if (listening) {
+        startGamesUpdateCycle(swapId);
+      }
     });
   }
 }

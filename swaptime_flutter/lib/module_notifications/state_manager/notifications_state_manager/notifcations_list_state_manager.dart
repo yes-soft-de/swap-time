@@ -7,26 +7,37 @@ import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.d
 
 @provide
 class NotificationsStateManager {
+  bool enabled = true;
+
   final PublishSubject<NotificationState> _stateSubject = PublishSubject();
-  Stream<NotificationState> get stateStream => _stateSubject.stream;
+
+  Stream<NotificationState> get stateStream {
+    enabled = true;
+    return _stateSubject.stream;
+  }
 
   final NotificationService _service;
   final SwapService _swapService;
+
   NotificationsStateManager(this._service, this._swapService);
 
   void getNotifications() {
-    _stateSubject.add(NotificationStateLoading());
-    _service.getNotifications().then((value) {
-      _stateSubject.add(NotificationStateLoadSuccess(value));
-    });
+    if (enabled) {
+      _stateSubject.add(NotificationStateLoading());
+      _service.getNotifications().then((value) {
+        _stateSubject.add(NotificationStateLoadSuccess(value));
+      });
+    }
   }
 
   void startNotificationRefreshCycle() {
     Future.delayed(Duration(seconds: 15), () {
-      _service.getNotifications().then((value) {
-        _stateSubject.add(NotificationStateLoadSuccess(value));
-      });
-      startNotificationRefreshCycle();
+      if (enabled) {
+        _service.getNotifications().then((value) {
+          _stateSubject.add(NotificationStateLoadSuccess(value));
+        });
+        startNotificationRefreshCycle();
+      }
     });
   }
 
@@ -43,5 +54,9 @@ class NotificationsStateManager {
     _swapService.updateSwap(swapItemModel).then((value) {
       getNotifications();
     });
+  }
+
+  void dispose() {
+    enabled = false;
   }
 }

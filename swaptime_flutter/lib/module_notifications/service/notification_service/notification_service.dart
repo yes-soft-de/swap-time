@@ -16,13 +16,12 @@ class NotificationService {
     var swaps = await _swapService.getSwapRequests();
     for (int i = 0; i < swaps.length; i++) {
       var swap = swaps[i];
-      print('${swap.roomID}');
       notifications.add(NotificationModel(
         chatRoomId: swap.roomID,
         swapId: swap.id.toString(),
         gameOne: Games(
             mainImage: swap.swapItemOneImage,
-            userName: swap.userTwoName,
+            userName: swap.userOneName,
             id: swap.swapItemIdOne,
             userID: swap.userIdOne),
         gameTwo: Games(
@@ -33,6 +32,6 @@ class NotificationService {
         complete: swap.status == 'finished',
       ));
     }
-    return notifications;
+    return notifications.reversed.toList();
   }
 }

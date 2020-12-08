@@ -36,7 +36,6 @@ class NotificationOnGoing extends StatefulWidget {
         this.gameOne,
         this.gameTow,
         this.chatRoomId,
-        this.myId,
         this.swapId,
       );
 }
@@ -45,14 +44,12 @@ class _NotificationState extends State<NotificationOnGoing> {
   final Games gameOne;
   final Games gameTow;
   final String chatRoomId;
-  final String myId;
   final String swapId;
 
   _NotificationState(
     this.gameOne,
     this.gameTow,
     this.chatRoomId,
-    this.myId,
     this.swapId,
   );
 
@@ -145,31 +142,7 @@ class _NotificationState extends State<NotificationOnGoing> {
   }
 
   Widget _getGamesRow() {
-    if (gameOne.mainImage.length < 30) {
-      // Return Selector only on one game, which is the other one
-      return Flex(
-        direction: Axis.horizontal,
-        children: [
-          Flexible(
-            flex: 1,
-            fit: FlexFit.tight,
-            child: _gameSelector(gameOne),
-          ),
-          Flexible(
-            flex: 1,
-            fit: FlexFit.tight,
-            child: FadeInImage.assetNetwork(
-              placeholder: 'assets/images/logo.jpg',
-              image: gameTow.mainImage.substring(
-                  gameTow.mainImage.indexOf('https://') > 0
-                      ? gameTow.mainImage.indexOf('https://')
-                      : 0),
-              fit: BoxFit.cover,
-            ),
-          )
-        ],
-      );
-    } else if (gameTow.mainImage.length < 30) {
+    if (gameTow.id == -1) {
       // Return Selector only on one game, which is the other one
       return Flex(
         direction: Axis.horizontal,
