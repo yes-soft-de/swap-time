@@ -93,4 +93,9 @@ class UserManager
     {
         return $this->userProfileEntityRepository->getProfileByUSerID($userID);
     }
+
+    public function getAllProfiles()
+    {
+        return $this->userProfileEntityRepository->getAllProfiles();
+    }
 }

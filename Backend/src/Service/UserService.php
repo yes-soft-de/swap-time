@@ -66,4 +66,22 @@ class UserService
 
         return $itemsResponse;
     }
+
+    public function getAllProfiles()
+    {
+        $profilesResponse = [];
+        $response = [];
+
+        $result = $this->userManager->getAllProfiles();
+
+        foreach ($result as $row)
+        {
+            $profilesResponse[] = $this->autoMapping->map('array', UserProfileResponse::class, $row);
+        }
+
+        $response['Profiles'] = $profilesResponse;
+        $response['ProfilesCount'] = count($profilesResponse);
+
+        return $response;
+    }
 }

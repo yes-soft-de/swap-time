@@ -41,4 +41,12 @@ class UserProfileEntityRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function getAllProfiles()
+    {
+        return $this->createQueryBuilder('profile')
+            ->select('profile.id', 'profile.userID', 'profile.userName', 'profile.image', 'profile.story', 'profile.location')
+            ->getQuery()
+            ->getResult();
+    }
 }
