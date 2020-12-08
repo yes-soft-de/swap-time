@@ -145,25 +145,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
         key: _drawerKey,
-        appBar: searchEnabled
-            ? SwaptimeAppBar.getSearchAppBar(
-                context: context,
-                activeQuery: '',
-                watcherEnabled: true,
-                onSearchRequested: (query) {
-                  if (query == null) {
-                    searchEnabled = false;
-                    setState(() {});
-                  } else {
-                    Navigator.of(context)
-                        .pushNamed(SearchRoutes.ROUTE_SEARCH, arguments: query);
-                  }
-                },
-              )
-            : SwaptimeAppBar.getSwaptimeAppBar(_drawerKey, () {
-                searchEnabled = true;
-                setState(() {});
-              }),
+        appBar: SwaptimeAppBar.getSwaptimeAppBar(_drawerKey, () {
+          Navigator.of(context)
+              .pushNamed(SearchRoutes.ROUTE_SEARCH, arguments: null);
+          setState(() {});
+        }),
         drawer: SwapNavigationDrawer(widget._myProfileService),
         floatingActionButton: Visibility(
           visible: isFabVisible,

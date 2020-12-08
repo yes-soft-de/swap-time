@@ -29,6 +29,9 @@ class RawGService {
 
   List<GamePlatform> getGamePlatformList(List<Platforms> platforms) {
     var platformList = <GamePlatform>[];
+    if (platforms == null) {
+      return [];
+    }
     if (platforms.isEmpty) {
       return [];
     }

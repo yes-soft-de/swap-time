@@ -292,7 +292,7 @@ class _MyGameCardListState extends State<MyGameCardList> {
   }
 
   void _loveGame(String gameId, [String interactionId]) {
-    if (interactionId != null) {
+    if (interactionId != '0') {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(S.of(context).removingFromLikeList),
       ));

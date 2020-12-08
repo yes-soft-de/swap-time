@@ -42,6 +42,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
 
   bool loading = false;
   bool saving = false;
+  bool caching = false;
 
   @override
   void initState() {
@@ -61,10 +62,15 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
     if (args is String) {
       filePath = args;
     } else if (args is ByApiArgs) {
-      if (filePath != null) {
+      if (!caching && filePath == null) {
+        setState(() {
+          caching = true;
+        });
         ImageCacher.cachImage(args.imageUrl).then((value) {
-          filePath = value;
-          setState(() {});
+          setState(() {
+            filePath = value;
+            caching = false;
+          });
         });
       }
       _gameName.text = args.gameName;
@@ -287,7 +293,14 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
   }
 
   Widget _getImage() {
-    if (imageUrl != null) {
+    if (caching) {
+      return Container(
+        height: 240,
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    } else if (imageUrl != null) {
       return Stack(
         children: [
           Positioned.fill(

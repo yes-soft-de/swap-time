@@ -58,7 +58,6 @@ class LikedService {
     if (!signIn) {
       return null;
     }
-    String userId = await _authService.userID;
     dynamic response;
     if (loveId != null) {
       response = await _interactionManager.deleteInteraction(loveId);
@@ -70,8 +69,7 @@ class LikedService {
       return false;
     }
 
-    int code = int.parse(response.statusCode);
-    return code >= 200 && code < 400;
+    return response != null;
   }
 
   Future<List<LikedGameItem>> getLiked() async {
