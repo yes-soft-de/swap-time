@@ -94,7 +94,7 @@ class ApiClient {
     Map<String, String> headers,
   }) async {
     try {
-      _logger.info(tag, 'Requesting GET to: ' + url);
+      _logger.info(tag, 'Requesting DELETE to: ' + url);
       _logger.info(tag, 'Headers: ' + headers.toString());
       _logger.info(tag, 'Query: ' + queryParams.toString());
       Dio client = Dio(BaseOptions(

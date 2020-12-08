@@ -182,7 +182,10 @@ class _GameCardListState extends State<GameCardList> {
           ),
           onChatRequested: (itemId) {},
           onLoved: (loved) {
-            _loveGame(loved, visibleGames[i].id.toString());
+            _loveGame(
+              visibleGames[i].id.toString(),
+              visibleGames[i].interaction.lovedId,
+            );
           },
           onReport: (itemId) {
             _reportDialog(itemId);
@@ -215,7 +218,8 @@ class _GameCardListState extends State<GameCardList> {
           ),
           onChatRequested: (itemId) {},
           onLoved: (loved) {
-            _loveGame(loved, visibleGames[i].id.toString());
+            _loveGame(visibleGames[i].id.toString(),
+                visibleGames[i].interaction.lovedId);
           },
           onReport: (itemId) {
             _reportDialog(itemId);
@@ -254,7 +258,8 @@ class _GameCardListState extends State<GameCardList> {
                   .pushNamed(GamesRoutes.ROUTE_GAME_DETAILS, arguments: itemId);
             },
             onLoved: (loved) {
-              _loveGame(loved, visibleGames[i].id.toString());
+              _loveGame(visibleGames[i].id.toString(),
+                  visibleGames[i].interaction.lovedId);
             },
             onReport: (itemId) {
               _reportDialog(itemId);
@@ -307,12 +312,12 @@ class _GameCardListState extends State<GameCardList> {
     });
   }
 
-  void _loveGame(bool loved, String gameId) {
-    if (loved) {
+  void _loveGame(String gameId, [String interactionId]) {
+    if (interactionId != null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(S.of(context).removingFromLikeList),
       ));
-      widget._stateManager.unLove(gameId).then((value) {
+      widget._stateManager.unLove(interactionId).then((value) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(S.of(context).removedLoveFromItem),
         ));

@@ -39,7 +39,7 @@ class InteractionRepository {
     }
 
     Map<String, dynamic> response = await _apiClient.delete(
-      Urls.API_INTERACTION + interactionId,
+      Urls.API_INTERACTION + '/' + interactionId,
       headers: {'Authorization': 'Bearer ' + token},
     );
 
@@ -47,7 +47,7 @@ class InteractionRepository {
       return null;
     }
 
-    return LikedGames.fromJson(response);
+    return response;
   }
 
   Future<LikedGames> getLikedGames() async {

@@ -59,7 +59,7 @@ class LikedService {
       return null;
     }
     String userId = await _authService.userID;
-    InteractionResponse response;
+    dynamic response;
     if (loveId != null) {
       response = await _interactionManager.deleteInteraction(loveId);
     } else {
