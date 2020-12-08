@@ -25,6 +25,13 @@
                 "qualifier": null
               },
               "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_report/manager/report_manager/report_manager.dart#ReportManager",
+                "qualifier": null
+              },
+              "isProvider": false
             }
           ]
         }

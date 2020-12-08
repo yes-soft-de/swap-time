@@ -1,0 +1,26 @@
+{
+  "asset": "asset:swaptime_flutter/lib/module_report/manager/report_manager/report_manager.dart",
+  "summary": {
+    "injector": [],
+    "module": [],
+    "injectable": [
+      {
+        "name": "ReportManager",
+        "constructor": {
+          "name": "",
+          "kind": "constructor",
+          "injectedType": {
+            "lookupKey": {
+              "root": "asset:swaptime_flutter/lib/module_report/manager/report_manager/report_manager.dart#ReportManager",
+              "qualifier": null
+            },
+            "isProvider": false
+          },
+          "singleton": false,
+          "asynchronous": false,
+          "dependencies": []
+        }
+      }
+    ]
+  }
+}
