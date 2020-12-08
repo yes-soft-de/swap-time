@@ -40,12 +40,14 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
   GamePlatform _gamePlatform = GamePlatform.PC;
 
   bool loading = false;
+  bool saving = false;
 
   @override
   void initState() {
     super.initState();
     widget._stateManager.stateStream.listen((event) {
       loading = false;
+      saving = false;
       _calcCurrentState(event);
     });
 
@@ -66,9 +68,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
         _gamePlatform = GamePlatform.PC;
       }
     }
-    if (currentPage == null) {
-      _getUI();
-    }
+
     return Scaffold(
         appBar: SwaptimeAppBar.getBackEnabledAppBar(),
         key: _scaffoldState,
@@ -84,12 +84,12 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
         break;
       case ByImageStateUploadError:
         ByImageStateUploadError errState = newState;
-        _scaffoldState.currentState
+        ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(errState.errorMsg)));
         break;
       case ByImageStatePostError:
         ByImageStatePostError errState = newState;
-        _scaffoldState.currentState
+        ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(errState.errorMsg)));
         break;
       case ByImageStatePostSuccess:
@@ -241,6 +241,10 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
         ),
         GestureDetector(
           onTap: () {
+            if (saving) {
+              Fluttertoast.showToast(msg: S.of(context).loading);
+              return;
+            }
             if (imageUrl == null) {
               Fluttertoast.showToast(msg: S.of(context).pleaseUploadTheImage);
               return;
@@ -252,6 +256,9 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
               imageUrl,
               _gamePlatform,
             );
+            setState(() {
+              saving = true;
+            });
           },
           child: Container(
             alignment: Alignment.center,
@@ -259,7 +266,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                S.of(context).submitGame,
+                saving ? S.of(context).submitGame : S.of(context).saving,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,

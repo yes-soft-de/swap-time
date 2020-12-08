@@ -49,14 +49,10 @@ class SwapService {
     UpdateSwapRequest updateSwapRequest = UpdateSwapRequest(
         id: swapItemModel.swapId,
         date: DateTime.now().toIso8601String(),
-        userIdOne:
-            swapItemModel.gameOne != null ? swapItemModel.gameOne.userID : null,
-        userIdTwo:
-            swapItemModel.gameTwo != null ? swapItemModel.gameTwo.userID : null,
-        swapItemIdOne:
-            swapItemModel.gameOne != null ? swapItemModel.gameOne.id : null,
-        swapItemIdTwo:
-            swapItemModel.gameTwo != null ? swapItemModel.gameTwo.id : null,
+        userIdOne: swapItemModel.gameOne.userID,
+        userIdTwo: swapItemModel.gameTwo.userID,
+        swapItemIdOne: swapItemModel.gameOne.id,
+        swapItemIdTwo: swapItemModel.gameTwo.id,
         roomID: swapItemModel.chatRoomId,
         status: swapItemModel.complete ? 'finished' : 'on-going');
     var result = await _swapManager.updateSwap(updateSwapRequest);

@@ -8,12 +8,10 @@ import 'package:swaptime_flutter/module_theme/service/theme_service/theme_servic
 class ExchangeSetterWidget extends StatefulWidget {
   final GamesListService gamesListService;
   final String userId;
-  final String myId;
 
   ExchangeSetterWidget({
     @required this.gamesListService,
     @required this.userId,
-    @required this.myId,
   });
 
   @override
@@ -27,17 +25,10 @@ class _ExchangeSetterWidgetState extends State<ExchangeSetterWidget> {
   @override
   void initState() {
     super.initState();
-    if (widget.userId != null) {
-      widget.gamesListService.getUserGames(widget.userId).then((value) {
-        userGames = _processGames(value);
-        setState(() {});
-      });
-    } else {
-      widget.gamesListService.getUserGames(widget.myId).then((value) {
-        userGames = _processGames(value);
-        setState(() {});
-      });
-    }
+    widget.gamesListService.getUserGames(widget.userId).then((value) {
+      userGames = _processGames(value);
+      setState(() {});
+    });
   }
 
   @override

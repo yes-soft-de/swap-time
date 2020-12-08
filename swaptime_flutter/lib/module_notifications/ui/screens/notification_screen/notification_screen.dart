@@ -35,10 +35,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   NotificationState currentState;
   int viewLimit = 10;
   bool initiated = false;
-  NotificationModel activeIndex;
   Games gameToChange;
-  Games gameOne;
-  Games gameTwo;
+
+  NotificationModel activeNotification;
 
   List<NotificationModel> notifications;
 
@@ -123,25 +122,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
             widget._manager.setNotificationComplete(n);
           },
           onChangeRequest: (game) {
-            // Setting the Scene
-            activeIndex = n;
-            gameOne = n.gameOne;
-            gameTwo = n.gameTwo;
-            gameToChange = n.gameOne;
-
-            if (game == n.gameTwo) {
-              gameToChange = n.gameTwo;
-            }
+            // The Game we want to change
+            gameToChange = game;
+            print('Game to Change: ${game.id}');
 
             var dialog = Dialog(
               child: ExchangeSetterWidget(
                 gamesListService: widget._gamesListService,
-                myId: myId,
-                userId: gameOne.userID,
+                userId: game.userID,
               ),
             );
             showDialog(context: context, builder: (context) => dialog)
                 .then((rawNewGame) {
+              activeNotification = n;
               _updateSwapCard(rawNewGame);
             });
           },
@@ -157,16 +150,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void _updateSwapCard(Games rawNewGame) {
     Games newGame = rawNewGame;
     if (newGame != null) {
-      print(
-          'i $activeIndex Game One: ${gameOne.id} and Game Two: ${gameTwo.id}');
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(S.of(context).savingData)));
-      if (gameToChange != activeIndex.gameOne) {
-        activeIndex.gameOne = newGame;
-        widget._manager.updateSwap(activeIndex);
+      print('Changing ${gameToChange.id} to ${newGame.id}');
+      if (gameToChange.userID == activeNotification.gameOne.userID) {
+        activeNotification.gameOne = newGame;
+        widget._manager.updateSwap(activeNotification);
       } else {
-        activeIndex.gameTwo = newGame;
-        widget._manager.updateSwap(activeIndex);
+        activeNotification.gameTwo = newGame;
+        widget._manager.updateSwap(activeNotification);
       }
     }
   }

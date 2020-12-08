@@ -42,11 +42,11 @@ class ChatPageState extends State<ChatPage> {
 
   List<ChatBubbleWidget> chatsMessagesWidgets = [];
 
+  Games gameToChange;
+
   String chatRoomId;
-  Games gameOne;
-  Games gameTwo;
-  String swapId;
-  bool finished;
+
+  NotificationModel activeNotification;
 
   bool initiated = false;
 
@@ -54,15 +54,16 @@ class ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     if (ModalRoute.of(context).settings.arguments is ChatArguments) {
       ChatArguments args = ModalRoute.of(context).settings.arguments;
-      chatRoomId = args.chatRoomId;
-      gameOne = args.gameOne;
-      gameTwo = args.gameTow;
-      swapId = args.swapId;
-      finished = args.finished;
+      activeNotification = NotificationModel(
+          gameOne: args.gameOne,
+          gameTwo: args.gameTow,
+          chatRoomId: args.chatRoomId,
+          complete: args.finished,
+          swapId: args.swapId);
 
       widget._chatPageBloc.notificationStream.listen((event) {
-        gameOne = event.gameOne;
-        gameTwo = event.gameTwo;
+        activeNotification.gameOne = event.gameOne;
+        activeNotification.gameTwo = event.gameTwo;
       });
 
       checkUpdates();
@@ -98,7 +99,8 @@ class ChatPageState extends State<ChatPage> {
           ),
           Column(
             children: [
-              gameOne == null && gameTwo == null
+              activeNotification.gameOne == null &&
+                      activeNotification.gameTwo == null
                   ? Container()
                   : MediaQuery.of(context).viewInsets.bottom == 0
                       ? FutureBuilder(
@@ -107,32 +109,29 @@ class ChatPageState extends State<ChatPage> {
                               AsyncSnapshot<String> snapshot) {
                             return NotificationOnGoing(
                               shrink: true,
-                              gameOne: gameOne,
-                              gameTow: gameTwo,
+                              gameOne: activeNotification.gameOne,
+                              gameTow: activeNotification.gameTwo,
+                              swapId: activeNotification.swapId,
                               chatRoomId: chatRoomId,
                               myId: snapshot.data,
-                              finished: finished,
+                              finished: activeNotification.complete,
                               onSwapComplete: (swap) {
                                 widget._chatPageBloc.setNotificationComplete(
                                     NotificationModel(
-                                        gameOne: gameOne,
-                                        gameTwo: gameTwo,
+                                        gameOne: activeNotification.gameOne,
+                                        gameTwo: activeNotification.gameTwo,
                                         chatRoomId: chatRoomId,
-                                        complete: finished,
-                                        swapId: swapId));
-                                finished = true;
+                                        complete: activeNotification.complete,
+                                        swapId: activeNotification.swapId));
+                                activeNotification.complete = true;
                                 setState(() {});
                               },
                               onChangeRequest: (game) {
                                 // Change Games
-                                Games oldGame = game;
-                                if (game == gameTwo) {
-                                  oldGame = gameTwo;
-                                }
+                                gameToChange = game;
                                 var dialog = Dialog(
                                   child: ExchangeSetterWidget(
                                     gamesListService: widget._gamesListService,
-                                    myId: snapshot.data,
                                     userId: game != null ? game.userID : null,
                                   ),
                                 );
@@ -140,33 +139,9 @@ class ChatPageState extends State<ChatPage> {
                                         context: context,
                                         builder: (context) => dialog)
                                     .then((rawNewGame) {
-                                  Games newGame = rawNewGame;
-                                  if (newGame != null) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                            content: Text(
-                                                S.of(context).savingData)));
-                                    if (oldGame == gameOne) {
-                                      gameOne = newGame;
-                                    } else if (oldGame == gameTwo) {
-                                      gameTwo = newGame;
-                                    }
-                                    currentState = null;
-                                    setState(() {});
-                                    widget._swapService
-                                        .updateSwap(NotificationModel(
-                                            gameOne: gameOne,
-                                            gameTwo: gameTwo,
-                                            chatRoomId: chatRoomId,
-                                            swapId: swapId,
-                                            complete: finished))
-                                        .then((value) {
-                                      setState(() {});
-                                    });
-                                  }
+                                  _updateSwapCard(rawNewGame);
                                 });
                               },
-                              swapId: swapId,
                             );
                           },
                         )
@@ -199,6 +174,20 @@ class ChatPageState extends State<ChatPage> {
     Future.delayed(Duration(seconds: 15), () {
       checkUpdates();
     });
+  }
+
+  void _updateSwapCard(Games newGame) {
+    if (newGame != null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(S.of(context).savingData)));
+      if (gameToChange.userID == activeNotification.gameOne.userID) {
+        activeNotification.gameOne = newGame;
+        widget._swapService.updateSwap(activeNotification);
+      } else {
+        activeNotification.gameTwo = newGame;
+        widget._swapService.updateSwap(activeNotification);
+      }
+    }
   }
 
   Future<void> buildMessagesList(List<ChatModel> chatList) async {
