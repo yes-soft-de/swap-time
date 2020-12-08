@@ -10,7 +10,11 @@ class ReportResponse
 
     public $userID;
 
+    public $userName;
+
     public $swapItemID;
+
+    public $itemName;
 
     public $date;
 }

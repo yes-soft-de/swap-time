@@ -3,7 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\ReportEntity;
+use App\Entity\SwapItemEntity;
+use App\Entity\UserProfileEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,7 +26,21 @@ class ReportEntityRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('report')
 
-            ->select('report.id', 'report.userID', 'report.swapItemID', 'report.date')
+            ->select('report.id', 'report.userID', 'report.swapItemID', 'report.date', 'profile.userName', 'swapItem.name as itemName')
+
+            ->leftJoin(
+                UserProfileEntity::class,               //Entity
+                "profile",                              //Alias
+                Join::WITH,                      //Join Type
+                "profile.userID = report.userID"    //Join Column
+            )
+
+            ->leftJoin(
+                SwapItemEntity::class,                  //Entity
+                "swapItem",                             //Alias
+                Join::WITH,                      //Join Type
+                "swapItem.id = report.swapItemID"   //Join Column
+            )
 
             ->orderBy('report.id', 'ASC')
 
