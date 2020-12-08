@@ -57,7 +57,11 @@ class Games {
     category = json['category'];
     platform = json['platform'];
     isRequested = json['isRequested'];
-    tag = json['tag'].cast<String>();
+    try {
+      tag = json['tag'].cast<String>();
+    } catch (e) {
+      tag = null;
+    }
     description = json['description'];
     mainImage = json['mainImage'];
     userID = json['userID'];
