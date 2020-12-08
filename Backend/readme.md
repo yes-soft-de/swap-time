@@ -74,6 +74,11 @@ methods: GET
 /swapitembyuserid/{id}
 methods: GET
 ```
+#### Delete specific swap item
+```
+/swapitem/{id}
+methods: DELETE
+```
 
 ### Upload
 #### Upload file
@@ -125,6 +130,7 @@ methods: POST
 /comment
 methods: POST
 ```
+
 ### Admin
 #### Create Admin
 ```
@@ -146,6 +152,11 @@ methods: POST
 ```
 /report
 methods: Get
+```
+#### Delete specific report
+```
+/report/{id}
+methods: DELETE
 ```
 
 ### Interactions
