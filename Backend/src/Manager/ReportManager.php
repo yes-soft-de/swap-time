@@ -41,4 +41,16 @@ class ReportManager
         return $this->reportEntityRepository->getReports();
     }
 
+    public function deleteReport($reportID)
+    {
+        $report = $this->reportEntityRepository->find($reportID);
+
+        if ($report)
+        {
+            $this->entityManager->remove($report);
+            $this->entityManager->flush();
+
+            return $report;
+        }
+    }
 }

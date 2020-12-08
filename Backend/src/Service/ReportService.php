@@ -43,4 +43,9 @@ class ReportService
 
         return $itemsResponse;
     }
+
+    public function deleteReport($reportID)
+    {
+        return $this->reportManager->deleteReport($reportID);
+    }
 }

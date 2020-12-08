@@ -61,4 +61,16 @@ class ReportController extends BaseController
 
         return $this->response($response,self::FETCH);
     }
+
+    /**
+     * @Route("/report/{id}", name="deleteReportById", methods={"DELETE"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteReport(Request $request)
+    {
+        $result = $this->reportService->deleteReport($request->get('id'));
+
+        return $this->response($result, self::DELETE);
+    }
 }
