@@ -48,6 +48,11 @@ methods: PUT
 /userprofile/{id}
 methods: GET
 ```
+#### Get all users profiles 
+```
+/userprofileall
+methods: GET
+```
 ### Swap items
 #### Create new item
 ```
