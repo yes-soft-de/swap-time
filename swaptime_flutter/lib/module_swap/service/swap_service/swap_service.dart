@@ -71,7 +71,7 @@ class SwapService {
         }
       });
     } else {
-      return [];
+      return null;
     }
     return swapMap.values.toList();
   }

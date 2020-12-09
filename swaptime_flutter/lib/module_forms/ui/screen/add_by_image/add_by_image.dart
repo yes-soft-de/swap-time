@@ -107,7 +107,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
       case ByImageStatePostSuccess:
         Navigator.of(context).pushNamedAndRemoveUntil(
             HomeRoutes.ROUTE_HOME, (route) => false,
-            arguments: 1);
+            arguments: 0);
         break;
       default:
         if (mounted) setState(() {});

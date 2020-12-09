@@ -36,7 +36,7 @@ class GamesListService {
         visibleGames.add(allGamesList[i]);
       }
     }
-    return visibleGames;
+    return visibleGames.reversed.toList();
   }
 
   Future<List<Games>> getUserGames(String userId) async {

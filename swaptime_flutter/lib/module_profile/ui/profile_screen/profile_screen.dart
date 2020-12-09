@@ -93,8 +93,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(90))),
                       child: IconButton(
                         onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(ProfileRoutes.MY_ROUTE_PROFILE);
+                          Navigator.of(context).pushNamed(
+                            ProfileRoutes.MY_ROUTE_PROFILE,
+                            arguments: true,
+                          );
                         },
                         icon: Icon(Icons.repeat_sharp),
                       ),

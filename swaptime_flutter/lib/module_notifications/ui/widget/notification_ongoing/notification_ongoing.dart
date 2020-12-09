@@ -89,6 +89,8 @@ class _NotificationState extends State<NotificationOnGoing> {
                           direction: Axis.horizontal,
                           children: [
                             Container(
+                              height: 48,
+                              width: 48,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       image: NetworkImage(userImage ?? '')),
@@ -98,7 +100,9 @@ class _NotificationState extends State<NotificationOnGoing> {
                               width: 16,
                             ),
                             Text(
-                              gameTow.userName,
+                              gameTow.userID == widget.myId
+                                  ? gameTow.userName
+                                  : gameOne.userName,
                             )
                           ],
                         ),

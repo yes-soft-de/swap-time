@@ -232,7 +232,7 @@ class AppComponent$Injector implements _i1.AppComponent {
       _i40.NotificationsStateManager(
           _createNotificationService(), _createSwapService());
   _i41.NotificationService _createNotificationService() =>
-      _i41.NotificationService(_createSwapService());
+      _i41.NotificationService(_createSwapService(), _createAuthService());
   _i42.SwapService _createSwapService() =>
       _i42.SwapService(_createAuthService(), _createSwapManager());
   _i43.SwapManager _createSwapManager() =>
