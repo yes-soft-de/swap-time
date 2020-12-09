@@ -3,8 +3,8 @@ App\Request\UploadImageRequest:
     uploadedFile:
       - Image:
           #mimeTypesMessage: "thid id not message"
-          maxSize: 2m
-          maxSizeMessage: "Image size over 2M"
+          maxSize: 20m
+          maxSizeMessage: "Image size over 20M"
 
 App\Request\UserRegisterRequest:
   properties:
