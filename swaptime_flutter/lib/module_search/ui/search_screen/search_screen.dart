@@ -46,16 +46,30 @@ class _SearchScreenState extends State<SearchScreen> {
       currentState = event;
       if (currentState is GamesListStateLoadSuccess) {
         GamesListStateLoadSuccess state = currentState;
-        gamesList = _processList(state.games);
+        gamesList = state.games;
         visibleGames = gamesList;
       }
-      if (mounted) setState(() {});
     });
 
     widget._authService.isLoggedIn.then((value) {
       loggedIn = value;
     });
     widget._stateManager.getAvailableGames();
+
+    startSortingCycle();
+  }
+
+  void startSortingCycle() {
+    _processList(gamesList);
+    print('Refreshing Data');
+    if (mounted) setState(() {});
+    Future.delayed(Duration(seconds: 5), () {
+      if (gamesList != null) {
+        if (mounted) {
+          startSortingCycle();
+        }
+      }
+    });
   }
 
   @override
@@ -82,7 +96,7 @@ class _SearchScreenState extends State<SearchScreen> {
         );
         break;
       default:
-        return Scaffold(body: getLoadingUI());
+        return SafeArea(child: Scaffold(body: getLoadingUI()));
     }
   }
 
@@ -103,8 +117,6 @@ class _SearchScreenState extends State<SearchScreen> {
           }
           if (searchQuery != null && searchQuery != activeSearchQuery) {
             activeSearchQuery = searchQuery;
-            _processList(gamesList);
-            setState(() {});
           }
         },
       ),
@@ -150,8 +162,6 @@ class _SearchScreenState extends State<SearchScreen> {
           if (searchQuery.isNotEmpty) {
             if (searchQuery != activeSearchQuery) {
               activeSearchQuery = searchQuery;
-              _processList(gamesList);
-              setState(() {});
             }
           }
         },
@@ -165,6 +175,10 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _calcVisibleBySearchQuery() {
+    if (activeSearchQuery == null) {
+      visibleGames = gamesList;
+      return;
+    }
     if (activeSearchQuery != null) {
       List<Games> activeGames = [];
       gamesList.forEach((element) {
@@ -236,7 +250,9 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   List<Games> _processList(List<Games> gamesList) {
-    print('Processing data, sorting ' + activeSort.toString());
+    if (gamesList == null) {
+      return [];
+    }
     Map<int, dynamic> games = {};
     gamesList.forEach((element) {
       games[element.id] = element;

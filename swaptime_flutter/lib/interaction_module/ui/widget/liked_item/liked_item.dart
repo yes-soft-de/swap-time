@@ -51,7 +51,7 @@ class LikedItemCard extends StatelessWidget {
                           direction: Axis.horizontal,
                           children: [
                             date.length > 5
-                                ? Text(S.of(context).likedAt + date)
+                                ? Text(S.of(context).likedAt + ' ' + date)
                                 : Container(),
                             Padding(
                               padding: const EdgeInsets.all(4.0),

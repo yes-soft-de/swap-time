@@ -44,6 +44,7 @@ class ExchangeGameCard extends StatelessWidget {
                           child: Text(
                             game.name,
                             textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
@@ -74,6 +75,7 @@ class ExchangeGameCard extends StatelessWidget {
                         child: Text(
                           game.name,
                           textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ),

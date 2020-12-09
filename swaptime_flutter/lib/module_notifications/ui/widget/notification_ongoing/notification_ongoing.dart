@@ -16,6 +16,7 @@ class NotificationOnGoing extends StatefulWidget {
   final String swapId;
   final bool finished;
   final bool shrink;
+  final String userImage;
   final Function(Games) onChangeRequest;
   final Function(String) onSwapComplete;
 
@@ -28,6 +29,7 @@ class NotificationOnGoing extends StatefulWidget {
     @required this.swapId,
     @required this.onChangeRequest,
     @required this.onSwapComplete,
+    @required this.userImage,
     this.shrink,
   });
 
@@ -37,6 +39,7 @@ class NotificationOnGoing extends StatefulWidget {
         this.gameTow,
         this.chatRoomId,
         this.swapId,
+        this.userImage,
       );
 }
 
@@ -45,12 +48,14 @@ class _NotificationState extends State<NotificationOnGoing> {
   final Games gameTow;
   final String chatRoomId;
   final String swapId;
+  final String userImage;
 
   _NotificationState(
     this.gameOne,
     this.gameTow,
     this.chatRoomId,
     this.swapId,
+    this.userImage,
   );
 
   @override
@@ -85,23 +90,15 @@ class _NotificationState extends State<NotificationOnGoing> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(90)),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(8),
-                                child: Icon(
-                                  Icons.person,
-                                  color: Colors.white,
-                                ),
-                              ),
+                                  image: DecorationImage(
+                                      image: NetworkImage(userImage ?? '')),
+                                  shape: BoxShape.circle),
                             ),
                             Container(
                               width: 16,
                             ),
                             Text(
-                              gameOne.userName,
+                              gameTow.userName,
                             )
                           ],
                         ),

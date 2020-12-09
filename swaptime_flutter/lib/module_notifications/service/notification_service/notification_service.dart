@@ -19,6 +19,7 @@ class NotificationService {
       notifications.add(NotificationModel(
         chatRoomId: swap.roomID,
         swapId: swap.id.toString(),
+        userImage: swap.userTwoImage,
         gameOne: Games(
             mainImage: swap.swapItemOneImage,
             userName: swap.userOneName,

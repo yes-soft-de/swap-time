@@ -66,14 +66,25 @@ class SwapListItem {
     date = json['date'] != null ? new Date.fromJson(json['date']) : null;
     userIdOne = json['userIdOne'];
     userOneName = json['userOneName'];
-    userOneImage = json['userOneImage'];
     userTwoName = json['userTwoName'];
-    userTwoImage = json['userTwoImage'];
-    userIdTwo = json['userIdTwo'];
     swapItemIdOne = json['swapItemIdOne'];
-    swapItemOneImage = json['swapItemOneImage'];
     swapItemIdTwo = json['swapItemIdTwo'];
+    userIdTwo = json['userIdTwo'];
+
+    userOneImage = json['userOneImage'];
+    userOneName = userOneImage.substring(userOneImage.lastIndexOf('http'));
+
+    userTwoImage = json['userTwoImage'];
+    userTwoImage = userTwoImage.substring(userTwoImage.lastIndexOf('http'));
+
+    swapItemOneImage = json['swapItemOneImage'];
+    swapItemOneImage =
+        swapItemOneImage.substring(swapItemOneImage.lastIndexOf('http'));
+
     swapItemTwoImage = json['swapItemTwoImage'];
+    swapItemTwoImage =
+        swapItemTwoImage.substring(swapItemTwoImage.lastIndexOf('http'));
+
     cost = json['cost'];
     roomID = json['roomID'];
     status = json['status'];

@@ -117,6 +117,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             gameTow: n.gameTwo,
             chatRoomId: n.chatRoomId,
             myId: myId,
+            userImage: n.userImage,
             swapId: n.swapId,
             finished: n.complete,
             onSwapComplete: (swapId) {
