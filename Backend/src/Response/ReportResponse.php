@@ -17,4 +17,6 @@ class ReportResponse
     public $itemName;
 
     public $date;
+
+    public $description;
 }

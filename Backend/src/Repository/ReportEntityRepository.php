@@ -26,7 +26,7 @@ class ReportEntityRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('report')
 
-            ->select('report.id', 'report.userID', 'report.swapItemID', 'report.date', 'profile.userName', 'swapItem.name as itemName')
+            ->select('report.id', 'report.userID', 'report.swapItemID', 'report.date', 'report.description', 'profile.userName', 'swapItem.name as itemName')
 
             ->leftJoin(
                 UserProfileEntity::class,               //Entity

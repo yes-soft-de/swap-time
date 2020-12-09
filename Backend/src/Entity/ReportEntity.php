@@ -32,6 +32,11 @@ class ReportEntity
      */
     private $date;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class ReportEntity
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

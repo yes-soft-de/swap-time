@@ -14,6 +14,8 @@ class ReportCreateRequest
 
     private $date;
 
+    private $description;
+
     /**
      * @return mixed
      */
