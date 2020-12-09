@@ -199,8 +199,7 @@ class _SearchScreenState extends State<SearchScreen> {
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
             imageUrl: visibleGames[i]
-                .mainImage
-                .substring(visibleGames[i].mainImage.indexOf('https://')),
+                .mainImage,
             gameOwnerFirstName: visibleGames[i].name,
             lovable: loggedIn,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,

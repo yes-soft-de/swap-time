@@ -63,7 +63,14 @@ class Games {
       tag = null;
     }
     description = json['description'];
-    mainImage = json['mainImage'];
+    if (json['mainImage'] != null) {
+      mainImage = json['mainImage'];
+      if (mainImage.contains('https://')) {
+        mainImage.substring(mainImage.indexOf('https://'));
+      }
+    } else {
+      mainImage = '';
+    }
     userID = json['userID'];
     userName = json['userName'];
     commentNumber = json['commentNumber'];
@@ -76,7 +83,9 @@ class Games {
         comments.add(new CommentModel.fromJson(v));
       });
     }
-    images = json['images'].cast<String>();
+    if (json['images'] != null) {
+      images = json['images'].cast<String>();
+    }
     specialLink = json['specialLink'];
   }
 }

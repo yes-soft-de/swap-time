@@ -29,7 +29,7 @@ class ExchangeGameCard extends StatelessWidget {
                     Positioned.fill(
                       child: FadeInImage.assetNetwork(
                         placeholder: 'assets/images/logo.png',
-                        image: game.mainImage.substring(game.mainImage.indexOf('https://')),
+                        image: game.mainImage,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -61,7 +61,7 @@ class ExchangeGameCard extends StatelessWidget {
                   children: [
                     Positioned.fill(
                       child: Image.network(
-                        game.mainImage.substring(game.mainImage.indexOf('https://')),
+                        game.mainImage,
                         fit: BoxFit.cover,
                       ),
                     ),

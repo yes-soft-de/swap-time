@@ -173,8 +173,7 @@ class _GameCardListState extends State<GameCardList> {
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
             imageUrl: visibleGames[i]
-                .mainImage
-                .substring(visibleGames[i].mainImage.indexOf('https://')),
+                .mainImage,
             gameOwnerFirstName: visibleGames[i].name,
             lovable: loggedIn,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
@@ -208,10 +207,7 @@ class _GameCardListState extends State<GameCardList> {
         child: GameCardMedium(
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i].mainImage.substring(
-                visibleGames[i].mainImage.contains('https://')
-                    ? visibleGames[i].mainImage.indexOf('https://')
-                    : 0),
+            imageUrl: visibleGames[i].mainImage,
             lovable: loggedIn,
             gameOwnerFirstName: visibleGames[i].userName,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
@@ -244,10 +240,7 @@ class _GameCardListState extends State<GameCardList> {
           child: GameCardLarge(
             gameModel: GameModel(
               gameTitle: visibleGames[i].name,
-              imageUrl: visibleGames[i].mainImage.substring(
-                  visibleGames[i].mainImage.indexOf('https://') > 0
-                      ? visibleGames[i].mainImage.indexOf('https://')
-                      : 0),
+              imageUrl: visibleGames[i].mainImage,
               gameOwnerFirstName: visibleGames[i].userName,
               lovable: loggedIn,
               loved: visibleGames[i].interaction.checkLoved && loggedIn,

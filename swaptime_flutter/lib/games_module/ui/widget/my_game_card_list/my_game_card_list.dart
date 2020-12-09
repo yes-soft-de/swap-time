@@ -168,10 +168,7 @@ class _MyGameCardListState extends State<MyGameCardList> {
         child: GameCardSmall(
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i].mainImage.substring(
-                visibleGames[i].mainImage.indexOf('https://') > 0
-                    ? visibleGames[i].mainImage.indexOf('https://')
-                    : 0),
+            imageUrl: visibleGames[i].mainImage,
             gameOwnerFirstName: visibleGames[i].name,
             lovable: loggedIn,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
@@ -205,10 +202,7 @@ class _MyGameCardListState extends State<MyGameCardList> {
         child: GameCardMedium(
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i].mainImage.substring(
-                visibleGames[i].mainImage.indexOf('https://') > 0
-                    ? visibleGames[i].mainImage.indexOf('https://')
-                    : 0),
+            imageUrl: visibleGames[i].mainImage,
             lovable: loggedIn,
             gameOwnerFirstName: visibleGames[i].name,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
@@ -244,10 +238,7 @@ class _MyGameCardListState extends State<MyGameCardList> {
           comments: int.tryParse(visibleGames[i].commentNumber) ?? 0,
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i].mainImage.substring(
-                visibleGames[i].mainImage.indexOf('https://') > 0
-                    ? visibleGames[i].mainImage.indexOf('https://')
-                    : 0),
+            imageUrl: visibleGames[i].mainImage,
             gameOwnerFirstName: visibleGames[i].name,
             lovable: loggedIn,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,

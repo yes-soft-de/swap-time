@@ -24,6 +24,9 @@ class ItemCreateRequest {
     tags = json['tags'].cast<String>();
     description = json['description'];
     mainImage = json['mainImage'];
+    if(mainImage.contains('https://')) {
+      mainImage.substring(mainImage.indexOf('https://'));
+    }
     specialLink = json['specialLink'];
     userID = json['userID'];
     category = json['category'];

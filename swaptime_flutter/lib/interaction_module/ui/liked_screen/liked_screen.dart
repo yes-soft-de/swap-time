@@ -97,8 +97,7 @@ class _LikedScreenState extends State<LikedScreen> {
           );
         },
         child: LikedItemCard(
-          gameImageUrl: element.mainImage
-              .substring(element.mainImage.indexOf('https://')),
+          gameImageUrl: element.mainImage,
           ownerFirstName: ' ',
           date: element.date == null
               ? ' '
