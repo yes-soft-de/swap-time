@@ -4,7 +4,9 @@ import 'package:swaptime_flutter/module_report/request/report_request.dart';
 
 @provide
 class ReportManager {
-  ReportRepository _repository;
+  final ReportRepository _repository;
+
+  ReportManager(this._repository);
 
   void postReport(ReportRequest reportRequest) =>
       _repository.postReport(reportRequest);
