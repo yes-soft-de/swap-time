@@ -21,7 +21,7 @@ class ItemCreateRequest {
   ItemCreateRequest.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     platform = json['platform'];
-    tags = json['tags'].cast<String>();
+    tags = json['tag'].cast<String>();
     description = json['description'];
     mainImage = json['mainImage'];
     mainImage = mainImage.substring(mainImage.lastIndexOf('http'));
@@ -34,7 +34,7 @@ class ItemCreateRequest {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = this.name;
     data['platform'] = this.platform;
-    data['tags'] = this.tags;
+    data['tag'] = this.tags;
     data['description'] = this.description;
     data['mainImage'] = this.mainImage;
     data['specialLink'] = this.specialLink;

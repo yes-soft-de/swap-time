@@ -14,6 +14,9 @@ class RawGService {
     query = query.replaceAll(' ', '+');
     var response = await this._manager.search(query);
     List<SearchModel> searchList = [];
+    if (response.results == null) {
+      return [];
+    }
     response.results.forEach((element) {
       var platformList = getGamePlatformList(element.platforms);
       if (platformList != null) {

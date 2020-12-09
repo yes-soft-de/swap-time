@@ -64,7 +64,11 @@ class Games {
     }
     description = json['description'];
     mainImage = json['mainImage'];
-    mainImage = mainImage.substring(mainImage.lastIndexOf('http'));
+    try {
+      mainImage = mainImage.substring(mainImage.lastIndexOf('http'));
+    } catch (e) {
+      print('No Last http');
+    }
     userID = json['userID'];
     userName = json['userName'];
     commentNumber = json['commentNumber'];
