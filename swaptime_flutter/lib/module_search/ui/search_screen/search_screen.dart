@@ -145,11 +145,14 @@ class _SearchScreenState extends State<SearchScreen> {
         onSearchRequested: (searchQuery) {
           if (searchQuery == null) {
             Navigator.of(context).pop();
+            return;
           }
-          if (searchQuery != null && searchQuery != activeSearchQuery) {
-            activeSearchQuery = searchQuery;
-            _processList(gamesList);
-            setState(() {});
+          if (searchQuery.isNotEmpty) {
+            if (searchQuery != activeSearchQuery) {
+              activeSearchQuery = searchQuery;
+              _processList(gamesList);
+              setState(() {});
+            }
           }
         },
       ),
@@ -198,8 +201,7 @@ class _SearchScreenState extends State<SearchScreen> {
         child: GameCardLarge(
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i]
-                .mainImage,
+            imageUrl: visibleGames[i].mainImage,
             gameOwnerFirstName: visibleGames[i].name,
             lovable: loggedIn,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,

@@ -63,14 +63,8 @@ class Games {
       tag = null;
     }
     description = json['description'];
-    if (json['mainImage'] != null) {
-      mainImage = json['mainImage'];
-      if (mainImage.contains('https://')) {
-        mainImage.substring(mainImage.indexOf('https://'));
-      }
-    } else {
-      mainImage = '';
-    }
+    mainImage = json['mainImage'];
+    mainImage = mainImage.substring(mainImage.lastIndexOf('http'));
     userID = json['userID'];
     userName = json['userName'];
     commentNumber = json['commentNumber'];

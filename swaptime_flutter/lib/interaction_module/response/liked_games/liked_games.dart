@@ -46,9 +46,7 @@ class LikedGameItem {
     date = json['date'] != null ? new Date.fromJson(json['date']) : null;
     name = json['name'];
     mainImage = json['mainImage'];
-    if (mainImage.contains('https://')) {
-      mainImage = mainImage.substring(mainImage.indexOf('https://'));
-    }
+    mainImage = mainImage.substring(mainImage.lastIndexOf('http'));
     specialLink = json['specialLink'];
   }
 
