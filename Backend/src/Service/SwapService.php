@@ -76,30 +76,34 @@ class SwapService
 
     public function getSwapByID($id)
     {
-        $item = $this->swapManager->getSwapByID($id);
-        //dd($item);
-        $userOne = $this->userService->getUserProfileByUserID($item->getUserIdOne());
-        $userTwo = $this->userService->getUserProfileByUserID($item->getUserIdTwo());
-        //get swap items' info
-        $swapItemOne = $this->swapItemService->getSwapItemByID($item->getUserIdOne(),
-            $item->getSwapItemIdOne());
-        $swapItemTwo = $this->swapItemService->getSwapItemByID($item->getUserIdTwo(),
-            $item->getSwapItemIdTwo());
+        $itemsResponse = [];
+        $result = $this->swapManager->getSwapByID($id);
 
-        $itemsResponse = $this->autoMapping->map('array', SwapsResponse::class, $item);
+        foreach ($result as $item) {
 
-        //SET INFO
-        //set first user info
-        //dd($userOne[0]->getUserName());
-        $itemsResponse->setUserOneName($userOne[0]->getUserName());
-        $itemsResponse->setUserOneImage($userOne[0]->getImage());
-        //set second user info
-        $itemsResponse->setUserTwoName($userTwo[0]->getUserName());
-        $itemsResponse->setUserTwoImage($userTwo[0]->getImage());
-        //set swap items' info
-        $itemsResponse->setSwapItemOneImage($swapItemOne->getMainImage());
-        $itemsResponse->setSwapItemTwoImage($swapItemTwo->getMainImage());
+            $userOne = $this->userService->getUserProfileByUserID($item->getUserIdOne());
+            $userTwo = $this->userService->getUserProfileByUserID($item->getUserIdTwo());
+            //get swap items' info
+            $swapItemOne = $this->swapItemService->getSwapItemByID($item->getUserIdOne(),
+                $item->getSwapItemIdOne());
+            $swapItemTwo = $this->swapItemService->getSwapItemByID($item->getUserIdTwo(),
+                $item->getSwapItemIdTwo());
 
+            $itemsResponse[] = $this->autoMapping->map(SwapEntity::class, SwapsResponse::class, $item);
+
+            //SET INFO
+            //set first user info
+
+            $itemsResponse[0]->setUserOneName($userOne[0]->getUserName());
+            $itemsResponse[0]->setUserOneImage($userOne[0]->getImage());
+            //set second user info
+            $itemsResponse[0]->setUserTwoName($userTwo[0]->getUserName());
+            $itemsResponse[0]->setUserTwoImage($userTwo[0]->getImage());
+            //set swap items' info
+            $itemsResponse[0]->setSwapItemOneImage($swapItemOne->getMainImage());
+            $itemsResponse[0]->setSwapItemTwoImage($swapItemTwo->getMainImage());
+        }
+       
         return $itemsResponse;
     }
 
