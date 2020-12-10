@@ -54,8 +54,8 @@ class SwapService
             $userOne = $this->userService->getUserProfileByUserID($item['userIdOne']);
             $userTwo = $this->userService->getUserProfileByUserID($item['userIdTwo']);
             //get swap items' info
-            $swapItemOne = $this->swapItemService->getSwapItemByID($item['userIdOne'], $item['swapItemIdOne']);
-            $swapItemTwo = $this->swapItemService->getSwapItemByID($item['userIdTwo'], $item['swapItemIdTwo']);
+            $swapItemOne = $this->swapItemService->getById($item['swapItemIdOne']);
+            $swapItemTwo = $this->swapItemService->getById($item['swapItemIdTwo']);
 
             //SET INFO
             //set first user info
@@ -84,10 +84,8 @@ class SwapService
             $userOne = $this->userService->getUserProfileByUserID($item->getUserIdOne());
             $userTwo = $this->userService->getUserProfileByUserID($item->getUserIdTwo());
             //get swap items' info
-            $swapItemOne = $this->swapItemService->getSwapItemByID($item->getUserIdOne(),
-                $item->getSwapItemIdOne());
-            $swapItemTwo = $this->swapItemService->getSwapItemByID($item->getUserIdTwo(),
-                $item->getSwapItemIdTwo());
+            $swapItemOne = $this->swapItemService->getById($item->getSwapItemIdOne());
+            $swapItemTwo = $this->swapItemService->getById($item->getSwapItemIdTwo());
 
             $itemsResponse[] = $this->autoMapping->map(SwapEntity::class, SwapsResponse::class, $item);
 

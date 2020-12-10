@@ -153,4 +153,11 @@ class SwapItemService
     {
         return $this->swapItemManager->deleteSwapItem($swapItemID);
     }
+
+    public function getById($id)
+    {
+        $item = $this->swapItemManager->getSwapItemByID($id);
+
+        return $this->autoMapping->map('array', SwapItemsResponse::class, $item);
+    }
 }
