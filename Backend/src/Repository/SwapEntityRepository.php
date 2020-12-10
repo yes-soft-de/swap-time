@@ -30,6 +30,7 @@ class SwapEntityRepository extends ServiceEntityRepository
                 'swap.swapItemIdTwo', 'swap.cost', 'swap.roomID', 'swap.status')
 
             ->orderBy('swap.id', 'ASC')
+            ->groupBy('swap.id')
 
             ->getQuery()
             ->getResult();
