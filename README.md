@@ -1,5 +1,5 @@
 # swap-time
 
 ##### What used?
-+ Symfony 5.1.0
++ Php 7.4.11 with framework  4Symfony 5.1.0
 
