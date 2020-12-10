@@ -41,9 +41,10 @@ class SwapEntityRepository extends ServiceEntityRepository
 
             ->andWhere('swap.id=:id')
             ->setParameter('id', $id)
+            ->groupBy('swap.id')
 
             ->getQuery()
-           ->getOneOrNullResult();
+            ->getResult();
 
         return $r;
     }

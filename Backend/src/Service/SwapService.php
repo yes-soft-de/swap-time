@@ -86,7 +86,7 @@ class SwapService
         $swapItemTwo = $this->swapItemService->getSwapItemByID($item->getUserIdTwo(),
             $item->getSwapItemIdTwo());
 
-        $itemsResponse = $this->autoMapping->map(SwapEntity::class, SwapsResponse::class, $item);
+        $itemsResponse = $this->autoMapping->map('array', SwapsResponse::class, $item);
 
         //SET INFO
         //set first user info
