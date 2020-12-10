@@ -103,7 +103,7 @@ class SwapService
             $itemsResponse[0]->setSwapItemOneImage($swapItemOne->getMainImage());
             $itemsResponse[0]->setSwapItemTwoImage($swapItemTwo->getMainImage());
         }
-       
+
         return $itemsResponse;
     }
 
