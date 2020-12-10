@@ -143,29 +143,6 @@ class _NotificationState extends State<NotificationOnGoing> {
   }
 
   Widget _getGamesRow() {
-    if (gameTow.id == -1) {
-      // Return Selector only on one game, which is the other one
-      return Flex(
-        direction: Axis.horizontal,
-        children: [
-          Flexible(
-            flex: 1,
-            fit: FlexFit.tight,
-            child: FadeInImage.assetNetwork(
-              placeholder: 'assets/images/logo.jpg',
-              image: gameOne.mainImage,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Flexible(
-            flex: 1,
-            fit: FlexFit.tight,
-            child: _gameSelector(gameTow),
-          ),
-        ],
-      );
-    }
-
     return Stack(
       children: [
         Flex(
@@ -174,12 +151,12 @@ class _NotificationState extends State<NotificationOnGoing> {
             Flexible(
               flex: 1,
               fit: FlexFit.tight,
-              child: _gameSelector(gameOne),
+              child: _gameSelector(gameOne, gameTow.id != -1),
             ),
             Flexible(
               flex: 1,
               fit: FlexFit.tight,
-              child: _gameSelector(gameTow),
+              child: _gameSelector(gameTow, gameOne.id != -1),
             )
           ],
         ),
@@ -198,79 +175,68 @@ class _NotificationState extends State<NotificationOnGoing> {
                 ),
               )
             : Positioned.fill(
-                child: Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: SwapThemeDataService.getPrimary(),
-                      shape: BoxShape.circle,
-                    ),
-                    child: IconButton(
-                      icon: Icon(Icons.check),
-                      onPressed: () {
-                        widget.onSwapComplete(swapId);
-                      },
-                    ),
-                  ),
-                ),
+                child: gameOne.id != -1 && gameTow.id != -1
+                    ? Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: SwapThemeDataService.getPrimary(),
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: Icon(Icons.check),
+                            onPressed: () {
+                              widget.onSwapComplete(swapId);
+                            },
+                          ),
+                        ),
+                      )
+                    : Container(),
               )
       ],
     );
   }
 
-  Widget _gameSelector(Games game) {
-    if (game != null) {
-      return Stack(
-        children: [
-          Positioned.fill(
-            child: FadeInImage.assetNetwork(
-              placeholder: 'assets/images/logo.jpg',
-              image: game.mainImage,
-              fit: BoxFit.cover,
-            ),
-          ),
-          _getOverlay(game),
-        ],
-      );
-    }
+  Widget _gameSelector(Games game, bool overlayEnabled) {
     return Stack(
       children: [
-        SvgPicture.asset(
-          'assets/images/logo.svg',
-          fit: BoxFit.cover,
+        Positioned.fill(
+          child: FadeInImage.assetNetwork(
+            placeholder: 'assets/images/logo.jpg',
+            image: game.mainImage ?? '',
+            fit: BoxFit.cover,
+          ),
         ),
-        _getOverlay(game),
+        Positioned.fill(
+          child: overlayEnabled
+              ? Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    ),
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      widget.onChangeRequest(game);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: SwapThemeDataService.getAccent(),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.refresh,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : Container(),
+        ),
       ],
-    );
-  }
-
-  Widget _getOverlay(Games game) {
-    return Positioned.fill(
-      child: Container(
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(12),
-          ),
-        ),
-        child: GestureDetector(
-          onTap: () {
-            widget.onChangeRequest(game);
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: SwapThemeDataService.getAccent(),
-              shape: BoxShape.circle,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.refresh,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

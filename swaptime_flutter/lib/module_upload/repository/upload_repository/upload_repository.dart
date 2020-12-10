@@ -23,6 +23,6 @@ class UploadRepository {
     if (response == null) {
       return null;
     }
-    return ImgBBResponse(url: Urls.BASE_DOMAIN + response.data);
+    return ImgBBResponse(url: response.data);
   }
 }

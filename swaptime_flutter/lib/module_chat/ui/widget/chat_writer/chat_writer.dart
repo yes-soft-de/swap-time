@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:swaptime_flutter/consts/urls.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_upload/service/image_upload/image_upload_service.dart';
 
@@ -57,7 +58,9 @@ class _ChatWriterWidget extends State<ChatWriterWidget> {
                         .uploadImage(imageFile.path)
                         .then((value) {
                       imageFile = null;
-                      sendMessage(value);
+                      sendMessage(value.contains('http')
+                          ? value
+                          : Urls.IMAGES_ROOT + value);
                       setState(() {});
                     });
                   },

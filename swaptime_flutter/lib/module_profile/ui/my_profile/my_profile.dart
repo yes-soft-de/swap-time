@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/consts/urls.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/module_profile/state/my_profile_state.dart';
@@ -481,40 +482,76 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     children: [
                       Positioned.fill(
                           child: Image.network(
-                        imageUrl,
+                        imageUrl.contains('http')
+                            ? imageUrl
+                            : Urls.IMAGES_ROOT + imageUrl,
                         fit: BoxFit.cover,
                       )),
                       Positioned(
                         right: 16,
                         top: 16,
-                        child: GestureDetector(
-                          onTap: () {
-                            picker
-                                .getImage(source: ImageSource.camera)
-                                .then((image) {
-                              print('Got image response');
-                              if (image != null) {
-                                imageLocation = image.path;
-                                imageUrl = null;
-                                print(image.path);
-                                setState(() {});
-                              }
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: SwapThemeDataService.getPrimary(),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.camera_alt,
-                                color: Colors.white,
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                picker
+                                    .getImage(source: ImageSource.camera)
+                                    .then((image) {
+                                  if (image != null) {
+                                    imageLocation = image.path;
+                                    imageUrl = null;
+                                    setState(() {});
+                                  }
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: SwapThemeDataService.getPrimary(),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Icon(
+                                      Icons.image,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            GestureDetector(
+                              onTap: () {
+                                picker
+                                    .getImage(source: ImageSource.gallery)
+                                    .then((image) {
+                                  if (image != null) {
+                                    imageLocation = image.path;
+                                    imageUrl = null;
+                                    setState(() {});
+                                  }
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: SwapThemeDataService.getPrimary(),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 )

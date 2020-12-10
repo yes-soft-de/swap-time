@@ -18,6 +18,7 @@ class NotificationService {
     List<NotificationModel> notifications = [];
     var swaps = await _swapService.getSwapRequests();
     var myId = await _authService.userID;
+
     for (int i = 0; i < swaps.length; i++) {
       var swap = swaps[i];
       notifications.add(NotificationModel(

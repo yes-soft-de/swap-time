@@ -1,5 +1,5 @@
 class Urls {
-  static const String BASE_DOMAIN = 'http://34.70.151.188/upload/';
+  static const String IMAGES_ROOT = 'http://34.70.151.188/upload/';
   static const String BASE_API = 'http://34.70.151.188/html/public/index.php';
 
   static const API_SIGN_UP = BASE_API + '/user';

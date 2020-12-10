@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/consts/urls.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_forms/navigation_args/by_api_args/by_api_args.dart';
 import 'package:swaptime_flutter/module_forms/service/rawg_service/rawg_service.dart';
@@ -305,7 +306,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
         children: [
           Positioned.fill(
               child: Image.network(
-            imageUrl,
+            imageUrl.contains('http') ? imageUrl : Urls.IMAGES_ROOT + imageUrl,
             height: 240,
           )),
         ],
