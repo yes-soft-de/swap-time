@@ -35,4 +35,14 @@ class SwapItemsResponse
     public $specialLink;
 
     public $isRequested;
+
+    /**
+     * @return mixed
+     */
+    public function getMainImage()
+    {
+        return $this->mainImage;
+    }
+
+
 }
