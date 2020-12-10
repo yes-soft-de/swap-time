@@ -56,7 +56,7 @@ class SwapService
             //get swap items' info
             $swapItemOne = $this->swapItemService->getById($item['swapItemIdOne']);
             $swapItemTwo = $this->swapItemService->getById($item['swapItemIdTwo']);
-
+            //dd($swapItemOne);
             //SET INFO
             //set first user info
             $item['userOneName'] = $userOne[0]->getUserName();
