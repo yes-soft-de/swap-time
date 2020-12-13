@@ -122,6 +122,8 @@ class SwapItemService
     {
         $item = $this->swapItemManager->getSwapItemByID($id);
 
+        $item['mainImage'] =  $this->specialLinkCheck($item['specialLink']).$item['mainImage'];
+
         /** @var SwapItemsResponse $itemsResponse */
         $itemsResponse = $this->autoMapping->map('array', SwapItemsResponse::class, $item);
 
