@@ -1,4 +1,4 @@
-# swap-time
+# Swap Time
 ```
 Backend folder contains the source code of the project
 ```
