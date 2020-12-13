@@ -26,6 +26,15 @@ php bin/console doctrine:migration:migrate
 ```
 
 ## API guide
+* [Account](#Account)
+* [Swap Items APIs](#swap-items)
+* [File Upload API](#upload)
+* [Image APIs](#images)
+* [Swap APIS](#swap-operations)
+* [Comment APIs](#comments)
+* [Admin APIs](#admin)
+* [Report APIs](#report)
+* [Interaction APIs](#interactions)
 
 ### Account
 #### Create new user
