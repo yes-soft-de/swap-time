@@ -157,7 +157,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     if (newGame != null) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(S.of(context).savingData)));
-      if (gameToChange.userID == activeNotification.gameOne.userID) {
+      if (gameToChange.id == activeNotification.gameOne.id) {
         activeNotification.gameOne = newGame;
         widget._manager.updateSwap(activeNotification);
       } else {

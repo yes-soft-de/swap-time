@@ -28,14 +28,15 @@ class NotificationService {
             myId == swap.userOneImage ? swap.userTwoImage : swap.userOneImage,
         gameOne: Games(
             mainImage: swap.swapItemOneImage,
-            userName: swap.userOneName,
             id: swap.swapItemIdOne,
-            userID: swap.userIdOne),
+            userName: swap.userTwoName,
+            userID: swap.userIdTwo,
+            ),
         gameTwo: Games(
             mainImage: swap.swapItemTwoImage,
-            userName: swap.userTwoName,
             id: swap.swapItemIdTwo,
-            userID: swap.userIdTwo),
+            userName: swap.userOneName,
+            userID: swap.userIdOne),
         complete: swap.status == 'finished',
       ));
     }

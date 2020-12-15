@@ -101,8 +101,8 @@ class _NotificationState extends State<NotificationOnGoing> {
                             ),
                             Text(
                               gameTow.userID == widget.myId
-                                  ? gameTow.userName
-                                  : gameOne.userName,
+                                  ? gameOne.userName
+                                  : gameTow.userName,
                             )
                           ],
                         ),
