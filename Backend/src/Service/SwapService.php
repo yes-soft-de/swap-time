@@ -65,8 +65,14 @@ class SwapService
             $item['userTwoName'] = $userTwo[0]->getUserName();
             $item['userTwoImage'] = $userTwo[0]->getImage();
             //set swap items' info
-            $item['swapItemOneImage'] = $swapItemOne->getMainImage();
-            $item['swapItemTwoImage'] = $swapItemTwo->getMainImage();
+            if($swapItemOne != null)
+            {
+                $item['swapItemOneImage'] = $swapItemOne->getMainImage();
+            }
+            if($swapItemTwo != null)
+            {
+                $item['swapItemTwoImage'] = $swapItemTwo->getMainImage();
+            }
 
             $itemsResponse[] = $this->autoMapping->map('array', SwapsResponse::class, $item);
         }

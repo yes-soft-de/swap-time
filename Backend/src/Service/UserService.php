@@ -42,6 +42,8 @@ class UserService
     {
         $userProfile = $this->userManager->userProfileCreate($request);
 
+        $userProfile->setImage($this->params.$userProfile->getImage());
+
         $response = $this->autoMapping->map(UserProfileEntity::class,UserProfileCreateResponse::class, $userProfile);
 
         return $response;
