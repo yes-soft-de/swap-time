@@ -1,4 +1,5 @@
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/consts/urls.dart';
 import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/games_module/service/games_list_service/games_list_service.dart';
 import 'package:swaptime_flutter/interaction_module/service/liked_service/liked_service.dart';
@@ -59,7 +60,11 @@ class ProfileService {
 
   Future<void> cacheProfile(ProfileResponse response) async {
     await _preferencesHelper.setUserName(response.userName);
-    await _preferencesHelper.setUserImage(response.image);
+    if (response.image.contains('http')) {
+      await _preferencesHelper.setUserImage(response.image);
+    } else {
+      await _preferencesHelper.setUserImage(Urls.IMAGES_ROOT + response.image);
+    }
     await _preferencesHelper.setUserLocation(response.location);
     await _preferencesHelper.setUserStory(response.story);
   }
