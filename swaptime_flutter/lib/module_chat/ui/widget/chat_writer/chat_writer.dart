@@ -82,7 +82,7 @@ class _ChatWriterWidget extends State<ChatWriterWidget> {
                 child: Icon(Icons.image),
                 onTap: () {
                   _imagePicker
-                      .getImage(source: ImageSource.gallery)
+                      .getImage(source: ImageSource.gallery, imageQuality: 70)
                       .then((value) {
                     imageFile = File(value.path);
                     setState(() {});
@@ -93,7 +93,7 @@ class _ChatWriterWidget extends State<ChatWriterWidget> {
                 child: Icon(Icons.camera),
                 onTap: () {
                   _imagePicker
-                      .getImage(source: ImageSource.camera)
+                      .getImage(source: ImageSource.camera, imageQuality: 70)
                       .then((value) {
                     imageFile = File(value.path);
                     setState(() {});

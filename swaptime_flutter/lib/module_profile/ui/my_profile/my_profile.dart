@@ -126,7 +126,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         child: GestureDetector(
                           onTap: () {
                             picker
-                                .getImage(source: ImageSource.camera)
+                                .getImage(source: ImageSource.camera, imageQuality: 70)
                                 .then((image) {
                               print('Got image response');
                               if (image != null) {
@@ -243,7 +243,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         child: GestureDetector(
                           onTap: () {
                             picker
-                                .getImage(source: ImageSource.gallery)
+                                .getImage(source: ImageSource.gallery, imageQuality: 70)
                                 .then((image) {
                               if (image != null) {
                                 imageLocation = image.path;
@@ -275,7 +275,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         child: GestureDetector(
                           onTap: () {
                             picker
-                                .getImage(source: ImageSource.camera)
+                                .getImage(source: ImageSource.camera, imageQuality: 70)
                                 .then((image) {
                               print('Got image response');
                               if (image != null) {
@@ -353,7 +353,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         child: GestureDetector(
                           onTap: () {
                             picker
-                                .getImage(source: ImageSource.gallery)
+                                .getImage(source: ImageSource.gallery, imageQuality: 70)
                                 .then((image) {
                               print('Got image response');
                               if (image != null) {
@@ -382,7 +382,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         child: GestureDetector(
                           onTap: () {
                             picker
-                                .getImage(source: ImageSource.camera)
+                                .getImage(source: ImageSource.camera, imageQuality: 70)
                                 .then((image) {
                               print('Got image response');
                               if (image != null) {
@@ -496,7 +496,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                             GestureDetector(
                               onTap: () {
                                 picker
-                                    .getImage(source: ImageSource.camera)
+                                    .getImage(source: ImageSource.camera, imageQuality: 70)
                                     .then((image) {
                                   if (image != null) {
                                     imageLocation = image.path;
@@ -524,7 +524,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                             GestureDetector(
                               onTap: () {
                                 picker
-                                    .getImage(source: ImageSource.gallery)
+                                    .getImage(source: ImageSource.gallery, imageQuality: 70)
                                     .then((image) {
                                   if (image != null) {
                                     imageLocation = image.path;
@@ -630,7 +630,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     widget._stateManager.setMyProfile(
       _nameController.text.trim(),
       _aboutController.text.trim(),
-      imageUrl,
+      imageUrl.contains('http') ? imageUrl.substring(Urls.IMAGES_ROOT.length) : imageUrl,
     );
   }
 }

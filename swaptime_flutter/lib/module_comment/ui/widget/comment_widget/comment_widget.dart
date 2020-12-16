@@ -77,7 +77,7 @@ class CommentWidget extends StatelessWidget {
     var sentDate = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     var diff = DateTime.now().difference(sentDate);
 
-    // TODO: Remove this
+    
     if (diff != null) {
       return sentDate.toString().substring(0, 10);
     }

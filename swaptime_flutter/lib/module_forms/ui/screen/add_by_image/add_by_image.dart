@@ -460,7 +460,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                     child: GestureDetector(
                       onTap: () {
                         picker
-                            .getImage(source: ImageSource.gallery)
+                            .getImage(source: ImageSource.gallery, imageQuality: 70)
                             .then((image) {
                           print('Got image response');
                           if (image != null) {

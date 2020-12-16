@@ -43,16 +43,32 @@ class SwapService {
     return SwapModel();
   }
 
-  Future<SwapModel> updateSwap(NotificationModel swapItemModel) async {
+  Future<SwapModel> updateSwap(NotificationModel notification) async {
+
     UpdateSwapRequest updateSwapRequest = UpdateSwapRequest(
-        id: swapItemModel.swapId,
+        // The id of the swap
+        id: notification.swapId,
+
+        // The owner of game one is user two
+        userIdOne: notification.gameTwo.userID,
+
+        // the owner of game two is user one
+        userIdTwo: notification.gameOne.userID,
+
+        // Game one
+        swapItemIdOne: notification.gameOne.id,
+
+        // Game two
+        swapItemIdTwo: notification.gameTwo.id,
+
+        // Just to complete the request, chat room id
+        roomID: notification.chatRoomId,
+
+        // and the date of the update
         date: DateTime.now().toIso8601String(),
-        userIdOne: swapItemModel.gameTwo.userID,
-        userIdTwo: swapItemModel.gameOne.userID,
-        swapItemIdOne: swapItemModel.gameOne.id,
-        swapItemIdTwo: swapItemModel.gameTwo.id,
-        roomID: swapItemModel.chatRoomId,
-        status: swapItemModel.complete ? 'finished' : 'on-going');
+
+        // this is to make to finish the request
+        status: notification.complete ? 'finished' : 'on-going');
     var result = await _swapManager.updateSwap(updateSwapRequest);
 
     return result != null ? SwapModel() : null;

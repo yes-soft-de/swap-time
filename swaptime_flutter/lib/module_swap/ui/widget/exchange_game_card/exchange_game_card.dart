@@ -62,7 +62,7 @@ class ExchangeGameCard extends StatelessWidget {
                   children: [
                     Positioned.fill(
                       child: Image.network(
-                        game.mainImage,
+                        game.mainImage ?? '',
                         fit: BoxFit.cover,
                       ),
                     ),
