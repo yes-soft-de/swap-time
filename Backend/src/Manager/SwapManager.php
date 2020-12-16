@@ -63,7 +63,7 @@ class SwapManager
     public function updateSwap(SwapUpdateRequest $request)
     {
 
-        $item = $this->swapEntityRepository->getItemByID($request->getId());
+        $item = $this->swapEntityRepository->find($request->getId());
 
         if ($item)
         {
