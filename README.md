@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## [fastlane match](https://docs.fastlane.tools/actions/match/)
 
 This repository contains all your certificates and provisioning profiles needed to build and sign your applications. They are encrypted using OpenSSL via a passphrase.
@@ -57,3 +58,12 @@ This directory contains all provisioning profiles
 ---
 
 For more information open [fastlane match git repo](https://docs.fastlane.tools/actions/match/)
+=======
+# Backend Guide
+```
+Backend folder contains the source code of the project
+```
+##### What used?
++ PHP 7.4.11 with the framework _Symfony_ _5.1.0_
+
+>>>>>>> 8bdf0c2e416f08d16beb3d6fa96761fcabe5042d

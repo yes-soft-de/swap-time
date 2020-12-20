@@ -1,0 +1,119 @@
+<?php
+
+namespace App\Controller;
+
+use App\AutoMapping;
+use App\EventListener\UserListener;
+use App\Request\SwapItemCreateRequest;
+use App\Service\SwapItemService;
+use stdClass;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
+class SwapItemController extends BaseController
+{
+    private $autoMapping;
+    private $validator;
+    private $swapItemService;
+
+    public function __construct(SerializerInterface $serializer, AutoMapping $autoMapping, ValidatorInterface $validator, SwapItemService $swapItemService)
+    {
+        parent::__construct($serializer);
+        $this->autoMapping = $autoMapping;
+        $this->validator = $validator;
+        $this->swapItemService = $swapItemService;
+    }
+
+    /**
+     * @Route("/swapitem", name="swapItemCreate", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function swapItemCreate(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $request = $this->autoMapping->map(stdClass::class,SwapItemCreateRequest::class,(object)$data);
+
+        $violations = $this->validator->validate($request);
+        if (\count($violations) > 0) {
+            $violationsString = (string) $violations;
+
+            return new JsonResponse($violationsString, Response::HTTP_OK);
+        }
+
+        $response = $this->swapItemService->swapItemCreate($request);
+
+        return $this->response($response, self::CREATE);
+    }
+
+    /**
+     * @Route("/swapitem", name="swapItems", methods={"GET"})
+     * @return JsonResponse
+     */
+    public function getSwapItems()
+    {
+        $userID = 0;
+        if ($this->getUser())
+        {
+            $userID = $this->getUser()->getUsername();
+        }
+
+        $response = $this->swapItemService->getSwapItems($userID);
+
+        return $this->response($response,self::FETCH);
+    }
+
+    /**
+     * @Route("/swapitembyid/{id}", name="swapItemById", methods="GET")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function swapItemById(Request $request)
+    {
+        $userID = 0;
+        if ($this->getUser())
+        {
+            $userID = $this->getUser()->getUsername();
+        }
+
+        $response = $this->swapItemService->getSwapItemByID($userID, $request->get('id'));
+
+        return $this->response($response,self::FETCH);
+    }
+
+    /**
+     * @Route("/swapitembyuserid", name="swapItemByUserId", methods="GET")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function swapItemByUserId(Request $request)
+    {
+
+        $userID = 0;
+        if ($this->getUser())
+        {
+            $userID = $this->getUser()->getUsername();
+        }
+
+        $response = $this->swapItemService->getSwapItemByUserID($userID);
+
+        return $this->response($response,self::FETCH);
+    }
+
+    /**
+     * @Route("/swapitem/{id}", name="deleteSwapItemById", methods={"DELETE"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteSwapItem(Request $request)
+    {
+        $result = $this->swapItemService->deleteSwapItem($request->get('id'));
+
+        return $this->response($result, self::DELETE);
+    }
+}
