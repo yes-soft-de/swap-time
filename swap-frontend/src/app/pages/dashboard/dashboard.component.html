@@ -1,0 +1,177 @@
+<div class="w-100 mb-4" *ngIf="users">
+  <div class="container">
+    <!--Start Home States Page-->
+    <div class="home-stat">
+      <h1 class="my-4 text-center text-monospace">Dashboard Page </h1>
+      <div class="row">
+        <div class="col-md-6 col-lg-3">
+          <div class="stat st_blue">
+            <i class="fa fa-users fa-fw fa-5x"></i>
+            <div>
+              <h6>Total Users</h6>
+              <span><a routerLink="/users">{{usersCount}}</a></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat st_light_purple">
+            <i class="fa fa-image fa-fw fa-5x"></i>
+            <div>
+              <h6>Total Swap Items</h6>
+              <span><a routerLink="/swap-item">{{swapItems?.length ? swapItems?.length : 0}}</a></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat st_green">
+            <i class="fa fa-clock-o fa-fw fa-5x"></i>
+            <div>
+              <h6>Total Swap Operations</h6>
+              <span><a routerLink="/operations">{{swapOperations?.length ? swapOperations?.length : 0}}</a></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat st_orange">
+            <i class="fa fa-file-text fa-fw fa-5x"></i>
+            <div>
+              <h6>Total Reports</h6>
+              <span><a routerLink="/reports">{{reports?.length ? reports?.length : 0}}</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Start Latest Section-->
+    <div class="latest mt-5">
+      <div class="row">
+
+        <div class="col-12 col-md-6">
+          <!--Start Latest ArtistAdmin-->
+          <div class="late mb-3">
+            <div class="card">
+              <div class="card-header">
+                Latest {{latestUsersNumber}} Users
+              </div>
+              <div class="card-body" *ngIf="users?.length != 0">
+                <ng-container *ngFor="let user of users; let i = index">
+                  <ng-container *ngIf="i < latestUsersNumber">
+                    <div class="late_info">
+                      {{user?.userName}}
+                      <!-- <a routerLink="/categories/edit/{{user?.id}}" class="btn btn-success btn-sm py-0 float-right">Edit</a> -->
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+              <div class="card-body" *ngIf="users?.length == 0">
+                <div class="late_info">
+                  There isn't any Users To Show Yet
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Start Latest Painting-->
+        <div class="col-12 col-md-6">
+          <div class="late mb-3">
+            <div class="card">
+              <div class="card-header">
+                Latest {{latestSwapItemsNumber}} Swap Items
+              </div>
+              <div class="card-body" *ngIf="swapItems?.length != 0">
+                <ng-container *ngFor="let swapItem of swapItems; let i = index">
+                  <ng-container *ngIf="i < latestSwapItemsNumber">
+                    <div class="late_info">
+                      {{(swapItem?.name).slice(0, 40)}}
+                      <!-- <a routerLink="/swapItems/edit/{{swapItem?.id}}"
+                         class="btn btn-success btn-sm py-0 float-right">Edit</a> -->
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+              <div class="card-body" *ngIf="swapItems?.length == 0">
+                <div class="late_info">
+                  There isn't any Swap Items To Show Yet
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Start Latest Swap Operations-->
+        <div class="col-12 col-md-6">
+          <div class="late mb-3">
+            <div class="card">
+              <div class="card-header">
+                Latest {{latestSwapOperationsNumber}} Swap Operations Between
+              </div>
+              <div class="card-body" *ngIf="swapOperations?.length != 0">
+                <ng-container *ngFor="let swapOperation of swapOperations; let i = index">
+                  <ng-container *ngIf="i < latestSwapOperationsNumber">
+                    <div class="late_info">
+                      <div class="row text-center w-100 mx-auto">
+                        <div class="col-6 border-right border-dark">{{swapOperation?.userOneName ? swapOperation?.userOneName : 'First User'}}</div>
+                        <div class="col-6">{{swapOperation?.userTwoName ? swapOperation?.userTwoName : 'Second User'}}</div>
+                      </div>                    
+                      <!-- <a routerLink="/swapOperations/edit/{{swapItem?.id}}"
+                         class="btn btn-success btn-sm py-0 float-right">Edit</a> -->
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+              <div class="card-body" *ngIf="swapOperations?.length == 0">
+                <div class="late_info">
+                  There isn't any Swap Operations To Show Yet
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Start Latest Reports-->
+        <div class="col-12 col-md-6">
+          <div class="late mb-3">
+            <div class="card">
+              <div class="card-header">
+                Latest {{latestReportsNumber}} Reports
+              </div>
+              <div class="card-body" *ngIf="reports?.length != 0">
+                <ng-container *ngFor="let report of reports; let i = index">
+                  <ng-container *ngIf="i < latestReportsNumber">
+                    <div class="late_info">
+                      <div class="row text-center w-100 mx-auto">
+                        <div class="col-6 border-right border-dark">{{ 'Name : ' + (report?.userName ? report?.userName : '-')}}</div>
+                        <div class="col-6">{{'Report On :' + (report?.itemName ? report?.itemName : '-')}}</div>
+                      </div>                    
+                      <!-- <a routerLink="/reports/edit/{{swapItem?.id}}"
+                         class="btn btn-success btn-sm py-0 float-right">Edit</a> -->
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+              <div class="card-body" *ngIf="reports?.length == 0">
+                <div class="late_info">
+                  There isn't any Reports To Show Yet
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="users == null">
+  <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+</div>
+
+<!--<div *ngIf="artists == null || paintings == null" class="w-100">-->
+<!--  &lt;!&ndash;  <h3 class="text-center text-primary">Loading Stats!</h3>&ndash;&gt;-->
+<!--  <div class="lds-ring">-->
+<!--    <div></div>-->
+<!--    <div></div>-->
+<!--    <div></div>-->
+<!--    <div></div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<app-footer></app-footer>

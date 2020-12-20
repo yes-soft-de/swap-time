@@ -1,0 +1,84 @@
+<div *ngIf="swapOperations != null">
+    <div *ngIf="swapOperations.length !== 0">
+      <div class="container-fluid">
+        <h1 class="text-center my-4">Manage Swap Operations Page</h1>
+          <div class="row">
+              <div class="col-7 col-md-6 col-xl-4">
+                  <div class="form-group mb-4">
+                      <input 
+                        id="exampleFormControlInput2" 
+                        [(ngModel)]="name" 
+                        (keyup)="applyFilter()" 
+                        type="text" 
+                        placeholder="searching for Swap Operations Name, User Name, Platform and Category Name ?" 
+                        class="form-control form-control-underlined border-primary search-input">
+                  </div>
+              </div>
+              <!-- <div class="col-5 col-md-6 col-xl-8 align-self-center">
+                <a class="btn btn-primary btn-sm mb-2 float-right" routerLink="/animes/add">
+                  <i class="fa fa-plus"></i>
+                  Add New Swap Operations
+                </a>
+              </div> -->
+          </div>
+        <div class="table-responsive text-center">
+            <table class="table table-bordered main-table">
+                <tr class="bg-dark text-white">
+                    <td>#ID</td>
+                    <td>Date</td>
+                    <td style="border-right: 2px solid #000;">Status</td>
+                    <td>User One Name</td>
+                    <td>User One Image</td>
+                    <td style="border-right: 2px solid #000;">Swap Item One Image</td>
+                    <td>User Two Name</td>
+                    <td>User Two Image</td>
+                    <td>Swap Item Two Image</td>                       
+                    <!-- <td>Control</td> -->
+                </tr>
+                <tr *ngFor="let swapOperation of swapOperationsFilterList | paginate: config">
+                  <td>{{swapOperation.id}}</td>
+                  <td>{{swapOperation.date ? (swapOperation.date.timestamp * 1000 | date: 'H:mm:ss' : 'UTC') : '-'}}</td>
+                  <td style="border-right: 2px solid #000;">{{swapOperation.status ? swapOperation.status : '-'}}</td>
+                  <td>{{swapOperation.userOneName ? swapOperation.userOneName : '-'}}</td>
+                  <td><img src="{{swapOperation?.userOneImage}}" alt="{{swapOperation.userOneName}} Image" class="img-fluid img-thumbnail img-custom"></td>
+                  <td style="border-right: 2px solid #000;"><img src="{{swapOperation?.swapOperationOneImage}}" alt="swap item Image" class="img-fluid img-thumbnail img-custom"></td>
+                  <td>{{swapOperation.userTwoName ? swapOperation.userTwoName : '-'}}</td>
+                  <td><img src="{{swapOperation?.userTwoImage}}" alt="{{swapOperation.userOneName}} Image" class="img-fluid img-thumbnail img-custom"></td>
+                  <td><img src="{{swapOperation?.swapOperationTwoImage}}" alt="swap item Image" class="img-fluid img-thumbnail img-custom"></td>
+                  <!-- <td> -->
+                      <!-- <a routerLink="/animes/edit/{{anime.id}}" class="btn btn-success btn-sm mr-1 mb-1">
+                        Edit
+                      </a> -->
+                      <!-- <a (click)="delete(swapOperation.id)" class="btn btn-danger confirm btn-sm mr-1 mb-1 {{isDeleted ? 'disabled' : ''}}">
+                        Delete
+                      </a>
+                  </td> -->
+                </tr>
+            </table>
+            <pagination-controls class="my-pagination"
+                                 (pageChange)="pageChanged($event)"
+                                 autoHide="true"
+                                 maxSize="5"
+                                 responsive="true"
+                                 previousLabel="Prev"
+                                 nextLabel="Next"
+                                 screenReaderPaginationLabel="Pagination"
+                                 screenReaderPageLabel="page"
+                                 screenReaderCurrentLabel="You're on page">
+            </pagination-controls>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="swapOperations.length === 0">
+        <div class="container">
+            <div class="alert alert-primary text-center mt-5">There Isn't Swap Operations To Show</div>
+            <!-- <a routerLink="/swap/add" class="btn btn-primary btn-sm mb-2 float-right">
+                <i class="fa fa-plus"></i>
+                Add New Anime
+            </a> -->
+        </div>
+    </div>
+</div>
+<div *ngIf="swapOperations == null">
+    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+</div>

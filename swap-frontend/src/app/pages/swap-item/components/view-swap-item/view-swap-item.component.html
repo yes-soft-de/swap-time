@@ -1,0 +1,58 @@
+<div class="swap-item-details py-5" *ngIf="swapItemDetails">
+    <div class="container">
+        <div class="swap-item-details-info">
+            <div class="row">
+                <div class="col-5">
+                    <img class="img-fluid" src="{{swapItemDetails?.mainImage}}" alt="{{swapItemDetails?.name}} Image">
+                </div>
+                <div class="col-7">
+                    <h2 class="text-primary mb-3 font-weight-bold">{{swapItemDetails?.name}}</h2>
+                    <p>Username : <span class="text-secondary">{{swapItemDetails?.userName ? swapItemDetails?.userName : '-'}}</span></p>
+                    <p>Category : <span class="text-secondary">{{swapItemDetails?.category ? swapItemDetails?.category : '-'}}</span></p>
+                    <p>Platform : <span class="text-secondary">{{swapItemDetails?.platform ? swapItemDetails?.platform : '-'}}</span></p>
+
+                    <p *ngIf="swapItemDetails?.tag">
+                      Tags : 
+                      <small class="text-white mr-1 rounded bg-info px-1" *ngFor="let tag of swapItemDetails?.tag">{{tag}}</small>
+                    </p>
+                    <p>Description : <span class="lead">{{swapItemDetails?.description ? swapItemDetails?.description : 'There Isn\'t Any Description For This Item'}}</span></p>
+                </div>
+            </div><!--.row-->
+        </div><!--.swap-item-details-info-->
+        <div class="swap-item-details-comments">
+            <p class="p-3 bg-secondary mt-5 text-white">Comments Number : <span class="font-weight-bold">{{swapItemDetails?.commentNumber ? swapItemDetails?.commentNumber : '0'}}</span></p>
+            <div class="comments-content">
+                <div class="col-12 comments-box" *ngIf="swapItemDetails?.commentNumber != 0">
+                    <!-- Comments -->
+                    <div class="all-comments">
+                      <div class="sub-comment" *ngFor="let comment of swapItemDetails.comments; index as i">                        
+                        <div class="row">
+                          <div class="col-sm-2 col-lg-1 text-center">
+                            <img class="res-image" src="{{!comment?.image ? '../../../../../assets/default-avatar.jpg' : comment?.image}}" alt=""/>
+                          </div>
+                          <div class="col-sm-10 col-lg-11 mt-2 mt-sm-0">
+                            <div class="comment-body bg-secondary text-white py-2 px-3">
+                              <div class="time">
+                                <span class="border-bottom pb-1">{{comment.userName}} {{comment.date != null ? '( ' + (comment.date.timestamp * 1000 | date ) + ' )': ''}}</span>
+                              </div>
+                              <p class="comment m-0 mt-2">
+                                {{comment.comment}}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  
+                    </div>
+                    <!-- #Comments -->
+                  
+                  </div>
+                  
+            
+            </div>
+        </div>
+    </div><!--.container-->
+</div><!--.swap-item-details-->
+<div *ngIf="swapItemDetails == null">
+    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+  </div>
