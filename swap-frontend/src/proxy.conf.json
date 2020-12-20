@@ -1,0 +1,12 @@
+
+{
+    "/anime-dashboard/*": {
+        "target": "http://34.70.151.188/html/public/index.php/",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/anime-dashboard": ""
+        }
+    }
+}

@@ -1,0 +1,76 @@
+<div *ngIf="users != null">
+    <div *ngIf="users.length !== 0">
+      <div class="container-fluid">
+        <h1 class="text-center my-4">Manage Users Page</h1>
+          <div class="row">
+              <div class="col-7 col-md-6 col-xl-4">
+                  <div class="form-group mb-4">
+                      <input 
+                        id="exampleFormControlInput2" 
+                        [(ngModel)]="name" 
+                        (keyup)="applyFilter()" 
+                        type="text" 
+                        placeholder="searching for User Name and Location ?" 
+                        class="form-control form-control-underlined border-primary search-input">
+                  </div>
+              </div>
+              <!-- <div class="col-5 col-md-6 col-xl-8 align-self-center">
+                <a class="btn btn-primary btn-sm mb-2 float-right" routerLink="/animes/add">
+                  <i class="fa fa-plus"></i>
+                  Add New Users
+                </a>
+              </div> -->
+          </div>
+        <div class="table-responsive text-center">
+            <table class="table table-bordered main-table">
+                <tr class="bg-dark text-white">
+                    <td>#ID</td>
+                    <td>Image</td>
+                    <td>User Name</td>
+                    <td>Location</td>
+                    <td>Story</td>
+                    <!-- <td>Control</td> -->
+                </tr>
+                <tr *ngFor="let user of usersFilterList | paginate: config">
+                  <td>{{user.id}}</td>
+                  <td><img src="{{user?.image}}" alt="{{user.userName}} Image" class="img-fluid img-thumbnail img-custom"></td>
+                  <td>{{user.userName ? user.userName : '-'}}</td>
+                  <td>{{user.location ? user.location : '-'}}</td>
+                  <td>{{user.story ? user.story : '-'}}</td>
+                  <!-- <td> -->
+                      <!-- <a routerLink="/animes/edit/{{anime.id}}" class="btn btn-success btn-sm mr-1 mb-1">
+                        Edit
+                      </a> -->
+                      <!-- <a (click)="delete(user.id)" class="btn btn-danger confirm btn-sm mr-1 mb-1 {{isDeleted ? 'disabled' : ''}}">
+                        Delete
+                      </a>
+                  </td> -->
+                </tr>
+            </table>
+            <pagination-controls class="my-pagination"
+                                 (pageChange)="pageChanged($event)"
+                                 autoHide="true"
+                                 maxSize="5"
+                                 responsive="true"
+                                 previousLabel="Prev"
+                                 nextLabel="Next"
+                                 screenReaderPaginationLabel="Pagination"
+                                 screenReaderPageLabel="page"
+                                 screenReaderCurrentLabel="You're on page">
+            </pagination-controls>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="users.length === 0">
+        <div class="container">
+            <div class="alert alert-primary text-center mt-5">There Isn't Users To Show</div>
+            <!-- <a routerLink="/swap/add" class="btn btn-primary btn-sm mb-2 float-right">
+                <i class="fa fa-plus"></i>
+                Add New Anime
+            </a> -->
+        </div>
+    </div>
+</div>
+<div *ngIf="users == null">
+    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+</div>
