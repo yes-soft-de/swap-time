@@ -1,8 +1,0 @@
-{
-  "asset": "asset:swaptime_flutter/lib/module_profile/state/my_profile_state.dart",
-  "summary": {
-    "injector": [],
-    "module": [],
-    "injectable": []
-  }
-}

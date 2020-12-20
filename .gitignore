@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /.web-server-pid
 /app/config/parameters.yml
 /build/
@@ -80,3 +81,8 @@ fabric.properties
 !.gitignore
 !.gitkeep
 config/jwt
+=======
+notification_server/node_modules/
+
+firebase-dubug.log
+>>>>>>> 36ec8eb440b5835c9ccfda9d992d410a2b1d952f

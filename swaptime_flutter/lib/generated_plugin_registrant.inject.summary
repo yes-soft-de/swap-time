@@ -1,8 +1,0 @@
-{
-  "asset": "asset:swaptime_flutter/lib/generated_plugin_registrant.dart",
-  "summary": {
-    "injector": [],
-    "module": [],
-    "injectable": []
-  }
-}

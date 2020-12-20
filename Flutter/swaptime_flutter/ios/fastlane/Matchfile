@@ -1,0 +1,4 @@
+git_url("git@github.com:yes-soft-de/flutter_keys.git")
+storage_mode("git")
+app_identifier(["de.yes-soft.swaptime"])
+username(ENV['FASTLANE_USER'])

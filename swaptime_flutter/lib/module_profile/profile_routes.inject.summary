@@ -1,8 +1,0 @@
-{
-  "asset": "asset:swaptime_flutter/lib/module_profile/profile_routes.dart",
-  "summary": {
-    "injector": [],
-    "module": [],
-    "injectable": []
-  }
-}
