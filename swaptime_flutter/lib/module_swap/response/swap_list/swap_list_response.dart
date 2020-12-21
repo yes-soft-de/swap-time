@@ -72,7 +72,7 @@ class SwapListItem {
     userIdTwo = json['userIdTwo'];
 
     userOneImage = json['userOneImage'];
-    userOneName = userOneImage.substring(userOneImage.lastIndexOf('http'));
+    userOneImage = userOneImage.substring(userOneImage.lastIndexOf('http'));
 
     userTwoImage = json['userTwoImage'];
     userTwoImage = userTwoImage.substring(userTwoImage.lastIndexOf('http'));
