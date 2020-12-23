@@ -1,4 +1,4 @@
-####
+####a
 FROM php:7.4-fpm AS vendor
 WORKDIR /tmp/
 COPY composer.json composer.json
