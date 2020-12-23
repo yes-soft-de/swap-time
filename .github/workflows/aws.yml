@@ -1,8 +1,8 @@
 #
 on:
   push:
-    branches:
-      - dev
+    branches: [ dev ]
+     
 
 name: Deploy to Amazon ECS
 
