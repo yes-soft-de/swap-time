@@ -1,10 +1,12 @@
-#
-on:
-  push:
-    branches: [ dev ]
+
      
 
 name: Deploy to Amazon ECS
+
+
+on:
+  push:
+    branches: [ dev ]
 
 jobs:
   deploy:
