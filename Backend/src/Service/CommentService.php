@@ -41,7 +41,7 @@ class CommentService
 
         foreach ($comments as $comment)
         {
-            //$comment['image'] =  $this->params.$comment['image'];
+            $comment['image'] =  $this->params.$comment['image'];
             $commentsResponse[] = $this->autoMapping->map('array', SwapItemCommentResponse::class, $comment);
         }
 
