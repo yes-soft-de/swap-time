@@ -1,6 +1,6 @@
 class Urls {
   static const String IMAGES_ROOT = 'http://abbd2ed14930c415a986890772f71071-687349075.us-east-2.elb.amazonaws.com/upload/';
-  static const String BASE_API = 'http://abbd2ed14930c415a986890772f71071-687349075.us-east-2.elb.amazonaws.com/html/public/';
+  static const String BASE_API = 'http://abbd2ed14930c415a986890772f71071-687349075.us-east-2.elb.amazonaws.com/html/public/index.php';
 
   static const API_SIGN_UP = BASE_API + '/user';
   static const API_CREATE_TOKEN = BASE_API + '/login_check';
