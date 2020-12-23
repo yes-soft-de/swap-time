@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y build-essential libssl-dev zlib1g-dev l
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY --chown=www-data:www-data . /var/www/html
 RUN a2enmod rewrite
-COPY --from=gcr.io/yescloud/swaps ./.env /var/www/html
+COPY --from=626022148707.dkr.ecr.us-east-2.amazonaws.com/swaptimesecret ./.env /var/www/html
 RUN apt update -y && apt install zip -y && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer update symfony/flex --no-plugins --no-scripts
 
