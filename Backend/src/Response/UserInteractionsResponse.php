@@ -6,6 +6,8 @@ namespace App\Response;
 
 class UserInteractionsResponse
 {
+    public $id;
+
     public $swapItemID;
 
     public $date;

@@ -126,7 +126,7 @@ class InteractionRepository extends ServiceEntityRepository
     public function getUserInteraction($userID)
     {
         return  $res= $this->createQueryBuilder('interaction')
-            ->select('interaction.swapItemID', 'interaction.date', 'swapItem.name', 'swapItem.mainImage', 'swapItem.specialLink')
+            ->select('interaction.id', 'interaction.swapItemID', 'interaction.date', 'swapItem.name', 'swapItem.mainImage', 'swapItem.specialLink')
 
             ->leftJoin(
                 SwapItemEntity::class,              //Entity
