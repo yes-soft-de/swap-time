@@ -25,7 +25,7 @@ Finaly run migration versions to create tables
 php bin/console doctrine:migration:migrate
 ```
 
-## API guide
+## APIs Index
 * [Account](#Account)
 * [Swap Items APIs](#swap-items)
 * [File Upload API](#upload)
