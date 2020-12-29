@@ -120,9 +120,7 @@ class SwapService
     {
         $item = $this->swapManager->updateSwap($request);
 
-        $response = $this->autoMapping->map(SwapEntity::class,SwapsResponse::class, $item);
-
-        return $response;
+        return $this->autoMapping->map(SwapEntity::class,SwapsResponse::class, $item);
     }
 
     public function getSwapsByUserID($userID)

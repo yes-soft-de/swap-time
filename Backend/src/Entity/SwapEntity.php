@@ -57,6 +57,16 @@ class SwapEntity
      */
     private $status;
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $gamesAllowedUserOne = [];
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $gamesAllowedUserTwo = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -154,6 +164,30 @@ class SwapEntity
     public function setStatus(?string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getGamesAllowedUserOne(): ?array
+    {
+        return $this->gamesAllowedUserOne;
+    }
+
+    public function setGamesAllowedUserOne(?array $gamesAllowedUserOne): self
+    {
+        $this->gamesAllowedUserOne = $gamesAllowedUserOne;
+
+        return $this;
+    }
+
+    public function getGamesAllowedUserTwo(): ?array
+    {
+        return $this->gamesAllowedUserTwo;
+    }
+
+    public function setGamesAllowedUserTwo(?array $gamesAllowedUserTwo): self
+    {
+        $this->gamesAllowedUserTwo = $gamesAllowedUserTwo;
 
         return $this;
     }
