@@ -6,6 +6,7 @@ use App\AutoMapping;
 use App\Request\UserProfileCreateRequest;
 use App\Request\UserProfileUpdateRequest;
 use App\Request\UserRegisterRequest;
+use App\Service\NotificationService;
 use App\Service\UserService;
 use stdClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -112,5 +113,16 @@ class UserController extends BaseController
         $response = $this->userService->getAllProfiles();
 
         return $this->response($response,self::FETCH);
+    }
+
+    /**
+     * @Route("ok", name="ok", methods={"POST"})
+     * @return JsonResponse
+     */
+    public function ok(NotificationService $notificationService)
+    {
+        $notificationService->sendMessage();
+
+        return $this->response('ok',self::FETCH);
     }
 }

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20201210172534 extends AbstractMigration
+final class Version20201229192354 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -23,6 +23,8 @@ final class Version20201210172534 extends AbstractMigration
         $this->addSql('CREATE TABLE comment_entity (id INT AUTO_INCREMENT NOT NULL, comment LONGTEXT NOT NULL, date DATETIME NOT NULL, user_id VARCHAR(300) NOT NULL, swap_item_id INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE image_entity (id INT AUTO_INCREMENT NOT NULL, image VARCHAR(255) NOT NULL, swap_item_id INT NOT NULL, special_link TINYINT(1) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE interaction (id INT AUTO_INCREMENT NOT NULL, user_id VARCHAR(255) NOT NULL, swap_item_id INT NOT NULL, type INT NOT NULL, creation_date DATE DEFAULT NULL, date DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE notification_entity (id INT AUTO_INCREMENT NOT NULL, user_idone VARCHAR(255) DEFAULT NULL, user_idtwo VARCHAR(255) DEFAULT NULL, swap_item_idone INT DEFAULT NULL, swap_item_idtwo INT DEFAULT NULL, swap_id INT DEFAULT NULL, message VARCHAR(255) DEFAULT NULL, date DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE notification_token_entity (id INT AUTO_INCREMENT NOT NULL, user_id VARCHAR(255) NOT NULL, token VARCHAR(255) NOT NULL, date DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE report_entity (id INT AUTO_INCREMENT NOT NULL, user_id VARCHAR(255) NOT NULL, swap_item_id INT NOT NULL, date DATE NOT NULL, description LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE setting_entity (id INT AUTO_INCREMENT NOT NULL, upload_sub_folder VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE swap_entity (id INT AUTO_INCREMENT NOT NULL, date DATE NOT NULL, user_id_one VARCHAR(300) NOT NULL, user_id_two VARCHAR(300) NOT NULL, swap_item_id_one INT NOT NULL, swap_item_id_two INT NOT NULL, cost VARCHAR(12) DEFAULT NULL, room_id VARCHAR(300) DEFAULT NULL, status VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -37,6 +39,8 @@ final class Version20201210172534 extends AbstractMigration
         $this->addSql('DROP TABLE comment_entity');
         $this->addSql('DROP TABLE image_entity');
         $this->addSql('DROP TABLE interaction');
+        $this->addSql('DROP TABLE notification_entity');
+        $this->addSql('DROP TABLE notification_token_entity');
         $this->addSql('DROP TABLE report_entity');
         $this->addSql('DROP TABLE setting_entity');
         $this->addSql('DROP TABLE swap_entity');

@@ -12,6 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
         "gedmo/doctrine-extensions": "^2.4",
+        "kreait/firebase-bundle": "^2.3",
         "lexik/jwt-authentication-bundle": "^2.8",
         "liip/imagine-bundle": "^2.3",
         "mark-gerarts/automapper-plus-bundle": "^1.3",
