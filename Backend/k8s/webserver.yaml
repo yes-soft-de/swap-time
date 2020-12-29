@@ -1,0 +1,59 @@
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: apache
+  name: swaptime-webserver
+  namespace: swaptime
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apache
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: apache
+    spec:
+      containers:
+        - image: gcr.io/pc-api-6479467557629758909-343/github_yes-soft-de_swap-time
+          imagePullPolicy: Always
+          name: php-apache
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/www/upload/image
+              name: pvc-sym-m
+      volumes:
+        - name: pvc-sym-m
+          persistentVolumeClaim:
+            claimName: swaptime-pvc-sym-uploud
+---
+apiVersion: v1
+kind: Service
+metadata:
+  finalizers:
+    - service.kubernetes.io/load-balancer-cleanup
+  labels:
+    run: swaptime-web-service
+  name: swaptime-web-service
+  namespace: swaptime
+spec:
+  clusterIP: 10.4.9.68
+  externalTrafficPolicy: Cluster
+  ports:
+    - nodePort: 30390
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: apache
+  sessionAffinity: None
+  type: LoadBalancer
