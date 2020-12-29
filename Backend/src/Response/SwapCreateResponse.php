@@ -13,4 +13,8 @@ class SwapCreateResponse
     public $roomID;
 
     public $status;
+
+    public $gamesAllowedUserOne = [];
+
+    public $gamesAllowedUserTwo = [];
 }

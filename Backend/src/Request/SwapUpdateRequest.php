@@ -26,6 +26,42 @@ class SwapUpdateRequest
 
     private $status;
 
+    private $gamesAllowedUserOne = [];
+
+    private $gamesAllowedUserTwo = [];
+
+    /**
+     * @return array
+     */
+    public function getGamesAllowedUserOne(): array
+    {
+        return $this->gamesAllowedUserOne;
+    }
+
+    /**
+     * @param array $gamesAllowedUserOne
+     */
+    public function setGamesAllowedUserOne(array $gamesAllowedUserOne): void
+    {
+        $this->gamesAllowedUserOne = $gamesAllowedUserOne;
+    }
+
+    /**
+     * @return array
+     */
+    public function getGamesAllowedUserTwo(): array
+    {
+        return $this->gamesAllowedUserTwo;
+    }
+
+    /**
+     * @param array $gamesAllowedUserTwo
+     */
+    public function setGamesAllowedUserTwo(array $gamesAllowedUserTwo): void
+    {
+        $this->gamesAllowedUserTwo = $gamesAllowedUserTwo;
+    }
+
     /**
      * @return mixed
      */

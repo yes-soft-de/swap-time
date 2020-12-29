@@ -36,6 +36,10 @@ class SwapsResponse
 
     public $status;
 
+    public $gamesAllowedUserOne = [];
+
+    public $gamesAllowedUserTwo = [];
+
     public function getUserIdOne()
     {
         return $this->userIdOne;
