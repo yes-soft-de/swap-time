@@ -7,6 +7,7 @@ namespace App\Service;
 use App\AutoMapping;
 use App\Entity\SwapEntity;
 use App\Manager\SwapManager;
+use App\Request\SendNotificationRequest;
 use App\Request\SwapCreateRequest;
 use App\Request\SwapUpdateRequest;
 use App\Response\SwapCreateResponse;
@@ -22,24 +23,44 @@ class SwapService
     private $params;
     private $userService;
     private $swapItemService;
+    private $notificationService;
 
     public function __construct(AutoMapping $autoMapping, SwapManager $swapManager, ParameterBagInterface $params,
-     UserService $userService, SwapItemService $swapItemService)
+     UserService $userService, SwapItemService $swapItemService, NotificationService $notificationService)
     {
         $this->autoMapping = $autoMapping;
         $this->swapManager = $swapManager;
         $this->userService = $userService;
         $this->swapItemService = $swapItemService;
         $this->params = $params->get('upload_base_url').'/';
+        $this->notificationService = $notificationService;
     }
 
     public function swapCreate(SwapCreateRequest $request)
     {
         $item = $this->swapManager->swapCreate($request);
 
-        $response = $this->autoMapping->map(SwapEntity::class,SwapCreateResponse::class, $item);
+        $this->sendNotification($request, 'new');
 
-        return $response;
+        return $this->autoMapping->map(SwapEntity::class,SwapCreateResponse::class, $item);
+    }
+
+    public function sendNotification($request, $type)
+    {
+        if ($type == 'new')
+        {
+            $request = $this->autoMapping->map(SwapCreateRequest::class,SendNotificationRequest::class, $request);
+            $request->setMessage('لقد وصلك طلب مبادلة جديد!');
+
+            $this->notificationService->sendMessage($request);
+        }
+        elseif ($type == 'update')
+        {
+            $request = $this->autoMapping->map(SwapUpdateRequest::class,SendNotificationRequest::class, $request);
+            $request->setMessage('هناك تحديث في قائمة المبادلة لديك!');
+
+            $this->notificationService->sendMessage($request);
+        }
     }
 
     public function getSwaps()
@@ -119,6 +140,8 @@ class SwapService
     public function updateSwap(SwapUpdateRequest $request)
     {
         $item = $this->swapManager->updateSwap($request);
+
+        $this->sendNotification($request, 'update');
 
         return $this->autoMapping->map(SwapEntity::class,SwapsResponse::class, $item);
     }

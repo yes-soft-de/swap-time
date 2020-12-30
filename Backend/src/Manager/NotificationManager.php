@@ -60,4 +60,11 @@ class NotificationManager
             //return $id;
         }
     }
+
+    public function getNotificationTokenByUserID($userID)
+    {
+        $token = $this->notificationTokenEntityRepository->findBy(['userID' => $userID]);
+
+        return $token[0]->getToken();
+    }
 }

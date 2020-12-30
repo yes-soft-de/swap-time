@@ -26,15 +26,23 @@ class NotificationService
         $this->autoMapping = $autoMapping;
     }
 
-    public function sendMessage()
+    public function sendMessage($request)
     {
-        $deviceToken = 'dwooFCbVSmOYJRbEWB9Yho:APA91bGNejY5N9Wj5oYj4MmkqwCuAfEBBzlYcPjKaWkF8axZmFhjAJ3yo6cJE2vJg9iMek5-F0mLOTz9HG5FYMdtJkgNTFpTwiRsYz786WlxcceegY3OFtUJ-cpLHbw3dYcqGNpO-P9A';
+        $devicesToken = [];
+        $userTokenOne = $this->getNotificationTokenByUserID($request->getUserIdOne());
+        $devicesToken[] = $userTokenOne;
+        $userTokenTwo = $this->getNotificationTokenByUserID($request->getUserIdTwo());
+        $devicesToken[] = $userTokenTwo;
 
-        $message = CloudMessage::withTarget('token', $deviceToken)
-            ->withNotification(Notification::create('Hi', 'U got message yay!'))
-            ->withData(['key' => 'value']);
+        $message = CloudMessage::new()
+            ->withNotification(Notification::create('Swap Time', $request->getMessage()));
 
-        $this->messaging->send($message);
+
+//        $message = CloudMessage::withTarget('token', $deviceToken)
+//            ->withNotification(Notification::create('Hi', 'U got message yay!'))
+//            ->withData(['key' => 'value']);
+
+        $this->messaging->sendMulticast($message, $devicesToken);
     }
 
     public function notificationTokenCreate(NotificationTokenRequest $request)
@@ -43,4 +51,11 @@ class NotificationService
 
         return $this->autoMapping->map(NotificationTokenEntity::class,NotificationTokenResponse::class, $userRegister);
     }
+
+    public function getNotificationTokenByUserID($userID)
+    {
+        return $this->notificationManager->getNotificationTokenByUserID($userID);
+    }
+
+
 }
