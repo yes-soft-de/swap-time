@@ -6,6 +6,7 @@ import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.d
 import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/module_localization/service/localization_service/localization_service.dart';
 import 'package:swaptime_flutter/module_profile/presistance/profile_shared_preferences.dart';
+import 'package:swaptime_flutter/module_profile/profile_routes.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 @provide
@@ -58,6 +59,45 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
         ),
+        FutureBuilder(
+          future: widget._authService.isLoggedIn,
+          builder:
+              (BuildContext context, AsyncSnapshot<bool> loggedInSnapshot) {
+            if (loggedInSnapshot.hasData) {
+              if (loggedInSnapshot.data == true) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      color: Colors.black12,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Flex(
+                        direction: Axis.horizontal,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(S.of(context).editProfile),
+                          IconButton(
+                            icon: Icon(Icons.person),
+                            onPressed: () {
+                              // Enable Edit Mode, by passing true as argument
+                              Navigator.of(context).pushNamed(
+                                  ProfileRoutes.MY_ROUTE_PROFILE,
+                                  arguments: true);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+            }
+            return Container();
+          },
+        ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
@@ -80,7 +120,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       AsyncSnapshot<bool> snapshot,
                     ) {
                       return Switch(
-                          value: snapshot.data == true,
+                          value:
+                              Theme.of(context).brightness == Brightness.dark,
                           onChanged: (mode) {
                             widget._themeDataService
                                 .switchDarkMode(mode)
@@ -88,35 +129,6 @@ class _SettingsPageState extends State<SettingsPage> {
                           });
                     },
                   ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              color: Colors.black12,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Flex(
-                direction: Axis.horizontal,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(S.of(context).location),
-                  FutureBuilder(
-                    future: ProfileSharedPreferencesHelper().getUserLocation(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      if (snapshot.hasData) {
-                        return Text(snapshot.data);
-                      }
-                      return Text('');
-                    },
-                  )
                 ],
               ),
             ),

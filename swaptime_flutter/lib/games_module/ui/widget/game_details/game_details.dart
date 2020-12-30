@@ -7,8 +7,12 @@ import 'package:swaptime_flutter/games_module/ui/widget/game_card_list/game_card
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
+import 'package:swaptime_flutter/module_comment/model/comment_model/comment_model.dart';
 import 'package:swaptime_flutter/module_comment/service/comment_service/comment_service.dart';
 import 'package:swaptime_flutter/module_comment/ui/widget/comments_list_widget/comment_list_widget.dart';
+import 'package:swaptime_flutter/module_home/home.routes.dart';
+import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
+import 'package:swaptime_flutter/module_report/ui/widget/report_dialog/report_dialog.dart';
 import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
@@ -20,6 +24,7 @@ class GameDetailsScreen extends StatefulWidget {
   final CommentService _commentService;
   final AuthService _authService;
   final GameCardList _gameCardList;
+  final ProfileService _profileService;
 
   GameDetailsScreen(
     this._manager,
@@ -27,6 +32,7 @@ class GameDetailsScreen extends StatefulWidget {
     this._commentService,
     this._authService,
     this._gameCardList,
+    this._profileService,
   );
 
   @override
@@ -37,6 +43,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
   GameDetailsState currentState;
   int gameId;
   bool swapRequested = false;
+  bool reported = false;
 
   @override
   void initState() {
@@ -49,7 +56,11 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    gameId = ModalRoute.of(context).settings.arguments;
+    if (ModalRoute.of(context).settings.arguments is String) {
+      gameId = int.tryParse(ModalRoute.of(context).settings.arguments);
+    } else {
+      gameId = ModalRoute.of(context).settings.arguments;
+    }
     if (currentState == null) {
       widget._manager.getGameDetails(gameId);
     }
@@ -63,7 +74,25 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     }
 
     return Scaffold(
-      appBar: SwaptimeAppBar.getBackEnabledAppBar(),
+      appBar: SwaptimeAppBar.getBackEnabledAppBar(
+          reported: reported,
+          onReport: () {
+            showDialog(
+                context: context,
+                builder: (_) => Dialog(
+                      child: ReportDialog(onConfirm: () {
+                        widget._manager.reportGame(gameId.toString());
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(S.of(context).reportingGame),
+                        ));
+                        reported = true;
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            HomeRoutes.ROUTE_HOME, (route) => false);
+                      }, onCancel: () {
+                        Navigator.of(context).pop();
+                      }),
+                    ));
+          }),
       body: calibrateScreen(),
     );
   }
@@ -103,24 +132,33 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
 
   Widget getSuccessUI() {
     GameDetailsStateLoadSuccess state = currentState;
+
     List<Chip> tagsChips = [];
-    state.details.tag.forEach((element) {
-      tagsChips.add(Chip(
-        label: Text(element),
-      ));
-    });
+    if (state.details.tag.isNotEmpty) {
+      state.details.tag.forEach((element) {
+        tagsChips.add(Chip(
+          label: Text(element),
+        ));
+      });
+    }
 
     return SingleChildScrollView(
       child: Column(
         children: [
-          FadeInImage.assetNetwork(
-            placeholder: 'assets/images/logo.jpg',
-            image: state.details.mainImage.substring(29),
+          Container(
+            height: 256,
+            width: MediaQuery.of(context).size.width,
+            child: FadeInImage.assetNetwork(
+              placeholder: 'assets/images/logo.jpg',
+              image: state.details.mainImage,
+              fit: BoxFit.cover,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(32, 8, 16, 8),
             child: Flex(
               direction: Axis.vertical,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Header
                 Row(
@@ -136,66 +174,51 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                       ),
                     ),
                     FutureBuilder(
-                      future: widget._swapService.isRequested(gameId),
-                      builder:
-                          (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                        if (snapshot.hasData) {
-                          print('Is Requested? ' + snapshot.data.toString());
+                      future: widget._authService.userID,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<String> snapshot) {
+                        if (snapshot.data == state.details.userID) {
+                          return Container();
                         }
-                        if (snapshot.data != true) {
-                          return GestureDetector(
-                            onTap: () {
-                              Scaffold.of(context).showSnackBar(
-                                  SnackBar(content: Text('Requesting a swap')));
-                              swapRequested = true;
-                              widget._swapService
-                                  .createSwap(state.details.userID, gameId)
-                                  .then((value) {
-                                swapRequested = true;
-                                setState(() {});
-                              }).catchError((e) => {
-                                        Navigator.of(context).pushNamed(
-                                            AuthRoutes.ROUTE_AUTHORIZE)
-                                      });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: SwapThemeDataService.getPrimary(),
-                              ),
-                              child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    S.of(context).requestASwap,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  )),
-                            ),
-                          );
-                        } else {
-                          return GestureDetector(
-                            onTap: () {
-                              widget._swapService.createSwap(
-                                state.details.userID,
-                                gameId,
-                              );
-                              swapRequested = true;
-                              setState(() {});
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.check,
-                                  color: SwapThemeDataService.getAccent(),
+                        return state.details.isRequested != true
+                            ? GestureDetector(
+                                onTap: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              S.of(context).requestingASwap)));
+                                  setState(() {});
+                                  widget._swapService
+                                      .createSwap(state.details.userID, gameId)
+                                      .then((value) {
+                                    swapRequested = true;
+                                    state.details.isRequested = true;
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content:
+                                          Text(S.of(context).swapRequestSent),
+                                    ));
+                                    setState(() {});
+                                  }).catchError((e) => {
+                                            Navigator.of(context).pushNamed(
+                                                AuthRoutes.ROUTE_AUTHORIZE)
+                                          });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: SwapThemeDataService.getPrimary(),
+                                  ),
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        S.of(context).requestASwap,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      )),
                                 ),
-                              ),
-                            ),
-                          );
-                        }
+                              )
+                            : Icon(Icons.check);
                       },
                     )
                   ],
@@ -267,12 +290,14 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
             decoration: BoxDecoration(
               color: Colors.black26,
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Wrap(
-                children: tagsChips,
-              ),
-            ),
+            child: tagsChips.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Wrap(
+                      children: tagsChips,
+                    ),
+                  )
+                : Container(),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -280,31 +305,65 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                 width: MediaQuery.of(context).size.width,
                 child: FutureBuilder(
                   future: widget._authService.userID,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data != null) {
-                        return CommentListWidget(
-                          state.details.comments,
-                          (newComment) => {
-                            widget._commentService
-                                .postComment(gameId, newComment)
-                                .then((value) {
-                              widget._manager.getGameDetails(gameId);
-                            }),
-                            snapshot.data
-                          },
-                          snapshot.data,
-                        );
-                      }
+                  builder: (BuildContext context,
+                      AsyncSnapshot<String> userIdSnapshot) {
+                    if (userIdSnapshot.hasData) {
+                      return CommentListWidget(
+                        commentList: state.details.comments,
+                        userId: userIdSnapshot.data,
+                        onCommentAdded: (newComment) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(S.of(context).postingNewComment),
+                          ));
+                          widget._commentService
+                              .postComment(gameId, newComment)
+                              .then((value) async {
+                            var profile = await widget._profileService
+                                .getUserProfile(userIdSnapshot.data);
+                            state.details.comments.add(CommentModel(
+                              comment: newComment,
+                              userID: userIdSnapshot.data,
+                              date: Date(
+                                  timestamp:
+                                      (DateTime.now().millisecondsSinceEpoch /
+                                              1000)
+                                          .floor()),
+                              swapItemID: gameId,
+                              userName: profile.userName,
+                              image: profile.image,
+                            ));
+                            setState(() {});
+                          });
+                        },
+                      );
                     }
                     return CommentListWidget(
-                        state.details.comments,
-                        (newComment) => {
-                              widget._commentService
-                                  .postComment(gameId, newComment),
-                              snapshot.data
-                            });
+                      commentList: state.details.comments,
+                      onCommentAdded: (newComment) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(S.of(context).postingNewComment),
+                        ));
+                        widget._commentService
+                            .postComment(gameId, newComment)
+                            .then((value) async {
+                          var profile = await widget._profileService
+                              .getUserProfile(userIdSnapshot.data);
+                          state.details.comments.add(CommentModel(
+                            comment: newComment,
+                            userID: userIdSnapshot.data,
+                            date: Date(
+                                timestamp:
+                                    (DateTime.now().millisecondsSinceEpoch /
+                                            1000)
+                                        .floor()),
+                            swapItemID: gameId,
+                            userName: profile.userName,
+                            image: profile.image,
+                          ));
+                          setState(() {});
+                        });
+                      },
+                    );
                   },
                 )),
           ),

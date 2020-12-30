@@ -6,6 +6,7 @@ class UpdateSwapRequest {
   int swapItemIdOne;
   int swapItemIdTwo;
   int cost;
+  String status;
   String roomID;
 
   UpdateSwapRequest(
@@ -16,6 +17,7 @@ class UpdateSwapRequest {
       this.swapItemIdOne,
       this.swapItemIdTwo,
       this.cost,
+      this.status,
       this.roomID});
 
   UpdateSwapRequest.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class UpdateSwapRequest {
     userIdOne = json['userIdOne'];
     userIdTwo = json['userIdTwo'];
     swapItemIdOne = json['swapItemIdOne'];
+    status = json['status'];
     swapItemIdTwo = json['swapItemIdTwo'];
     cost = json['cost'];
     roomID = json['roomID'];
@@ -38,6 +41,7 @@ class UpdateSwapRequest {
     data['swapItemIdOne'] = this.swapItemIdOne;
     data['swapItemIdTwo'] = this.swapItemIdTwo;
     data['cost'] = this.cost;
+    data['status'] = this.status;
     data['roomID'] = this.roomID;
     return data;
   }

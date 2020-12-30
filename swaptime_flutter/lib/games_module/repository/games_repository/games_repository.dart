@@ -30,13 +30,15 @@ class GamesRepository {
     String token = await _authService.getToken();
     Map<String, dynamic> response;
     if (token != null) {
-      var response = await _client.get(Urls.API_USER_GAMES + '/$userId',
+      response = await _client.get(Urls.API_USER_GAMES + '/$userId',
           headers: {'Authorization': 'Bearer ' + token});
-    } else {}
+    } else {
+      response = await _client.get(Urls.API_USER_GAMES + '/$userId');
+    }
     return response == null ? null : GamesResponse.fromJson(response).games;
   }
 
-  Future<GameDetails> getGameDetails(int gameId) async {
+  Future<Games> getGameDetails(int gameId) async {
     String token = await _authService.getToken();
     Map<String, dynamic> response;
     if (token != null) {

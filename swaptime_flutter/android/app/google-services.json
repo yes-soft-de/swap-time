@@ -1,43 +1,254 @@
 {
   "project_info": {
-    "project_number": "308803721088",
-    "firebase_url": "https://swaptime-b062d.firebaseio.com",
-    "project_id": "swaptime-b062d",
-    "storage_bucket": "swaptime-b062d.appspot.com"
+    "project_number": "396882908080",
+    "firebase_url": "https://yes-soft-6866a.firebaseio.com",
+    "project_id": "yes-soft-6866a",
+    "storage_bucket": "yes-soft-6866a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:308803721088:android:af33a19c3dc09a7be49365",
+        "mobilesdk_app_id": "1:396882908080:android:73acef18db622a91fabc75",
         "android_client_info": {
-          "package_name": "com.example.swaptime_flutter"
+          "package_name": "com.example.swaptime"
         }
       },
       "oauth_client": [
         {
-          "client_id": "308803721088-ot7dfvr3ogn9h7a0k7fq3fc93fmjln55.apps.googleusercontent.com",
+          "client_id": "396882908080-sq3gp7f4tuhtarvfh8ku4qu4q390ib8n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.swaptime_flutter",
+            "package_name": "com.example.swaptime",
             "certificate_hash": "530c83858145b859d6171ac83460e8248c3554bc"
           }
         },
         {
-          "client_id": "308803721088-uclva2plbkqr3haaurc360qdc0h2kpa4.apps.googleusercontent.com",
+          "client_id": "396882908080-e2sqckt5bofta5morqb93ufs8u9ea02a.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAjXiCiWkjnhdeO9rXOADR2F67ngj_b_WI"
+          "current_key": "AIzaSyCLHkZeCajquez0m1-a0Fg43MOTtbKqq1o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "308803721088-uclva2plbkqr3haaurc360qdc0h2kpa4.apps.googleusercontent.com",
+              "client_id": "396882908080-e2sqckt5bofta5morqb93ufs8u9ea02a.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "396882908080-tp841flt671vb5b8psi7im01nvos5ihs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.yes-soft.turksell"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396882908080:android:bab18b9d942cfa6bfabc75",
+        "android_client_info": {
+          "package_name": "com.example.turksell"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "396882908080-e2sqckt5bofta5morqb93ufs8u9ea02a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLHkZeCajquez0m1-a0Fg43MOTtbKqq1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "396882908080-e2sqckt5bofta5morqb93ufs8u9ea02a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "396882908080-tp841flt671vb5b8psi7im01nvos5ihs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.yes-soft.turksell"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396882908080:android:2a57fd6cc27ef206fabc75",
+        "android_client_info": {
+          "package_name": "de.yes_soft.anime_galaxy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "396882908080-j0ntmh5epr9cdhurq6irjjng7spmhqcs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.yes_soft.anime_galaxy",
+            "certificate_hash": "d94896cc691d8162eff8fb40e5647aca890c0cb8"
+          }
+        },
+        {
+          "client_id": "396882908080-5bj3ogui8f35nvmspo78hupict0sbcci.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.yes_soft.anime_galaxy",
+            "certificate_hash": "530c83858145b859d6171ac83460e8248c3554bc"
+          }
+        },
+        {
+          "client_id": "396882908080-e2sqckt5bofta5morqb93ufs8u9ea02a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLHkZeCajquez0m1-a0Fg43MOTtbKqq1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "396882908080-e2sqckt5bofta5morqb93ufs8u9ea02a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "396882908080-tp841flt671vb5b8psi7im01nvos5ihs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.yes-soft.turksell"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396882908080:android:19255c014d26cd5afabc75",
+        "android_client_info": {
+          "package_name": "de.yes_soft.soyah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "396882908080-e2sqckt5bofta5morqb93ufs8u9ea02a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLHkZeCajquez0m1-a0Fg43MOTtbKqq1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "396882908080-e2sqckt5bofta5morqb93ufs8u9ea02a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "396882908080-tp841flt671vb5b8psi7im01nvos5ihs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.yes-soft.turksell"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396882908080:android:1a05e66570d8c962fabc75",
+        "android_client_info": {
+          "package_name": "de.yes_soft.swaptime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "396882908080-e97mncvaeo926ik78q9j8t7o3tgf1kks.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.yes_soft.swaptime",
+            "certificate_hash": "9b616fa96ef7e7e75b10abe3bc605b26912d1a65"
+          }
+        },
+        {
+          "client_id": "396882908080-e2sqckt5bofta5morqb93ufs8u9ea02a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLHkZeCajquez0m1-a0Fg43MOTtbKqq1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "396882908080-e2sqckt5bofta5morqb93ufs8u9ea02a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "396882908080-tp841flt671vb5b8psi7im01nvos5ihs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.yes-soft.turksell"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396882908080:android:726e4c866b7357edfabc75",
+        "android_client_info": {
+          "package_name": "de.yes_soft.turksell"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "396882908080-e2sqckt5bofta5morqb93ufs8u9ea02a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLHkZeCajquez0m1-a0Fg43MOTtbKqq1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "396882908080-e2sqckt5bofta5morqb93ufs8u9ea02a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "396882908080-tp841flt671vb5b8psi7im01nvos5ihs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.yes-soft.turksell"
+              }
             }
           ]
         }

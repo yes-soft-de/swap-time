@@ -9,6 +9,8 @@ import 'intl/messages_all.dart';
 // **************************************************************************
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
+// ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
+// ignore_for_file: avoid_redundant_argument_values
 
 class S {
   S();
@@ -73,10 +75,10 @@ class S {
     );
   }
 
-  /// `Games List`
+  /// `Product List`
   String get gamesList {
     return Intl.message(
-      'Games List',
+      'Product List',
       name: 'gamesList',
       desc: '',
       args: [],
@@ -233,10 +235,10 @@ class S {
     );
   }
 
-  /// `Search a Game :)`
+  /// `Search a Product :)`
   String get searchAGame {
     return Intl.message(
-      'Search a Game :)',
+      'Search a Product :)',
       name: 'searchAGame',
       desc: '',
       args: [],
@@ -273,10 +275,10 @@ class S {
     );
   }
 
-  /// `Submit Game!`
+  /// `Submit Product!`
   String get submitGame {
     return Intl.message(
-      'Submit Game!',
+      'Submit Product!',
       name: 'submitGame',
       desc: '',
       args: [],
@@ -413,10 +415,10 @@ class S {
     );
   }
 
-  /// `Set Exchange Game`
+  /// `Set Exchange Product`
   String get setExchangeGame {
     return Intl.message(
-      'Set Exchange Game',
+      'Set Exchange Product',
       name: 'setExchangeGame',
       desc: '',
       args: [],
@@ -433,10 +435,10 @@ class S {
     );
   }
 
-  /// `Set Game`
+  /// `Set Product`
   String get setGame {
     return Intl.message(
-      'Set Game',
+      'Set Product',
       name: 'setGame',
       desc: '',
       args: [],
@@ -598,6 +600,536 @@ class S {
     return Intl.message(
       'Load More',
       name: 'loadMore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Likes`
+  String get likes {
+    return Intl.message(
+      'Likes',
+      name: 'likes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Views`
+  String get views {
+    return Intl.message(
+      'Views',
+      name: 'views',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Comment`
+  String get comment {
+    return Intl.message(
+      'Comment',
+      name: 'comment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This Product is Great`
+  String get thisGameIsGreat {
+    return Intl.message(
+      'This Product is Great',
+      name: 'thisGameIsGreat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Products`
+  String get games {
+    return Intl.message(
+      'Products',
+      name: 'games',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Empty Comment!`
+  String get emptyComment {
+    return Intl.message(
+      'Empty Comment!',
+      name: 'emptyComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saving Data`
+  String get savingData {
+    return Intl.message(
+      'Saving Data',
+      name: 'savingData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About Me`
+  String get aboutMe {
+    return Intl.message(
+      'About Me',
+      name: 'aboutMe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Name`
+  String get myName {
+    return Intl.message(
+      'My Name',
+      name: 'myName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save Profile`
+  String get saveProfile {
+    return Intl.message(
+      'Save Profile',
+      name: 'saveProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saving!`
+  String get saving {
+    return Intl.message(
+      'Saving!',
+      name: 'saving',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Capture My Picture`
+  String get captureMyPicture {
+    return Intl.message(
+      'Capture My Picture',
+      name: 'captureMyPicture',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload Me!`
+  String get uploadMe {
+    return Intl.message(
+      'Upload Me!',
+      name: 'uploadMe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Uploading`
+  String get uploading {
+    return Intl.message(
+      'Uploading',
+      name: 'uploading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product Name`
+  String get gameName {
+    return Intl.message(
+      'Product Name',
+      name: 'gameName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `i.e. GTA V`
+  String get ieGtaV {
+    return Intl.message(
+      'i.e. GTA V',
+      name: 'ieGtaV',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tags`
+  String get tags {
+    return Intl.message(
+      'Tags',
+      name: 'tags',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `i.e. Racing`
+  String get ieRacing {
+    return Intl.message(
+      'i.e. Racing',
+      name: 'ieRacing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My product is an awesome product`
+  String get myGameIsAnAwesomeGame {
+    return Intl.message(
+      'My product is an awesome product',
+      name: 'myGameIsAnAwesomeGame',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Capture my image with the camera`
+  String get captureMyImageWithTheCamera {
+    return Intl.message(
+      'Capture my image with the camera',
+      name: 'captureMyImageWithTheCamera',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select my Image from gallery`
+  String get selectMyImageFromGallery {
+    return Intl.message(
+      'Select my Image from gallery',
+      name: 'selectMyImageFromGallery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Capture product image via camera`
+  String get captureGameImageViaCamera {
+    return Intl.message(
+      'Capture product image via camera',
+      name: 'captureGameImageViaCamera',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select product image from gallery`
+  String get selectGameImageFromGallery {
+    return Intl.message(
+      'Select product image from gallery',
+      name: 'selectGameImageFromGallery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove Image`
+  String get removeImage {
+    return Intl.message(
+      'Remove Image',
+      name: 'removeImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `minutes ago`
+  String get minutesAgo {
+    return Intl.message(
+      'minutes ago',
+      name: 'minutesAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By Added`
+  String get byAdded {
+    return Intl.message(
+      'By Added',
+      name: 'byAdded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By Name`
+  String get byName {
+    return Intl.message(
+      'By Name',
+      name: 'byName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By Comments`
+  String get byComments {
+    return Intl.message(
+      'By Comments',
+      name: 'byComments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Requesting a swap`
+  String get requestingASwap {
+    return Intl.message(
+      'Requesting a swap',
+      name: 'requestingASwap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report Dialog`
+  String get reportDialog {
+    return Intl.message(
+      'Report Dialog',
+      name: 'reportDialog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report Reason`
+  String get reportReason {
+    return Intl.message(
+      'Report Reason',
+      name: 'reportReason',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reason`
+  String get reason {
+    return Intl.message(
+      'Reason',
+      name: 'reason',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report`
+  String get report {
+    return Intl.message(
+      'Report',
+      name: 'report',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reporting Product`
+  String get reportingGame {
+    return Intl.message(
+      'Reporting Product',
+      name: 'reportingGame',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Resend Code`
+  String get resendCode {
+    return Intl.message(
+      'Resend Code',
+      name: 'resendCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hours Ago`
+  String get hoursAgo {
+    return Intl.message(
+      'Hours Ago',
+      name: 'hoursAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report is Sent!`
+  String get reportIsSent {
+    return Intl.message(
+      'Report is Sent!',
+      name: 'reportIsSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending Approval`
+  String get pendingApproval {
+    return Intl.message(
+      'Pending Approval',
+      name: 'pendingApproval',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error Uploading Image`
+  String get errorUploadingImage {
+    return Intl.message(
+      'Error Uploading Image',
+      name: 'errorUploadingImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Upload your Image`
+  String get pleaseUploadYourImage {
+    return Intl.message(
+      'Please Upload your Image',
+      name: 'pleaseUploadYourImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Enter Your Name`
+  String get pleaseEnterYourName {
+    return Intl.message(
+      'Please Enter Your Name',
+      name: 'pleaseEnterYourName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Enter A Short Story about you ;)`
+  String get pleaseEnterAShortStoryAboutYou {
+    return Intl.message(
+      'Please Enter A Short Story about you ;)',
+      name: 'pleaseEnterAShortStoryAboutYou',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swap Request Sent`
+  String get swapRequestSent {
+    return Intl.message(
+      'Swap Request Sent',
+      name: 'swapRequestSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swap completed`
+  String get swapCompleted {
+    return Intl.message(
+      'Swap completed',
+      name: 'swapCompleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Posting new Comment`
+  String get postingNewComment {
+    return Intl.message(
+      'Posting new Comment',
+      name: 'postingNewComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Profile`
+  String get editProfile {
+    return Intl.message(
+      'Edit Profile',
+      name: 'editProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Requesting Profile Data from the server`
+  String get requestingProfileDateFromTheServer {
+    return Intl.message(
+      'Requesting Profile Data from the server',
+      name: 'requestingProfileDateFromTheServer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saving to liked list`
+  String get savingToLikedList {
+    return Intl.message(
+      'Saving to liked list',
+      name: 'savingToLikedList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Removing From Like List`
+  String get removingFromLikeList {
+    return Intl.message(
+      'Removing From Like List',
+      name: 'removingFromLikeList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Removed love from item`
+  String get removedLoveFromItem {
+    return Intl.message(
+      'Removed love from item',
+      name: 'removedLoveFromItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Item Loved!`
+  String get itemLoved {
+    return Intl.message(
+      'Item Loved!',
+      name: 'itemLoved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Liked at:`
+  String get likedAt {
+    return Intl.message(
+      'Liked at:',
+      name: 'likedAt',
       desc: '',
       args: [],
     );

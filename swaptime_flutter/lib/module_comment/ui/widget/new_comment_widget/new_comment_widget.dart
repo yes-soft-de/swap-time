@@ -1,10 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 class NewCommentWidget extends StatelessWidget {
   final TextEditingController _newCommentController = TextEditingController();
   final Function(String) onCommentPost;
-  NewCommentWidget(this.onCommentPost);
+
+  NewCommentWidget({this.onCommentPost});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +24,8 @@ class NewCommentWidget extends StatelessWidget {
               child: TextFormField(
                 controller: _newCommentController,
                 decoration: InputDecoration(
-                    hintText: 'This Game is Great',
-                    labelStyle: TextStyle(color: Colors.black),
-                    labelText: 'Comment'),
+                    hintText: S.of(context).thisGameIsGreat,
+                    labelText: S.of(context).comment),
               ),
             ),
           ),
@@ -34,15 +36,21 @@ class NewCommentWidget extends StatelessWidget {
             shape: BoxShape.circle,
           ),
           child: IconButton(
-            icon: Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              onCommentPost(_newCommentController.text);
-              _newCommentController.clear();
-            },
-          ),
+              padding: EdgeInsets.all(4),
+              icon: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                if (_newCommentController.text.isNotEmpty) {
+                  onCommentPost(_newCommentController.text);
+                  _newCommentController.clear();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(S.of(context).emptyComment),
+                  ));
+                }
+              }),
         )
       ],
     );

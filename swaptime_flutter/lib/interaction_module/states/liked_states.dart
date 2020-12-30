@@ -1,9 +1,9 @@
-import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
+import 'package:swaptime_flutter/interaction_module/response/liked_games/liked_games.dart';
 
 class LikedState {}
 
 class LikedStateLoadSuccess extends LikedState {
-  List<Games> games;
+  List<LikedGameItem> games;
   LikedStateLoadSuccess(this.games);
 }
 

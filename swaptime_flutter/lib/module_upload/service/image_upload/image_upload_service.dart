@@ -13,7 +13,7 @@ class ImageUploadService {
     if (response == null) {
       return null;
     } else {
-      return response.data.url;
+      return response.url;
     }
   }
 }

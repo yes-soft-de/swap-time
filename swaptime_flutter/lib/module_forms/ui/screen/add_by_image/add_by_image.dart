@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/consts/urls.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_forms/navigation_args/by_api_args/by_api_args.dart';
 import 'package:swaptime_flutter/module_forms/service/rawg_service/rawg_service.dart';
@@ -13,6 +15,7 @@ import 'package:swaptime_flutter/module_forms/states/by_image_state/by_image_sta
 import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
+import 'package:swaptime_flutter/utils/image_cacher/image_cacher.dart';
 
 @provide
 class AddByImageScreen extends StatefulWidget {
@@ -33,15 +36,21 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
 
   String filePath;
   String imageUrl;
-
+  final picker = ImagePicker();
   Widget currentPage;
   final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
-  GamePlatform _gamePlatform;
+  GamePlatform _gamePlatform = GamePlatform.PC;
+
+  bool loading = false;
+  bool saving = false;
+  bool caching = false;
 
   @override
   void initState() {
     super.initState();
     widget._stateManager.stateStream.listen((event) {
+      loading = false;
+      saving = false;
       _calcCurrentState(event);
     });
 
@@ -54,7 +63,17 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
     if (args is String) {
       filePath = args;
     } else if (args is ByApiArgs) {
-      imageUrl = args.imageUrl;
+      if (!caching && filePath == null) {
+        setState(() {
+          caching = true;
+        });
+        ImageCacher.cachImage(args.imageUrl).then((value) {
+          setState(() {
+            filePath = value;
+            caching = false;
+          });
+        });
+      }
       _gameName.text = args.gameName;
       if (args.gamePlatform != null) {
         _gamePlatform = args.gamePlatform;
@@ -62,9 +81,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
         _gamePlatform = GamePlatform.PC;
       }
     }
-    if (currentPage == null) {
-      _getUI();
-    }
+
     return Scaffold(
         appBar: SwaptimeAppBar.getBackEnabledAppBar(),
         key: _scaffoldState,
@@ -80,18 +97,18 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
         break;
       case ByImageStateUploadError:
         ByImageStateUploadError errState = newState;
-        _scaffoldState.currentState
+        ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(errState.errorMsg)));
         break;
       case ByImageStatePostError:
         ByImageStatePostError errState = newState;
-        _scaffoldState.currentState
+        ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(errState.errorMsg)));
         break;
       case ByImageStatePostSuccess:
         Navigator.of(context).pushNamedAndRemoveUntil(
             HomeRoutes.ROUTE_HOME, (route) => false,
-            arguments: 1);
+            arguments: 0);
         break;
       default:
         if (mounted) setState(() {});
@@ -100,22 +117,21 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
   }
 
   Widget _getUI() {
-    return Flex(
-      direction: Axis.vertical,
+    return Column(
       children: [
-        MediaQuery.of(context).viewInsets.bottom == 0
-            ? _getImage()
-            : Container(),
         Expanded(
           child: ListView(
             children: [
+              MediaQuery.of(context).viewInsets.bottom == 0
+                  ? Container(height: 240, child: _getImage())
+                  : Container(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   controller: _gameName,
                   decoration: InputDecoration(
-                    hintText: 'i.e. GTA V',
-                    labelText: 'Game Name',
+                    hintText: S.of(context).ieGtaV,
+                    labelText: S.of(context).gameName,
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -127,38 +143,42 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-              DropdownButton(
-                hint: Text(S.of(context).platform),
-                value: _gamePlatform ?? GamePlatform.PS4,
-                onChanged: (value) {
-                  _gamePlatform = value;
-                },
-                items: [
-                  DropdownMenuItem(
-                    value: GamePlatform.SWITCH,
-                    child: Text(GamePlatform.SWITCH.toString().split('.')[1]),
-                  ),
-                  DropdownMenuItem(
-                    value: GamePlatform.XBOX_ONE,
-                    child: Text(GamePlatform.XBOX_ONE.toString().split('.')[1]),
-                  ),
-                  DropdownMenuItem(
-                    value: GamePlatform.PC,
-                    child: Text(GamePlatform.PC.toString().split('.')[1]),
-                  ),
-                  DropdownMenuItem(
-                    value: GamePlatform.PS3,
-                    child: Text(GamePlatform.PS3.toString().split('.')[1]),
-                  ),
-                  DropdownMenuItem(
-                    value: GamePlatform.PS4,
-                    child: Text(GamePlatform.PS4.toString().split('.')[1]),
-                  ),
-                  DropdownMenuItem(
-                    value: GamePlatform.PS5,
-                    child: Text(GamePlatform.PS5.toString().split('.')[1]),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DropdownButtonFormField(
+                  hint: Text(S.of(context).platform),
+                  value: _gamePlatform,
+                  onChanged: (value) {
+                    _gamePlatform = value;
+                  },
+                  items: [
+                    DropdownMenuItem(
+                      value: GamePlatform.SWITCH,
+                      child: Text(GamePlatform.SWITCH.toString().split('.')[1]),
+                    ),
+                    DropdownMenuItem(
+                      value: GamePlatform.XBOX_ONE,
+                      child:
+                          Text(GamePlatform.XBOX_ONE.toString().split('.')[1]),
+                    ),
+                    DropdownMenuItem(
+                      value: GamePlatform.PC,
+                      child: Text(GamePlatform.PC.toString().split('.')[1]),
+                    ),
+                    DropdownMenuItem(
+                      value: GamePlatform.PS3,
+                      child: Text(GamePlatform.PS3.toString().split('.')[1]),
+                    ),
+                    DropdownMenuItem(
+                      value: GamePlatform.PS4,
+                      child: Text(GamePlatform.PS4.toString().split('.')[1]),
+                    ),
+                    DropdownMenuItem(
+                      value: GamePlatform.PS5,
+                      child: Text(GamePlatform.PS5.toString().split('.')[1]),
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -168,8 +188,8 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                       child: TextFormField(
                         controller: _tagName,
                         decoration: InputDecoration(
-                          labelText: 'Tags',
-                          hintText: 'i.e. Racing',
+                          labelText: S.of(context).tags,
+                          hintText: S.of(context).ieRacing,
                           labelStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -204,7 +224,6 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
               ),
               Container(
                 color: Colors.black12,
-                width: MediaQuery.of(context).size.width,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Wrap(
@@ -217,8 +236,8 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                 child: TextFormField(
                   controller: _descriptionName,
                   decoration: InputDecoration(
-                    hintText: 'My game is an awesome game',
-                    labelText: 'Description',
+                    hintText: S.of(context).myGameIsAnAwesomeGame,
+                    labelText: S.of(context).description,
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -229,12 +248,16 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                   ),
                   style: TextStyle(fontSize: 20),
                 ),
-              )
+              ),
             ],
           ),
         ),
         GestureDetector(
           onTap: () {
+            if (saving) {
+              Fluttertoast.showToast(msg: S.of(context).loading);
+              return;
+            }
             if (imageUrl == null) {
               Fluttertoast.showToast(msg: S.of(context).pleaseUploadTheImage);
               return;
@@ -246,6 +269,9 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
               imageUrl,
               _gamePlatform,
             );
+            setState(() {
+              saving = true;
+            });
           },
           child: Container(
             alignment: Alignment.center,
@@ -253,7 +279,7 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                S.of(context).submitGame,
+                saving ? S.of(context).saving : S.of(context).submitGame,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -268,96 +294,244 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
   }
 
   Widget _getImage() {
-    if (imageUrl != null) {
+    if (caching) {
       return Container(
-        height: MediaQuery.of(context).size.height / 4,
+        height: 240,
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    } else if (imageUrl != null) {
+      if (filePath == null) {
+        return Stack(
+          children: [
+            Positioned.fill(
+                child: Image.network(
+              imageUrl.contains('http')
+                  ? imageUrl
+                  : Urls.IMAGES_ROOT + imageUrl,
+              height: 240,
+            )),
+          ],
+        );
+      } else {
+        return Image.file(
+          File(filePath),
+          fit: BoxFit.cover,
+          height: 240,
+        );
+      }
+    } else if (filePath != null && loading) {
+      return Container(
+        height: 240,
         child: Stack(
           children: [
-            Positioned.fill(child: Image.network(imageUrl)),
+            Positioned.fill(
+                child: Image.file(
+              File(filePath),
+              fit: BoxFit.cover,
+              height: 240,
+            )),
+            Positioned.fill(
+              child: Container(
+                color: Colors.black38,
+                child: Center(
+                  child: Text(
+                    S.of(context).loading,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       );
     } else if (filePath != null) {
       return Container(
-        height: MediaQuery.of(context).size.height / 4,
+        height: 240,
         child: Stack(
           children: [
-            Positioned.fill(child: Image.file(File(filePath))),
             Positioned.fill(
-                child: Center(
-              child: OutlineButton(
-                onPressed: () {
-                  widget._stateManager.upload(filePath);
-                },
-                child: Container(
-                  height: 48,
-                  alignment: Alignment.center,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(24),
-                      ),
-                      color: Colors.black26,
-                    ),
-                    child: Flex(
-                      direction: Axis.horizontal,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.upload_file),
+                child: Image.file(
+              File(filePath),
+              fit: BoxFit.cover,
+              height: 240,
+            )),
+            Positioned.fill(
+                child: Flex(
+              direction: Axis.vertical,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      loading = true;
+                      setState(() {});
+                      widget._stateManager.upload(filePath);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(24),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(S.of(context).uploadImage),
-                        )
-                      ],
+                        color: Colors.black26,
+                      ),
+                      child: Flex(
+                        direction: Axis.horizontal,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.upload_file,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              S.of(context).uploadImage,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      filePath = null;
+                      setState(() {});
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(24),
+                        ),
+                        color: Colors.black26,
+                      ),
+                      child: Flex(
+                        direction: Axis.horizontal,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.delete, color: Colors.white),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              S.of(context).removeImage,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ))
           ],
         ),
       );
     } else {
       return Container(
-        height: MediaQuery.of(context).size.height / 4,
+        height: 240,
         child: Stack(
           children: [
-            Positioned.fill(child: SvgPicture.asset('assets/images/logo.svg')),
+            // BG
             Positioned.fill(
-                child: Center(
-              child: OutlineButton(
-                onPressed: () {
-                  widget._stateManager.upload(filePath);
-                },
                 child: Container(
-                  height: 48,
-                  alignment: Alignment.center,
+                    height: 256,
+                    width: double.infinity,
+                    child: SvgPicture.asset(
+                      'assets/images/logo.svg',
+                      fit: BoxFit.cover,
+                    ))),
+            // Buttons
+            Positioned.fill(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(24),
-                      ),
-                      color: Colors.black26,
+                      borderRadius: BorderRadius.all(Radius.circular(24)),
+                      color: SwapThemeDataService.getPrimary(),
                     ),
-                    child: Flex(
-                      direction: Axis.horizontal,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.upload_file),
+                    child: GestureDetector(
+                      onTap: () {
+                        picker
+                            .getImage(
+                                source: ImageSource.gallery, imageQuality: 70)
+                            .then((image) {
+                          print('Got image response');
+                          if (image != null) {
+                            filePath = image.path;
+                            print(image.path);
+                            setState(() {});
+                          }
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          S.of(context).selectGameImageFromGallery,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(S.of(context).uploadImage),
-                        )
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ))
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(24)),
+                      color: SwapThemeDataService.getPrimary(),
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        picker
+                            .getImage(
+                          source: ImageSource.camera,
+                          imageQuality: 70,
+                        )
+                            .then((image) {
+                          print('Got image response');
+                          if (image != null) {
+                            filePath = image.path;
+                            print(image.path);
+                            setState(() {});
+                          }
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          S.of(context).captureGameImageViaCamera,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )),
           ],
         ),
       );

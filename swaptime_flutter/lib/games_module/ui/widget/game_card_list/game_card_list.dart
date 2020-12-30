@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/games_module/games_routes.dart';
 import 'package:swaptime_flutter/games_module/model/game_model.dart';
@@ -13,13 +12,20 @@ import 'package:swaptime_flutter/games_module/ui/widget/game_card_small/game_car
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
+import 'package:swaptime_flutter/module_report/service/report_service/report_service.dart';
+import 'package:swaptime_flutter/module_report/ui/widget/report_dialog/report_dialog.dart';
 
 @provide
 class GameCardList extends StatefulWidget {
   final GamesListStateManager _stateManager;
   final AuthService _authService;
+  final ReportService _reportService;
 
-  GameCardList(this._stateManager, this._authService);
+  GameCardList(
+    this._stateManager,
+    this._authService,
+    this._reportService,
+  );
 
   @override
   State<StatefulWidget> createState() => _GameCardListState();
@@ -28,6 +34,10 @@ class GameCardList extends StatefulWidget {
 class _GameCardListState extends State<GameCardList> {
   GameCardType currentType = GameCardType.GAME_CARD_MEDIUM;
   GamesListState currentState = GamesListStateInit();
+  List<Games> gamesList = [];
+  List<Games> visibleGames = [];
+
+  SortByType activeSort;
 
   bool loggedIn = false;
 
@@ -36,12 +46,18 @@ class _GameCardListState extends State<GameCardList> {
     super.initState();
     widget._stateManager.stateStream.listen((event) {
       currentState = event;
+      if (currentState is GamesListStateLoadSuccess) {
+        GamesListStateLoadSuccess state = currentState;
+        gamesList = _processList(state.games);
+        visibleGames = gamesList;
+      }
       if (mounted) setState(() {});
     });
 
     widget._authService.isLoggedIn.then((value) {
       loggedIn = value;
     });
+
     widget._stateManager.getAvailableGames();
   }
 
@@ -53,34 +69,29 @@ class _GameCardListState extends State<GameCardList> {
   Widget calibrateScreen() {
     switch (currentState.runtimeType) {
       case GamesListStateLoadSuccess:
-        return setSuccessUI();
+        return getSuccessUI();
         break;
       case GamesListStateLoadError:
-        return setErrorUI();
+        return getErrorUI();
         break;
       case GamesListStateLoading:
-        return setLoadingUI();
+        return getLoadingUI();
         break;
       default:
         return Container();
     }
   }
 
-  Widget setLoadingUI() {
-    return Flex(
-      direction: Axis.vertical,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          children: [
-            CircularProgressIndicator(),
-          ],
-        )
-      ],
+  Widget getLoadingUI() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 
-  Widget setErrorUI() {
+  Widget getErrorUI() {
     return Flex(
       direction: Axis.vertical,
       children: [
@@ -95,7 +106,7 @@ class _GameCardListState extends State<GameCardList> {
     );
   }
 
-  Widget setSuccessUI() {
+  Widget getSuccessUI() {
     Widget gamesGrid;
     switch (currentType) {
       case GameCardType.GAME_CARD_SMALL:
@@ -135,6 +146,11 @@ class _GameCardListState extends State<GameCardList> {
             currentType = newType;
             if (mounted) setState(() {});
           },
+          onSortChanged: (newSort) {
+            activeSort = newSort;
+            visibleGames = _processList(gamesList);
+            setState(() {});
+          },
         ),
         Container(
           height: 16,
@@ -145,41 +161,33 @@ class _GameCardListState extends State<GameCardList> {
   }
 
   List<Widget> getSmallCards() {
-    GamesListStateLoadSuccess state = currentState;
     List<Widget> cards = [];
 
-    for (int i = 0; i < _processList(state.games).length; i++) {
+    for (int i = 0; i < visibleGames.length; i++) {
       cards.add(GestureDetector(
         onTap: () {
           Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
-              arguments: _processList(state.games)[i].id);
+              arguments: visibleGames[i].id);
         },
         child: GameCardSmall(
           gameModel: GameModel(
-            gameTitle: _processList(state.games)[i].name,
-            imageUrl: _processList(state.games)[i].mainImage.substring(29),
-            gameOwnerFirstName: _processList(state.games)[i].name,
-            loved:
-                _processList(state.games)[i].interaction.checkLoved && loggedIn,
-            itemId: _processList(state.games)[i].id.toString(),
+            gameTitle: visibleGames[i].name,
+            imageUrl: visibleGames[i]
+                .mainImage,
+            gameOwnerFirstName: visibleGames[i].name,
+            lovable: loggedIn,
+            loved: visibleGames[i].interaction.checkLoved && loggedIn,
+            itemId: visibleGames[i].id.toString(),
           ),
           onChatRequested: (itemId) {},
           onLoved: (loved) {
-            if (loved) {
-              widget._stateManager
-                  .unLove(_processList(state.games)[i].id.toString());
-            } else {
-              widget._stateManager
-                  .love(_processList(state.games)[i].id.toString(), null)
-                  .then((value) {
-                if (value == null) {
-                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
-                }
-              });
-            }
+            _loveGame(
+              visibleGames[i].id.toString(),
+              visibleGames[i].interaction.lovedId,
+            );
           },
           onReport: (itemId) {
-            Fluttertoast.showToast(msg: 'Report is Sent!');
+            _reportDialog(itemId);
           },
         ),
       ));
@@ -189,40 +197,29 @@ class _GameCardListState extends State<GameCardList> {
   }
 
   List<Widget> getMediumCards() {
-    GamesListStateLoadSuccess state = currentState;
     List<Widget> cards = [];
-    for (int i = 0; i < _processList(state.games).length; i++) {
+    for (int i = 0; i < visibleGames.length; i++) {
       cards.add(GestureDetector(
         onTap: () {
           Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
-              arguments: _processList(state.games)[i].id);
+              arguments: visibleGames[i].id);
         },
         child: GameCardMedium(
           gameModel: GameModel(
-            gameTitle: _processList(state.games)[i].name,
-            imageUrl: _processList(state.games)[i].mainImage.substring(29),
-            gameOwnerFirstName: _processList(state.games)[i].name,
-            loved:
-                _processList(state.games)[i].interaction.checkLoved && loggedIn,
-            itemId: _processList(state.games)[i].id.toString(),
+            gameTitle: visibleGames[i].name,
+            imageUrl: visibleGames[i].mainImage,
+            lovable: loggedIn,
+            gameOwnerFirstName: visibleGames[i].userName,
+            loved: visibleGames[i].interaction.checkLoved && loggedIn,
+            itemId: visibleGames[i].id.toString(),
           ),
           onChatRequested: (itemId) {},
           onLoved: (loved) {
-            if (loved) {
-              widget._stateManager
-                  .unLove(_processList(state.games)[i].id.toString());
-            } else {
-              widget._stateManager
-                  .love(_processList(state.games)[i].id.toString(), null)
-                  .then((value) {
-                if (value == null) {
-                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
-                }
-              });
-            }
+            _loveGame(visibleGames[i].id.toString(),
+                visibleGames[i].interaction.lovedId);
           },
           onReport: (itemId) {
-            Fluttertoast.showToast(msg: 'Report is Sent!');
+            _reportDialog(itemId);
           },
         ),
       ));
@@ -231,47 +228,39 @@ class _GameCardListState extends State<GameCardList> {
   }
 
   List<Widget> getLargeCards() {
-    GamesListStateLoadSuccess state = currentState;
     List<Widget> cards = [];
 
-    for (int i = 0; i < _processList(state.games).length; i++) {
-      cards.add(GestureDetector(
-        onTap: () {
-          Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
-              arguments: _processList(state.games)[i].id);
-        },
-        child: GameCardLarge(
-          gameModel: GameModel(
-            gameTitle: _processList(state.games)[i].name,
-            imageUrl: _processList(state.games)[i].mainImage.substring(29),
-            gameOwnerFirstName: _processList(state.games)[i].name,
-            loved:
-                _processList(state.games)[i].interaction.checkLoved && loggedIn,
-            itemId: _processList(state.games)[i].id.toString(),
+    for (int i = 0; i < visibleGames.length; i++) {
+      cards.add(
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed(GamesRoutes.ROUTE_GAME_DETAILS,
+                arguments: visibleGames[i].id);
+          },
+          child: GameCardLarge(
+            gameModel: GameModel(
+              gameTitle: visibleGames[i].name,
+              imageUrl: visibleGames[i].mainImage,
+              gameOwnerFirstName: visibleGames[i].userName,
+              lovable: loggedIn,
+              loved: visibleGames[i].interaction.checkLoved && loggedIn,
+              itemId: visibleGames[i].id.toString(),
+            ),
+            comments: int.tryParse(visibleGames[i].commentNumber) ?? 0,
+            onChatRequested: (itemId) {
+              Navigator.of(context)
+                  .pushNamed(GamesRoutes.ROUTE_GAME_DETAILS, arguments: itemId);
+            },
+            onLoved: (loved) {
+              _loveGame(visibleGames[i].id.toString(),
+                  visibleGames[i].interaction.lovedId);
+            },
+            onReport: (itemId) {
+              _reportDialog(itemId);
+            },
           ),
-          onChatRequested: (itemId) {
-            Navigator.of(context)
-                .pushNamed(GamesRoutes.ROUTE_GAME_DETAILS, arguments: itemId);
-          },
-          onLoved: (loved) {
-            if (loved) {
-              widget._stateManager
-                  .unLove(_processList(state.games)[i].id.toString());
-            } else {
-              widget._stateManager
-                  .love(_processList(state.games)[i].id.toString(), null)
-                  .then((value) {
-                if (value == null) {
-                  Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
-                }
-              });
-            }
-          },
-          onReport: (itemId) {
-            Fluttertoast.showToast(msg: 'Report is Sent!');
-          },
         ),
-      ));
+      );
     }
 
     return cards;
@@ -282,6 +271,69 @@ class _GameCardListState extends State<GameCardList> {
     gamesList.forEach((element) {
       games[element.id] = element;
     });
-    return List.from(games.values);
+    return _sortList(List.from(games.values));
+  }
+
+  List<Games> _sortList(List<Games> games) {
+    if (activeSort == SortByType.SORT_BY_NAME) {
+      games.sort((a, b) => a.name.compareTo(b.name));
+      return games;
+    } else if (activeSort == SortByType.SORT_BY_COMMENTS) {
+      games.sort((a, b) => a.commentNumber.compareTo(b.commentNumber));
+      return games.reversed.toList();
+    } else {
+      return games;
+    }
+  }
+
+  void _reportDialog(String itemId) {
+    showDialog(
+        context: context,
+        builder: (_) => Dialog(
+              child: ReportDialog(onConfirm: () async {
+                Navigator.of(context).pop(itemId);
+              }, onCancel: () {
+                Navigator.of(context).pop();
+              }),
+            )).then((value) {
+      if (value != null) {
+        widget._reportService.reportGame(value);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(S.of(context).reportIsSent),
+        ));
+        widget._stateManager.getAvailableGames();
+      }
+    });
+  }
+
+  void _loveGame(String gameId, [String interactionId]) {
+    print('Love Game ${gameId} with ${interactionId}');
+    if (interactionId != '0') {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(S.of(context).removingFromLikeList),
+      ));
+      widget._stateManager.unLove(interactionId).then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(S.of(context).removedLoveFromItem),
+        ));
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(S.of(context).savingToLikedList),
+      ));
+      widget._stateManager.love(gameId, null).then((value) {
+        if (value == null) {
+          Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
+        }
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(S.of(context).itemLoved),
+        ));
+      });
+    }
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
   }
 }

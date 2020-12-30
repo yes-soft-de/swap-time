@@ -2,80 +2,116 @@ import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
-class GameCardListHeader extends StatelessWidget {
+class GameCardListHeader extends StatefulWidget {
   final GameCardType selectedCardType;
   final Function(GameCardType) onTypeChanged;
+  final Function(SortByType) onSortChanged;
 
-  GameCardListHeader({
-    @required this.selectedCardType,
-    @required this.onTypeChanged,
-  });
+  GameCardListHeader(
+      {@required this.selectedCardType,
+      @required this.onTypeChanged,
+      @required this.onSortChanged});
 
+  @override
+  State<StatefulWidget> createState() => _GameCardHeader();
+}
+
+class _GameCardHeader extends State<GameCardListHeader> {
   @override
   Widget build(BuildContext context) {
     return Flex(
       direction: Axis.horizontal,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(S.of(context).gamesList),
-        Container(
-          child: Flex(
+        DropdownButton(
+          hint: Flex(
             direction: Axis.horizontal,
             children: [
-              Container(
-                color: selectedCardType == GameCardType.GAME_CARD_LARGE
-                    ? SwapThemeDataService.getAccent()
-                    : SwapThemeDataService.getPrimary(),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    if (selectedCardType != GameCardType.GAME_CARD_LARGE) {
-                      onTypeChanged(GameCardType.GAME_CARD_LARGE);
-                    }
-                  },
-                ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(Icons.sort),
               ),
-              Container(
-                color: selectedCardType == GameCardType.GAME_CARD_MEDIUM
-                    ? SwapThemeDataService.getAccent()
-                    : SwapThemeDataService.getPrimary(),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.apps,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    if (selectedCardType != GameCardType.GAME_CARD_MEDIUM) {
-                      onTypeChanged(GameCardType.GAME_CARD_MEDIUM);
-                    }
-                  },
-                ),
-              ),
-              Container(
-                color: selectedCardType == GameCardType.GAME_CARD_SMALL
-                    ? SwapThemeDataService.getAccent()
-                    : SwapThemeDataService.getPrimary(),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.grid_on,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    if (selectedCardType != GameCardType.GAME_CARD_SMALL) {
-                      onTypeChanged(GameCardType.GAME_CARD_SMALL);
-                    }
-                  },
-                ),
-              ),
+              Text(S.of(context).gamesList),
             ],
           ),
-        )
+          onChanged: (by) {
+            widget.onSortChanged(by);
+          },
+          items: [
+            DropdownMenuItem(
+              value: SortByType.SORT_BY_ADDED,
+              child: Text(S.of(context).byAdded),
+            ),
+            DropdownMenuItem(
+              value: SortByType.SORT_BY_NAME,
+              child: Text(S.of(context).byName),
+            ),
+            DropdownMenuItem(
+              value: SortByType.SORT_BY_COMMENTS,
+              child: Text(S.of(context).byComments),
+            ),
+          ],
+        ),
+        Flex(
+          direction: Axis.horizontal,
+          children: [
+            Container(
+              color: widget.selectedCardType == GameCardType.GAME_CARD_LARGE
+                  ? SwapThemeDataService.getAccent()
+                  : SwapThemeDataService.getPrimary(),
+              child: IconButton(
+                icon: Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  if (widget.selectedCardType != GameCardType.GAME_CARD_LARGE) {
+                    widget.onTypeChanged(GameCardType.GAME_CARD_LARGE);
+                  }
+                },
+              ),
+            ),
+            Container(
+              color: widget.selectedCardType == GameCardType.GAME_CARD_MEDIUM
+                  ? SwapThemeDataService.getAccent()
+                  : SwapThemeDataService.getPrimary(),
+              child: IconButton(
+                icon: Icon(
+                  Icons.apps,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  if (widget.selectedCardType !=
+                      GameCardType.GAME_CARD_MEDIUM) {
+                    widget.onTypeChanged(GameCardType.GAME_CARD_MEDIUM);
+                  }
+                },
+              ),
+            ),
+            Container(
+              color: widget.selectedCardType == GameCardType.GAME_CARD_SMALL
+                  ? SwapThemeDataService.getAccent()
+                  : SwapThemeDataService.getPrimary(),
+              child: IconButton(
+                icon: Icon(
+                  Icons.grid_on,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  if (widget.selectedCardType != GameCardType.GAME_CARD_SMALL) {
+                    widget.onTypeChanged(GameCardType.GAME_CARD_SMALL);
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
 }
 
 enum GameCardType { GAME_CARD_SMALL, GAME_CARD_MEDIUM, GAME_CARD_LARGE }
+
+enum SortByType { SORT_BY_NAME, SORT_BY_ADDED, SORT_BY_COMMENTS }

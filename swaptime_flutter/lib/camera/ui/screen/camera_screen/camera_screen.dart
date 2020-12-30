@@ -7,6 +7,7 @@ import 'package:inject/inject.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
+import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 import 'package:video_player/video_player.dart';
 
 @provide
@@ -82,16 +83,21 @@ class _CameraScreenState extends State<CameraScreen>
 
     if (cameras == null) {
       _allocateCameras();
-      return Scaffold();
+      return Scaffold(
+        appBar: SwaptimeAppBar.getBackEnabledAppBar(),
+      );
     }
 
     if (cameras.isEmpty) {
       _allocateCameras();
-      return Scaffold();
+      return Scaffold(
+        appBar: SwaptimeAppBar.getBackEnabledAppBar(),
+      );
     }
 
     return Scaffold(
       key: _scaffoldKey,
+      appBar: SwaptimeAppBar.getBackEnabledAppBar(),
       body: Column(
         children: <Widget>[
           Expanded(
@@ -289,7 +295,7 @@ class _CameraScreenState extends State<CameraScreen>
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
   void showInSnackBar(String message) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
+    // _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
   }
 
   void onNewCameraSelected(CameraDescription cameraDescription) async {

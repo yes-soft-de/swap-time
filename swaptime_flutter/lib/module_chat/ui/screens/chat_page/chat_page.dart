@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
@@ -11,10 +9,12 @@ import 'package:swaptime_flutter/module_chat/args/chat_arguments.dart';
 import 'package:swaptime_flutter/module_chat/bloc/chat_page/chat_page.bloc.dart';
 import 'package:swaptime_flutter/module_chat/model/chat/chat_model.dart';
 import 'package:swaptime_flutter/module_chat/ui/widget/chat_bubble/chat_bubble.dart';
+import 'package:swaptime_flutter/module_chat/ui/widget/chat_writer/chat_writer.dart';
 import 'package:swaptime_flutter/module_notifications/model/notifcation_item/notification_item.dart';
 import 'package:swaptime_flutter/module_notifications/ui/widget/notification_ongoing/notification_ongoing.dart';
 import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
 import 'package:swaptime_flutter/module_swap/ui/widget/exchange_setter_widget/exchange_setter_widget.dart';
+import 'package:swaptime_flutter/module_upload/service/image_upload/image_upload_service.dart';
 
 @provide
 class ChatPage extends StatefulWidget {
@@ -22,12 +22,14 @@ class ChatPage extends StatefulWidget {
   final AuthService _authService;
   final GamesListService _gamesListService;
   final SwapService _swapService;
+  final ImageUploadService _uploadService;
 
   ChatPage(
     this._chatPageBloc,
     this._authService,
     this._gamesListService,
     this._swapService,
+    this._uploadService,
   );
 
   @override
@@ -38,22 +40,25 @@ class ChatPageState extends State<ChatPage> {
   List<ChatModel> _chatMessagesList = [];
   int currentState = ChatPageBloc.STATUS_CODE_INIT;
 
-  final TextEditingController _msgController = TextEditingController();
   List<ChatBubbleWidget> chatsMessagesWidgets = [];
 
+  Games gameToChange;
   String chatRoomId;
-  Games gameOne;
-  Games gameTwo;
-  String swapId;
+  NotificationModel activeNotification;
+
+  bool initiated = false;
 
   @override
   Widget build(BuildContext context) {
     if (ModalRoute.of(context).settings.arguments is ChatArguments) {
       ChatArguments args = ModalRoute.of(context).settings.arguments;
+      activeNotification = args.notification;
       chatRoomId = args.chatRoomId;
-      gameOne = args.gameOne;
-      gameTwo = args.gameTow;
-      swapId = args.swapId;
+
+      widget._chatPageBloc.notificationStream.listen((event) {
+        activeNotification.gameOne = event.gameOne;
+        activeNotification.gameTwo = event.gameTwo;
+      });
     } else {
       chatRoomId = ModalRoute.of(context).settings.arguments;
     }
@@ -77,13 +82,60 @@ class ChatPageState extends State<ChatPage> {
     });
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Column(
         // direction: Axis.vertical,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           AppBar(
             title: Text(S.of(context).chatRoom),
+          ),
+          Column(
+            children: [
+              activeNotification.gameOne == null &&
+                      activeNotification.gameTwo == null
+                  ? Container()
+                  : MediaQuery.of(context).viewInsets.bottom == 0
+                      ? FutureBuilder(
+                          future: widget._authService.userID,
+                          builder: (BuildContext context,
+                              AsyncSnapshot<String> snapshot) {
+                            return NotificationOnGoing(
+                              shrink: true,
+                              notification: activeNotification,
+                              myId: snapshot.data,
+                              onSwapComplete: (swap) {
+                                widget._chatPageBloc
+                                    .setNotificationComplete(NotificationModel(
+                                  gameOne: activeNotification.gameOne,
+                                  gameTwo: activeNotification.gameTwo,
+                                  chatRoomId: chatRoomId,
+                                  status: activeNotification.status,
+                                  swapId: activeNotification.swapId,
+                                  userImage: activeNotification.userImage,
+                                ));
+                                setState(() {});
+                              },
+                              onChangeRequest: (game) {
+                                // Change Games
+                                gameToChange = game;
+                                var dialog = Dialog(
+                                  child: ExchangeSetterWidget(
+                                    gamesListService: widget._gamesListService,
+                                    userId: game != null ? game.userID : null,
+                                  ),
+                                );
+                                showDialog(
+                                        context: context,
+                                        builder: (context) => dialog)
+                                    .then((rawNewGame) {
+                                  _updateSwapCard(rawNewGame);
+                                });
+                              },
+                            );
+                          },
+                        )
+                      : Container(),
+            ],
           ),
           Expanded(
             child: chatsMessagesWidgets != null
@@ -95,102 +147,36 @@ class ChatPageState extends State<ChatPage> {
                     child: Text(S.of(context).loading),
                   ),
           ),
-          Column(
-            children: [
-              gameOne == null && gameTwo == null
-                  ? Container()
-                  : MediaQuery.of(context).viewInsets.bottom == 0
-                      ? FutureBuilder(
-                          future: widget._authService.userID,
-                          builder: (BuildContext context,
-                              AsyncSnapshot<String> snapshot) {
-                            return NotificationOnGoing(
-                              shrink: true,
-                              gameOne: gameOne,
-                              gameTow: gameTwo,
-                              chatRoomId: chatRoomId,
-                              myId: snapshot.data,
-                              onChangeRequest: (game) {
-                                // Change Games
-                                Games oldGame = game;
-                                if (game == gameTwo) {
-                                  oldGame = gameTwo;
-                                }
-                                var dialog = Dialog(
-                                  child: ExchangeSetterWidget(
-                                    gamesListService: widget._gamesListService,
-                                    myId: snapshot.data,
-                                    userId: game != null ? game.userID : null,
-                                  ),
-                                );
-                                showDialog(
-                                        context: context,
-                                        builder: (context) => dialog)
-                                    .then((rawNewGame) {
-                                  Games newGame = rawNewGame;
-                                  if (newGame != null) {
-                                    if (oldGame == gameOne) {
-                                      gameOne = newGame;
-                                    } else if (oldGame == gameTwo) {
-                                      gameTwo = newGame;
-                                    }
-
-                                    widget._swapService
-                                        .updateSwap(NotificationModel(
-                                            gameOne: gameOne,
-                                            gameTwo: gameTwo,
-                                            chatRoomId: chatRoomId,
-                                            swapId: swapId))
-                                        .then((value) {
-                                      setState(() {});
-                                    });
-                                  }
-                                });
-                              },
-                              swapId: swapId,
-                            );
-                          },
-                        )
-                      : Container(),
-              Flex(
-                direction: Axis.horizontal,
-                children: <Widget>[
-                  Flexible(
-                    flex: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: S.of(context).startWriting,
-                        ),
-                        controller: _msgController,
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: GestureDetector(
-                      onTap: () {
-                        sendMessage();
-                      },
-                      child: Container(
-                        height: 48,
-                        width: 48,
-                        decoration: BoxDecoration(
-                            color: Colors.greenAccent,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(90))),
-                        child: Icon(Icons.send),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ],
+          ChatWriterWidget(
+            onMessageSend: (msg) {
+              widget._chatPageBloc.sendMessage(chatRoomId, msg);
+            },
+            uploadService: widget._uploadService,
           ),
         ],
       ),
     );
+  }
+
+  void checkUpdates() {
+    widget._chatPageBloc.checkSwapUpdates(chatRoomId);
+    Future.delayed(Duration(seconds: 15), () {
+      checkUpdates();
+    });
+  }
+
+  void _updateSwapCard(Games newGame) {
+    if (newGame != null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(S.of(context).savingData)));
+      if (gameToChange.userID == activeNotification.gameOne.userID) {
+        activeNotification.gameOne = newGame;
+        widget._swapService.updateSwap(activeNotification);
+      } else {
+        activeNotification.gameTwo = newGame;
+        widget._swapService.updateSwap(activeNotification);
+      }
+    }
   }
 
   Future<void> buildMessagesList(List<ChatModel> chatList) async {
@@ -207,11 +193,5 @@ class ChatPageState extends State<ChatPage> {
     });
     chatsMessagesWidgets = newMessagesList;
     return;
-  }
-
-  void sendMessage() {
-    log('Sending: ' + _msgController.text);
-    widget._chatPageBloc.sendMessage(chatRoomId, _msgController.text.trim());
-    _msgController.clear();
   }
 }

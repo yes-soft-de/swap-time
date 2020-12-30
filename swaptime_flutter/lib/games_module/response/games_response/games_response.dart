@@ -23,12 +23,14 @@ class Games {
   List<String> tag;
   String description;
   String mainImage;
+  int views = 0;
   String userID;
   String userName;
   String commentNumber;
   Interaction interaction;
   List<CommentModel> comments;
   List<String> images;
+  bool isRequested;
   bool specialLink;
 
   Games(
@@ -37,6 +39,8 @@ class Games {
       this.category,
       this.platform,
       this.tag,
+      this.views,
+      this.isRequested,
       this.description,
       this.mainImage,
       this.userID,
@@ -52,9 +56,19 @@ class Games {
     name = json['name'];
     category = json['category'];
     platform = json['platform'];
-    tag = json['tag'].cast<String>();
+    isRequested = json['isRequested'];
+    try {
+      tag = json['tag'].cast<String>();
+    } catch (e) {
+      tag = null;
+    }
     description = json['description'];
     mainImage = json['mainImage'];
+    try {
+      mainImage = mainImage.substring(mainImage.lastIndexOf('http'));
+    } catch (e) {
+      print('No Last http');
+    }
     userID = json['userID'];
     userName = json['userName'];
     commentNumber = json['commentNumber'];
@@ -67,7 +81,9 @@ class Games {
         comments.add(new CommentModel.fromJson(v));
       });
     }
-    images = json['images'].cast<String>();
+    if (json['images'] != null) {
+      images = json['images'].cast<String>();
+    }
     specialLink = json['specialLink'];
   }
 }
@@ -75,11 +91,13 @@ class Games {
 class Interaction {
   String loved;
   bool checkLoved;
+  String lovedId;
 
   Interaction({this.loved, this.checkLoved});
 
   Interaction.fromJson(Map<String, dynamic> json) {
     loved = json['loved'];
     checkLoved = json['checkLoved'];
+    lovedId = json['lovedID'].toString();
   }
 }

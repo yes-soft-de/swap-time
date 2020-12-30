@@ -1,4 +1,4 @@
-package com.example.swaptime_flutter
+package de.yes_soft.swaptime
 
 import io.flutter.embedding.android.FlutterActivity
 

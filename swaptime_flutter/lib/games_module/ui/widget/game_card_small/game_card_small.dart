@@ -41,6 +41,7 @@ class _GameCardSmallState extends State<GameCardSmall> {
               child: FadeInImage.assetNetwork(
                 placeholder: 'assets/images/logo.jpg',
                 image: widget.gameModel.imageUrl,
+                fit: BoxFit.cover,
               ),
             ),
             Positioned(
@@ -58,16 +59,19 @@ class _GameCardSmallState extends State<GameCardSmall> {
                               ? Colors.black
                               : Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(90))),
-                      child: IconButton(
-                        icon: widget.gameModel.loved
-                            ? Icon(Icons.favorite)
-                            : Icon(Icons.favorite_border),
-                        onPressed: () {
-                          widget.onLoved(widget.gameModel.loved);
-                          widget.gameModel.loved = !widget.gameModel.loved;
-                          setState(() {});
-                        },
-                      ),
+                      child: widget.gameModel.lovable
+                          ? IconButton(
+                              icon: widget.gameModel.loved
+                                  ? Icon(Icons.favorite)
+                                  : Icon(Icons.favorite_border),
+                              onPressed: () {
+                                widget.onLoved(widget.gameModel.loved);
+                                widget.gameModel.loved =
+                                    !widget.gameModel.loved;
+                                setState(() {});
+                              },
+                            )
+                          : Container(),
                     )
                   ],
                 ),

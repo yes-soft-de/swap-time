@@ -5,14 +5,21 @@ class ProfileResponse {
   String location;
   String story;
   String image;
+  int likes;
+  int views;
+  int games;
 
-  ProfileResponse(
-      {this.id,
-      this.userID,
-      this.userName,
-      this.location,
-      this.story,
-      this.image});
+  ProfileResponse({
+    this.id,
+    this.userID,
+    this.userName,
+    this.games,
+    this.location,
+    this.story,
+    this.image,
+    this.views,
+    this.likes,
+  });
 
   ProfileResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];

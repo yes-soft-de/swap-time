@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:inject/inject.dart';
-import 'package:swaptime_flutter/camera/camer_routes.dart';
 import 'package:swaptime_flutter/games_module/ui/widget/game_card_list/game_card_list.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/interaction_module/ui/liked_screen/liked_screen.dart';
@@ -13,6 +13,7 @@ import 'package:swaptime_flutter/module_notifications/ui/screens/notification_sc
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
 import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
 import 'package:swaptime_flutter/module_profile/ui/profile_screen/profile_screen.dart';
+import 'package:swaptime_flutter/module_search/search_routes.dart';
 import 'package:swaptime_flutter/module_settings/ui/ui/settings_page/settings_page.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
@@ -50,6 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
   bool overlayOpened = false;
   bool initiated = false;
 
+  bool searchEnabled = false;
+  bool isFabVisible = true;
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -66,11 +71,32 @@ class _HomeScreenState extends State<HomeScreen> {
       initiated = true;
     }
 
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        if (isFabVisible == true) {
+          setState(() {
+            isFabVisible = false;
+          });
+        }
+      } else {
+        if (_scrollController.position.userScrollDirection ==
+            ScrollDirection.forward) {
+          if (isFabVisible == false) {
+            setState(() {
+              isFabVisible = true;
+            });
+          }
+        }
+      }
+    });
+
     var bodyPages = <Widget>[
       Column(
         children: [
           Expanded(
               child: ListView(
+            controller: _scrollController,
             children: [
               widget._gameCardList,
             ],
@@ -81,6 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Expanded(
               child: ListView(
+            controller: _scrollController,
             children: [
               widget._notificationScreen,
             ],
@@ -91,6 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Expanded(
               child: ListView(
+            controller: _scrollController,
             children: [
               widget._likedScreen,
             ],
@@ -101,6 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Expanded(
               child: SingleChildScrollView(
+            controller: _scrollController,
             child: widget._profileScreen,
           )),
         ],
@@ -116,9 +145,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
         key: _drawerKey,
-        appBar: SwaptimeAppBar.getSwaptimeAppBar(_drawerKey),
+        appBar: SwaptimeAppBar.getSwaptimeAppBar(_drawerKey, () {
+          Navigator.of(context)
+              .pushNamed(SearchRoutes.ROUTE_SEARCH, arguments: null);
+          setState(() {});
+        }),
         drawer: SwapNavigationDrawer(widget._myProfileService),
-        floatingActionButton: _getFAB(),
+        floatingActionButton: Visibility(
+          visible: isFabVisible,
+          child: _getFAB(),
+        ),
         bottomNavigationBar: _getBottomNavigationBar(),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 8, 8, 0),
@@ -155,27 +191,27 @@ class _HomeScreenState extends State<HomeScreen> {
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text(S.of(context).home),
+          label: S.of(context).home,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.notifications),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text(S.of(context).notifications),
+          label: S.of(context).notifications,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.favorite),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text(S.of(context).favorite),
+          label: S.of(context).favorite,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text(S.of(context).profile),
+          label: S.of(context).profile,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
           backgroundColor: SwapThemeDataService.getAccent(),
-          title: Text(S.of(context).settings),
+          label: S.of(context).settings,
         ),
       ],
     );
@@ -221,8 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   onPressed: () {
                     Navigator.of(context).pushNamed(
-                      CameraRoutes.ROUTE_CAMERA,
-                      arguments: FormsRoutes.ROUTE_ADD_BY_IMAGE,
+                      FormsRoutes.ROUTE_ADD_BY_IMAGE,
                     );
                   },
                 ),
@@ -297,8 +332,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     var hasProfile =
                         await widget._myProfileService.hasProfile();
                     if (hasProfile) {
-                      overlayOpened = true;
-                      setState(() {});
+                      if (!overlayOpened) {
+                        overlayOpened = true;
+                        setState(() {});
+                      } else {
+                        await Navigator.of(context)
+                            .pushNamed(FormsRoutes.ROUTE_ADD_BY_IMAGE);
+                      }
                     } else {
                       await Navigator.of(context)
                           .pushNamed(ProfileRoutes.MY_ROUTE_PROFILE);

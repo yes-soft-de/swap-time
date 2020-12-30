@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:swaptime_flutter/games_module/model/game_model.dart';
-import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
 class GameCardMedium extends StatefulWidget {
   final GameModel gameModel;
@@ -25,8 +24,6 @@ class _GameCardMediumState extends State<GameCardMedium> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: 225,
-        width: 160,
         decoration: BoxDecoration(
           color: Theme.of(context).brightness == Brightness.dark
               ? Colors.black
@@ -41,38 +38,29 @@ class _GameCardMediumState extends State<GameCardMedium> {
             ),
           ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Stack(children: [
-            FadeInImage.assetNetwork(
+        child: Stack(children: [
+          Positioned.fill(
+            child: FadeInImage.assetNetwork(
               placeholder: 'assets/images/logo.jpg',
               image: widget.gameModel.imageUrl,
+              fit: BoxFit.cover,
+              height: 240,
             ),
-            Positioned(
-              top: 0,
-              right: 0,
-              child: IconButton(
-                icon: Icon(
-                  Icons.more_vert,
-                  color: SwapThemeDataService.getAccent(),
-                ),
-                onPressed: () {
-                  // TODO: Show More Dropdown
-                },
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.black
-                    : Colors.white,
-                child: Flex(
-                  direction: Axis.horizontal,
-                  children: [
-                    Expanded(
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.black
+                  : Colors.white,
+              child: Flex(
+                direction: Axis.horizontal,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Flex(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         direction: Axis.vertical,
@@ -81,32 +69,36 @@ class _GameCardMediumState extends State<GameCardMedium> {
                             widget.gameModel.gameTitle,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 14),
+                            overflow: TextOverflow.ellipsis,
                           ),
                           Text(
                             widget.gameModel.gameOwnerFirstName,
                             style: TextStyle(fontSize: 12),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(
-                        widget.gameModel.loved
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                      ),
-                      onPressed: () {
-                        widget.onLoved(widget.gameModel.loved);
-                        widget.gameModel.loved = !widget.gameModel.loved;
-                        setState(() {});
-                      },
-                    ),
-                  ],
-                ),
+                  ),
+                  widget.gameModel.lovable
+                      ? IconButton(
+                          icon: Icon(
+                            widget.gameModel.loved
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                          ),
+                          onPressed: () {
+                            widget.onLoved(widget.gameModel.loved);
+                            widget.gameModel.loved = !widget.gameModel.loved;
+                            setState(() {});
+                          },
+                        )
+                      : Container(),
+                ],
               ),
-            )
-          ]),
-        ),
+            ),
+          )
+        ]),
       ),
     );
   }

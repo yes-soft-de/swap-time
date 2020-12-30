@@ -24,6 +24,7 @@ class GamesListStateManager {
   );
 
   void getAvailableGames() {
+    _stateSubject.add(GamesListStateLoading());
     _service.getAvailableGames.then((gamesList) {
       if (gamesList == null) {
         _stateSubject.add(GamesListStateLoadError());
@@ -38,8 +39,19 @@ class GamesListStateManager {
     return _likedService.like(itemId, interactionId);
   }
 
-  Future<bool> unLove(String itemId, [String interactionId]) {
-    return _likedService.unLike(itemId, interactionId);
+  Future<bool> unLove(String interactionId) {
+    return _likedService.unLike(interactionId);
+  }
+
+  void getUserGames(String userId) {
+    _service.getUserGames(userId).then((gamesList) {
+      if (gamesList == null) {
+        _stateSubject.add(GamesListStateLoadError());
+      } else {
+        var games = Set.of(gamesList);
+        _stateSubject.add(GamesListStateLoadSuccess(List.of(games)));
+      }
+    });
   }
 
   Future<String> getUserName(String userId) async {

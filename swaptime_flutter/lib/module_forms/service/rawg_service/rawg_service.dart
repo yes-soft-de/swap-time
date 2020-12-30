@@ -11,8 +11,12 @@ class RawGService {
   RawGService(this._manager);
 
   Future<List<SearchModel>> search(String query) async {
+    query = query.replaceAll(' ', '+');
     var response = await this._manager.search(query);
     List<SearchModel> searchList = [];
+    if (response.results == null) {
+      return [];
+    }
     response.results.forEach((element) {
       var platformList = getGamePlatformList(element.platforms);
       if (platformList != null) {
@@ -28,6 +32,12 @@ class RawGService {
 
   List<GamePlatform> getGamePlatformList(List<Platforms> platforms) {
     var platformList = <GamePlatform>[];
+    if (platforms == null) {
+      return [];
+    }
+    if (platforms.isEmpty) {
+      return [];
+    }
     platforms.forEach((element) {
       var platform = RawGHelper.getGamePlatform(element.platform.id);
       if (platform != null) platformList.add(platform);

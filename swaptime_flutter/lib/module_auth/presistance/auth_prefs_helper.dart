@@ -44,6 +44,9 @@ class AuthPrefsHelper {
   }
 
   Future<void> setToken(String token) async {
+    if (token == null) {
+      return;
+    }
     SharedPreferences preferencesHelper = await SharedPreferences.getInstance();
     await preferencesHelper.setString(
       'token',
@@ -66,6 +69,11 @@ class AuthPrefsHelper {
       return null;
     }
     return preferencesHelper.getString('token');
+  }
+
+  Future<String> getTokenDate() async {
+    SharedPreferences preferencesHelper = await SharedPreferences.getInstance();
+    return preferencesHelper.get('token_date');
   }
 
   Future<void> clearPrefs() async {

@@ -6,10 +6,15 @@ class NotificationModel {
   Games gameTwo;
   String chatRoomId;
   String swapId;
+  String userImage;
+  String status;
 
-  NotificationModel(
-      {@required this.gameOne,
-      @required this.gameTwo,
-      @required this.chatRoomId,
-      @required this.swapId});
+  NotificationModel({
+    @required this.gameOne,
+    @required this.gameTwo,
+    @required this.chatRoomId,
+    @required this.status,
+    @required this.userImage,
+    @required this.swapId,
+  });
 }

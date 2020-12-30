@@ -10,13 +10,15 @@ class CommentListWidget extends StatelessWidget {
   final List<CommentModel> commentList;
   final Function(String newComment) onCommentAdded;
 
-  CommentListWidget(this.commentList, this.onCommentAdded, [this.userId]);
+  CommentListWidget({this.commentList, this.onCommentAdded, this.userId});
 
   @override
   Widget build(BuildContext context) {
     List<Widget> commentWidgetLines = [];
     commentList.forEach((element) {
-      commentWidgetLines.add(CommentWidget(element));
+      if (element.comment.isNotEmpty) {
+        commentWidgetLines.add(CommentWidget(element));
+      }
     });
     if (commentWidgetLines.isEmpty) {
       commentWidgetLines.add(Padding(
@@ -25,9 +27,11 @@ class CommentListWidget extends StatelessWidget {
       ));
     }
     if (userId != null) {
-      commentWidgetLines.add(NewCommentWidget((newComment) {
-        onCommentAdded(newComment);
-      }));
+      commentWidgetLines.add(NewCommentWidget(
+        onCommentPost: (newComment) {
+          onCommentAdded(newComment);
+        },
+      ));
     } else {
       commentWidgetLines.add(GestureDetector(
         onTap: () {

@@ -60,21 +60,30 @@ class AuthStateManager {
 
   Future<void> authWithGoogle() async {
     // Trigger the authentication flow
-    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+    try {
+      final GoogleSignInAccount googleUser = await GoogleSignIn(
+        scopes: [
+          'email',
+          'https://www.googleapis.com/auth/contacts.readonly',
+        ],
+      ).signIn();
+      print('Got Google User');
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+      // Create a new credential
+      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
-    // Create a new credential
-    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    var result = await FirebaseAuth.instance.signInWithCredential(credential);
-    await _loginUser(result);
+      // Once signed in, return the UserCredential
+      var result = await FirebaseAuth.instance.signInWithCredential(credential);
+      await _loginUser(result);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future<void> signInWithApple() async {

@@ -1,6 +1,9 @@
 name: iOS Deploy
 
-on: [push]
+on:
+  push:
+    branches: 
+      - 'release-v*'
 
 jobs:
   deploy:
@@ -36,8 +39,8 @@ jobs:
     - name: Setup flutter
       uses: subosito/flutter-action@v1
       with:
-        flutter-version: "1.22.2"
-        channel: "stable"
+        flutter-version: "1.24.0-10.2.pre"
+        channel: "beta"
 
     - name: Install tools
       run: |

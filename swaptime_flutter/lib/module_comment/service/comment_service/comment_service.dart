@@ -15,7 +15,7 @@ class CommentService {
 
   Future<CreateCommentResponse> postComment(
       int gameId, String commentMsg) async {
-    String uid = await _authService.userID;
+    String uid = await _authService.userID; // This is cached, i.e. from shared preferences
     CreateCommentRequest commentRequest = CreateCommentRequest(
         comment: commentMsg,
         userID: uid,

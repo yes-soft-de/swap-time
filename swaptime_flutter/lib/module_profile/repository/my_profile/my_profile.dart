@@ -30,7 +30,7 @@ class MyProfileRepository {
     Map<String, dynamic> response =
         await _apiClient.get(Urls.API_PROFILE + '/$userId');
 
-    return response != null
+    return response != null && ProfileListResponse.fromJson(response).data.isNotEmpty
         ? ProfileListResponse.fromJson(response).data.last
         : null;
   }

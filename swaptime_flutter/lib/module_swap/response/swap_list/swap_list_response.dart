@@ -17,7 +17,7 @@ class SwapListResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['status_code'] = this.statusCode;
     data['msg'] = this.msg;
     if (this.data != null) {
@@ -66,21 +66,32 @@ class SwapListItem {
     date = json['date'] != null ? new Date.fromJson(json['date']) : null;
     userIdOne = json['userIdOne'];
     userOneName = json['userOneName'];
-    userOneImage = json['userOneImage'];
     userTwoName = json['userTwoName'];
-    userTwoImage = json['userTwoImage'];
-    userIdTwo = json['userIdTwo'];
     swapItemIdOne = json['swapItemIdOne'];
-    swapItemOneImage = json['swapItemOneImage'];
     swapItemIdTwo = json['swapItemIdTwo'];
+    userIdTwo = json['userIdTwo'];
+
+    userOneImage = json['userOneImage'];
+    userOneImage = userOneImage.substring(userOneImage.lastIndexOf('http'));
+
+    userTwoImage = json['userTwoImage'];
+    userTwoImage = userTwoImage.substring(userTwoImage.lastIndexOf('http'));
+
+    swapItemOneImage = json['swapItemOneImage'];
+    swapItemOneImage =
+        swapItemOneImage.substring(swapItemOneImage.lastIndexOf('http'));
+
     swapItemTwoImage = json['swapItemTwoImage'];
+    swapItemTwoImage =
+        swapItemTwoImage.substring(swapItemTwoImage.lastIndexOf('http'));
+
     cost = json['cost'];
     roomID = json['roomID'];
     status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = this.id;
     if (this.date != null) {
       data['date'] = this.date.toJson();

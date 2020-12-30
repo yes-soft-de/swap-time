@@ -12,17 +12,23 @@ platform :ios do
         lock_when_sleeps: false
       )
     end
+    
+    
     match(
       type: "appstore",
-      readonly: false,
+      readonly: is_ci,
       keychain_name: ENV['MATCH_KEYCHAIN_NAME'],
       keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
     )
+
+    increment_build_number(
+	    build_number: "72"
+    )
+
     build_app(
       workspace: "Runner.xcworkspace",
-      scheme: "MyApp",
-      export_method: "app-store",
-      export_xcargs: "-allowProvisionUpdates"
+      scheme: "Runner",
+      export_method: "app-store"
     )
     upload_to_testflight
   end

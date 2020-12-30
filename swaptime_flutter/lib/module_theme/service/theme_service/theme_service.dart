@@ -24,7 +24,6 @@ class SwapThemeDataService {
   }
 
   Future<void> switchDarkMode(bool darkMode) async {
-    print('Setting Dark Mode: ' + darkMode.toString());
     if (darkMode) {
       await _preferencesHelper.setDarkMode();
     } else {
