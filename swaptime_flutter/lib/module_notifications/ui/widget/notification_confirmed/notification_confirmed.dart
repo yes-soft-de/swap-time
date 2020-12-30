@@ -5,14 +5,10 @@ import 'package:swaptime_flutter/module_notifications/model/notifcation_item/not
 class NotificationComplete extends StatefulWidget {
   final NotificationModel notification;
   final String myId;
-  final Function() onFinished;
-  final Function() onRefuse;
 
   NotificationComplete({
     this.notification,
     this.myId,
-    this.onFinished,
-    this.onRefuse,
   });
 
   @override
@@ -61,6 +57,10 @@ class _NotificationCompleteState extends State<NotificationComplete> {
             children: [
               Text(
                 S.of(context).swapCompleted,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),

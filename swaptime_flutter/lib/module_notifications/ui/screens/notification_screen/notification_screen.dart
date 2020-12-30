@@ -12,6 +12,7 @@ import 'package:swaptime_flutter/module_home/states/notifications_state/notifica
 import 'package:swaptime_flutter/module_notifications/model/notifcation_item/notification_item.dart';
 import 'package:swaptime_flutter/module_notifications/state_manager/notifications_state_manager/notifcations_list_state_manager.dart';
 import 'package:swaptime_flutter/module_notifications/ui/widget/notification_confirmation_pending/notification_confirmation_pending.dart';
+import 'package:swaptime_flutter/module_notifications/ui/widget/notification_confirmed/notification_confirmed.dart';
 import 'package:swaptime_flutter/module_notifications/ui/widget/notification_ongoing/notification_ongoing.dart';
 import 'package:swaptime_flutter/module_notifications/ui/widget/notification_swap_start/notification_swap_start.dart';
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
@@ -135,7 +136,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
       print('Null Notification');
       return Container();
     }
-    print('Notification Status: ${n.status}');
     if (n.status == null || n.status == ApiKeys.KEY_SWAP_STATUS_INIT) {
       return NotificationSwapStart(
         notification: n,
@@ -171,11 +171,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
         notification: n,
         myId: myId,
         onFinished: () {
-          widget._manager.requestSwapComplete(n);
+          widget._manager.setSwapAccepted(n);
         },
         onRefuse: () {
           widget._manager.refuseSwapComplete(n);
         },
+      );
+    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_CONFIRMED) {
+      return NotificationComplete(
+        notification: n,
+        myId: myId,
+      );
+    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_REFUSED) {
+      return NotificationComplete(
+        notification: n,
+        myId: myId,
       );
     } else {
       return Card(child: Text('Notification Status: ${n.status}'));
