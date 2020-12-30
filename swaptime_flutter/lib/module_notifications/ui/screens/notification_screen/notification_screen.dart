@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
+import 'package:swaptime_flutter/consts/keys.dart';
 import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
 import 'package:swaptime_flutter/games_module/service/games_list_service/games_list_service.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
+import 'package:swaptime_flutter/module_chat/args/chat_arguments.dart';
+import 'package:swaptime_flutter/module_chat/chat_routes.dart';
 import 'package:swaptime_flutter/module_home/states/notifications_state/notification_state.dart';
 import 'package:swaptime_flutter/module_notifications/model/notifcation_item/notification_item.dart';
 import 'package:swaptime_flutter/module_notifications/state_manager/notifications_state_manager/notifcations_list_state_manager.dart';
+import 'package:swaptime_flutter/module_notifications/ui/widget/notification_confirmation_pending/notification_confirmation_pending.dart';
 import 'package:swaptime_flutter/module_notifications/ui/widget/notification_ongoing/notification_ongoing.dart';
+import 'package:swaptime_flutter/module_notifications/ui/widget/notification_swap_start/notification_swap_start.dart';
 import 'package:swaptime_flutter/module_profile/profile_routes.dart';
 import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
 import 'package:swaptime_flutter/module_swap/ui/widget/exchange_setter_widget/exchange_setter_widget.dart';
@@ -38,7 +43,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Games gameToChange;
 
   NotificationModel activeNotification;
-
   List<NotificationModel> notifications;
 
   @override
@@ -55,7 +59,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
           Navigator.of(context).pushNamed(ProfileRoutes.MY_ROUTE_PROFILE);
           return;
         }
-        widget._manager.startNotificationRefreshCycle();
         setState(() {});
       });
     });
@@ -112,37 +115,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
     if (notifications != null) {
       if (notifications.isNotEmpty) {
         notifications.forEach((n) {
-          notCards.add(NotificationOnGoing(
-            gameOne: n.gameOne,
-            gameTow: n.gameTwo,
-            chatRoomId: n.chatRoomId,
-            myId: myId,
-            userImage: n.userImage,
-            swapId: n.swapId,
-            finished: n.complete,
-            onSwapComplete: (swapId) {
-              widget._manager.setNotificationComplete(n);
-            },
-            onChangeRequest: (game) {
-              // The Game we want to change
-              gameToChange = game;
-              print('Game to Change: ${game.id} for user: ${game.userID}');
-
-              // Create the dialog for the question
-              var dialog = Dialog(
-                child: ExchangeSetterWidget(
-                  gamesListService: widget._gamesListService,
-                  userId: game.userID,
-                ),
-              );
-
-              showDialog(context: context, builder: (context) => dialog)
-                  .then((rawNewGame) {
-                activeNotification = n;
-                _updateSwapCard(rawNewGame);
-              });
-            },
-          ));
+          notCards.add(
+            _getAppropriateNotificationCard(n, myId),
+          );
         });
       }
     }
@@ -150,6 +125,81 @@ class _NotificationScreenState extends State<NotificationScreen> {
       direction: Axis.vertical,
       children: notCards,
     );
+  }
+
+  Widget _getAppropriateNotificationCard(
+    NotificationModel n,
+    String myId,
+  ) {
+    if (n == null) {
+      print('Null Notification');
+      return Container();
+    }
+    print('Notification Status: ${n.status}');
+    if (n.status == null || n.status == ApiKeys.KEY_SWAP_STATUS_INIT) {
+      return NotificationSwapStart(
+        notification: n,
+        myId: myId,
+        onChangeRequest: (game) {
+          _onChangeRequest(game, n);
+        },
+      );
+    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_ON_GOING) {
+      return NotificationOnGoing(
+        notification: n,
+        myId: myId,
+        onSwapComplete: (swapId) {
+          widget._manager.requestSwapComplete(n);
+        },
+        onChangeRequest: (game) {
+          _onChangeRequest(game, n);
+        },
+        onChatRequested: () {
+          var args = ChatArguments(
+            chatRoomId: n.chatRoomId,
+            notification: n,
+          );
+
+          Navigator.of(context).pushNamed(
+            ChatRoutes.chatRoute,
+            arguments: args,
+          );
+        },
+      );
+    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_PENDING_CONFIRM) {
+      return NotificationSwapConfirmationPending(
+        notification: n,
+        myId: myId,
+        onFinished: () {
+          widget._manager.requestSwapComplete(n);
+        },
+        onRefuse: () {
+          widget._manager.refuseSwapComplete(n);
+        },
+      );
+    } else {
+      return Card(child: Text('Notification Status: ${n.status}'));
+    }
+  }
+
+  void _onChangeRequest(game, n) {
+    // The Game we want to change
+    gameToChange = game;
+    print('Game to Change: ${game.id} for user: ${game.userID}');
+
+    // Create the dialog for the question
+    var dialog = Dialog(
+      child: ExchangeSetterWidget(
+        gamesListService: widget._gamesListService,
+        userId: game.userID,
+      ),
+    );
+
+    showDialog(context: context, builder: (context) => dialog)
+        .then((rawNewGame) {
+      activeNotification = n;
+      _updateSwapCard(rawNewGame);
+    });
   }
 
   void _updateSwapCard(Games rawNewGame) {

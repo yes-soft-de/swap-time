@@ -75,10 +75,10 @@ class S {
     );
   }
 
-  /// `Games List`
+  /// `Product List`
   String get gamesList {
     return Intl.message(
-      'Games List',
+      'Product List',
       name: 'gamesList',
       desc: '',
       args: [],
@@ -235,10 +235,10 @@ class S {
     );
   }
 
-  /// `Search a Game :)`
+  /// `Search a Product :)`
   String get searchAGame {
     return Intl.message(
-      'Search a Game :)',
+      'Search a Product :)',
       name: 'searchAGame',
       desc: '',
       args: [],
@@ -275,10 +275,10 @@ class S {
     );
   }
 
-  /// `Submit Game!`
+  /// `Submit Product!`
   String get submitGame {
     return Intl.message(
-      'Submit Game!',
+      'Submit Product!',
       name: 'submitGame',
       desc: '',
       args: [],
@@ -415,10 +415,10 @@ class S {
     );
   }
 
-  /// `Set Exchange Game`
+  /// `Set Exchange Product`
   String get setExchangeGame {
     return Intl.message(
-      'Set Exchange Game',
+      'Set Exchange Product',
       name: 'setExchangeGame',
       desc: '',
       args: [],
@@ -435,10 +435,10 @@ class S {
     );
   }
 
-  /// `Set Game`
+  /// `Set Product`
   String get setGame {
     return Intl.message(
-      'Set Game',
+      'Set Product',
       name: 'setGame',
       desc: '',
       args: [],
@@ -635,20 +635,20 @@ class S {
     );
   }
 
-  /// `This Game is Great`
+  /// `This Product is Great`
   String get thisGameIsGreat {
     return Intl.message(
-      'This Game is Great',
+      'This Product is Great',
       name: 'thisGameIsGreat',
       desc: '',
       args: [],
     );
   }
 
-  /// `Games`
+  /// `Products`
   String get games {
     return Intl.message(
-      'Games',
+      'Products',
       name: 'games',
       desc: '',
       args: [],
@@ -745,10 +745,10 @@ class S {
     );
   }
 
-  /// `Game Name`
+  /// `Product Name`
   String get gameName {
     return Intl.message(
-      'Game Name',
+      'Product Name',
       name: 'gameName',
       desc: '',
       args: [],
@@ -785,10 +785,10 @@ class S {
     );
   }
 
-  /// `My game is an awesome game`
+  /// `My product is an awesome product`
   String get myGameIsAnAwesomeGame {
     return Intl.message(
-      'My game is an awesome game',
+      'My product is an awesome product',
       name: 'myGameIsAnAwesomeGame',
       desc: '',
       args: [],
@@ -815,20 +815,20 @@ class S {
     );
   }
 
-  /// `Capture game image via camera`
+  /// `Capture product image via camera`
   String get captureGameImageViaCamera {
     return Intl.message(
-      'Capture game image via camera',
+      'Capture product image via camera',
       name: 'captureGameImageViaCamera',
       desc: '',
       args: [],
     );
   }
 
-  /// `Select game image from gallery`
+  /// `Select product image from gallery`
   String get selectGameImageFromGallery {
     return Intl.message(
-      'Select game image from gallery',
+      'Select product image from gallery',
       name: 'selectGameImageFromGallery',
       desc: '',
       args: [],
@@ -945,10 +945,10 @@ class S {
     );
   }
 
-  /// `Reporting Game`
+  /// `Reporting Product`
   String get reportingGame {
     return Intl.message(
-      'Reporting Game',
+      'Reporting Product',
       name: 'reportingGame',
       desc: '',
       args: [],

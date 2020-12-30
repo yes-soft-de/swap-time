@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:swaptime_flutter/generated/l10n.dart';
 
 class LikedItemCard extends StatelessWidget {
   final String ownerFirstName;
   final String ownerImageUrl;
   final String gameImageUrl;
   final String date;
+  final Function() onHate;
 
   LikedItemCard(
       {@required this.ownerFirstName,
       @required this.gameImageUrl,
       @required this.date,
+      @required this.onHate,
       this.ownerImageUrl});
 
   @override
@@ -37,29 +38,76 @@ class LikedItemCard extends StatelessWidget {
                   Positioned.directional(
                     bottom: 8,
                     end: 8,
+                    top: 8,
                     textDirection: Directionality.of(context),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? Colors.white
-                            : Colors.black,
-                        borderRadius: BorderRadius.all(Radius.circular(90)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Flex(
+                    child: Flex(
+                      direction: Axis.vertical,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? Colors.white
+                                    : Colors.black,
+                            borderRadius: BorderRadius.all(Radius.circular(90)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Flex(
+                              direction: Axis.horizontal,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Icon(
+                                    Icons.calendar_today,
+                                    size: 16,
+                                  ),
+                                ),
+                                Text('${date}')
+                              ],
+                            ),
+                          ),
+                        ),
+                        Flex(
                           direction: Axis.horizontal,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            date.length > 5
-                                ? Text(S.of(context).likedAt + ' ' + date)
-                                : Container(),
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Icon(Icons.send),
+                            GestureDetector(
+                              onTap: () {
+                                onHate();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(Icons.favorite),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(Icons.send),
+                              ),
                             ),
                           ],
                         ),
-                      ),
+                      ],
                     ),
                   )
                 ],

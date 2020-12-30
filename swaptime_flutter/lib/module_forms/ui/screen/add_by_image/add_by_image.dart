@@ -302,15 +302,25 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
         ),
       );
     } else if (imageUrl != null) {
-      return Stack(
-        children: [
-          Positioned.fill(
-              child: Image.network(
-            imageUrl.contains('http') ? imageUrl : Urls.IMAGES_ROOT + imageUrl,
-            height: 240,
-          )),
-        ],
-      );
+      if (filePath == null) {
+        return Stack(
+          children: [
+            Positioned.fill(
+                child: Image.network(
+              imageUrl.contains('http')
+                  ? imageUrl
+                  : Urls.IMAGES_ROOT + imageUrl,
+              height: 240,
+            )),
+          ],
+        );
+      } else {
+        return Image.file(
+          File(filePath),
+          fit: BoxFit.cover,
+          height: 240,
+        );
+      }
     } else if (filePath != null && loading) {
       return Container(
         height: 240,
@@ -460,7 +470,8 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                     child: GestureDetector(
                       onTap: () {
                         picker
-                            .getImage(source: ImageSource.gallery, imageQuality: 70)
+                            .getImage(
+                                source: ImageSource.gallery, imageQuality: 70)
                             .then((image) {
                           print('Got image response');
                           if (image != null) {
@@ -493,7 +504,10 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                     child: GestureDetector(
                       onTap: () {
                         picker
-                            .getImage(source: ImageSource.camera, imageQuality: 70,)
+                            .getImage(
+                          source: ImageSource.camera,
+                          imageQuality: 70,
+                        )
                             .then((image) {
                           print('Got image response');
                           if (image != null) {

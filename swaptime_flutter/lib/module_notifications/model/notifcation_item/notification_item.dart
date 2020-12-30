@@ -7,13 +7,13 @@ class NotificationModel {
   String chatRoomId;
   String swapId;
   String userImage;
-  bool complete;
+  String status;
 
   NotificationModel({
     @required this.gameOne,
     @required this.gameTwo,
     @required this.chatRoomId,
-    @required this.complete,
+    @required this.status,
     @required this.userImage,
     @required this.swapId,
   });

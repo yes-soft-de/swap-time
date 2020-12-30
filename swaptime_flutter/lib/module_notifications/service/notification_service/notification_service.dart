@@ -25,19 +25,19 @@ class NotificationService {
         chatRoomId: swap.roomID,
         swapId: swap.id.toString(),
         userImage:
-            myId == swap.userOneImage ? swap.userTwoImage : swap.userOneImage,
+            myId == swap.userIdOne ? swap.userTwoImage : swap.userOneImage,
         gameOne: Games(
-            mainImage: swap.swapItemOneImage,
-            id: swap.swapItemIdOne,
-            userName: swap.userTwoName,
-            userID: swap.userIdTwo,
-            ),
+          mainImage: swap.swapItemOneImage,
+          id: swap.swapItemIdOne,
+          userName: swap.userTwoName,
+          userID: swap.userIdTwo,
+        ),
         gameTwo: Games(
             mainImage: swap.swapItemTwoImage,
             id: swap.swapItemIdTwo,
             userName: swap.userOneName,
             userID: swap.userIdOne),
-        complete: swap.status == 'finished',
+        status: swap.status,
       ));
     }
     return notifications.reversed.toList();

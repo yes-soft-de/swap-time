@@ -1,6 +1,10 @@
 class Urls {
-  static const String IMAGES_ROOT = 'http://abbd2ed14930c415a986890772f71071-687349075.us-east-2.elb.amazonaws.com/upload/';
-  static const String BASE_API = 'http://abbd2ed14930c415a986890772f71071-687349075.us-east-2.elb.amazonaws.com/html/public/index.php';
+  static const String BASE_TEST_DOMAIN = 'http://192.168.1.12:8000';
+  static const String BASE_LIVE_DOMAIN = 'http://swaptime.yes-apps.com';
+
+  static const String BASE_DOMAIN = BASE_TEST_DOMAIN;
+  static const String IMAGES_ROOT = BASE_DOMAIN + '/upload/';
+  static const String BASE_API = BASE_TEST_DOMAIN;
 
   static const API_SIGN_UP = BASE_API + '/user';
   static const API_CREATE_TOKEN = BASE_API + '/login_check';

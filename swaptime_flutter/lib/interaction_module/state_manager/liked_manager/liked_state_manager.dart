@@ -22,4 +22,8 @@ class LikedStateManager {
       }
     });
   }
+
+  void onHate(String interactionId) {
+    _service.unLike(interactionId).then((value) => getLikedGames());
+  }
 }

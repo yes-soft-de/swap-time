@@ -5,10 +5,12 @@ class CreateSwapRequest {
   int swapItemIdTwo;
   String roomID;
   String date;
+  String status;
 
   CreateSwapRequest(
       {this.userIdOne,
       this.userIdTwo,
+      this.status,
       this.swapItemIdOne,
       this.swapItemIdTwo,
       this.roomID,
@@ -21,6 +23,7 @@ class CreateSwapRequest {
     swapItemIdTwo = json['swapItemIdTwo'];
     roomID = json['roomID'];
     date = json['date'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {

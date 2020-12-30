@@ -99,6 +99,9 @@ class _LikedScreenState extends State<LikedScreen> {
         child: LikedItemCard(
           gameImageUrl: element.mainImage,
           ownerFirstName: ' ',
+          onHate: () {
+            widget._stateManager.onHate('${element.id}');
+          },
           date: element.date == null
               ? ' '
               : DateTime.fromMillisecondsSinceEpoch(

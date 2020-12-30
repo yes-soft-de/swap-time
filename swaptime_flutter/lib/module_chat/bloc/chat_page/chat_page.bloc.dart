@@ -56,7 +56,6 @@ class ChatPageBloc {
   }
 
   void setNotificationComplete(NotificationModel swapItemModel) {
-    swapItemModel.complete = true;
     _swapService.updateSwap(swapItemModel);
   }
 
@@ -66,22 +65,12 @@ class ChatPageBloc {
         if (element.chatRoomId == id) {
           _notificationUpdateSubject.add(NotificationModel(
             chatRoomId: id,
-            complete: element.complete,
             swapId: element.swapId,
             gameOne: element.gameOne,
             gameTwo: element.gameTwo,
           ));
         }
       });
-    });
-  }
-
-  void startGamesUpdateCycle(swapId) {
-    checkSwapUpdates(swapId);
-    Future.delayed(Duration(seconds: 10), () {
-      if (listening) {
-        startGamesUpdateCycle(swapId);
-      }
     });
   }
 }

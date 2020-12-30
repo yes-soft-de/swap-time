@@ -18,6 +18,7 @@ import 'package:swaptime_flutter/module_auth/auth_module.dart';
 import 'package:swaptime_flutter/module_chat/chat_module.dart';
 import 'package:swaptime_flutter/module_forms/forms_module.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
+import 'package:swaptime_flutter/module_notifications/service/fire_notification_service/fire_notification_service.dart';
 import 'package:swaptime_flutter/module_profile/profile_module.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 
@@ -75,58 +76,13 @@ class _MyAppState extends State<MyApp> {
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: analytics);
-  StreamSubscription iosSubscription;
-  final FirebaseMessaging _fcm = FirebaseMessaging();
 
   @override
   void initState() {
     super.initState();
-    if (Platform.isIOS) {
-      iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
-        // save the token  OR subscribe to a topic here
-      });
 
-      _fcm.requestNotificationPermissions(IosNotificationSettings());
-    }
+    FireNotificationService.init();
 
-    _fcm.getToken().then((token) {
-      if (token != null) {
-        if (FirebaseAuth.instance.currentUser.uid != null) {
-          FirebaseFirestore.instance
-              .collection('users')
-              .doc(FirebaseAuth.instance.currentUser.uid)
-              .collection('notificationTokens')
-              .add({token: true});
-        }
-      }
-    });
-
-    _fcm.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('onMessage: $message');
-        await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            content: ListTile(
-              title: Text(message['notification']['title']),
-              subtitle: Text(message['notification']['body']),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('OK'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          ),
-        );
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('onLaunch: $message');
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('onResume: $message');
-      },
-    );
     widget._localizationService.localizationStream.listen((event) {
       setState(() {});
     });

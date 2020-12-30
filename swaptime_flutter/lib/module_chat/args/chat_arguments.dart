@@ -1,18 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:swaptime_flutter/games_module/response/games_response/games_response.dart';
+import 'package:swaptime_flutter/module_notifications/model/notifcation_item/notification_item.dart';
 
 class ChatArguments {
   final String chatRoomId;
-  final Games gameOne;
-  final Games gameTow;
-  final String swapId;
-  final bool finished;
+  final NotificationModel notification;
 
   ChatArguments({
     @required this.chatRoomId,
-    @required this.gameOne,
-    @required this.gameTow,
-    @required this.swapId,
-    @required this.finished,
+    @required this.notification,
   });
 }

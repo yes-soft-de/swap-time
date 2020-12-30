@@ -52,21 +52,13 @@ class ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     if (ModalRoute.of(context).settings.arguments is ChatArguments) {
       ChatArguments args = ModalRoute.of(context).settings.arguments;
-      activeNotification = NotificationModel(
-          gameOne: args.gameOne,
-          gameTwo: args.gameTow,
-          chatRoomId: args.chatRoomId,
-          complete: args.finished,
-          swapId: args.swapId);
-
+      activeNotification = args.notification;
       chatRoomId = args.chatRoomId;
 
       widget._chatPageBloc.notificationStream.listen((event) {
         activeNotification.gameOne = event.gameOne;
         activeNotification.gameTwo = event.gameTwo;
       });
-
-      widget._chatPageBloc.startGamesUpdateCycle(args.swapId);
     } else {
       chatRoomId = ModalRoute.of(context).settings.arguments;
     }
@@ -109,21 +101,18 @@ class ChatPageState extends State<ChatPage> {
                               AsyncSnapshot<String> snapshot) {
                             return NotificationOnGoing(
                               shrink: true,
-                              gameOne: activeNotification.gameOne,
-                              gameTow: activeNotification.gameTwo,
-                              swapId: activeNotification.swapId,
-                              chatRoomId: chatRoomId,
+                              notification: activeNotification,
                               myId: snapshot.data,
-                              finished: activeNotification.complete,
                               onSwapComplete: (swap) {
-                                widget._chatPageBloc.setNotificationComplete(
-                                    NotificationModel(
-                                        gameOne: activeNotification.gameOne,
-                                        gameTwo: activeNotification.gameTwo,
-                                        chatRoomId: chatRoomId,
-                                        complete: activeNotification.complete,
-                                        swapId: activeNotification.swapId));
-                                activeNotification.complete = true;
+                                widget._chatPageBloc
+                                    .setNotificationComplete(NotificationModel(
+                                  gameOne: activeNotification.gameOne,
+                                  gameTwo: activeNotification.gameTwo,
+                                  chatRoomId: chatRoomId,
+                                  status: activeNotification.status,
+                                  swapId: activeNotification.swapId,
+                                  userImage: activeNotification.userImage,
+                                ));
                                 setState(() {});
                               },
                               onChangeRequest: (game) {
