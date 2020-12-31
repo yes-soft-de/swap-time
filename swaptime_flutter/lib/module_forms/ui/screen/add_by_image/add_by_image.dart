@@ -473,10 +473,8 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                             .getImage(
                                 source: ImageSource.gallery, imageQuality: 70)
                             .then((image) {
-                          print('Got image response');
                           if (image != null) {
                             filePath = image.path;
-                            print(image.path);
                             setState(() {});
                           }
                         });
@@ -509,10 +507,8 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                           imageQuality: 70,
                         )
                             .then((image) {
-                          print('Got image response');
                           if (image != null) {
                             filePath = image.path;
-                            print(image.path);
                             setState(() {});
                           }
                         });

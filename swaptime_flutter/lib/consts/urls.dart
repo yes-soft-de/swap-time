@@ -17,6 +17,7 @@ class Urls {
   static const API_USER_INTERACTION = BASE_API + '/userinteraction';
   static const API_REPORT = BASE_API + '/report';
   static const API_COMMENTS = BASE_API + '/comment';
+  static const API_NOTIFICATION = BASE_API + '/notificationtoken';
   static const API_SWAP_BY_ME = BASE_API + '/swapbyuserid';
   static const API_CREATE_SWAP = BASE_API + '/swap';
   static const API_UPLOAD = BASE_API + '/uploadfile';

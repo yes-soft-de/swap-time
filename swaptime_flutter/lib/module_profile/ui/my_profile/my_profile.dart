@@ -60,7 +60,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         _nameController.text = state.profile.userName;
         imageUrl = state.profile.image;
         _aboutController.text = state.profile.story;
-        print('User Image $imageUrl');
         if (mounted) setState(() {});
       }
     } else if (currentState is MyProfileStateImageUploadSuccess) {
@@ -117,7 +116,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     children: [
                       Positioned.fill(
                           child: Image.network(
-                        imageUrl.contains('http') ? imageUrl : Urls.IMAGES_ROOT + imageUrl,
+                        imageUrl.contains('http')
+                            ? imageUrl
+                            : Urls.IMAGES_ROOT + imageUrl,
                         fit: BoxFit.cover,
                       )),
                       Positioned(
@@ -130,11 +131,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                     source: ImageSource.gallery,
                                     imageQuality: 70)
                                 .then((image) {
-                              print('Got image response');
                               if (image != null) {
                                 imageLocation = image.path;
                                 imageUrl = null;
-                                print(image.path);
                                 setState(() {});
                               }
                             });
@@ -251,7 +250,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 .then((image) {
                               if (image != null) {
                                 imageLocation = image.path;
-                                print(image.path);
                                 setState(() {});
                               }
                             });
@@ -283,10 +281,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                     source: ImageSource.camera,
                                     imageQuality: 70)
                                 .then((image) {
-                              print('Got image response');
                               if (image != null) {
                                 imageLocation = image.path;
-                                print(image.path);
                                 setState(() {});
                               }
                             });
@@ -363,10 +359,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                     source: ImageSource.gallery,
                                     imageQuality: 70)
                                 .then((image) {
-                              print('Got image response');
                               if (image != null) {
                                 imageLocation = image.path;
-                                print(image.path);
                                 setState(() {});
                               }
                             });
@@ -394,10 +388,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                     source: ImageSource.camera,
                                     imageQuality: 70)
                                 .then((image) {
-                              print('Got image response');
                               if (image != null) {
                                 imageLocation = image.path;
-                                print(image.path);
                                 setState(() {});
                               }
                             });

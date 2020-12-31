@@ -64,7 +64,6 @@ class ChatPageState extends State<ChatPage> {
     }
 
     if (currentState == ChatPageBloc.STATUS_CODE_INIT) {
-      print('Chat Room: ' + chatRoomId);
       widget._chatPageBloc.getMessages(chatRoomId);
     }
 
@@ -184,7 +183,6 @@ class ChatPageState extends State<ChatPage> {
     FirebaseAuth auth = await FirebaseAuth.instance;
     User user = auth.currentUser;
     chatList.forEach((element) {
-      print(element.msg);
       newMessagesList.add(ChatBubbleWidget(
         message: element.msg,
         me: element.sender == user.uid ? true : false,

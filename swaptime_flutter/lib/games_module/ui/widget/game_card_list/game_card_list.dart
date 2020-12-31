@@ -172,8 +172,7 @@ class _GameCardListState extends State<GameCardList> {
         child: GameCardSmall(
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i]
-                .mainImage,
+            imageUrl: visibleGames[i].mainImage,
             gameOwnerFirstName: visibleGames[i].name,
             lovable: loggedIn,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
@@ -307,7 +306,6 @@ class _GameCardListState extends State<GameCardList> {
   }
 
   void _loveGame(String gameId, [String interactionId]) {
-    print('Love Game ${gameId} with ${interactionId}');
     if (interactionId != '0') {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(S.of(context).removingFromLikeList),

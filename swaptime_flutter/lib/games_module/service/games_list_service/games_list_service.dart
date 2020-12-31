@@ -5,6 +5,7 @@ import 'package:swaptime_flutter/games_module/response/games_response/games_resp
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_profile/manager/my_profile_manager/my_profile_manager.dart';
 import 'package:swaptime_flutter/module_report/service/report_service/report_service.dart';
+import 'package:swaptime_flutter/utils/logger/logger.dart';
 
 @provide
 class GamesListService {
@@ -97,7 +98,6 @@ class GamesListService {
 
   Future<void> recordView(String userId) async {
     FirebaseFirestore store = FirebaseFirestore.instance;
-    print('Viewing ' + userId);
     if (userId != null) {
       try {
         await store
@@ -106,13 +106,12 @@ class GamesListService {
             .collection(userId)
             .add({'msg': 'Hello'});
       } catch (e) {
-        print(e);
+        Logger().error('GamesListService', e.toString());
       }
     }
   }
 
   Future<int> getViews(String userId) async {
-    print('Requesting views');
     FirebaseFirestore store = FirebaseFirestore.instance;
 
     try {
@@ -121,7 +120,6 @@ class GamesListService {
           .doc('views')
           .collection(userId)
           .get();
-      print('Got ${result.size} views');
       return result.size;
     } catch (e) {
       return 0;

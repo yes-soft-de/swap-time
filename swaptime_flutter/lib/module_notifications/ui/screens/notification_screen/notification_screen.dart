@@ -133,7 +133,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     String myId,
   ) {
     if (n == null) {
-      print('Null Notification');
       return Container();
     }
     if (n.status == null || n.status == ApiKeys.KEY_SWAP_STATUS_INIT) {
@@ -195,7 +194,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void _onChangeRequest(game, n) {
     // The Game we want to change
     gameToChange = game;
-    print('Game to Change: ${game.id} for user: ${game.userID}');
 
     // Create the dialog for the question
     var dialog = Dialog(

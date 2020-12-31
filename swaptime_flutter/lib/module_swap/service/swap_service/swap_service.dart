@@ -92,7 +92,6 @@ class SwapService {
   }
 
   Future<bool> isRequested(int gameId) async {
-    print('Requesting game ID: ' + gameId.toString());
     String uid = await _authService.userID;
     var swaps = await _swapManager.getMySwaps(uid);
     if (swaps == null) {
