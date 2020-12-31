@@ -1,10 +1,10 @@
 class Urls {
   static const String BASE_TEST_DOMAIN = 'http://192.168.1.12:8000';
-  static const String BASE_LIVE_DOMAIN = 'http://swaptime.yes-apps.com';
+  static const String BASE_LIVE_DOMAIN = 'http://swaptime.masdar-pro.com';
 
-  static const String BASE_DOMAIN = BASE_TEST_DOMAIN;
+  static const String BASE_DOMAIN = BASE_LIVE_DOMAIN;
   static const String IMAGES_ROOT = BASE_DOMAIN + '/upload/';
-  static const String BASE_API = BASE_TEST_DOMAIN;
+  static const String BASE_API = BASE_LIVE_DOMAIN + '/Backend/public/index.php';
 
   static const API_SIGN_UP = BASE_API + '/user';
   static const API_CREATE_TOKEN = BASE_API + '/login_check';
