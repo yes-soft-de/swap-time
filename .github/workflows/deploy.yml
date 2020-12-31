@@ -48,6 +48,9 @@ jobs:
         cd ./ios && pod install
 
     - name: Deploy to TestFlight
+      uses: einaregilsson/build-number@v3
+      with:
+        token: ${{secrets.github_token}}  
       run: |
         cd ./swaptime_flutter/ios && bundle exec fastlane beta
       env:
@@ -61,3 +64,5 @@ jobs:
         MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
         MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
         DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS: ${{ secrets.DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS }}
+        BUILD_NUMBER: ${{ BUILD_NUMBER }}
+        
