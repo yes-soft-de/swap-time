@@ -102,6 +102,12 @@ class _LikedScreenState extends State<LikedScreen> {
           onHate: () {
             widget._stateManager.onHate('${element.id}');
           },
+          onGo: () {
+            Navigator.of(context).pushNamed(
+              GamesRoutes.ROUTE_GAME_DETAILS,
+              arguments: element.id,
+            );
+          },
           date: element.date == null
               ? ' '
               : DateTime.fromMillisecondsSinceEpoch(

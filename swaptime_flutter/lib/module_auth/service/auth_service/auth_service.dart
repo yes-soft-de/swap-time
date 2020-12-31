@@ -47,8 +47,9 @@ class AuthService {
       _prefsHelper.setUsername(name),
       _prefsHelper.setAuthSource(authSource),
       _prefsHelper.setToken(token),
-      _fireNotificationService.refreshNotificationToken(token)
     ]);
+
+    await _fireNotificationService.refreshNotificationToken(token);
     return true;
   }
 

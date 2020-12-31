@@ -163,7 +163,8 @@ class AppComponent$Injector implements _i1.AppComponent {
   _i13.ApiClient _createApiClient() => _i13.ApiClient(_createLogger());
   _i2.Logger _createLogger() => _singletonLogger ??= _i2.Logger();
   _i14.FireNotificationService _createFireNotificationService() =>
-      _i14.FireNotificationService(_createNotificationPrefs());
+      _i14.FireNotificationService(
+          _createNotificationPrefs(), _createApiClient());
   _i15.NotificationPrefs _createNotificationPrefs() => _i15.NotificationPrefs();
   _i16.ProfileService _createProfileService() => _i16.ProfileService(
       _createMyProfileManager(),

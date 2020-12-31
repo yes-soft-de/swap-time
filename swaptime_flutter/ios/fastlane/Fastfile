@@ -13,7 +13,6 @@ platform :ios do
       )
     end
     
-    
     match(
       type: "appstore",
       readonly: is_ci,

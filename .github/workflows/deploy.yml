@@ -47,11 +47,9 @@ jobs:
         cd swaptime_flutter && flutter pub get
         cd ./ios && pod install
 
-    - name: Generate build number
-      id: buildnumber
-      uses: einaregilsson/build-number@v3 
-      with:
-        token: ${{secrets.github_token}}   
+    - name: Echo Build Number
+      run: |
+        echo $GITHUB_RUN_NUMBER
 
     - name: Deploy to TestFlight
       run: |
@@ -67,5 +65,4 @@ jobs:
         MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
         MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
         DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS: ${{ secrets.DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS }}
-        BUILD_NUMBER: ${{ steps.buildnumber.outputs.build_number }}
-        
+        BUILD_NUMBER: ${{ github.run_number }}

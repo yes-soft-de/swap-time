@@ -6,14 +6,19 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:inject/inject.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:swaptime_flutter/consts/urls.dart';
+import 'package:swaptime_flutter/module_network/http_client/http_client.dart';
 import 'package:swaptime_flutter/module_notifications/presistance/notification_prefs.dart';
 import 'package:swaptime_flutter/utils/logger/logger.dart';
 
 @provide
 class FireNotificationService {
   final NotificationPrefs prefs;
+  final ApiClient _client;
 
-  FireNotificationService(this.prefs);
+  FireNotificationService(
+    this.prefs,
+    this._client,
+  );
 
   static final PublishSubject<String> _onNotificationRecieved =
       PublishSubject();
@@ -32,20 +37,14 @@ class FireNotificationService {
 
   Future<void> refreshNotificationToken(String userAuthToken) async {
     var token = await _fcm.getToken();
+    print('Token: $token');
     if (token != null && userAuthToken != null) {
       // Save the notification token
       await NotificationPrefs().saveNotification(token);
       // And send a copy for the Backend
-      try {
-        await Dio(BaseOptions()).post(
-          Urls.API_NOTIFICATION,
-          data: {'date': DateTime.now().toIso8601String(), 'token': token},
-          options:
-              Options(headers: {'Authorization': 'Bearer ${userAuthToken}'}),
-        );
-      } catch (e) {
-        Logger().warn('FireNotificationService', e);
-      }
+      await _client.post(Urls.API_NOTIFICATION,
+          {'date': DateTime.now().toIso8601String(), 'token': token},
+          headers: {'Authorization': 'Bearer ' + userAuthToken});
 
       // And Subscribe to the changes
       this._fcm.configure(

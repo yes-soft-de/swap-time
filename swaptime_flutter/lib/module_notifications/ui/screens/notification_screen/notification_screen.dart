@@ -224,10 +224,4 @@ class _NotificationScreenState extends State<NotificationScreen> {
       }
     }
   }
-
-  @override
-  void dispose() {
-    widget._manager.dispose();
-    super.dispose();
-  }
 }
