@@ -213,7 +213,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void _updateSwapCard(Games rawNewGame) {
     Games newGame = rawNewGame;
     if (newGame != null) {
-      ScaffoldMessenger.of(context)
+      Scaffold.of(context)
           .showSnackBar(SnackBar(content: Text(S.of(context).savingData)));
       if (gameToChange.id == activeNotification.gameOne.id) {
         activeNotification.gameOne = newGame;

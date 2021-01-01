@@ -166,7 +166,7 @@ class ChatPageState extends State<ChatPage> {
 
   void _updateSwapCard(Games newGame) {
     if (newGame != null) {
-      ScaffoldMessenger.of(context)
+      Scaffold.of(context)
           .showSnackBar(SnackBar(content: Text(S.of(context).savingData)));
       if (gameToChange.userID == activeNotification.gameOne.userID) {
         activeNotification.gameOne = newGame;

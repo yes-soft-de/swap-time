@@ -100,6 +100,9 @@ class _LikedScreenState extends State<LikedScreen> {
           gameImageUrl: element.mainImage,
           ownerFirstName: ' ',
           onHate: () {
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text('Updating Liked List'),
+            ));
             widget._stateManager.onHate('${element.id}');
           },
           onGo: () {

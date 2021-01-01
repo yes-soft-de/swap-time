@@ -46,7 +46,7 @@ class NewCommentWidget extends StatelessWidget {
                   onCommentPost(_newCommentController.text);
                   _newCommentController.clear();
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  Scaffold.of(context).showSnackBar(SnackBar(
                     content: Text(S.of(context).emptyComment),
                   ));
                 }

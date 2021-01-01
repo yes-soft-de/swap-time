@@ -97,12 +97,12 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
         break;
       case ByImageStateUploadError:
         ByImageStateUploadError errState = newState;
-        ScaffoldMessenger.of(context)
+        Scaffold.of(context)
             .showSnackBar(SnackBar(content: Text(errState.errorMsg)));
         break;
       case ByImageStatePostError:
         ByImageStatePostError errState = newState;
-        ScaffoldMessenger.of(context)
+        Scaffold.of(context)
             .showSnackBar(SnackBar(content: Text(errState.errorMsg)));
         break;
       case ByImageStatePostSuccess:

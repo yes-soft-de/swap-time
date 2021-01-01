@@ -284,23 +284,23 @@ class _MyGameCardListState extends State<MyGameCardList> {
 
   void _loveGame(String gameId, [String interactionId]) {
     if (interactionId != '0') {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      Scaffold.of(context).showSnackBar(SnackBar(
         content: Text(S.of(context).removingFromLikeList),
       ));
       widget._stateManager.unLove(interactionId).then((value) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        Scaffold.of(context).showSnackBar(SnackBar(
           content: Text(S.of(context).removedLoveFromItem),
         ));
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      Scaffold.of(context).showSnackBar(SnackBar(
         content: Text(S.of(context).savingToLikedList),
       ));
       widget._stateManager.love(gameId, null).then((value) {
         if (value == null) {
           Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
         }
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        Scaffold.of(context).showSnackBar(SnackBar(
           content: Text(S.of(context).itemLoved),
         ));
       });

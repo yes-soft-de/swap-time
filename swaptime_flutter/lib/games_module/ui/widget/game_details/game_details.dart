@@ -82,7 +82,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                 builder: (_) => Dialog(
                       child: ReportDialog(onConfirm: () {
                         widget._manager.reportGame(gameId.toString());
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        Scaffold.of(context).showSnackBar(SnackBar(
                           content: Text(S.of(context).reportingGame),
                         ));
                         reported = true;
@@ -183,18 +183,16 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                         return state.details.isRequested != true
                             ? GestureDetector(
                                 onTap: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              S.of(context).requestingASwap)));
+                                  Scaffold.of(context).showSnackBar(SnackBar(
+                                      content:
+                                          Text(S.of(context).requestingASwap)));
                                   setState(() {});
                                   widget._swapService
                                       .createSwap(state.details.userID, gameId)
                                       .then((value) {
                                     swapRequested = true;
                                     state.details.isRequested = true;
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
+                                    Scaffold.of(context).showSnackBar(SnackBar(
                                       content:
                                           Text(S.of(context).swapRequestSent),
                                     ));
@@ -312,7 +310,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                         commentList: state.details.comments,
                         userId: userIdSnapshot.data,
                         onCommentAdded: (newComment) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          Scaffold.of(context).showSnackBar(SnackBar(
                             content: Text(S.of(context).postingNewComment),
                           ));
                           widget._commentService
@@ -340,7 +338,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                     return CommentListWidget(
                       commentList: state.details.comments,
                       onCommentAdded: (newComment) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        Scaffold.of(context).showSnackBar(SnackBar(
                           content: Text(S.of(context).postingNewComment),
                         ));
                         widget._commentService
