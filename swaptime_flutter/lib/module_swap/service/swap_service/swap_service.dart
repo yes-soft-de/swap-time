@@ -18,7 +18,8 @@ class SwapService {
     this._swapManager,
   );
 
-  Future<SwapModel> createSwap(String gameOwnerId, int gameId) async {
+  Future<SwapModel> createSwap(
+      String gameOwnerId, int gameId, List<int> restrictionList) async {
     String uid = await _authService.userID;
 
     if (uid == null) {
@@ -29,6 +30,7 @@ class SwapService {
       CreateSwapRequest(
         userIdOne: uid,
         userIdTwo: gameOwnerId,
+        gamesAllowedUserTwo: restrictionList,
         swapItemIdOne: gameId,
         swapItemIdTwo: -1,
         status: 'init',

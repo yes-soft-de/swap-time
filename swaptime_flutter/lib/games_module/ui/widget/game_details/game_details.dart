@@ -14,6 +14,7 @@ import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
 import 'package:swaptime_flutter/module_report/ui/widget/report_dialog/report_dialog.dart';
 import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
+import 'package:swaptime_flutter/module_swap/ui/widget/restrict_acceess_dialog/restrict_acceess_dialog.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 
@@ -25,6 +26,7 @@ class GameDetailsScreen extends StatefulWidget {
   final AuthService _authService;
   final GameCardList _gameCardList;
   final ProfileService _profileService;
+  final RestrictAccessDialog _restrictAccessDialog;
 
   GameDetailsScreen(
     this._manager,
@@ -33,6 +35,7 @@ class GameDetailsScreen extends StatefulWidget {
     this._authService,
     this._gameCardList,
     this._profileService,
+    this._restrictAccessDialog,
   );
 
   @override
@@ -183,24 +186,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                         return state.details.isRequested != true
                             ? GestureDetector(
                                 onTap: () {
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                      content:
-                                          Text(S.of(context).requestingASwap)));
-                                  setState(() {});
-                                  widget._swapService
-                                      .createSwap(state.details.userID, gameId)
-                                      .then((value) {
-                                    swapRequested = true;
-                                    state.details.isRequested = true;
-                                    Scaffold.of(context).showSnackBar(SnackBar(
-                                      content:
-                                          Text(S.of(context).swapRequestSent),
-                                    ));
-                                    setState(() {});
-                                  }).catchError((e) => {
-                                            Navigator.of(context).pushNamed(
-                                                AuthRoutes.ROUTE_AUTHORIZE)
-                                          });
+                                  _requestSwap(state);
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -374,6 +360,37 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
           )
         ],
       ),
+    );
+  }
+
+  void _requestSwap(state) {
+    var dialog = Dialog(
+      child: widget._restrictAccessDialog,
+    );
+    showDialog(
+        context: context,
+        builder: (context) {
+          return dialog;
+        }).then(
+      (restrictedGamesList) {
+        Scaffold.of(context).showSnackBar(
+            SnackBar(content: Text(S.of(context).requestingASwap)));
+        setState(() {});
+        widget._swapService
+            .createSwap(state.details.userID, gameId, restrictedGamesList)
+            .then((value) {
+          swapRequested = true;
+          state.details.isRequested = true;
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text(S.of(context).swapRequestSent),
+          ));
+          setState(() {});
+        }).catchError(
+          (e) => {
+            Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE),
+          },
+        );
+      },
     );
   }
 }

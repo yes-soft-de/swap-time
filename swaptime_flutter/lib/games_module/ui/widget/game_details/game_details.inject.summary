@@ -60,6 +60,13 @@
                 "qualifier": null
               },
               "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_swap/ui/widget/restrict_acceess_dialog/restrict_acceess_dialog.dart#RestrictAccessDialog",
+                "qualifier": null
+              },
+              "isProvider": false
             }
           ]
         }

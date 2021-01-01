@@ -6,15 +6,20 @@ class CreateSwapRequest {
   String roomID;
   String date;
   String status;
+  List<int> gamesAllowedUserOne;
+  List<int> gamesAllowedUserTwo;
 
-  CreateSwapRequest(
-      {this.userIdOne,
-      this.userIdTwo,
-      this.status,
-      this.swapItemIdOne,
-      this.swapItemIdTwo,
-      this.roomID,
-      this.date});
+  CreateSwapRequest({
+    this.userIdOne,
+    this.userIdTwo,
+    this.status,
+    this.swapItemIdOne,
+    this.swapItemIdTwo,
+    this.roomID,
+    this.date,
+    this.gamesAllowedUserOne,
+    this.gamesAllowedUserTwo,
+  });
 
   CreateSwapRequest.fromJson(Map<String, dynamic> json) {
     userIdOne = json['userIdOne'];
@@ -24,6 +29,8 @@ class CreateSwapRequest {
     roomID = json['roomID'];
     date = json['date'];
     status = json['status'];
+    gamesAllowedUserOne = json['gamesAllowedUserOne'];
+    gamesAllowedUserTwo = json['gamesAllowedUserTwo'];
   }
 
   Map<String, dynamic> toJson() {
@@ -34,6 +41,8 @@ class CreateSwapRequest {
     data['swapItemIdTwo'] = this.swapItemIdTwo;
     data['roomID'] = this.roomID;
     data['date'] = this.date;
+    data['gamesAllowedUserOne'] = gamesAllowedUserOne;
+    data['gamesAllowedUserTwo'] = gamesAllowedUserTwo;
     return data;
   }
 }
