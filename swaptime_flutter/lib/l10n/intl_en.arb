@@ -112,5 +112,6 @@
     "likedAt": "Liked at:",
   "restrictAccessTo": "Restrict Access To:",
     "confirmRequest": "Confirm Request",
-    "atLeastOneProductIsRequired": "At least one product is required!"
+    "atLeastOneProductIsRequired": "At least one product is required!",
+  "pendingConfirmation": "Pending Confirmation"
 }

@@ -1164,6 +1164,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Pending Confirmation`
+  String get pendingConfirmation {
+    return Intl.message(
+      'Pending Confirmation',
+      name: 'pendingConfirmation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

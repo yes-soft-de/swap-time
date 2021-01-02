@@ -78,6 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "notLoggedIn" : MessageLookupByLibrary.simpleMessage("Not Logged in!"),
     "notifications" : MessageLookupByLibrary.simpleMessage("Notifications"),
     "pendingApproval" : MessageLookupByLibrary.simpleMessage("Pending Approval"),
+    "pendingConfirmation" : MessageLookupByLibrary.simpleMessage("Pending Confirmation"),
     "phoneNumber" : MessageLookupByLibrary.simpleMessage("Phone Number"),
     "platform" : MessageLookupByLibrary.simpleMessage("Platform"),
     "pleaseEnterAShortStoryAboutYou" : MessageLookupByLibrary.simpleMessage("Please Enter A Short Story about you ;)"),

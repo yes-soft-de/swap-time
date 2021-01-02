@@ -148,7 +148,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         notification: n,
         myId: myId,
         onSwapComplete: (swapId) {
-          widget._manager.requestSwapComplete(n);
+          widget._manager.requestSwapComplete(n, myId);
         },
         onChangeRequest: (game) {
           _onChangeRequest(game, n);
@@ -165,10 +165,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
           );
         },
       );
-    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_PENDING_CONFIRM) {
+    } else if (n.status.contains(ApiKeys.KEY_SWAP_STATUS_PENDING_CONFIRM)) {
       return NotificationSwapConfirmationPending(
         notification: n,
         myId: myId,
+        canComplete: !n.status.contains(myId),
         onFinished: () {
           widget._manager.setSwapAccepted(n);
         },

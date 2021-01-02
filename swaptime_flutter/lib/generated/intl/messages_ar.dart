@@ -78,6 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "notLoggedIn" : MessageLookupByLibrary.simpleMessage("غير مسجل دخول!"),
     "notifications" : MessageLookupByLibrary.simpleMessage("الإشعارات"),
     "pendingApproval" : MessageLookupByLibrary.simpleMessage("بانتظار القبول"),
+    "pendingConfirmation" : MessageLookupByLibrary.simpleMessage("بانتظار التأكيد من الطرف الاخر"),
     "phoneNumber" : MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
     "platform" : MessageLookupByLibrary.simpleMessage("منصة المنتج - نظام التشغيل"),
     "pleaseEnterAShortStoryAboutYou" : MessageLookupByLibrary.simpleMessage("اخبرنا القليل عن نفسك"),

@@ -24,7 +24,7 @@ class RestrictAccessCard extends StatelessWidget {
         child: Stack(
           children: [
             FadeInImage.assetNetwork(
-              placeholder: '/assets/images/logo.jpg',
+              placeholder: 'assets/images/logo.jpg',
               image: image,
             ),
             restricted == true

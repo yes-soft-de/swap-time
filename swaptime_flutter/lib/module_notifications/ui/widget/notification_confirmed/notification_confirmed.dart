@@ -79,7 +79,7 @@ class _NotificationCompleteState extends State<NotificationComplete> {
               flex: 1,
               fit: FlexFit.tight,
               child: FadeInImage.assetNetwork(
-                placeholder: '/assets/images/logo.jpg',
+                placeholder: 'assets/images/logo.jpg',
                 image: widget.notification.gameOne.mainImage,
                 height: 120,
                 fit: BoxFit.cover,
@@ -89,7 +89,7 @@ class _NotificationCompleteState extends State<NotificationComplete> {
               flex: 1,
               fit: FlexFit.tight,
               child: FadeInImage.assetNetwork(
-                placeholder: '/assets/images/logo.jpg',
+                placeholder: 'assets/images/logo.jpg',
                 height: 120,
                 image: widget.notification.gameTwo.mainImage,
                 fit: BoxFit.cover,

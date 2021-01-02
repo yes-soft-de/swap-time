@@ -36,8 +36,8 @@ class NotificationsStateManager {
     });
   }
 
-  void requestSwapComplete(NotificationModel swapItemModel) {
-    swapItemModel.status = ApiKeys.KEY_SWAP_STATUS_PENDING_CONFIRM;
+  void requestSwapComplete(NotificationModel swapItemModel, String myId) {
+    swapItemModel.status = ApiKeys.KEY_SWAP_STATUS_PENDING_CONFIRM + '-' + myId;
     _swapService.updateSwap(swapItemModel).then((value) {
       getNotifications();
     });
