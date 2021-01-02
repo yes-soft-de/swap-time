@@ -8,6 +8,7 @@ class NotificationModel {
   String swapId;
   String userImage;
   String status;
+  DateTime date;
   List<int> restrictedGamesUserOne;
   List<int> restrictedGamesUserTwo;
 
@@ -16,6 +17,7 @@ class NotificationModel {
     @required this.gameTwo,
     @required this.chatRoomId,
     @required this.status,
+    @required this.date,
     @required this.userImage,
     @required this.swapId,
     @required this.restrictedGamesUserOne,

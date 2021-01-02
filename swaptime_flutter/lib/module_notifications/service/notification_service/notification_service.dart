@@ -42,10 +42,12 @@ class NotificationService {
             userName: swap.userOneName,
             userID: swap.userIdOne),
         status: swap.status,
+        date: DateTime.fromMillisecondsSinceEpoch(swap.date.timestamp * 1000),
         restrictedGamesUserOne: swap.gamesAllowedUserOne,
         restrictedGamesUserTwo: swap.gamesAllowedUserTwo,
       ));
     }
-    return notifications.reversed.toList();
+    notifications.sort((e1, e2) => e1.date.compareTo(e2.date));
+    return notifications.toList();
   }
 }
