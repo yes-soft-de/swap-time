@@ -1134,6 +1134,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Restrict Access To:`
+  String get restrictAccessTo {
+    return Intl.message(
+      'Restrict Access To:',
+      name: 'restrictAccessTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Request`
+  String get confirmRequest {
+    return Intl.message(
+      'Confirm Request',
+      name: 'confirmRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `At least one product is required!`
+  String get atLeastOneProductIsRequired {
+    return Intl.message(
+      'At least one product is required!',
+      name: 'atLeastOneProductIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -109,5 +109,8 @@
     "removingFromLikeList": "تتم الازالة من قائمة الاعجابات",
     "removedLoveFromItem": "تمت الازالة من قائمة الاعجابات",
     "itemLoved": "تم تسجيل الاعجاب!",
-    "likedAt": "تم الاعجاب بتاريخ:"
+    "likedAt": "تم الاعجاب بتاريخ:",
+  "restrictAccessTo": "حجب الوصول الى المنتجات",
+    "confirmRequest": "ارسال الطلب",
+    "atLeastOneProductIsRequired": "يرجى السماح بمنتج واحد على الأقل!"
 }

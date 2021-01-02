@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "aboutMe" : MessageLookupByLibrary.simpleMessage("عني"),
     "add" : MessageLookupByLibrary.simpleMessage("اضافة"),
+    "atLeastOneProductIsRequired" : MessageLookupByLibrary.simpleMessage("يرجى السماح بمنتج واحد على الأقل!"),
     "beTheFirstToComment" : MessageLookupByLibrary.simpleMessage("كن أول المعلقين"),
     "byAdded" : MessageLookupByLibrary.simpleMessage("حسب تاريخ الاضافة"),
     "byComments" : MessageLookupByLibrary.simpleMessage("حسب عدد التعليقات"),
@@ -34,6 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "chatRoom" : MessageLookupByLibrary.simpleMessage("غرفة المحادثة"),
     "comment" : MessageLookupByLibrary.simpleMessage("تعليق"),
     "confirm" : MessageLookupByLibrary.simpleMessage("تأكيد!"),
+    "confirmRequest" : MessageLookupByLibrary.simpleMessage("ارسال الطلب"),
     "confirmationCode" : MessageLookupByLibrary.simpleMessage("رمز التأكيد"),
     "darkMode" : MessageLookupByLibrary.simpleMessage("الوضع الليلي"),
     "description" : MessageLookupByLibrary.simpleMessage("الوصف"),
@@ -100,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "requestingASwap" : MessageLookupByLibrary.simpleMessage("جار طلب المبادلة"),
     "requestingProfileDateFromTheServer" : MessageLookupByLibrary.simpleMessage("جار طلب معلومات الحساب"),
     "resendCode" : MessageLookupByLibrary.simpleMessage("اعادة ارسال"),
+    "restrictAccessTo" : MessageLookupByLibrary.simpleMessage("حجب الوصول الى المنتجات"),
     "retry" : MessageLookupByLibrary.simpleMessage("اعادة المحاولة"),
     "saudiArabia" : MessageLookupByLibrary.simpleMessage("السعودية"),
     "saveProfile" : MessageLookupByLibrary.simpleMessage("احفظ التغييرات"),

@@ -191,7 +191,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     }
   }
 
-  void _onChangeRequest(game, n) {
+  void _onChangeRequest(Games game, NotificationModel n) {
     // The Game we want to change
     gameToChange = game;
 
@@ -200,6 +200,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
       child: ExchangeSetterWidget(
         gamesListService: widget._gamesListService,
         userId: game.userID,
+        restrictedList: game.userID != n.gameOne.userID
+            ? n.restrictedGamesUserOne
+            : n.restrictedGamesUserTwo,
       ),
     );
 

@@ -109,5 +109,8 @@
     "removingFromLikeList": "Removing From Like List",
     "removedLoveFromItem": "Removed love from item",
     "itemLoved": "Item Loved!",
-    "likedAt": "Liked at:"
+    "likedAt": "Liked at:",
+  "restrictAccessTo": "Restrict Access To:",
+    "confirmRequest": "Confirm Request",
+    "atLeastOneProductIsRequired": "At least one product is required!"
 }

@@ -8,6 +8,8 @@ class NotificationModel {
   String swapId;
   String userImage;
   String status;
+  List<int> restrictedGamesUserOne;
+  List<int> restrictedGamesUserTwo;
 
   NotificationModel({
     @required this.gameOne,
@@ -16,5 +18,7 @@ class NotificationModel {
     @required this.status,
     @required this.userImage,
     @required this.swapId,
+    @required this.restrictedGamesUserOne,
+    @required this.restrictedGamesUserTwo,
   });
 }

@@ -48,6 +48,8 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
   bool swapRequested = false;
   bool reported = false;
 
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -77,6 +79,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     }
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: SwaptimeAppBar.getBackEnabledAppBar(
           reported: reported,
           onReport: () {
@@ -370,18 +373,25 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     showDialog(
         context: context,
         builder: (context) {
-          return dialog;
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: dialog,
+            ),
+          );
         }).then(
       (restrictedGamesList) {
-        Scaffold.of(context).showSnackBar(
+        if (restrictedGamesList == null) {
+          return null;
+        }
+        scaffoldKey.currentState.showSnackBar(
             SnackBar(content: Text(S.of(context).requestingASwap)));
-        setState(() {});
         widget._swapService
             .createSwap(state.details.userID, gameId, restrictedGamesList)
             .then((value) {
           swapRequested = true;
           state.details.isRequested = true;
-          Scaffold.of(context).showSnackBar(SnackBar(
+          scaffoldKey.currentState.showSnackBar(SnackBar(
             content: Text(S.of(context).swapRequestSent),
           ));
           setState(() {});

@@ -30,7 +30,7 @@ class SwapService {
       CreateSwapRequest(
         userIdOne: uid,
         userIdTwo: gameOwnerId,
-        gamesAllowedUserTwo: restrictionList,
+        gamesAllowedUserOne: restrictionList,
         swapItemIdOne: gameId,
         swapItemIdTwo: -1,
         status: 'init',
