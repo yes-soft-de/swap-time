@@ -101,7 +101,7 @@ class _LikedScreenState extends State<LikedScreen> {
           ownerFirstName: ' ',
           onHate: () {
             Scaffold.of(context).showSnackBar(SnackBar(
-              content: Text('Updating Liked List'),
+              content: Text(S.of(context).updatingLikedList),
             ));
             widget._stateManager.onHate('${element.id}');
           },

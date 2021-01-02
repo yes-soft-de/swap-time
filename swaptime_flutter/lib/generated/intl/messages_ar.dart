@@ -129,6 +129,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "thisGameIsGreat" : MessageLookupByLibrary.simpleMessage("هذه المنتج رائعة"),
     "toMyCollection" : MessageLookupByLibrary.simpleMessage("لمجموعتي"),
     "tos" : MessageLookupByLibrary.simpleMessage("شروط الاستخدام"),
+    "updatingLikedList" : MessageLookupByLibrary.simpleMessage("جار تحديث قائمة الاعجابات"),
     "uploadImage" : MessageLookupByLibrary.simpleMessage("حفظ الصورة"),
     "uploadMe" : MessageLookupByLibrary.simpleMessage("ارفع الصورة!"),
     "uploading" : MessageLookupByLibrary.simpleMessage("جار الرفع"),

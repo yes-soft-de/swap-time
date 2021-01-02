@@ -25,6 +25,8 @@ class NotificationsStateManager {
     _service.getNotifications().then((value) {
       if (value != null) {
         _stateSubject.add(NotificationStateLoadSuccess(value));
+      } else {
+        _stateSubject.add(NotificationStateLoading());
       }
     });
   }

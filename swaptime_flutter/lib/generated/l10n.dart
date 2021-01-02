@@ -1174,6 +1174,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Updating Liked List`
+  String get updatingLikedList {
+    return Intl.message(
+      'Updating Liked List',
+      name: 'updatingLikedList',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

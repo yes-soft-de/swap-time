@@ -47,7 +47,7 @@ class NotificationService {
         restrictedGamesUserTwo: swap.gamesAllowedUserTwo,
       ));
     }
-    notifications.sort((e1, e2) => e1.date.compareTo(e2.date));
+    notifications.sort((e1, e2) => e2.date.compareTo(e1.date));
     return notifications.toList();
   }
 }

@@ -113,5 +113,6 @@
   "restrictAccessTo": "Restrict Access To:",
     "confirmRequest": "Confirm Request",
     "atLeastOneProductIsRequired": "At least one product is required!",
-  "pendingConfirmation": "Pending Confirmation"
+  "pendingConfirmation": "Pending Confirmation",
+  "updatingLikedList": "Updating Liked List"
 }

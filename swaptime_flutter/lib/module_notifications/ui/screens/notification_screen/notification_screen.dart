@@ -38,7 +38,7 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  NotificationState currentState;
+  NotificationState currentState = NotificationStateLoading();
   int viewLimit = 10;
   bool initiated = false;
   Games gameToChange;
@@ -74,6 +74,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
         if (mounted) setState(() {});
       });
       widget._manager.getNotifications();
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (currentState is NotificationStateLoading) {
       return Center(
         child: CircularProgressIndicator(),
       );
