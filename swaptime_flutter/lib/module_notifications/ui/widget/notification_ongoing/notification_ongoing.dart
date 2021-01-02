@@ -31,8 +31,9 @@ class _NotificationState extends State<NotificationOnGoing> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+      padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 16.0),
       child: Card(
+        elevation: 4,
         color: Theme.of(context).brightness != Brightness.dark
             ? Colors.white
             : Colors.black,
@@ -57,12 +58,13 @@ class _NotificationState extends State<NotificationOnGoing> {
                     direction: Axis.horizontal,
                     children: [
                       Container(
-                        height: 48,
-                        width: 48,
+                        height: 40,
+                        width: 40,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: NetworkImage(
-                                widget.notification.userImage ?? ''),
+                                '${widget.notification.userImage}'),
+                            fit: BoxFit.cover,
                           ),
                           shape: BoxShape.circle,
                         ),

@@ -21,6 +21,7 @@ class _NotificationCompleteState extends State<NotificationComplete> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 16.0),
       child: Card(
+        elevation: 4,
         color: Theme.of(context).brightness != Brightness.dark
             ? Colors.white
             : Colors.black,
