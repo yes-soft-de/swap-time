@@ -49,8 +49,9 @@ class SwapManager
 
     public function deleteSwap($id)
     {
-        $item = $this->swapEntityRepository->getItemByID($id);
+        //$item = $this->swapEntityRepository->getItemByID($id);
 
+        $item = $this->swapEntityRepository->find($id);
         if ($item)
         {
             $this->entityManager->remove($item);
