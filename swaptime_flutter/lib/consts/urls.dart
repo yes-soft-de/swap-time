@@ -4,7 +4,7 @@ class Urls {
 
   static const String BASE_DOMAIN = BASE_LIVE_DOMAIN;
   static const String IMAGES_ROOT = BASE_DOMAIN + '/upload/';
-  static const String BASE_API = BASE_LIVE_DOMAIN + '/Backend/public/index.php';
+  static const String BASE_API = BASE_LIVE_DOMAIN + '/html/public/index.php';
 
   static const API_SIGN_UP = BASE_API + '/user';
   static const API_CREATE_TOKEN = BASE_API + '/login_check';
