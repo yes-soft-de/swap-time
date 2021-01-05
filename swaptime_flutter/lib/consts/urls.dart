@@ -1,6 +1,6 @@
 class Urls {
   static const String BASE_TEST_DOMAIN = 'http://192.168.1.12:8000';
-  static const String BASE_LIVE_DOMAIN = 'http://swaptime.masdar-pro.com';
+  static const String BASE_LIVE_DOMAIN = 'http://swaptime.yes-apps.com';
 
   static const String BASE_DOMAIN = BASE_LIVE_DOMAIN;
   static const String IMAGES_ROOT = BASE_DOMAIN + '/upload/';
