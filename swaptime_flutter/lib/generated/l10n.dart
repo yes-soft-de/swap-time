@@ -1184,6 +1184,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Product Description is Required`
+  String get productDescriptionIsRequired {
+    return Intl.message(
+      'Product Description is Required',
+      name: 'productDescriptionIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product Name is Required`
+  String get productNameIsRequired {
+    return Intl.message(
+      'Product Name is Required',
+      name: 'productNameIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

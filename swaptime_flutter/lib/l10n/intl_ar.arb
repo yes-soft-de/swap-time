@@ -114,5 +114,7 @@
   "confirmRequest": "ارسال الطلب",
   "atLeastOneProductIsRequired": "يرجى السماح بمنتج واحد على الأقل!",
   "pendingConfirmation": "بانتظار التأكيد من الطرف الاخر",
-  "updatingLikedList": "جار تحديث قائمة الاعجابات"
+  "updatingLikedList": "جار تحديث قائمة الاعجابات",
+  "productDescriptionIsRequired": "يرجى ادخال توصيف المنتج",
+  "productNameIsRequired": "يرجى ادخال اسم المنتج"
 }

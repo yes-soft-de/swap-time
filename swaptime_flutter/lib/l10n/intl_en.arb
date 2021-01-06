@@ -114,5 +114,7 @@
     "confirmRequest": "Confirm Request",
     "atLeastOneProductIsRequired": "At least one product is required!",
   "pendingConfirmation": "Pending Confirmation",
-  "updatingLikedList": "Updating Liked List"
+  "updatingLikedList": "Updating Liked List",
+  "productDescriptionIsRequired": "Product Description is Required",
+    "productNameIsRequired": "Product Name is Required"
 }
