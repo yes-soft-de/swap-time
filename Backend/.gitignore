@@ -80,3 +80,4 @@ fabric.properties
 !.gitignore
 !.gitkeep
 config/jwt
+config/out

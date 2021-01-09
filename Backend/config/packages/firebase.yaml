@@ -1,4 +1,4 @@
 kreait_firebase:
   projects:
     my_project:
-      credentials: '%kernel.project_dir%/config/yes-soft-6866a-swap-time-mv22v-32924f11bc.json'
+      credentials: '%kernel.project_dir%/config/out/yes-soft-6866a-swap-time-mv22v-32924f11bc.json'
