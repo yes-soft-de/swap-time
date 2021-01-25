@@ -49,19 +49,11 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
   int gameId;
   bool swapRequested = false;
   bool reported = false;
+  bool inited = false;
 
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
   StreamSubscription _stateSubscription;
-
-  void startCommentsRefreshCycle(int gameId) {
-    Future.delayed(Duration(seconds: 3), () {
-      if (MediaQuery.of(context).viewInsets.bottom == 0) {
-        widget._manager.getGameDetails(gameId);
-      }
-      startCommentsRefreshCycle(gameId);
-    });
-  }
 
   @override
   void initState() {
@@ -74,6 +66,9 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
           setState(() {});
         }
       }
+      Future.delayed(Duration(seconds: 5), () {
+        widget._manager.getGameDetails(gameId);
+      });
     });
   }
 
@@ -92,8 +87,9 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     } else {
       gameId = ModalRoute.of(context).settings.arguments;
     }
-    if (currentState == null) {
-      startCommentsRefreshCycle(gameId);
+    if (!inited) {
+      inited = true;
+      widget._manager.getGameDetails(gameId);
     }
     if (gameId == null) {
       return Scaffold(
@@ -325,6 +321,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                         commentList: state.details.comments,
                         userId: userIdSnapshot.data,
                         onCommentAdded: (newComment) {
+                          FocusScope.of(context).unfocus();
                           Scaffold.of(context).showSnackBar(SnackBar(
                             content: Text(S.of(context).postingNewComment),
                           ));
