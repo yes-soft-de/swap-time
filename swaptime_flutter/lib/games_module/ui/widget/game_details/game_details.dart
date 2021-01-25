@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
@@ -50,13 +52,37 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
 
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
+  StreamSubscription _stateSubscription;
+
+  void startCommentsRefreshCycle(int gameId) {
+    Future.delayed(Duration(seconds: 3), () {
+      if (MediaQuery.of(context).viewInsets.bottom == 0) {
+        widget._manager.getGameDetails(gameId);
+      }
+      startCommentsRefreshCycle(gameId);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    widget._manager.stateStream.listen((event) {
+    _stateSubscription = widget._manager.stateStream.listen((event) {
       currentState = event;
-      if (mounted) setState(() {});
+      if (mounted) {
+        if (MediaQuery.of(context).viewInsets.bottom == 0) {
+          // Keyboard is Down
+          setState(() {});
+        }
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    if (_stateSubscription != null) {
+      _stateSubscription.cancel();
+    }
+    super.dispose();
   }
 
   @override
@@ -67,7 +93,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
       gameId = ModalRoute.of(context).settings.arguments;
     }
     if (currentState == null) {
-      widget._manager.getGameDetails(gameId);
+      startCommentsRefreshCycle(gameId);
     }
     if (gameId == null) {
       return Scaffold(
