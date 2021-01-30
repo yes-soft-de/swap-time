@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -60,35 +61,26 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     super.initState();
     _stateSubscription = widget._manager.stateStream.listen((event) {
       currentState = event;
-      if (mounted) {
-        if (MediaQuery.of(context).viewInsets.bottom == 0) {
-          // Keyboard is Down
-          setState(() {});
-        }
-      }
-      Future.delayed(Duration(seconds: 5), () {
-        widget._manager.getGameDetails(gameId);
-      });
+      if (mounted) setState(() {});
     });
   }
 
   @override
   void dispose() {
     if (_stateSubscription != null) {
+      currentState = GameDetailsStateInit();
       _stateSubscription.cancel();
     }
+    widget._manager.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (ModalRoute.of(context).settings.arguments is String) {
-      gameId = int.tryParse(ModalRoute.of(context).settings.arguments);
-    } else {
-      gameId = ModalRoute.of(context).settings.arguments;
-    }
-    if (!inited) {
+    if (!inited){
       inited = true;
+      gameId =
+          int.tryParse(ModalRoute.of(context).settings.arguments.toString());
       widget._manager.getGameDetails(gameId);
     }
     if (gameId == null) {
@@ -110,9 +102,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                 builder: (_) => Dialog(
                       child: ReportDialog(onConfirm: () {
                         widget._manager.reportGame(gameId.toString());
-                        Scaffold.of(context).showSnackBar(SnackBar(
-                          content: Text(S.of(context).reportingGame),
-                        ));
+                        showSnackBar(S.of(context).reportingGame);
                         reported = true;
                         Navigator.of(context).pushNamedAndRemoveUntil(
                             HomeRoutes.ROUTE_HOME, (route) => false);
@@ -123,6 +113,10 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
           }),
       body: calibrateScreen(),
     );
+  }
+
+  void showSnackBar(String msg) {
+    scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(msg)));
   }
 
   Widget calibrateScreen() {
@@ -158,9 +152,22 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     );
   }
 
+  Widget getCommentList(List<CommentModel> comments, bool loggedIn) {
+    print('Building Comments: ${jsonEncode(comments.last.toJson())}');
+    return CommentListWidget(
+      commentList: comments,
+      isLoggedIn: loggedIn,
+      onCommentAdded: (newComment) {
+        FocusScope.of(context).unfocus();
+        showSnackBar(S.of(context).postingNewComment);
+        widget._manager
+            .postComment(gameId, newComment);
+      },
+    );
+  }
+
   Widget getSuccessUI() {
     GameDetailsStateLoadSuccess state = currentState;
-
     List<Chip> tagsChips = [];
     if (state.details.tag.isNotEmpty) {
       state.details.tag.forEach((element) {
@@ -312,70 +319,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Container(
                 width: MediaQuery.of(context).size.width,
-                child: FutureBuilder(
-                  future: widget._authService.userID,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<String> userIdSnapshot) {
-                    if (userIdSnapshot.hasData) {
-                      return CommentListWidget(
-                        commentList: state.details.comments,
-                        userId: userIdSnapshot.data,
-                        onCommentAdded: (newComment) {
-                          FocusScope.of(context).unfocus();
-                          Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text(S.of(context).postingNewComment),
-                          ));
-                          widget._commentService
-                              .postComment(gameId, newComment)
-                              .then((value) async {
-                            var profile = await widget._profileService
-                                .getUserProfile(userIdSnapshot.data);
-                            state.details.comments.add(CommentModel(
-                              comment: newComment,
-                              userID: userIdSnapshot.data,
-                              date: Date(
-                                  timestamp:
-                                      (DateTime.now().millisecondsSinceEpoch /
-                                              1000)
-                                          .floor()),
-                              swapItemID: gameId,
-                              userName: profile.userName,
-                              image: profile.image,
-                            ));
-                            setState(() {});
-                          });
-                        },
-                      );
-                    }
-                    return CommentListWidget(
-                      commentList: state.details.comments,
-                      onCommentAdded: (newComment) {
-                        Scaffold.of(context).showSnackBar(SnackBar(
-                          content: Text(S.of(context).postingNewComment),
-                        ));
-                        widget._commentService
-                            .postComment(gameId, newComment)
-                            .then((value) async {
-                          var profile = await widget._profileService
-                              .getUserProfile(userIdSnapshot.data);
-                          state.details.comments.add(CommentModel(
-                            comment: newComment,
-                            userID: userIdSnapshot.data,
-                            date: Date(
-                                timestamp:
-                                    (DateTime.now().millisecondsSinceEpoch /
-                                            1000)
-                                        .floor()),
-                            swapItemID: gameId,
-                            userName: profile.userName,
-                            image: profile.image,
-                          ));
-                          setState(() {});
-                        });
-                      },
-                    );
-                  },
-                )),
+                child: getCommentList(state.details.comments, state.isLoggedId)),
           ),
           Container(
             height: 32,
@@ -407,16 +351,13 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
         if (restrictedGamesList == null) {
           return null;
         }
-        scaffoldKey.currentState.showSnackBar(
-            SnackBar(content: Text(S.of(context).requestingASwap)));
+        showSnackBar(S.of(context).requestingASwap);
         widget._swapService
             .createSwap(state.details.userID, gameId, restrictedGamesList)
             .then((value) {
           swapRequested = true;
           state.details.isRequested = true;
-          scaffoldKey.currentState.showSnackBar(SnackBar(
-            content: Text(S.of(context).swapRequestSent),
-          ));
+          showSnackBar(S.of(context).swapRequestSent);
           setState(() {});
         }).catchError(
           (e) => {
