@@ -45,6 +45,7 @@ jobs:
     - name: Install tools
       run: |
         cd swaptime_flutter && flutter pub get
+        flutter packages pub run build_runner build --delete-conflicting-outputs
         cd ./ios && pod install
 
     - name: Echo Build Number

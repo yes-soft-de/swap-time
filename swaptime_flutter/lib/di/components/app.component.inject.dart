@@ -295,7 +295,11 @@ class AppComponent$Injector implements _i1.AppComponent {
       _createRestrictAccessDialog());
   _i61.GameDetailsManager _createGameDetailsManager() =>
       _i61.GameDetailsManager(
-          _createGamesListService(), _createReportService());
+          _createGamesListService(),
+          _createReportService(),
+          _createCommentService(),
+          _createProfileService(),
+          _createAuthService());
   _i62.CommentService _createCommentService() =>
       _i62.CommentService(_createAuthService(), _createCommentManager());
   _i63.CommentManager _createCommentManager() =>
