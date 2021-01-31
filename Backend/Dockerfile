@@ -22,7 +22,7 @@ RUN composer update symfony/flex --no-plugins --no-scripts
 #RUN composer dump-env prod
 COPY --from=gcr.io/pc-api-6479467557629758909-343/swaptimesec ./.htaccess /var/www/html/public
 COPY --from=gcr.io/pc-api-6479467557629758909-343/swaptimesec ./jwt/ /var/www/html/config/jwt
-COPY --from=gcr.io/pc-api-6479467557629758909-343/swaptimesec ./yes-soft-6866a-swap-time-mv22v-32924f11bc.json /var/www/html/config/out
+COPY --from=gcr.io/pc-api-6479467557629758909-343/swaptimesec ./yes-soft-6866a-swap-time-mv22v-32924f11bc.json /var/www/html/config
 
 RUN chown -R www-data:www-data /var && chmod -R g+rw /var
 COPY --from=vendor /tmp/vendor/ /var/www/html/vendor/
