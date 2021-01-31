@@ -153,7 +153,6 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
   }
 
   Widget getCommentList(List<CommentModel> comments, bool loggedIn) {
-    print('Building Comments: ${jsonEncode(comments.last.toJson())}');
     return CommentListWidget(
       commentList: comments,
       isLoggedIn: loggedIn,
