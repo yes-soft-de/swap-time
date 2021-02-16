@@ -35,25 +35,4 @@ spec:
         - name: pvc-sym-m
           persistentVolumeClaim:
             claimName: swaptime-pvc-sym-uploud
----
-apiVersion: v1
-kind: Service
-metadata:
-  finalizers:
-    - service.kubernetes.io/load-balancer-cleanup
-  labels:
-    run: swaptime-web-service
-  name: swaptime-web-service
-  namespace: swaptime
-spec:
-  clusterIP: 10.4.9.68
-  externalTrafficPolicy: Cluster
-  ports:
-    - nodePort: 30390
-      port: 80
-      protocol: TCP
-      targetPort: 80
-  selector:
-    app: apache
-  sessionAffinity: None
-  type: LoadBalancer
+
