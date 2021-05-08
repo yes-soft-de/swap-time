@@ -32,6 +32,27 @@
                 "qualifier": null
               },
               "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_comment/service/comment_service/comment_service.dart#CommentService",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_profile/service/profile/profile.dart#ProfileService",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:swaptime_flutter/lib/module_auth/service/auth_service/auth_service.dart#AuthService",
+                "qualifier": null
+              },
+              "isProvider": false
             }
           ]
         }

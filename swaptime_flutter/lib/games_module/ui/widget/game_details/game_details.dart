@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
@@ -14,6 +17,7 @@ import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/module_profile/service/profile/profile.dart';
 import 'package:swaptime_flutter/module_report/ui/widget/report_dialog/report_dialog.dart';
 import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.dart';
+import 'package:swaptime_flutter/module_swap/ui/widget/restrict_acceess_dialog/restrict_acceess_dialog.dart';
 import 'package:swaptime_flutter/module_theme/service/theme_service/theme_service.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
 
@@ -25,6 +29,7 @@ class GameDetailsScreen extends StatefulWidget {
   final AuthService _authService;
   final GameCardList _gameCardList;
   final ProfileService _profileService;
+  final RestrictAccessDialog _restrictAccessDialog;
 
   GameDetailsScreen(
     this._manager,
@@ -33,6 +38,7 @@ class GameDetailsScreen extends StatefulWidget {
     this._authService,
     this._gameCardList,
     this._profileService,
+    this._restrictAccessDialog,
   );
 
   @override
@@ -44,24 +50,37 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
   int gameId;
   bool swapRequested = false;
   bool reported = false;
+  bool inited = false;
+
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+
+  StreamSubscription _stateSubscription;
 
   @override
   void initState() {
     super.initState();
-    widget._manager.stateStream.listen((event) {
+    _stateSubscription = widget._manager.stateStream.listen((event) {
       currentState = event;
       if (mounted) setState(() {});
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    if (ModalRoute.of(context).settings.arguments is String) {
-      gameId = int.tryParse(ModalRoute.of(context).settings.arguments);
-    } else {
-      gameId = ModalRoute.of(context).settings.arguments;
+  void dispose() {
+    if (_stateSubscription != null) {
+      currentState = GameDetailsStateInit();
+      _stateSubscription.cancel();
     }
-    if (currentState == null) {
+    widget._manager.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!inited){
+      inited = true;
+      gameId =
+          int.tryParse(ModalRoute.of(context).settings.arguments.toString());
       widget._manager.getGameDetails(gameId);
     }
     if (gameId == null) {
@@ -74,6 +93,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     }
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: SwaptimeAppBar.getBackEnabledAppBar(
           reported: reported,
           onReport: () {
@@ -82,9 +102,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                 builder: (_) => Dialog(
                       child: ReportDialog(onConfirm: () {
                         widget._manager.reportGame(gameId.toString());
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(S.of(context).reportingGame),
-                        ));
+                        showSnackBar(S.of(context).reportingGame);
                         reported = true;
                         Navigator.of(context).pushNamedAndRemoveUntil(
                             HomeRoutes.ROUTE_HOME, (route) => false);
@@ -95,6 +113,10 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
           }),
       body: calibrateScreen(),
     );
+  }
+
+  void showSnackBar(String msg) {
+    scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(msg)));
   }
 
   Widget calibrateScreen() {
@@ -130,9 +152,21 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
     );
   }
 
+  Widget getCommentList(List<CommentModel> comments, bool loggedIn) {
+    return CommentListWidget(
+      commentList: comments,
+      isLoggedIn: loggedIn,
+      onCommentAdded: (newComment) {
+        FocusScope.of(context).unfocus();
+        showSnackBar(S.of(context).postingNewComment);
+        widget._manager
+            .postComment(gameId, newComment);
+      },
+    );
+  }
+
   Widget getSuccessUI() {
     GameDetailsStateLoadSuccess state = currentState;
-
     List<Chip> tagsChips = [];
     if (state.details.tag.isNotEmpty) {
       state.details.tag.forEach((element) {
@@ -183,26 +217,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
                         return state.details.isRequested != true
                             ? GestureDetector(
                                 onTap: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              S.of(context).requestingASwap)));
-                                  setState(() {});
-                                  widget._swapService
-                                      .createSwap(state.details.userID, gameId)
-                                      .then((value) {
-                                    swapRequested = true;
-                                    state.details.isRequested = true;
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
-                                      content:
-                                          Text(S.of(context).swapRequestSent),
-                                    ));
-                                    setState(() {});
-                                  }).catchError((e) => {
-                                            Navigator.of(context).pushNamed(
-                                                AuthRoutes.ROUTE_AUTHORIZE)
-                                          });
+                                  _requestSwap(state);
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -303,69 +318,7 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Container(
                 width: MediaQuery.of(context).size.width,
-                child: FutureBuilder(
-                  future: widget._authService.userID,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<String> userIdSnapshot) {
-                    if (userIdSnapshot.hasData) {
-                      return CommentListWidget(
-                        commentList: state.details.comments,
-                        userId: userIdSnapshot.data,
-                        onCommentAdded: (newComment) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(S.of(context).postingNewComment),
-                          ));
-                          widget._commentService
-                              .postComment(gameId, newComment)
-                              .then((value) async {
-                            var profile = await widget._profileService
-                                .getUserProfile(userIdSnapshot.data);
-                            state.details.comments.add(CommentModel(
-                              comment: newComment,
-                              userID: userIdSnapshot.data,
-                              date: Date(
-                                  timestamp:
-                                      (DateTime.now().millisecondsSinceEpoch /
-                                              1000)
-                                          .floor()),
-                              swapItemID: gameId,
-                              userName: profile.userName,
-                              image: profile.image,
-                            ));
-                            setState(() {});
-                          });
-                        },
-                      );
-                    }
-                    return CommentListWidget(
-                      commentList: state.details.comments,
-                      onCommentAdded: (newComment) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(S.of(context).postingNewComment),
-                        ));
-                        widget._commentService
-                            .postComment(gameId, newComment)
-                            .then((value) async {
-                          var profile = await widget._profileService
-                              .getUserProfile(userIdSnapshot.data);
-                          state.details.comments.add(CommentModel(
-                            comment: newComment,
-                            userID: userIdSnapshot.data,
-                            date: Date(
-                                timestamp:
-                                    (DateTime.now().millisecondsSinceEpoch /
-                                            1000)
-                                        .floor()),
-                            swapItemID: gameId,
-                            userName: profile.userName,
-                            image: profile.image,
-                          ));
-                          setState(() {});
-                        });
-                      },
-                    );
-                  },
-                )),
+                child: getCommentList(state.details.comments, state.isLoggedId)),
           ),
           Container(
             height: 32,
@@ -376,6 +329,41 @@ class GameDetailsScreenState extends State<GameDetailsScreen> {
           )
         ],
       ),
+    );
+  }
+
+  void _requestSwap(state) {
+    var dialog = Dialog(
+      child: widget._restrictAccessDialog,
+    );
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: dialog,
+            ),
+          );
+        }).then(
+      (restrictedGamesList) {
+        if (restrictedGamesList == null) {
+          return null;
+        }
+        showSnackBar(S.of(context).requestingASwap);
+        widget._swapService
+            .createSwap(state.details.userID, gameId, restrictedGamesList)
+            .then((value) {
+          swapRequested = true;
+          state.details.isRequested = true;
+          showSnackBar(S.of(context).swapRequestSent);
+          setState(() {});
+        }).catchError(
+          (e) => {
+            Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE),
+          },
+        );
+      },
     );
   }
 }

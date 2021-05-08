@@ -8,11 +8,12 @@ import 'package:swaptime_flutter/module_theme/service/theme_service/theme_servic
 class ExchangeSetterWidget extends StatefulWidget {
   final GamesListService gamesListService;
   final String userId;
+  final List<int> restrictedList;
 
-  ExchangeSetterWidget({
-    @required this.gamesListService,
-    @required this.userId,
-  });
+  ExchangeSetterWidget(
+      {@required this.gamesListService,
+      @required this.userId,
+      this.restrictedList});
 
   @override
   State<StatefulWidget> createState() => _ExchangeSetterWidgetState();
@@ -84,7 +85,14 @@ class _ExchangeSetterWidgetState extends State<ExchangeSetterWidget> {
 
   List<Widget> getGamesCards(List<Games> games) {
     List<Widget> gameCards = [];
-    games.forEach((game) {
+    print('Restricted List: ${widget.restrictedList.toString()}');
+
+    var visibleGames = games;
+    if (widget.restrictedList != null) {
+      visibleGames =
+          games.where((g) => !widget.restrictedList.contains(g.id)).toList();
+    }
+    visibleGames.forEach((game) {
       gameCards.add(Container(
         child: activeGame != null
             ? ExchangeGameCard(

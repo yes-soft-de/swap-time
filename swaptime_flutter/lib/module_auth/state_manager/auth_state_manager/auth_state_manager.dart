@@ -12,6 +12,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:swaptime_flutter/module_auth/enums/auth_source.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_auth/states/auth_states/auth_states.dart';
+import 'package:swaptime_flutter/utils/logger/logger.dart';
 
 @provide
 class AuthStateManager {
@@ -67,7 +68,7 @@ class AuthStateManager {
           'https://www.googleapis.com/auth/contacts.readonly',
         ],
       ).signIn();
-      print('Got Google User');
+      Logger().info('AuthStateManager', 'Got Google User');
       // Obtain the auth details from the request
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
@@ -82,7 +83,7 @@ class AuthStateManager {
       var result = await FirebaseAuth.instance.signInWithCredential(credential);
       await _loginUser(result);
     } catch (e) {
-      print(e.toString());
+      Logger().error('AuthStateManager', e.toString());
     }
   }
 

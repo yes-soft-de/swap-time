@@ -172,8 +172,7 @@ class _GameCardListState extends State<GameCardList> {
         child: GameCardSmall(
           gameModel: GameModel(
             gameTitle: visibleGames[i].name,
-            imageUrl: visibleGames[i]
-                .mainImage,
+            imageUrl: visibleGames[i].mainImage,
             gameOwnerFirstName: visibleGames[i].name,
             lovable: loggedIn,
             loved: visibleGames[i].interaction.checkLoved && loggedIn,
@@ -298,7 +297,7 @@ class _GameCardListState extends State<GameCardList> {
             )).then((value) {
       if (value != null) {
         widget._reportService.reportGame(value);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        Scaffold.of(context).showSnackBar(SnackBar(
           content: Text(S.of(context).reportIsSent),
         ));
         widget._stateManager.getAvailableGames();
@@ -307,25 +306,24 @@ class _GameCardListState extends State<GameCardList> {
   }
 
   void _loveGame(String gameId, [String interactionId]) {
-    print('Love Game ${gameId} with ${interactionId}');
     if (interactionId != '0') {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      Scaffold.of(context).showSnackBar(SnackBar(
         content: Text(S.of(context).removingFromLikeList),
       ));
       widget._stateManager.unLove(interactionId).then((value) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        Scaffold.of(context).showSnackBar(SnackBar(
           content: Text(S.of(context).removedLoveFromItem),
         ));
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      Scaffold.of(context).showSnackBar(SnackBar(
         content: Text(S.of(context).savingToLikedList),
       ));
       widget._stateManager.love(gameId, null).then((value) {
         if (value == null) {
           Navigator.of(context).pushNamed(AuthRoutes.ROUTE_AUTHORIZE);
         }
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        Scaffold.of(context).showSnackBar(SnackBar(
           content: Text(S.of(context).itemLoved),
         ));
       });

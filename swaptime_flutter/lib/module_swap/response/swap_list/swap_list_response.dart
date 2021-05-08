@@ -43,23 +43,28 @@ class SwapListItem {
   String cost;
   String roomID;
   String status;
+  List<int> gamesAllowedUserOne;
+  List<int> gamesAllowedUserTwo;
 
-  SwapListItem(
-      {this.id,
-      this.date,
-      this.userIdOne,
-      this.userOneName,
-      this.userOneImage,
-      this.userTwoName,
-      this.userTwoImage,
-      this.userIdTwo,
-      this.swapItemIdOne,
-      this.swapItemOneImage,
-      this.swapItemIdTwo,
-      this.swapItemTwoImage,
-      this.cost,
-      this.roomID,
-      this.status});
+  SwapListItem({
+    this.id,
+    this.date,
+    this.userIdOne,
+    this.userOneName,
+    this.userOneImage,
+    this.userTwoName,
+    this.userTwoImage,
+    this.userIdTwo,
+    this.swapItemIdOne,
+    this.swapItemOneImage,
+    this.swapItemIdTwo,
+    this.swapItemTwoImage,
+    this.cost,
+    this.roomID,
+    this.status,
+    this.gamesAllowedUserOne,
+    this.gamesAllowedUserTwo,
+  });
 
   SwapListItem.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -88,6 +93,12 @@ class SwapListItem {
     cost = json['cost'];
     roomID = json['roomID'];
     status = json['status'];
+    if (json['gamesAllowedUserOne'] != null) {
+      gamesAllowedUserOne = json['gamesAllowedUserOne'].cast<int>();
+    }
+    if (json['gamesAllowedUserTwo'] != null) {
+      gamesAllowedUserTwo = json['gamesAllowedUserTwo'].cast<int>();
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -109,6 +120,8 @@ class SwapListItem {
     data['cost'] = this.cost;
     data['roomID'] = this.roomID;
     data['status'] = this.status;
+    data['gamesAllowedUserOne'] = this.gamesAllowedUserOne;
+    data['gamesAllowedUserTwo'] = this.gamesAllowedUserTwo;
     return data;
   }
 }

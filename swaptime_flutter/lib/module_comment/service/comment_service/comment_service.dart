@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_comment/manager/comment_manager/comment_manager.dart';
@@ -8,6 +9,7 @@ import 'package:swaptime_flutter/module_comment/response/comment/create_comment_
 class CommentService {
   final AuthService _authService;
   final CommentManager _commentManager;
+
   CommentService(
     this._authService,
     this._commentManager,
@@ -15,7 +17,8 @@ class CommentService {
 
   Future<CreateCommentResponse> postComment(
       int gameId, String commentMsg) async {
-    String uid = await _authService.userID; // This is cached, i.e. from shared preferences
+    String uid = await _authService
+        .userID; // This is cached, i.e. from shared preferences
     CreateCommentRequest commentRequest = CreateCommentRequest(
         comment: commentMsg,
         userID: uid,
@@ -23,7 +26,19 @@ class CommentService {
         swapItemID: gameId);
 
     var newComment = await _commentManager.createComment(commentRequest);
+    await FirebaseFirestore.instance
+        .collection('swap_comments')
+        .doc(gameId.toString())
+        .collection('comment_history')
+        .add({'date': DateTime.now().toIso8601String()});
 
     return newComment;
+  }
+
+  Stream onCommentChangeWatcher(int gameId) {
+    return FirebaseFirestore.instance
+        .collection('swap_comments')
+        .doc(gameId.toString())
+        .collection('comment_history').snapshots();
   }
 }

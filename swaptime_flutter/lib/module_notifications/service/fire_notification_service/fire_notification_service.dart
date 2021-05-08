@@ -1,52 +1,64 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:inject/inject.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:swaptime_flutter/consts/urls.dart';
+import 'package:swaptime_flutter/module_network/http_client/http_client.dart';
+import 'package:swaptime_flutter/module_notifications/presistance/notification_prefs.dart';
+import 'package:swaptime_flutter/utils/logger/logger.dart';
 
+@provide
 class FireNotificationService {
+  final NotificationPrefs prefs;
+  final ApiClient _client;
+
+  FireNotificationService(
+    this.prefs,
+    this._client,
+  );
+
   static final PublishSubject<String> _onNotificationRecieved =
       PublishSubject();
   static Stream get onNotificationStream => _onNotificationRecieved.stream;
 
   static StreamSubscription iosSubscription;
-  static final FirebaseMessaging _fcm = FirebaseMessaging();
+  final FirebaseMessaging _fcm = FirebaseMessaging();
 
-  static void init() {
+  Future<void> init() async {
     if (Platform.isIOS) {
-      iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
-        // save the token  OR subscribe to a topic here
-      });
+      iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {});
 
       _fcm.requestNotificationPermissions(IosNotificationSettings());
     }
+  }
 
-    _fcm.getToken().then((token) {
-      if (token != null) {
-        print('Notification Token ${token}');
-        if (FirebaseAuth.instance.currentUser.uid != null) {
-          FirebaseFirestore.instance
-              .collection('users')
-              .doc(FirebaseAuth.instance.currentUser.uid)
-              .collection('notificationTokens')
-              .add({token: true});
-        }
-      }
-    });
+  Future<void> refreshNotificationToken(String userAuthToken) async {
+    var token = await _fcm.getToken();
+    print('Token: $token');
+    if (token != null && userAuthToken != null) {
+      // Save the notification token
+      await NotificationPrefs().saveNotification(token);
+      // And send a copy for the Backend
+      await _client.post(Urls.API_NOTIFICATION,
+          {'date': DateTime.now().toIso8601String(), 'token': token},
+          headers: {'Authorization': 'Bearer ' + userAuthToken});
 
-    _fcm.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('onMessage: $message');
-        _onNotificationRecieved.add(message.toString());
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('onLaunch: $message');
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('onResume: $message');
-      },
-    );
+      // And Subscribe to the changes
+      this._fcm.configure(
+        onMessage: (Map<String, dynamic> message) async {
+          Logger().info('FireNotificationService', 'onMessage: $message');
+          _onNotificationRecieved.add(message.toString());
+        },
+        onLaunch: (Map<String, dynamic> message) async {
+          Logger().info('FireNotificationService', 'onMessage: $message');
+        },
+        onResume: (Map<String, dynamic> message) async {
+          Logger().info('FireNotificationService', 'onMessage: $message');
+        },
+      );
+    }
   }
 }

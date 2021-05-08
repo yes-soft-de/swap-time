@@ -54,6 +54,7 @@ class MyApp extends StatefulWidget {
   final LocalizationService _localizationService;
   final SwapThemeDataService _swapThemeService;
   final SearchModule _searchModule;
+  final FireNotificationService fireNotificationService;
 
   MyApp(
     this._homeModule,
@@ -66,6 +67,7 @@ class MyApp extends StatefulWidget {
     this._localizationService,
     this._swapThemeService,
     this._searchModule,
+    this.fireNotificationService,
   );
 
   @override
@@ -81,7 +83,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    FireNotificationService.init();
+    widget.fireNotificationService.init();
 
     widget._localizationService.localizationStream.listen((event) {
       setState(() {});

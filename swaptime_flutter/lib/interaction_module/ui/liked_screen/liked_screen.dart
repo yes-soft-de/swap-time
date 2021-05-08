@@ -100,7 +100,16 @@ class _LikedScreenState extends State<LikedScreen> {
           gameImageUrl: element.mainImage,
           ownerFirstName: ' ',
           onHate: () {
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text(S.of(context).updatingLikedList),
+            ));
             widget._stateManager.onHate('${element.id}');
+          },
+          onGo: () {
+            Navigator.of(context).pushNamed(
+              GamesRoutes.ROUTE_GAME_DETAILS,
+              arguments: element.id,
+            );
           },
           date: element.date == null
               ? ' '

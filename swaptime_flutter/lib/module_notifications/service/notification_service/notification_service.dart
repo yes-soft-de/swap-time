@@ -19,6 +19,10 @@ class NotificationService {
     var swaps = await _swapService.getSwapRequests();
     var myId = await _authService.userID;
 
+    if (swaps == null) {
+      return null;
+    }
+
     for (int i = 0; i < swaps.length; i++) {
       var swap = swaps[i];
       notifications.add(NotificationModel(
@@ -38,8 +42,12 @@ class NotificationService {
             userName: swap.userOneName,
             userID: swap.userIdOne),
         status: swap.status,
+        date: DateTime.fromMillisecondsSinceEpoch(swap.date.timestamp * 1000),
+        restrictedGamesUserOne: swap.gamesAllowedUserOne,
+        restrictedGamesUserTwo: swap.gamesAllowedUserTwo,
       ));
     }
-    return notifications.reversed.toList();
+    notifications.sort((e1, e2) => e2.date.compareTo(e1.date));
+    return notifications.toList();
   }
 }

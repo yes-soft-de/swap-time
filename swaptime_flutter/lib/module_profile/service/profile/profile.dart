@@ -9,6 +9,7 @@ import 'package:swaptime_flutter/module_profile/model/profile_model/profile_mode
 import 'package:swaptime_flutter/module_profile/presistance/profile_shared_preferences.dart';
 import 'package:swaptime_flutter/module_profile/request/create_profile.dart';
 import 'package:swaptime_flutter/module_profile/response/profile_response/profile_response.dart';
+import 'package:swaptime_flutter/utils/logger/logger.dart';
 
 @provide
 class ProfileService {
@@ -70,7 +71,6 @@ class ProfileService {
   }
 
   Future<ProfileResponse> getUserProfile(String userId) async {
-    print('Requesting User Profile With ID: ' + userId);
     var me = await _authService.userID;
     var interactions = await Future.wait([
       this._likedService.getUserLikes(userId),
@@ -85,7 +85,7 @@ class ProfileService {
       likes = interactions[0];
       views = interactions[1];
     } catch (e) {
-      print('Empty Games List');
+      Logger().info('Profile', 'Empty Games List');
     }
 
     List<Games> gamesList = await this._gamesListService.getUserGames(userId);
@@ -108,7 +108,6 @@ class ProfileService {
   }
 
   Future<ProfileResponse> getMyProfile() async {
-    print('Requesting User Profile');
     String uid = await _authService.userID;
     return await getUserProfile(uid);
   }

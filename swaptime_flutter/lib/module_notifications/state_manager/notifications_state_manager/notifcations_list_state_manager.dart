@@ -9,13 +9,8 @@ import 'package:swaptime_flutter/module_swap/service/swap_service/swap_service.d
 
 @provide
 class NotificationsStateManager {
-  bool enabled = true;
-
   final PublishSubject<NotificationState> _stateSubject = PublishSubject();
-  Stream<NotificationState> get stateStream {
-    enabled = true;
-    return _stateSubject.stream;
-  }
+  Stream<NotificationState> get stateStream => _stateSubject.stream;
 
   final NotificationService _service;
   final SwapService _swapService;
@@ -27,34 +22,30 @@ class NotificationsStateManager {
   }
 
   void getNotifications() {
-    if (enabled) {
-      _stateSubject.add(NotificationStateLoading());
-      _service.getNotifications().then((value) {
-        if (value != null) {
-          _stateSubject.add(NotificationStateLoadSuccess(value));
-        }
-      });
-    }
+    _service.getNotifications().then((value) {
+      if (value != null) {
+        _stateSubject.add(NotificationStateLoadSuccess(value));
+      } else {
+        _stateSubject.add(NotificationStateLoading());
+      }
+    });
   }
 
   void updateSwap(NotificationModel swapItemModel) {
-    _stateSubject.add(NotificationStateLoading());
     swapItemModel.status = ApiKeys.KEY_SWAP_STATUS_ON_GOING;
     _swapService.updateSwap(swapItemModel).then((value) {
       getNotifications();
     });
   }
 
-  void requestSwapComplete(NotificationModel swapItemModel) {
-    _stateSubject.add(NotificationStateLoading());
-    swapItemModel.status = ApiKeys.KEY_SWAP_STATUS_PENDING_CONFIRM;
+  void requestSwapComplete(NotificationModel swapItemModel, String myId) {
+    swapItemModel.status = ApiKeys.KEY_SWAP_STATUS_PENDING_CONFIRM + '-' + myId;
     _swapService.updateSwap(swapItemModel).then((value) {
       getNotifications();
     });
   }
 
   void refuseSwapComplete(NotificationModel swapItemModel) {
-    _stateSubject.add(NotificationStateLoading());
     swapItemModel.status = ApiKeys.KEY_SWAP_STATUS_ON_GOING;
     _swapService.updateSwap(swapItemModel).then((value) {
       getNotifications();
@@ -62,14 +53,9 @@ class NotificationsStateManager {
   }
 
   void setSwapAccepted(NotificationModel swapItemModel) {
-    _stateSubject.add(NotificationStateLoading());
     swapItemModel.status = ApiKeys.KEY_SWAP_STATUS_CONFIRMED;
     _swapService.updateSwap(swapItemModel).then((value) {
       getNotifications();
     });
-  }
-
-  void dispose() {
-    enabled = false;
   }
 }

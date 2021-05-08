@@ -8,6 +8,7 @@ import 'package:swaptime_flutter/interaction_module/request/interaction/interact
 import 'package:swaptime_flutter/interaction_module/response/interaction/interaction_response.dart';
 import 'package:swaptime_flutter/interaction_module/response/liked_games/liked_games.dart';
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
+import 'package:swaptime_flutter/utils/logger/logger.dart';
 
 @provide
 class LikedService {
@@ -34,7 +35,6 @@ class LikedService {
     String userId = await _authService.userID;
     InteractionResponse response;
     if (interactionId != null) {
-      print('Updating a New interaction');
       var request = InteractionRequest(
           userID: userId, swapItemID: itemId, type: 3, id: interactionId);
       response = await _interactionManager.updateInteraction(request);
@@ -87,12 +87,11 @@ class LikedService {
           .collection(userId)
           .add({});
     } catch (e) {
-      print(e);
+      Logger().error('LikedService', e);
     }
   }
 
   Future<int> getUserLikes(String userId) async {
-    print('Requesting Likes');
     FirebaseFirestore store = FirebaseFirestore.instance;
 
     try {
@@ -101,7 +100,6 @@ class LikedService {
           .doc('likes')
           .collection(userId)
           .get();
-      print('Got ${result.size} Likes');
       return result.size;
     } catch (e) {
       return 0;

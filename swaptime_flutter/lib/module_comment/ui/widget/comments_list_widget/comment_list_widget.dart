@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:inject/inject.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_auth/auth_routes.dart';
 import 'package:swaptime_flutter/module_comment/model/comment_model/comment_model.dart';
@@ -6,11 +9,12 @@ import 'package:swaptime_flutter/module_comment/ui/widget/comment_widget/comment
 import 'package:swaptime_flutter/module_comment/ui/widget/new_comment_widget/new_comment_widget.dart';
 
 class CommentListWidget extends StatelessWidget {
-  final String userId;
+  final bool isLoggedIn;
   final List<CommentModel> commentList;
   final Function(String newComment) onCommentAdded;
 
-  CommentListWidget({this.commentList, this.onCommentAdded, this.userId});
+  CommentListWidget({this.commentList, this.onCommentAdded, this.isLoggedIn});
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +30,13 @@ class CommentListWidget extends StatelessWidget {
         child: Text(S.of(context).beTheFirstToComment),
       ));
     }
-    if (userId != null) {
+    if (isLoggedIn == true) {
       commentWidgetLines.add(NewCommentWidget(
         onCommentPost: (newComment) {
+          commentList.add(CommentModel(
+            comment: newComment,
+            date: Date(timestamp: DateTime.now().millisecondsSinceEpoch),
+          ));
           onCommentAdded(newComment);
         },
       ));
@@ -65,3 +73,4 @@ class CommentListWidget extends StatelessWidget {
     );
   }
 }
+

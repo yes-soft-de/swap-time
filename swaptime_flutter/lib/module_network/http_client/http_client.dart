@@ -58,6 +58,12 @@ class ApiClient {
       _logger.info(tag, 'Requesting Post to: ' + url);
       _logger.info(tag, 'POST: ' + jsonEncode(payLoad));
       _logger.info(tag, 'Headers: ' + jsonEncode(headers));
+      if (headers != null) {
+        if (headers['Authorization'] != null) {
+          _logger.info(tag, 'Adding Auth Header');
+          client.options.headers['Authorization'] = headers['Authorization'];
+        }
+      }
       var response = await client.post(
         url,
         queryParameters: queryParams,

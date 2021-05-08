@@ -5,6 +5,7 @@ import 'package:swaptime_flutter/games_module/response/games_response/games_resp
 import 'package:swaptime_flutter/module_auth/service/auth_service/auth_service.dart';
 import 'package:swaptime_flutter/module_profile/manager/my_profile_manager/my_profile_manager.dart';
 import 'package:swaptime_flutter/module_report/service/report_service/report_service.dart';
+import 'package:swaptime_flutter/utils/logger/logger.dart';
 
 @provide
 class GamesListService {
@@ -69,50 +70,33 @@ class GamesListService {
     if (gameId == -1) {
       return null;
     }
-    // List<Games> games = await getAvailableGames;
-    // if (games == null) {
-    //   return null;
-    // }
-    // Games theGame;
-    // for (int i = 0; i < games.length; i++) {
-    //   if (games[i].id == gameId) {
-    //     theGame = games[i];
-    //   }
-    // }
-    //
-    // if (theGame.comments != null) {
-    //   for (int i = 0; i < theGame.comments.length; i++) {
-    //     String userId = theGame.comments[i].userID;
-    //     ProfileResponse profile = await _profileManager.getUserProfile(userId);
-    //     theGame.comments[i].profile = profile;
-    //   }
-    // }
-
     Games theGame = await _manager.getGameById(gameId);
-
-    recordView(theGame.userID);
+    try {
+      recordView(theGame.userID);
+    } catch(e) {
+      print(e);
+    }
 
     return theGame;
   }
 
-  Future<void> recordView(String userId) async {
+  void recordView(String userId) {
     FirebaseFirestore store = FirebaseFirestore.instance;
-    print('Viewing ' + userId);
     if (userId != null) {
       try {
-        await store
+        store
             .collection('user_interactions')
             .doc('views')
             .collection(userId)
             .add({'msg': 'Hello'});
       } catch (e) {
-        print(e);
+        Logger().error('GamesListService', e.toString());
       }
+      return;
     }
   }
 
   Future<int> getViews(String userId) async {
-    print('Requesting views');
     FirebaseFirestore store = FirebaseFirestore.instance;
 
     try {
@@ -121,7 +105,6 @@ class GamesListService {
           .doc('views')
           .collection(userId)
           .get();
-      print('Got ${result.size} views');
       return result.size;
     } catch (e) {
       return 0;

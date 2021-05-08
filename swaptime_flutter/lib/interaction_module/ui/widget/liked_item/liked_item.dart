@@ -6,13 +6,16 @@ class LikedItemCard extends StatelessWidget {
   final String gameImageUrl;
   final String date;
   final Function() onHate;
+  final Function() onGo;
 
-  LikedItemCard(
-      {@required this.ownerFirstName,
-      @required this.gameImageUrl,
-      @required this.date,
-      @required this.onHate,
-      this.ownerImageUrl});
+  LikedItemCard({
+    @required this.ownerFirstName,
+    @required this.gameImageUrl,
+    @required this.date,
+    @required this.onHate,
+    @required this.onGo,
+    this.ownerImageUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +68,7 @@ class LikedItemCard extends StatelessWidget {
                                     size: 16,
                                   ),
                                 ),
-                                Text('${date}')
+                                Text('${date}'),
                               ],
                             ),
                           ),
@@ -74,35 +77,46 @@ class LikedItemCard extends StatelessWidget {
                           direction: Axis.horizontal,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                onHate();
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(Icons.favorite),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  onHate();
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.favorite),
+                                  ),
                                 ),
                               ),
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Theme.of(context).brightness ==
-                                        Brightness.light
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(Icons.send),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  onGo();
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.send),
+                                  ),
+                                ),
                               ),
                             ),
                           ],

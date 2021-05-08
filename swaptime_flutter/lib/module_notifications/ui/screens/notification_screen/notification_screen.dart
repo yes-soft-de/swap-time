@@ -38,7 +38,7 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  NotificationState currentState;
+  NotificationState currentState = NotificationStateLoading();
   int viewLimit = 10;
   bool initiated = false;
   Games gameToChange;
@@ -74,6 +74,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
         if (mounted) setState(() {});
       });
       widget._manager.getNotifications();
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (currentState is NotificationStateLoading) {
       return Center(
         child: CircularProgressIndicator(),
       );
@@ -133,7 +137,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     String myId,
   ) {
     if (n == null) {
-      print('Null Notification');
       return Container();
     }
     if (n.status == null || n.status == ApiKeys.KEY_SWAP_STATUS_INIT) {
@@ -149,7 +152,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         notification: n,
         myId: myId,
         onSwapComplete: (swapId) {
-          widget._manager.requestSwapComplete(n);
+          widget._manager.requestSwapComplete(n, myId);
         },
         onChangeRequest: (game) {
           _onChangeRequest(game, n);
@@ -166,10 +169,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
           );
         },
       );
-    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_PENDING_CONFIRM) {
+    } else if (n.status.contains(ApiKeys.KEY_SWAP_STATUS_PENDING_CONFIRM)) {
       return NotificationSwapConfirmationPending(
         notification: n,
         myId: myId,
+        canComplete: !n.status.contains(myId),
         onFinished: () {
           widget._manager.setSwapAccepted(n);
         },
@@ -192,16 +196,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
     }
   }
 
-  void _onChangeRequest(game, n) {
+  void _onChangeRequest(Games game, NotificationModel n) {
     // The Game we want to change
     gameToChange = game;
-    print('Game to Change: ${game.id} for user: ${game.userID}');
 
     // Create the dialog for the question
     var dialog = Dialog(
       child: ExchangeSetterWidget(
         gamesListService: widget._gamesListService,
         userId: game.userID,
+        restrictedList: game.userID != n.gameOne.userID
+            ? n.restrictedGamesUserOne
+            : n.restrictedGamesUserTwo,
       ),
     );
 
@@ -215,7 +221,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void _updateSwapCard(Games rawNewGame) {
     Games newGame = rawNewGame;
     if (newGame != null) {
-      ScaffoldMessenger.of(context)
+      Scaffold.of(context)
           .showSnackBar(SnackBar(content: Text(S.of(context).savingData)));
       if (gameToChange.id == activeNotification.gameOne.id) {
         activeNotification.gameOne = newGame;
@@ -225,11 +231,5 @@ class _NotificationScreenState extends State<NotificationScreen> {
         widget._manager.updateSwap(activeNotification);
       }
     }
-  }
-
-  @override
-  void dispose() {
-    widget._manager.dispose();
-    super.dispose();
   }
 }

@@ -1,0 +1,8 @@
+{
+  "asset": "asset:swaptime_flutter/lib/module_swap/ui/widget/restrict_access_card/restrict_access_card.dart",
+  "summary": {
+    "injector": [],
+    "module": [],
+    "injectable": []
+  }
+}

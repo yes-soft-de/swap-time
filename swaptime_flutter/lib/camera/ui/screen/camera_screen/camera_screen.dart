@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:swaptime_flutter/generated/l10n.dart';
 import 'package:swaptime_flutter/module_home/home.routes.dart';
 import 'package:swaptime_flutter/utils/app_bar/swaptime_app_bar.dart';
+import 'package:swaptime_flutter/utils/logger/logger.dart';
 import 'package:video_player/video_player.dart';
 
 @provide
@@ -32,7 +33,7 @@ IconData getCameraLensIcon(CameraLensDirection direction) {
 }
 
 void logError(String code, String message) =>
-    print('Error: $code\nError Message: $message');
+    Logger().error('CameraScreen', 'Error: $code\nError Message: $message');
 
 class _CameraScreenState extends State<CameraScreen>
     with WidgetsBindingObserver {
@@ -79,7 +80,6 @@ class _CameraScreenState extends State<CameraScreen>
   Widget build(BuildContext context) {
     redirectTo = ModalRoute.of(context).settings.arguments;
     redirectTo ??= HomeRoutes.ROUTE_HOME;
-    print('Redirect To: ' + redirectTo);
 
     if (cameras == null) {
       _allocateCameras();

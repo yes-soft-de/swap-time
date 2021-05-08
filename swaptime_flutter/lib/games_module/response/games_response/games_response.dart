@@ -1,4 +1,5 @@
 import 'package:swaptime_flutter/module_comment/model/comment_model/comment_model.dart';
+import 'package:swaptime_flutter/utils/logger/logger.dart';
 
 class GamesResponse {
   List<Games> games;
@@ -67,7 +68,7 @@ class Games {
     try {
       mainImage = mainImage.substring(mainImage.lastIndexOf('http'));
     } catch (e) {
-      print('No Last http');
+      Logger().error('GamesResponse', 'Parse Error: No Last http in mainImage');
     }
     userID = json['userID'];
     userName = json['userName'];

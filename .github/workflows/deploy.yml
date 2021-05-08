@@ -45,7 +45,12 @@ jobs:
     - name: Install tools
       run: |
         cd swaptime_flutter && flutter pub get
+        flutter packages pub run build_runner build --delete-conflicting-outputs
         cd ./ios && pod install
+
+    - name: Echo Build Number
+      run: |
+        echo $GITHUB_RUN_NUMBER
 
     - name: Deploy to TestFlight
       run: |
@@ -61,3 +66,4 @@ jobs:
         MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
         MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
         DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS: ${{ secrets.DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS }}
+        BUILD_NUMBER: ${{ github.run_number }}

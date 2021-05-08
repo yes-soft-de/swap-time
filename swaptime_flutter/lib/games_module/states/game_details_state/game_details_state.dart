@@ -4,7 +4,8 @@ class GameDetailsState {}
 
 class GameDetailsStateLoadSuccess extends GameDetailsState {
   Games details;
-  GameDetailsStateLoadSuccess(this.details);
+  bool isLoggedId;
+  GameDetailsStateLoadSuccess(this.details, this.isLoggedId);
 }
 
 class GameDetailsStateInit extends GameDetailsState {}

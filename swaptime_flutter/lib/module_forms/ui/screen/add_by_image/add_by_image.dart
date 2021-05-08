@@ -97,13 +97,16 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
         break;
       case ByImageStateUploadError:
         ByImageStateUploadError errState = newState;
-        ScaffoldMessenger.of(context)
+        Scaffold.of(context)
             .showSnackBar(SnackBar(content: Text(errState.errorMsg)));
         break;
       case ByImageStatePostError:
         ByImageStatePostError errState = newState;
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(errState.errorMsg)));
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errState.errorMsg),
+          ),
+        );
         break;
       case ByImageStatePostSuccess:
         Navigator.of(context).pushNamedAndRemoveUntil(
@@ -117,179 +120,203 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
   }
 
   Widget _getUI() {
-    return Column(
-      children: [
-        Expanded(
-          child: ListView(
-            children: [
-              MediaQuery.of(context).viewInsets.bottom == 0
-                  ? Container(height: 240, child: _getImage())
-                  : Container(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: _gameName,
-                  decoration: InputDecoration(
-                    hintText: S.of(context).ieGtaV,
-                    labelText: S.of(context).gameName,
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Color(
-                        0xFF7F7F7F,
+    return Form(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              children: [
+                MediaQuery.of(context).viewInsets.bottom == 0
+                    ? Container(height: 240, child: _getImage())
+                    : Container(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: _gameName,
+                    validator: (name) {
+                      if (name.isEmpty) {
+                        return S.of(context).productNameIsRequired;
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: S.of(context).ieGtaV,
+                      labelText: S.of(context).gameName,
+                      labelStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Color(
+                          0xFF7F7F7F,
+                        ),
                       ),
                     ),
+                    style: TextStyle(fontSize: 20),
                   ),
-                  style: TextStyle(fontSize: 20),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropdownButtonFormField(
-                  hint: Text(S.of(context).platform),
-                  value: _gamePlatform,
-                  onChanged: (value) {
-                    _gamePlatform = value;
-                  },
-                  items: [
-                    DropdownMenuItem(
-                      value: GamePlatform.SWITCH,
-                      child: Text(GamePlatform.SWITCH.toString().split('.')[1]),
-                    ),
-                    DropdownMenuItem(
-                      value: GamePlatform.XBOX_ONE,
-                      child:
-                          Text(GamePlatform.XBOX_ONE.toString().split('.')[1]),
-                    ),
-                    DropdownMenuItem(
-                      value: GamePlatform.PC,
-                      child: Text(GamePlatform.PC.toString().split('.')[1]),
-                    ),
-                    DropdownMenuItem(
-                      value: GamePlatform.PS3,
-                      child: Text(GamePlatform.PS3.toString().split('.')[1]),
-                    ),
-                    DropdownMenuItem(
-                      value: GamePlatform.PS4,
-                      child: Text(GamePlatform.PS4.toString().split('.')[1]),
-                    ),
-                    DropdownMenuItem(
-                      value: GamePlatform.PS5,
-                      child: Text(GamePlatform.PS5.toString().split('.')[1]),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DropdownButtonFormField(
+                    hint: Text(S.of(context).platform),
+                    value: _gamePlatform,
+                    onChanged: (value) {
+                      _gamePlatform = value;
+                    },
+                    items: [
+                      DropdownMenuItem(
+                        value: GamePlatform.SWITCH,
+                        child: Text(GamePlatform.SWITCH.toString().split('.')[1]),
+                      ),
+                      DropdownMenuItem(
+                        value: GamePlatform.XBOX_ONE,
+                        child:
+                            Text(GamePlatform.XBOX_ONE.toString().split('.')[1]),
+                      ),
+                      DropdownMenuItem(
+                        value: GamePlatform.PC,
+                        child: Text(GamePlatform.PC.toString().split('.')[1]),
+                      ),
+                      DropdownMenuItem(
+                        value: GamePlatform.PS3,
+                        child: Text(GamePlatform.PS3.toString().split('.')[1]),
+                      ),
+                      DropdownMenuItem(
+                        value: GamePlatform.PS4,
+                        child: Text(GamePlatform.PS4.toString().split('.')[1]),
+                      ),
+                      DropdownMenuItem(
+                        value: GamePlatform.PS5,
+                        child: Text(GamePlatform.PS5.toString().split('.')[1]),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _tagName,
-                        decoration: InputDecoration(
-                          labelText: S.of(context).tags,
-                          hintText: S.of(context).ieRacing,
-                          labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Color(
-                              0xFF7F7F7F,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _tagName,
+                          decoration: InputDecoration(
+                            labelText: S.of(context).tags,
+                            hintText: S.of(context).ieRacing,
+                            labelStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Color(
+                                0xFF7F7F7F,
+                              ),
+                            ),
+                          ),
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          addTagItem();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: SwapThemeDataService.getAccent(),
+                            borderRadius: BorderRadius.all(Radius.circular(90)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
                             ),
                           ),
                         ),
-                        style: TextStyle(fontSize: 20),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        addTagItem();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: SwapThemeDataService.getAccent(),
-                          borderRadius: BorderRadius.all(Radius.circular(90)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                color: Colors.black12,
-                child: Padding(
+                Container(
+                  color: Colors.black12,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Wrap(
+                      children: _getTagChips(),
+                    ),
+                  ),
+                ),
+                Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Wrap(
-                    children: _getTagChips(),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: _descriptionName,
-                  decoration: InputDecoration(
-                    hintText: S.of(context).myGameIsAnAwesomeGame,
-                    labelText: S.of(context).description,
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Color(
-                        0xFF7F7F7F,
+                  child: TextFormField(
+                    controller: _descriptionName,
+                    validator: (description) {
+                      if (description.isEmpty) {
+                        return S.of(context).productDescriptionIsRequired;
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: S.of(context).myGameIsAnAwesomeGame,
+                      labelText: S.of(context).description,
+                      labelStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Color(
+                          0xFF7F7F7F,
+                        ),
                       ),
                     ),
+                    style: TextStyle(fontSize: 20),
                   ),
-                  style: TextStyle(fontSize: 20),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        GestureDetector(
-          onTap: () {
-            if (saving) {
-              Fluttertoast.showToast(msg: S.of(context).loading);
-              return;
-            }
-            if (imageUrl == null) {
-              Fluttertoast.showToast(msg: S.of(context).pleaseUploadTheImage);
-              return;
-            }
-            widget._stateManager.saveGame(
-              _gameName.text,
-              _descriptionName.text,
-              List.from(_tagList),
-              imageUrl,
-              _gamePlatform,
-            );
-            setState(() {
-              saving = true;
-            });
-          },
-          child: Container(
-            alignment: Alignment.center,
-            color: SwapThemeDataService.getPrimary(),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                saving ? S.of(context).saving : S.of(context).submitGame,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+          GestureDetector(
+            onTap: () {
+              if (saving) {
+                Fluttertoast.showToast(msg: S.of(context).loading);
+                return;
+              }
+              if (imageUrl == null) {
+                Fluttertoast.showToast(msg: S.of(context).pleaseUploadTheImage);
+                return;
+              }
+              if (_gameName.text.isEmpty) {
+                Fluttertoast.showToast(msg: S.of(context).productNameIsRequired);
+                return;
+              }
+              if (_descriptionName.text.isEmpty) {
+                Fluttertoast.showToast(
+                    msg: S.of(context).productDescriptionIsRequired);
+                return;
+              }
+              widget._stateManager.saveGame(
+                _gameName.text,
+                _descriptionName.text,
+                List.from(_tagList),
+                imageUrl,
+                _gamePlatform,
+              );
+              setState(() {
+                saving = true;
+              });
+            },
+            child: Container(
+              alignment: Alignment.center,
+              color: SwapThemeDataService.getPrimary(),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  saving ? S.of(context).saving : S.of(context).submitGame,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 
@@ -473,10 +500,8 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                             .getImage(
                                 source: ImageSource.gallery, imageQuality: 70)
                             .then((image) {
-                          print('Got image response');
                           if (image != null) {
                             filePath = image.path;
-                            print(image.path);
                             setState(() {});
                           }
                         });
@@ -509,10 +534,8 @@ class _AddByImageScreenState extends State<AddByImageScreen> {
                           imageQuality: 70,
                         )
                             .then((image) {
-                          print('Got image response');
                           if (image != null) {
                             filePath = image.path;
-                            print(image.path);
                             setState(() {});
                           }
                         });

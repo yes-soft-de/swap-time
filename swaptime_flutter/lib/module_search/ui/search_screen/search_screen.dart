@@ -61,7 +61,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void startSortingCycle() {
     _processList(gamesList);
-    print('Refreshing Data');
     if (mounted) setState(() {});
     Future.delayed(Duration(seconds: 5), () {
       if (gamesList != null) {

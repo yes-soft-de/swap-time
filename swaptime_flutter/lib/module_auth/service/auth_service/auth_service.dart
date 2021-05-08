@@ -1,20 +1,35 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:inject/inject.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:swaptime_flutter/module_auth/enums/auth_source.dart';
 import 'package:swaptime_flutter/module_auth/manager/auth/auth_manager.dart';
 import 'package:swaptime_flutter/module_auth/presistance/auth_prefs_helper.dart';
+import 'package:swaptime_flutter/module_notifications/service/fire_notification_service/fire_notification_service.dart';
 import 'package:swaptime_flutter/utils/logger/logger.dart';
 
 @provide
 class AuthService {
   final AuthPrefsHelper _prefsHelper;
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final AuthManager _authManager;
+  final FireNotificationService _fireNotificationService;
 
-  AuthService(this._prefsHelper, this._authManager);
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  final PublishSubject _authSubject = PublishSubject();
+  Stream get onAuthorized => _authSubject.stream;
+
+  AuthService(
+    this._prefsHelper,
+    this._authManager,
+    this._fireNotificationService,
+  );
 
   Future<bool> loginUser(
-      String uid, String name, String email, AUTH_SOURCE authSource) async {
+    String uid,
+    String name,
+    String email,
+    AUTH_SOURCE authSource,
+  ) async {
     try {
       await _authManager.createUser(uid);
     } catch (e) {
@@ -26,10 +41,15 @@ class AuthService {
     if (token == null) {
       return false;
     }
-    await _prefsHelper.setUserId(uid);
-    await _prefsHelper.setUsername(name);
-    await _prefsHelper.setAuthSource(authSource);
-    await _prefsHelper.setToken(token);
+
+    await Future.wait([
+      _prefsHelper.setUserId(uid),
+      _prefsHelper.setUsername(name),
+      _prefsHelper.setAuthSource(authSource),
+      _prefsHelper.setToken(token),
+    ]);
+
+    await _fireNotificationService.refreshNotificationToken(token);
     return true;
   }
 

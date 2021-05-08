@@ -1134,6 +1134,76 @@ class S {
       args: [],
     );
   }
+
+  /// `Restrict Access To:`
+  String get restrictAccessTo {
+    return Intl.message(
+      'Restrict Access To:',
+      name: 'restrictAccessTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Request`
+  String get confirmRequest {
+    return Intl.message(
+      'Confirm Request',
+      name: 'confirmRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `At least one product is required!`
+  String get atLeastOneProductIsRequired {
+    return Intl.message(
+      'At least one product is required!',
+      name: 'atLeastOneProductIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending Confirmation`
+  String get pendingConfirmation {
+    return Intl.message(
+      'Pending Confirmation',
+      name: 'pendingConfirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updating Liked List`
+  String get updatingLikedList {
+    return Intl.message(
+      'Updating Liked List',
+      name: 'updatingLikedList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product Description is Required`
+  String get productDescriptionIsRequired {
+    return Intl.message(
+      'Product Description is Required',
+      name: 'productDescriptionIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product Name is Required`
+  String get productNameIsRequired {
+    return Intl.message(
+      'Product Name is Required',
+      name: 'productNameIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

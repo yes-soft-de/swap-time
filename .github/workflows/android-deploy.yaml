@@ -57,7 +57,8 @@ jobs:
       - name: Get Flutter Packages tools
         run: |
           cd ./swaptime_flutter
-          flutter pub upgrade
+          flutter pub get
+          flutter packages pub run build_runner build --delete-conflicting-outputs
 
       - name: Install bundle
         run: |
